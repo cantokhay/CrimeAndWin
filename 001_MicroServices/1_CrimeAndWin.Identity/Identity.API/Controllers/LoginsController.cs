@@ -1,5 +1,5 @@
-﻿using Identity.Application.Auth.Commands.Login;
-using Identity.Application.Auth.DTOs;
+﻿using Identity.Application.Features.Auth.Commands.Login;
+using Identity.Application.Features.Auth.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -1,6 +1,6 @@
 using Identity.Application;
-using Identity.Application.Auth;
-using Identity.Application.Auth.Abstract;
+using Identity.Application.Features.Auth;
+using Identity.Application.Features.Auth.Abstract;
 using Identity.Infrastructure.Persistence.Context;
 using Identity.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

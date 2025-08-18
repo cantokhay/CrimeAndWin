@@ -1,5 +1,5 @@
-﻿using Identity.Application.User.Commands.RegisterUser;
-using Identity.Application.User.DTOs;
+﻿using Identity.Application.Features.User.Commands.RegisterUser;
+using Identity.Application.Features.User.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
