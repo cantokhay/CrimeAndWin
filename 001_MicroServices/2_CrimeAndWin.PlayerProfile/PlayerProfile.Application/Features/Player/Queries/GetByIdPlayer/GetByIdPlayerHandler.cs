@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using MediatR;
-using PlayerProfile.Application.Features.Player.DTOs;
+using PlayerProfile.Application.DTOs.PlayerDTOs;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 
-namespace PlayerProfile.Application.Features.Player.Queries
+namespace PlayerProfile.Application.Features.Player.Queries.GetByIdPlayer
 {
     public sealed class GetByIdPlayerHandler(
         IReadRepository<Domain.Entities.Player> readRepo, IWriteRepository<Domain.Entities.Player> writeRepo, IMapper mapper, IDateTimeProvider clock)

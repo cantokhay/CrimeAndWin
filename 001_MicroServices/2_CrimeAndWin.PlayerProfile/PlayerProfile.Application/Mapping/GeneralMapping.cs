@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using PlayerProfile.Application.Features.Player.DTOs;
+using PlayerProfile.Application.DTOs.PlayerDTOs;
 
 namespace PlayerProfile.Application.Mapping
 {

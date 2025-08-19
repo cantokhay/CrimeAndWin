@@ -1,5 +1,5 @@
-﻿using Identity.Application.Features.Auth.Abstract;
-using Identity.Application.Features.Auth.DTOs;
+﻿using Identity.Application.DTOs.AuthDTOs;
+using Identity.Application.Features.Auth.Abstract;
 using Identity.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -9,7 +9,7 @@ using Shared.Domain.Repository;
 
 namespace Identity.Application.Features.Auth.Commands.Login
 {
-    public sealed class LoginHandler : IRequestHandler<LoginCommand, AuthResultDTO>
+    public sealed class LoginHandler : IRequestHandler<LoginCommand, ResultAuthDTO>
     {
         private readonly IReadRepository<AppUser> _usersRead;
         private readonly IReadRepository<UserRole> _userRolesRead;
@@ -37,7 +37,7 @@ namespace Identity.Application.Features.Auth.Commands.Login
             _jwt = jwt;
         }
 
-        public async Task<AuthResultDTO> Handle(LoginCommand request, CancellationToken ct)
+        public async Task<ResultAuthDTO> Handle(LoginCommand request, CancellationToken ct)
         {
             // 1) Kullanıcıyı bul
             var norm = request.UserNameOrEmail.Trim().ToUpperInvariant();
@@ -97,7 +97,7 @@ namespace Identity.Application.Features.Auth.Commands.Login
             await _refreshWrite.AddAsync(refresh);
             await _refreshWrite.SaveAsync();
 
-            return new AuthResultDTO
+            return new ResultAuthDTO
             {
                 AccessToken = accessToken,
                 ExpiresAtUtc = expiresAtUtc,

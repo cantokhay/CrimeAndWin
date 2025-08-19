@@ -1,29 +1,34 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PlayerProfile.Application.Features.Player.Commands.CreatePlayer;
-using PlayerProfile.Application.Features.Player.DTOs;
 using PlayerProfile.Application.Features.Player.Commands.UpdateAvatar;
-using PlayerProfile.Application.Features.Player.Queries;
+using PlayerProfile.Application.DTOs.PlayerDTOs;
+using PlayerProfile.Application.Features.Player.Queries.GetByIdPlayer;
 
 namespace PlayerProfile.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public sealed class PlayersController(IMediator mediator) : ControllerBase
+    public sealed class PlayersController : ControllerBase
     {
+        private readonly IMediator _mediator;
+        public PlayersController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
         [HttpPost]
         public async Task<ActionResult<CreatePlayerDTO>> Create([FromBody] CreatePlayerCommand cmd)
-            => Ok(await mediator.Send(cmd));
+            => Ok(await _mediator.Send(cmd));
 
         [HttpGet("{id}")]
         public async Task<ActionResult<ResultPlayerDTO>> GetById(Guid id)
-            => Ok(await mediator.Send(new GetByIdPlayerQuery(id)));
+            => Ok(await _mediator.Send(new GetByIdPlayerQuery(id)));
 
         [HttpPut("{id}/avatar")]
         public async Task<IActionResult> UpdateAvatar(Guid id, [FromBody] UpdateAvatarRequest req)
         {
-            await mediator.Send(new UpdateAvatarCommand(id, req.AvatarKey));
+            await _mediator.Send(new UpdateAvatarCommand(id, req.AvatarKey));
             return NoContent();
         }
 

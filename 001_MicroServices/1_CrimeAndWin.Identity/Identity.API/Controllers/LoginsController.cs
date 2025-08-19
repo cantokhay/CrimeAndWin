@@ -1,5 +1,5 @@
-﻿using Identity.Application.Features.Auth.Commands.Login;
-using Identity.Application.Features.Auth.DTOs;
+﻿using Identity.Application.DTOs.AuthDTOs;
+using Identity.Application.Features.Auth.Commands.Login;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +16,7 @@ namespace Identity.API.Controllers
         /// <summary>Kullanıcı girişi yapar ve JWT üretir.</summary>
         [HttpPost]
         [AllowAnonymous]
-        [ProducesResponseType(typeof(AuthResultDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResultAuthDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Login([FromBody] LoginCommand command, CancellationToken ct)

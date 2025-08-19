@@ -21,20 +21,22 @@ builder.Services.AddDbContext<PlayerProfileDbContext>(opt =>
 builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));
 builder.Services.AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>));
+builder.Services.AddSingleton<IDateTimeProvider, SystemDateTimeProvider>();
+
+//MediatR & AutoMapper
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(IApplicationAssemblyMarker).Assembly));
 builder.Services.AddAutoMapper(cfg =>
 {
     cfg.AddProfile(new GeneralMapping());
 });
+
+//FluentValidation
 builder.Services.AddScoped<IValidator<CreatePlayerCommand>, CreatePlayerCommandValidator>();
-builder.Services.AddSingleton<IDateTimeProvider, SystemDateTimeProvider>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-
 
 var app = builder.Build();
 

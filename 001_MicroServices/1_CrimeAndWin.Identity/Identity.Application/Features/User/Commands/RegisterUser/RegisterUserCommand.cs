@@ -1,4 +1,4 @@
-﻿using Identity.Application.Features.User.DTOs;
+﻿using Identity.Application.DTOs.UserDTOs;
 using MediatR;
 
 namespace Identity.Application.Features.User.Commands.RegisterUser

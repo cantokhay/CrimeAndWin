@@ -1,8 +1,7 @@
-﻿namespace PlayerProfile.Application.Features.Player.DTOs
+﻿namespace PlayerProfile.Application.DTOs.PlayerDTOs
 {
-    public sealed class ResultPlayerDTO
+    public sealed class CreatePlayerDTO
     {
-        public Guid Id { get; set; }
         public Guid UserId { get; set; }
         public string? DisplayName { get; set; }
         public string? AvatarKey { get; set; }
@@ -16,5 +15,4 @@
         public int RankPoints { get; set; }
         public int? RankPosition { get; set; }
     }
-
 }

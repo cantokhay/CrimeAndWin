@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
-using PlayerProfile.Application.Features.Player.DTOs;
+using PlayerProfile.Application.DTOs.PlayerDTOs;
 using PlayerProfile.Domain.VOs;
 using Shared.Domain.Repository;
 

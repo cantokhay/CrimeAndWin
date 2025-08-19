@@ -1,4 +1,4 @@
-﻿namespace Identity.Application.Features.User.DTOs
+﻿namespace Identity.Application.DTOs.UserDTOs
 {
     public sealed class AppUserDTO
     {

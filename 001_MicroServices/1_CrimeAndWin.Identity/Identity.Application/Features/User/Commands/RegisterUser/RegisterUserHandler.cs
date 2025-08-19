@@ -1,4 +1,4 @@
-﻿using Identity.Application.Features.User.DTOs;
+﻿using Identity.Application.DTOs.UserDTOs;
 using Identity.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;

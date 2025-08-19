@@ -1,7 +1,8 @@
-﻿namespace PlayerProfile.Application.Features.Player.DTOs
+﻿namespace PlayerProfile.Application.DTOs.PlayerDTOs
 {
-    public sealed class CreatePlayerDTO
+    public sealed class UpdatePlayerDTO
     {
+        public Guid Id { get; set; }
         public Guid UserId { get; set; }
         public string? DisplayName { get; set; }
         public string? AvatarKey { get; set; }
@@ -14,6 +15,7 @@
         public int EnergyRegenPerMinute { get; set; }
         public int RankPoints { get; set; }
         public int? RankPosition { get; set; }
+        public DateTime CreatedAtUtc { get; set; }
     }
 
 }

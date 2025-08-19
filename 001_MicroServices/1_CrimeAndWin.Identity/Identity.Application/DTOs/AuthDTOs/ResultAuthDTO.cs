@@ -1,6 +1,6 @@
-﻿namespace Identity.Application.Features.Auth.DTOs
+﻿namespace Identity.Application.DTOs.AuthDTOs
 {
-    public sealed class AuthResultDTO
+    public sealed class ResultAuthDTO
     {
         public string AccessToken { get; set; } = null!;
         public DateTime ExpiresAtUtc { get; set; }
