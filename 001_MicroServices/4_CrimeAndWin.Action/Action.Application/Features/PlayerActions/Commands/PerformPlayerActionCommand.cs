@@ -1,0 +1,8 @@
+﻿using Action.Application.DTOs;
+using MediatR;
+
+namespace Action.Application.Features.PlayerActions.Commands
+{
+    public sealed record PerformPlayerActionCommand(PlayerActionAttemptDTO Request)
+        : IRequest<Guid>; // returns AttemptId
+}
