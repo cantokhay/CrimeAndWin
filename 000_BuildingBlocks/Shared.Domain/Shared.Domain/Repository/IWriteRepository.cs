@@ -9,7 +9,6 @@
         bool Remove(T entity);
         bool RemoveRange(List<T> entityList);
         Task<bool> RemoveAsync(string id);
-
         Task<int> SaveAsync();
     }
 }
