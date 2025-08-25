@@ -1,6 +1,35 @@
+using FluentValidation;
+using Microsoft.EntityFrameworkCore;
+using Notification.Application;
+using Notification.Application.Features.Notification.Commands;
+using Notification.Application.Mapping;
+using Notification.Application.ValidationRules.NotificationValidations;
+using Notification.Infrastructure.Persistance.Context;
+using Notification.Infrastructure.Repositories;
+using Shared.Domain.Repository;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// DbContext
+builder.Services.AddDbContext<NotificationDbContext>(opt =>
+{
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("NotificationConnection"));
+});
+
+// MediatR & AutoMapper
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(IApplicationAssemblyMarker).Assembly));
+builder.Services.AddAutoMapper(cfg =>
+{
+    cfg.AddProfile(new GeneralMapping());
+});
+
+//DI Registrations
+builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
+builder.Services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));
+builder.Services.AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>));
+
+//FluentValidation
+builder.Services.AddScoped<IValidator<CreateNotificationCommand>, CreateNotificationValidator>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
