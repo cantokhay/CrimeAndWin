@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using GameWorld.Application.DTOs.GameWorldDTOs;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Shared.Domain.Repository;
 
 namespace GameWorld.Application.Features.GameWorld.Queries.GetListGameWorld
@@ -17,8 +18,12 @@ namespace GameWorld.Application.Features.GameWorld.Queries.GetListGameWorld
 
         public async Task<IReadOnlyList<ResultGameWorldDTO>> Handle(GetGameWorldListQuery request, CancellationToken ct)
         {
-            var list = _readRepo.GetAll();
-            return list.Select(_mapper.Map<ResultGameWorldDTO>).ToList();
+            var list = await _readRepo.Table
+                .Include(x => x.Seasons)
+                .AsNoTracking()
+                .ToListAsync(ct);
+
+            return _mapper.Map<List<ResultGameWorldDTO>>(list);
         }
     }
 }

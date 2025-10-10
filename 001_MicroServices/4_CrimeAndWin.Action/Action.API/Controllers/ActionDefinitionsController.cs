@@ -1,8 +1,9 @@
 ﻿using Action.Application.DTOs;
-using Action.Application.Features.ActionDefinitons.Commands;
-using Action.Application.Features.ActionDefinitons.Queries;
+using Action.Application.Features.ActionDefinitons.Commands.CreateAction;
+using Action.Application.Features.ActionDefinitons.Commands.Seed;
+using Action.Application.Features.ActionDefinitons.Queries.GetAllAction;
+using Action.Application.Features.ActionDefinitons.Queries.GetByCodeAction;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Action.API.Controllers
@@ -33,6 +34,26 @@ namespace Action.API.Controllers
                 return NotFound();
 
             return Ok(result);
+        }
+
+        /// <summary>
+        /// Tüm ActionDefinition kayıtlarını listeler.
+        /// </summary>
+        [HttpGet("GetAll")]
+        public async Task<ActionResult<List<ResultActionDefinitionDTO>>> GetAll()
+        {
+            var result = await _mediator.Send(new GetAllActionDefinitionsQuery());
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Bogus ile rastgele ActionDefinition verileri oluşturur.
+        /// </summary>
+        [HttpPost("SeedRun")]
+        public async Task<IActionResult> SeedRun([FromQuery] int count = 10)
+        {
+            await _mediator.Send(new RunActionSeedCommand(count));
+            return Ok(new { message = $"{count} adet ActionDefinition başarıyla seed edildi." });
         }
     }
 }

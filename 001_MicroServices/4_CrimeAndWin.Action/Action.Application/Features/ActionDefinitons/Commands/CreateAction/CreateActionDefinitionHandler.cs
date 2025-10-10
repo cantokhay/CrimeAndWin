@@ -4,7 +4,7 @@ using AutoMapper;
 using MediatR;
 using Shared.Domain.Repository;
 
-namespace Action.Application.Features.ActionDefinitons.Commands
+namespace Action.Application.Features.ActionDefinitons.Commands.CreateAction
 {
     public sealed class CreateActionDefinitionHandler
             : IRequestHandler<CreateActionDefinitionCommand, CreateActionDefinitionDTO>

@@ -5,7 +5,7 @@ using AutoMapper;
 using MediatR;
 using Shared.Domain.Repository;
 
-namespace Action.Application.Features.PlayerActions.Commands
+namespace Action.Application.Features.PlayerActions.Commands.PerformPlayerAction
 {
     public sealed class PerformPlayerActionHandler
         : IRequestHandler<PerformPlayerActionCommand, Guid>

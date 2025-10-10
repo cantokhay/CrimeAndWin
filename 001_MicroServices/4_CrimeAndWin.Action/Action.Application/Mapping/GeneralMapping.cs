@@ -24,6 +24,19 @@ namespace Action.Application.Mapping
                     o => o.MapFrom(s => new PlayerActionResult(s.SuccessRate,
                         s.SuccessRate >= 0.5 ? OutcomeType.Success : OutcomeType.Fail)))
                 .ReverseMap();
+
+            CreateMap<ActionDefinition, ResultActionDefinitionDTO>()
+                .ForMember(dest => dest.MinPower, opt => opt.MapFrom(src => src.Requirements.MinPower))
+                .ForMember(dest => dest.EnergyCost, opt => opt.MapFrom(src => src.Requirements.EnergyCost))
+                .ForMember(dest => dest.PowerGain, opt => opt.MapFrom(src => src.Rewards.PowerGain))
+                .ForMember(dest => dest.ItemDrop, opt => opt.MapFrom(src => src.Rewards.ItemDrop))
+                .ForMember(dest => dest.MoneyGain, opt => opt.MapFrom(src => src.Rewards.MoneyGain))
+                .ReverseMap();
+
+            CreateMap<PlayerActionAttempt, ResultPlayerActionAttemptDTO>()
+                .ForMember(dest => dest.SuccessRate, opt => opt.MapFrom(src => src.PlayerActionResults.SuccessRate))
+                .ForMember(dest => dest.OutcomeType, opt => opt.MapFrom(src => src.PlayerActionResults.OutcomeType))
+                .ReverseMap();
         }
     }
 }

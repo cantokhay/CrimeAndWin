@@ -11,6 +11,7 @@ using FluentValidation;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Shared.Domain.Repository;
+using Shared.Domain.Time;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +32,7 @@ builder.Services.AddAutoMapper(cfg =>
 builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));
 builder.Services.AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>));
+builder.Services.AddSingleton<IDateTimeProvider, SystemDateTimeProvider>();
 
 //RabbitMQ & MassTransit
 builder.Services.AddScoped<IEventPublisher, MassTransitEventPublisher>();

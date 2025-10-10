@@ -4,7 +4,7 @@ using AutoMapper;
 using MediatR;
 using Shared.Domain.Repository;
 
-namespace Action.Application.Features.ActionDefinitons.Queries
+namespace Action.Application.Features.ActionDefinitons.Queries.GetByCodeAction
 {
     public sealed class GetByCodeActionDefinitionHandler
         : IRequestHandler<GetByCodeActionDefinitionQuery, ActionDefinitionDTO>

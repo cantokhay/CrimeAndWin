@@ -1,10 +1,9 @@
 ﻿using GameWorld.Application.DTOs.GameWorldDTOs;
-using GameWorld.Application.DTOs.SeasonDTOs;
 using GameWorld.Application.Features.GameWorld.Commands.CreateGameWorld;
+using GameWorld.Application.Features.GameWorld.Commands.Seed;
 using GameWorld.Application.Features.GameWorld.Commands.UpdateGameWorld;
 using GameWorld.Application.Features.GameWorld.Queries.GetByIdGameWorld;
 using GameWorld.Application.Features.GameWorld.Queries.GetListGameWorld;
-using GameWorld.Application.Features.Season.Commands.CreateSeason;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,6 +33,16 @@ namespace GameWorld.API.Controllers
         {
             if (id != body.GameWorldId) return BadRequest("Route id ile body id eşleşmiyor.");
             return Ok(await _mediator.Send(body));
+        }
+
+        /// <summary>
+        /// Bogus ile rastgele GameWorld + Season verileri oluşturur.
+        /// </summary>
+        [HttpPost("SeedRun")]
+        public async Task<IActionResult> SeedRun([FromQuery] int count = 3)
+        {
+            await _mediator.Send(new RunGameWorldSeedCommand(count));
+            return Ok(new { message = $"{count} adet GameWorld başarıyla seed edildi." });
         }
     }
 }

@@ -1,7 +1,8 @@
 ﻿using Action.Application.DTOs;
-using Action.Application.Features.PlayerActions.Commands;
+using Action.Application.Features.PlayerActions.Commands.PerformPlayerAction;
+using Action.Application.Features.PlayerActions.Commands.Seed;
+using Action.Application.Features.PlayerActions.Queries.GetAllPlayerAttempts;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Action.API.Controllers
@@ -20,5 +21,25 @@ namespace Action.API.Controllers
         [HttpPost("attempt")]
         public async Task<IActionResult> Attempt([FromBody] PlayerActionAttemptDTO request)
         => Ok(await _mediator.Send(new PerformPlayerActionCommand(request)));
+
+        /// <summary>
+        /// Tüm PlayerActionAttempt kayıtlarını listeler.
+        /// </summary>
+        [HttpGet]
+        public async Task<ActionResult<List<ResultPlayerActionAttemptDTO>>> GetAll()
+        {
+            var result = await _mediator.Send(new GetAllPlayerActionAttemptsQuery());
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Rastgele PlayerActionAttempt verilerini oluşturur.
+        /// </summary>
+        [HttpPost("SeedRun")]
+        public async Task<IActionResult> SeedRun([FromQuery] int count = 15)
+        {
+            await _mediator.Send(new RunPlayerActionAttemptSeedCommand(count));
+            return Ok(new { message = $"{count} adet PlayerActionAttempt başarıyla seed edildi." });
+        }
     }
 }
