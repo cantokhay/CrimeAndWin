@@ -1,8 +1,10 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Notification.Application.Features.Notification.Commands;
-using Notification.Application.Features.Notification.Queries;
+using Notification.Application.DTOs;
+using Notification.Application.Features.Notification.Commands.CreateNotification;
+using Notification.Application.Features.Notification.Commands.Seed;
+using Notification.Application.Features.Notification.Queries.GetAllNotifications;
+using Notification.Application.Features.Notification.Queries.GetNotificationByPlayerId;
 
 namespace Notification.API.Controllers
 {
@@ -25,10 +27,30 @@ namespace Notification.API.Controllers
         }
 
         [HttpGet("{playerId:guid}")]
-        public async Task<IActionResult> Get(Guid playerId)
+        public async Task<IActionResult> GetByPlayer(Guid playerId)
         {
-            var notifications = await _mediator.Send(new GetNotificationQuery(playerId));
+            var notifications = await _mediator.Send(new GetNotificationByPlayerIdQuery(playerId));
             return Ok(notifications);
+        }
+
+        /// <summary>
+        /// Tüm Notification kayıtlarını listeler.
+        /// </summary>
+        [HttpGet("GetAll")]
+        public async Task<ActionResult<List<ResultNotificationDTO>>> GetAll()
+        {
+            var result = await _mediator.Send(new GetAllNotificationsQuery());
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Rastgele Notification verilerini oluşturur.
+        /// </summary>
+        [HttpPost("SeedRun")]
+        public async Task<IActionResult> SeedRun([FromQuery] int count = 10)
+        {
+            await _mediator.Send(new RunNotificationSeedCommand(count));
+            return Ok(new { message = $"{count} oyuncu için rastgele bildirimler oluşturuldu." });
         }
     }
 }

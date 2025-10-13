@@ -1,12 +1,13 @@
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Notification.Application;
-using Notification.Application.Features.Notification.Commands;
+using Notification.Application.Features.Notification.Commands.CreateNotification;
 using Notification.Application.Mapping;
 using Notification.Application.ValidationRules.NotificationValidations;
 using Notification.Infrastructure.Persistance.Context;
 using Notification.Infrastructure.Repositories;
 using Shared.Domain.Repository;
+using Shared.Domain.Time;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +28,7 @@ builder.Services.AddAutoMapper(cfg =>
 builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));
 builder.Services.AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>));
+builder.Services.AddScoped<IDateTimeProvider, SystemDateTimeProvider>();
 
 //FluentValidation
 builder.Services.AddScoped<IValidator<CreateNotificationCommand>, CreateNotificationValidator>();

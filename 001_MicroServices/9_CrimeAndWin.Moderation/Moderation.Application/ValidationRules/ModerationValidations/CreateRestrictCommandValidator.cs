@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Moderation.Application.Features.ModerationAction.Commands;
+using Moderation.Application.Features.ModerationAction.Commands.CreateRestriction;
 
 namespace Moderation.Application.ValidationRules.ModerationValidations
 {

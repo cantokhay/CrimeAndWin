@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Inventory.Application.DTOs.InventoryDTOs;
-using Inventory.Application.Features.Inventory.Commands;
-using Inventory.Application.Features.Inventory.Queries;
+using Inventory.Application.Features.Inventory.Commands.CreateInventory;
+using Inventory.Application.Features.Inventory.Commands.Seed;
+using Inventory.Application.Features.Inventory.Queries.GetAllInventories;
+using Inventory.Application.Features.Inventory.Queries.GetInventoryByPlayerId;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,6 +34,26 @@ namespace Inventory.API.Controllers
         {
             var dto = await _mediator.Send(new GetInventoryByPlayerIdQuery(playerId));
             return dto is null ? NotFound() : Ok(dto);
+        }
+
+        /// <summary>
+        /// Rastgele Inventory + Item verileri oluşturur.
+        /// </summary>
+        [HttpPost("SeedRun")]
+        public async Task<IActionResult> SeedRun([FromQuery] int count = 10)
+        {
+            await _mediator.Send(new RunInventorySeedCommand(count));
+            return Ok(new { message = $"{count} adet Inventory başarıyla seed edildi." });
+        }
+
+        /// <summary>
+        /// Tüm Inventory kayıtlarını ve içindeki Item'ları döndürür.
+        /// </summary>
+        [HttpGet("GetAll")]
+        public async Task<ActionResult<List<ResultInventoryDTO>>> GetAll()
+        {
+            var result = await _mediator.Send(new GetAllInventoriesQuery());
+            return Ok(result);
         }
     }
 }

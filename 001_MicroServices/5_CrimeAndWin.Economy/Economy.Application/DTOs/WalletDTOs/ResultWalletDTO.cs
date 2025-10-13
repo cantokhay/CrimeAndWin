@@ -2,7 +2,7 @@
 
 namespace Economy.Application.DTOs.WalletDTOs
 {
-    public class ResultWalletDTO
+    public sealed class ResultWalletDTO
     {
         public Guid Id { get; set; }
         public Guid PlayerId { get; set; }

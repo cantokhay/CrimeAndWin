@@ -7,6 +7,7 @@ using Moderation.Application.Messaging.Concrete;
 using Moderation.Infrastructure.Persistance.Context;
 using Moderation.Infrastructure.Repositories;
 using Shared.Domain.Repository;
+using Shared.Domain.Time;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +35,7 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));
 builder.Services.AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>));
 builder.Services.AddScoped<IEventPublisher, MassTransitEventPublisher>();
+builder.Services.AddScoped<IDateTimeProvider, SystemDateTimeProvider>();
 
 // MassTransit & RabbitMQ
 builder.Services.AddMassTransit(x =>

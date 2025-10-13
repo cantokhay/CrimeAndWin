@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using Economy.Application.DTOs.TransactionDTOs;
 using Economy.Application.DTOs.WalletDTOs;
-using Economy.Application.Features.Wallet.Commands;
+using Economy.Application.Features.Wallet.Commands.DepositMoney;
+using Economy.Application.Features.Wallet.Commands.WithdrawMoney;
 using Economy.Domain.Entities;
 using Economy.Domain.VOs;
 
@@ -14,7 +15,7 @@ namespace Economy.Application.Mapping
             // Wallet -> WalletDTO
             CreateMap<Wallet, CreateWalletDTO>().ReverseMap();
             CreateMap<Wallet, UpdateWalletDTO>().ReverseMap();
-            CreateMap<Wallet, ResultWalletDTO>().ReverseMap();
+            CreateMap<Wallet, ResultWalletDTO>().ReverseMap().ReverseMap();
 
             // Transaction -> TransactionDTO
             CreateMap<Transaction, CreateTransactionDTO>()

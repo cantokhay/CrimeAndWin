@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="15.0.1" />
+    <PackageReference Include="Bogus" Version="35.6.4" />
     <PackageReference Include="FluentValidation" Version="12.0.0" />
     <PackageReference Include="MassTransit" Version="8.5.2" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.5.2" />
@@ -17,6 +18,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Moderation.Domain\Moderation.Domain.csproj" />
     <ProjectReference Include="..\Moderation.Infrastructure\Moderation.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Features\Report\Queries\GetAllReports\" />
   </ItemGroup>
 
 </Project>

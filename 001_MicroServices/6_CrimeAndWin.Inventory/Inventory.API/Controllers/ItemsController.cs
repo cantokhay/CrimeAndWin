@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Inventory.Application.DTOs.ItemDTOs;
 using Inventory.Application.Features.Item.Commands;
+using Inventory.Application.Features.Item.Commands.AddItem;
+using Inventory.Application.Features.Item.Commands.GetAllItems;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +32,16 @@ namespace Inventory.API.Controllers
 
             var itemId = await _mediator.Send(cmd);
             return Ok(itemId);
+        }
+
+        /// <summary>
+        /// Tüm Item kayıtlarını getirir.
+        /// </summary>
+        [HttpGet("GetAll")]
+        public async Task<ActionResult<List<ResultItemDTO>>> GetAll()
+        {
+            var result = await _mediator.Send(new GetAllItemsQuery());
+            return Ok(result);
         }
     }
 }

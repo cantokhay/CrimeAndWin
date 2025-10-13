@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Moderation.Application.Features.Report.Commands;
+using Moderation.Application.Features.Report.Commands.ResolveReport;
 
 namespace Moderation.Application.ValidationRules.ReportValidations
 {

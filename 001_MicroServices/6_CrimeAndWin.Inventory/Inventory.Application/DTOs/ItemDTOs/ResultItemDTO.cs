@@ -1,4 +1,5 @@
 ﻿using Inventory.Application.DTOs.VODTOs;
+using Inventory.Domain.Enums;
 
 namespace Inventory.Application.DTOs.ItemDTOs
 {

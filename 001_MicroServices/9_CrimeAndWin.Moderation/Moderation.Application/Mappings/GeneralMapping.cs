@@ -12,7 +12,7 @@ namespace Moderation.Application.Mappings
             // Report
             CreateMap<CreateReportDTO, Report>();
             CreateMap<Report, ResultReportDTO>()
-                .ForMember(d => d.Reason, opt => opt.MapFrom(s => s.Reason.Value));
+                .ForMember(d => d.Reason, opt => opt.MapFrom(s => s.Reason.Value)).ReverseMap();
 
             // ModerationAction
             CreateMap<CreateBanDTO, ModerationAction>()
@@ -25,7 +25,7 @@ namespace Moderation.Application.Mappings
                 .ForMember(d => d.IsActive, opt => opt.Ignore())
                 .ForMember(d => d.ActionDateUtc, opt => opt.Ignore());
 
-            CreateMap<ModerationAction, ResultModerationActionDTO>();
+            CreateMap<ModerationAction, ResultModerationActionDTO>().ReverseMap();
         }
     }
 }

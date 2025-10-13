@@ -1,6 +1,6 @@
 using FluentValidation;
 using Inventory.Application;
-using Inventory.Application.Features.Item.Commands;
+using Inventory.Application.Features.Item.Commands.AddItem;
 using Inventory.Application.Mapping;
 using Inventory.Application.Messaging.Abstract;
 using Inventory.Application.Messaging.Concrete;

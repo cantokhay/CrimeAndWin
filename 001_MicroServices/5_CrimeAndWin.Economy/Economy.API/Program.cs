@@ -1,5 +1,6 @@
 using Economy.Application;
-using Economy.Application.Features.Wallet.Commands;
+using Economy.Application.Features.Wallet.Commands.DepositMoney;
+using Economy.Application.Features.Wallet.Commands.WithdrawMoney;
 using Economy.Application.Mapping;
 using Economy.Application.ValidationRules.WalletValidations;
 using Economy.Infrastructure.Persistance.Context;
@@ -7,6 +8,7 @@ using Economy.Infrastructure.Repositories;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Shared.Domain.Repository;
+using Shared.Domain.Time;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +29,7 @@ builder.Services.AddAutoMapper(cfg =>
 builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));
 builder.Services.AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>));
+builder.Services.AddScoped<IDateTimeProvider, SystemDateTimeProvider>();
 
 //FluentValidation
 builder.Services.AddScoped<IValidator<DepositMoneyCommand>, DepositMoneyValidator>();

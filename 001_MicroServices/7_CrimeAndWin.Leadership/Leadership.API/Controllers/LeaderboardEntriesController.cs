@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
 using Leadership.Application.DTOs.LeaderboardEntryDTOs;
-using Leadership.Application.Features.LeaderboardEntry.Commands;
-using Leadership.Application.Features.LeaderboardEntry.Queries;
+using Leadership.Application.Features.LeaderboardEntry.Commands.CreateLeaderboardEntry;
+using Leadership.Application.Features.LeaderboardEntry.Queries.GetAllLeaderboardEntries;
+using Leadership.Application.Features.LeaderboardEntry.Queries.GetLeaderboardEntryByLeaderboardId;
+using Leadership.Application.Features.LeaderboardEntry.Queries.GetPlayerRank;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Leadership.API.Controllers
@@ -42,6 +43,16 @@ namespace Leadership.API.Controllers
         {
             var result = await _mediator.Send(new GetPlayerRankQuery(id, playerId));
             if (result is null) return NotFound();
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Tüm LeaderboardEntry kayıtlarını listeler.
+        /// </summary>
+        [HttpGet("GetAll")]
+        public async Task<ActionResult<List<ResultLeaderboardEntryDTO>>> GetAll()
+        {
+            var result = await _mediator.Send(new GetAllLeaderboardEntriesQuery());
             return Ok(result);
         }
     }

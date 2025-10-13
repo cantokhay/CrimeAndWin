@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Inventory.Application.Features.Item.Commands;
+using Inventory.Application.Features.Item.Commands.AddItem;
 
 namespace Inventory.Application.ValidationRules.ItemValidations
 {

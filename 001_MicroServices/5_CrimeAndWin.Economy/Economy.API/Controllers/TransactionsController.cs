@@ -1,6 +1,5 @@
-﻿using Economy.Application.Features.Transactions.Queries;
+﻿using Economy.Application.Features.Transactions.Queries.GetTransactionByPlayerId;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Economy.API.Controllers

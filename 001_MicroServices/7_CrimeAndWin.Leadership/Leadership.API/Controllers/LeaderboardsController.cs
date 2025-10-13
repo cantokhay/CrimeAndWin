@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Leadership.Application.DTOs.LeaderboardDTOs;
-using Leadership.Application.Features.Leaderboard.Commands;
-using Leadership.Application.Features.Leaderboard.Queries;
+using Leadership.Application.Features.Leaderboard.Commands.CreateLeaderboard;
+using Leadership.Application.Features.Leaderboard.Commands.Seed;
+using Leadership.Application.Features.Leaderboard.Queries.GetAllLeaderboards;
+using Leadership.Application.Features.Leaderboard.Queries.GetLeaderbordById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,6 +33,26 @@ namespace Leadership.API.Controllers
             var result = await _mediator.Send(new GetLeaderboardByIdQuery(id));
             if (result is null) return NotFound();
             return Ok(result);
+        }
+
+        /// <summary>
+        /// Tüm Leaderboard kayıtlarını ve Entries detaylarını listeler.
+        /// </summary>
+        [HttpGet("GetAll")]
+        public async Task<ActionResult<List<ResultLeaderboardDTO>>> GetAll()
+        {
+            var result = await _mediator.Send(new GetAllLeaderboardsQuery());
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Rastgele Leaderboard ve LeaderboardEntry verileri oluşturur.
+        /// </summary>
+        [HttpPost("SeedRun")]
+        public async Task<IActionResult> SeedRun([FromQuery] int count = 10)
+        {
+            await _mediator.Send(new RunLeadershipSeedCommand(count));
+            return Ok(new { message = $"{count} adet Leaderboard başarıyla seed edildi." });
         }
     }
 }

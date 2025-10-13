@@ -1,5 +1,10 @@
-﻿using Economy.Application.Features.Wallet.Commands;
+﻿using Economy.Application.DTOs.WalletDTOs;
+using Economy.Application.Features.Seed;
+using Economy.Application.Features.Wallet.Commands.CreateWallet;
+using Economy.Application.Features.Wallet.Commands.DepositMoney;
+using Economy.Application.Features.Wallet.Commands.WithdrawMoney;
 using Economy.Application.Features.Wallet.Queries;
+using Economy.Application.Features.Wallet.Queries.GetAllWallets;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -47,6 +52,26 @@ namespace Economy.API.Controllers
             var command = new CreateWalletCommand { PlayerId = playerId };
             var result = await _mediator.Send(command);
             return result ? Ok() : BadRequest("Wallet creation failed.");
+        }
+
+        /// <summary>
+        /// Tüm Wallet kayıtlarını ve Transactions detaylarını listeler.
+        /// </summary>
+        [HttpGet]
+        public async Task<ActionResult<List<ResultWalletDTO>>> GetAll()
+        {
+            var result = await _mediator.Send(new GetAllWalletsQuery());
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Rastgele Wallet ve Transaction verileri oluşturur.
+        /// </summary>
+        [HttpPost("SeedRun")]
+        public async Task<IActionResult> SeedRun([FromQuery] int count = 10)
+        {
+            await _mediator.Send(new RunEconomySeedCommand(count));
+            return Ok(new { message = $"{count} adet Wallet ve Transaction başarıyla seed edildi." });
         }
     }
 }

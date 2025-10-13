@@ -169,6 +169,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Administration.MVC", "002_F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation.MVC", "002_Frontends\2_CrimeAndWin.Presentation\Presentation.MVC\Presentation.MVC.csproj", "{599AD905-54F7-4E7A-9E52-DEAC2A35BB1D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
+	ProjectSection(SolutionItems) = preProject
+		To_Do_List.txt = To_Do_List.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

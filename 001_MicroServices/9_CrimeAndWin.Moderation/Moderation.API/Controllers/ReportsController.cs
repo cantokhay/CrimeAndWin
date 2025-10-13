@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moderation.Application.DTOs.ReportDTOs;
-using Moderation.Application.Features.Report.Commands;
-using Moderation.Application.Features.Report.Queries;
+using Moderation.Application.Features.ModerationAction.Queries.GetAllReports;
+using Moderation.Application.Features.Report.Commands.CreateReport;
+using Moderation.Application.Features.Report.Commands.ResolveReport;
+using Moderation.Application.Features.Report.Commands.Seed;
+using Moderation.Application.Features.Report.Queries.GetOpenReports;
+using Moderation.Application.Features.Report.Queries.GetRportsByPlayerId;
 
 namespace Moderation.API.Controllers
 {
@@ -55,6 +58,26 @@ namespace Moderation.API.Controllers
                 return Ok(await _mediator.Send(new GetOpenReportsQuery()));
 
             return Ok(await _mediator.Send(new GetOpenReportsQuery())); // basit varsayılan
+        }
+
+        /// <summary>
+        /// Tüm raporları listeler.
+        /// </summary>
+        [HttpGet("GetAll")]
+        public async Task<ActionResult<List<ResultReportDTO>>> GetAll()
+        {
+            var result = await _mediator.Send(new GetAllReportsQuery());
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Rastgele Report ve ModerationAction verilerini oluşturur.
+        /// </summary>
+        [HttpPost("SeedRun")]
+        public async Task<IActionResult> SeedRun([FromQuery] int count = 10)
+        {
+            await _mediator.Send(new RunModerationSeedCommand(count));
+            return Ok(new { message = $"{count} adet Report ve ModerationAction başarıyla seed edildi." });
         }
     }
 }

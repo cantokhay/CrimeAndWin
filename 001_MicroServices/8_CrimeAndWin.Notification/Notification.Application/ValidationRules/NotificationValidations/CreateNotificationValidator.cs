@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Notification.Application.Features.Notification.Commands;
+using Notification.Application.Features.Notification.Commands.CreateNotification;
 
 namespace Notification.Application.ValidationRules.NotificationValidations
 {

@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moderation.Application.DTOs.ModerationActionDTOs;
-using Moderation.Application.Features.ModerationAction.Commands;
-using Moderation.Application.Features.ModerationAction.Queries;
+using Moderation.Application.Features.ModerationAction.Commands.CreateBan;
+using Moderation.Application.Features.ModerationAction.Commands.CreateRestriction;
+using Moderation.Application.Features.ModerationAction.Commands.LiftRestriction;
+using Moderation.Application.Features.ModerationAction.Queries.GetActionsByPlayerId;
+using Moderation.Application.Features.ModerationAction.Queries.GetAllActions;
 
 namespace Moderation.API.Controllers
 {
@@ -50,6 +52,16 @@ namespace Moderation.API.Controllers
         {
             var list = await _mediator.Send(new GetActionsByPlayerIdQuery(playerId));
             return Ok(list);
+        }
+
+        /// <summary>
+        /// Tüm moderasyon aksiyonlarını listeler.
+        /// </summary>
+        [HttpGet("GetAll")]
+        public async Task<ActionResult<List<ResultModerationActionDTO>>> GetAll()
+        {
+            var result = await _mediator.Send(new GetAllModerationActionsQuery());
+            return Ok(result);
         }
     }
 }
