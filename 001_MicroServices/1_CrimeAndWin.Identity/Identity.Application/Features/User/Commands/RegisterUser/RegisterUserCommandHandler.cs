@@ -6,11 +6,11 @@ using Shared.Domain.Repository;
 
 namespace Identity.Application.Features.User.Commands.RegisterUser
 {
-    public sealed class RegisterUserHandler : IRequestHandler<RegisterUserCommand, AppUserDTO>
+    public sealed class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, AppUserDTO>
     {
         private readonly IWriteRepository<AppUser> _write;
 
-        public RegisterUserHandler(IWriteRepository<AppUser> write) => _write = write;
+        public RegisterUserCommandHandler(IWriteRepository<AppUser> write) => _write = write;
 
         public async Task<AppUserDTO> Handle(RegisterUserCommand request, CancellationToken ct)
         {

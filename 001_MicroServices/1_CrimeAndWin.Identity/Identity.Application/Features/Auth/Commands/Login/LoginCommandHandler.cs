@@ -9,23 +9,23 @@ using Shared.Domain.Repository;
 
 namespace Identity.Application.Features.Auth.Commands.Login
 {
-    public sealed class LoginHandler : IRequestHandler<LoginCommand, ResultAuthDTO>
+    public sealed class LoginCommandHandler : IRequestHandler<LoginCommand, ResultAuthDTO>
     {
         private readonly IReadRepository<AppUser> _usersRead;
-        private readonly IReadRepository<UserRole> _userRolesRead;
-        private readonly IReadRepository<Role> _rolesRead;
-        private readonly IReadRepository<UserClaim> _userClaimsRead;
+        private readonly IReadRepository<Domain.Entities.UserRole> _userRolesRead;
+        private readonly IReadRepository<Domain.Entities.Role> _rolesRead;
+        private readonly IReadRepository<Domain.Entities.UserClaim> _userClaimsRead;
         private readonly IReadRepository<RoleClaim> _roleClaimsRead;
-        private readonly IWriteRepository<RefreshToken> _refreshWrite;
+        private readonly IWriteRepository<Domain.Entities.RefreshToken> _refreshWrite;
         private readonly IJwtTokenGenerator _jwt;
 
-        public LoginHandler(
+        public LoginCommandHandler(
             IReadRepository<AppUser> usersRead,
-            IReadRepository<UserRole> userRolesRead,
-            IReadRepository<Role> rolesRead,
-            IReadRepository<UserClaim> userClaimsRead,
+            IReadRepository<Domain.Entities.UserRole> userRolesRead,
+            IReadRepository<Domain.Entities.Role> rolesRead,
+            IReadRepository<Domain.Entities.UserClaim> userClaimsRead,
             IReadRepository<RoleClaim> roleClaimsRead,
-            IWriteRepository<RefreshToken> refreshWrite,
+            IWriteRepository<Domain.Entities.RefreshToken> refreshWrite,
             IJwtTokenGenerator jwt)
         {
             _usersRead = usersRead;
@@ -84,7 +84,7 @@ namespace Identity.Application.Features.Auth.Commands.Login
             var refreshTokenValue = _jwt.GenerateRefreshToken();
 
             // 6) RefreshToken kaydet
-            var refresh = new RefreshToken
+            var refresh = new Domain.Entities.RefreshToken
             {
                 Id = Guid.NewGuid(),
                 UserId = user.Id,
