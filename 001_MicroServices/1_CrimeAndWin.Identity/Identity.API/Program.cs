@@ -1,12 +1,17 @@
+using FluentValidation;
 using Identity.Application;
 using Identity.Application.Features.Auth;
 using Identity.Application.Features.Auth.Abstract;
+using Identity.Application.Features.User.Commands.CreateAppUser;
+using Identity.Application.Mapping;
+using Identity.Application.ValidationRules.AppUser;
 using Identity.Infrastructure.Persistence.Context;
 using Identity.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Shared.Domain.Repository;
+using Shared.Domain.Time;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,11 +22,15 @@ builder.Services.AddDbContext<IdentityDbContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("IdentityConnection"));
 });
 
-// MediatR
-builder.Services.AddMediatR(cfg =>
+//MediatR & AutoMapper
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(IApplicationAssemblyMarker).Assembly));
+builder.Services.AddAutoMapper(cfg =>
 {
-cfg.RegisterServicesFromAssembly(typeof(IApplicationAssemblyMarker).Assembly);
-    });
+    cfg.AddProfile(new GeneralMapping());
+});
+
+//FluentValidation
+//builder.Services.AddScoped<IValidator<CreateAppUserCommand>, CreateAppUserValidator>();
 
 //JWT
 var jwtSection = builder.Configuration.GetSection("Jwt");
@@ -35,6 +44,7 @@ builder.Services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));
 builder.Services.AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>));
+builder.Services.AddSingleton<IDateTimeProvider, SystemDateTimeProvider>();
 
 // Swagger + JWT
 builder.Services.AddSwaggerGen(c =>
