@@ -6,7 +6,7 @@ using Shared.Domain.Time;
 
 namespace PlayerProfile.Application.Features.Player.Queries.GetByIdPlayer
 {
-    public sealed class GetByIdPlayerHandler(
+    public sealed class GetByIdPlayerQueryHandler(
         IReadRepository<Domain.Entities.Player> readRepo, IWriteRepository<Domain.Entities.Player> writeRepo, IMapper mapper, IDateTimeProvider clock)
         : IRequestHandler<GetByIdPlayerQuery, ResultPlayerDTO?>
     {

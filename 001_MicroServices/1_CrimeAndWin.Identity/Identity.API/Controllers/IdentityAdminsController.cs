@@ -15,6 +15,7 @@ using Identity.Application.Features.Role.Commands.DeleteRole;
 using Identity.Application.Features.Role.Commands.UpdateRole;
 using Identity.Application.Features.Role.Queries.GetAllRoles;
 using Identity.Application.Features.Role.Queries.GetRoleById;
+using Identity.Application.Features.Seed;
 using Identity.Application.Features.User.Commands.CreateAppUser;
 using Identity.Application.Features.User.Commands.DeleteAppUser;
 using Identity.Application.Features.User.Commands.UpdateAppUser;
@@ -319,6 +320,14 @@ namespace Identity.API.Controllers
         public async Task<IActionResult> UpdateRefreshToken([FromBody] UpdateRefreshTokenDTO dto)
         {
             var result = await _mediator.Send(new UpdateRefreshTokenCommand(dto));
+            return Ok(result);
+        }
+
+
+        [HttpPost("SeedData")]
+        public async Task<IActionResult> SeedData()
+        {
+            var result = await _mediator.Send(new SeedIdentityDataCommand());
             return Ok(result);
         }
     }

@@ -5,7 +5,7 @@ using Shared.Domain.Repository;
 
 namespace PlayerProfile.Application.Features.Player.Queries.GetAllPlayer
 {
-    public sealed class GetAllPlayersHandler(
+    public sealed class GetAllPlayersQueryHandler(
         IReadRepository<Domain.Entities.Player> readRepo,
         IMapper mapper)
         : IRequestHandler<GetAllPlayersQuery, List<ResultPlayerDTO>>

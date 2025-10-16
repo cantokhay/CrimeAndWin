@@ -6,12 +6,12 @@ using Shared.Domain.Time;
 
 namespace PlayerProfile.Application.Features.Player.Commands.Seed
 {
-    public sealed class RunPlayerSeedHandler : IRequestHandler<RunPlayerSeedCommand, Unit>
+    public sealed class RunPlayerSeedCommandHandler : IRequestHandler<RunPlayerSeedCommand, Unit>
     {
         private readonly IWriteRepository<Domain.Entities.Player> _writeRepository;
         private readonly IDateTimeProvider _dateTimeProvider;
 
-        public RunPlayerSeedHandler(IWriteRepository<Domain.Entities.Player> writeRepository, IDateTimeProvider dateTimeProvider)
+        public RunPlayerSeedCommandHandler(IWriteRepository<Domain.Entities.Player> writeRepository, IDateTimeProvider dateTimeProvider)
         {
             _writeRepository = writeRepository;
             _dateTimeProvider = dateTimeProvider;

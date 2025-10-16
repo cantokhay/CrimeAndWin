@@ -1,10 +1,7 @@
-using FluentValidation;
-using Identity.Application;
+Ôªøusing Identity.Application;
 using Identity.Application.Features.Auth;
 using Identity.Application.Features.Auth.Abstract;
-using Identity.Application.Features.User.Commands.CreateAppUser;
 using Identity.Application.Mapping;
-using Identity.Application.ValidationRules.AppUser;
 using Identity.Infrastructure.Persistence.Context;
 using Identity.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -28,9 +25,6 @@ builder.Services.AddAutoMapper(cfg =>
 {
     cfg.AddProfile(new GeneralMapping());
 });
-
-//FluentValidation
-//builder.Services.AddScoped<IValidator<CreateAppUserCommand>, CreateAppUserValidator>();
 
 //JWT
 var jwtSection = builder.Configuration.GetSection("Jwt");
@@ -58,7 +52,7 @@ builder.Services.AddSwaggerGen(c =>
         Scheme = "bearer",
         BearerFormat = "JWT",
         In = Microsoft.OpenApi.Models.ParameterLocation.Header,
-        Description = "JWT Bearer ile giri˛ yap˝n. Sadece token'˝ girin (eyJ...), 'Bearer ' yazmay˝n."
+        Description = "JWT Bearer ile giri≈ü yapƒ±n. Sadece token'ƒ± girin (eyJ...), 'Bearer ' yazmayƒ±n."
     };
     c.AddSecurityDefinition("Bearer", jwtScheme);
     c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
@@ -88,7 +82,7 @@ builder.Services
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = signingKey,
             ValidateLifetime = true,
-            ClockSkew = TimeSpan.FromMinutes(2), // test iÁin
+            ClockSkew = TimeSpan.FromMinutes(2), // test i√ßin
             NameClaimType = "unique_name",
             RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
         };
@@ -114,7 +108,7 @@ builder.Services
         };
     });
 
-        // (Opsiyonel) SignalR / WebSocket senaryolar˝nda header yerine queryíden alma:
+        // (Opsiyonel) SignalR / WebSocket senaryolarƒ±nda header yerine query‚Äôden alma:
         // opt.Events = new JwtBearerEvents
         // {
         //     OnMessageReceived = ctx =>
@@ -127,12 +121,12 @@ builder.Services
         //     }
         // };
 
-// Authorization (rol politikalar˝)
+// Authorization (rol politikalarƒ±)
 builder.Services.AddAuthorization(opt =>
 {
     opt.AddPolicy("PlayerOnly", p => p.RequireRole("Player"));
     opt.AddPolicy("ModeratorOnly", p => p.RequireRole("Moderator"));
-    opt.AddPolicy("AdminOnly", p => p.RequireRole("Admin")); // ìOyun Yˆneticisiî
+    opt.AddPolicy("AdminOnly", p => p.RequireRole("Admin")); // ‚ÄúOyun Y√∂neticisi‚Äù
 });
 
 var app = builder.Build();
@@ -148,8 +142,8 @@ app.UseHttpsRedirection();
 
 app.UseRouting();
 
-app.UseAuthentication();   // <ó ÷NCE
-app.UseAuthorization();    // <ó SONRA
+app.UseAuthentication();   // <‚Äî √ñNCE
+app.UseAuthorization();    // <‚Äî SONRA
 
 app.MapControllers();
 

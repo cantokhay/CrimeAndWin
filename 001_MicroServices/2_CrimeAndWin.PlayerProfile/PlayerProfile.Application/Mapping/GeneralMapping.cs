@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using PlayerProfile.Application.DTOs.PlayerDTOs;
+using PlayerProfile.Application.DTOs.PlayerDTOs.Admin;
 
 namespace PlayerProfile.Application.Mapping
 {
@@ -42,6 +43,48 @@ namespace PlayerProfile.Application.Mapping
                 .ForMember(d => d.EnergyRegenPerMinute, m => m.MapFrom(s => s.Energy.RegenPerMinute))
                 .ForMember(d => d.RankPoints, m => m.MapFrom(s => s.Rank.RankPoints))
                 .ForMember(d => d.RankPosition, m => m.MapFrom(s => s.Rank.Position))
+                .ReverseMap();
+
+
+            CreateMap<Domain.Entities.Player, AdminCreatePlayerDTO>()
+                .ForMember(d => d.Power, m => m.MapFrom(s => s.Stats.Power))
+                .ForMember(d => d.Defense, m => m.MapFrom(s => s.Stats.Defense))
+                .ForMember(d => d.Agility, m => m.MapFrom(s => s.Stats.Agility))
+                .ForMember(d => d.Luck, m => m.MapFrom(s => s.Stats.Luck))
+                .ForMember(d => d.EnergyCurrent, m => m.MapFrom(s => s.Energy.Current))
+                .ForMember(d => d.EnergyMax, m => m.MapFrom(s => s.Energy.Max))
+                .ForMember(d => d.EnergyRegenPerMinute, m => m.MapFrom(s => s.Energy.RegenPerMinute))
+                .ForMember(d => d.RankPoints, m => m.MapFrom(s => s.Rank.RankPoints))
+                .ForMember(d => d.RankPosition, m => m.MapFrom(s => s.Rank.Position))
+                .ForMember(d => d.LastEnergyCalcUtc, m => m.MapFrom(s => s.LastEnergyCalcUtc))
+                .ReverseMap();
+
+            CreateMap<Domain.Entities.Player, AdminUpdatePlayerDTO>()
+                .ForMember(d => d.Power, m => m.MapFrom(s => s.Stats.Power))
+                .ForMember(d => d.Defense, m => m.MapFrom(s => s.Stats.Defense))
+                .ForMember(d => d.Agility, m => m.MapFrom(s => s.Stats.Agility))
+                .ForMember(d => d.Luck, m => m.MapFrom(s => s.Stats.Luck))
+                .ForMember(d => d.EnergyCurrent, m => m.MapFrom(s => s.Energy.Current))
+                .ForMember(d => d.EnergyMax, m => m.MapFrom(s => s.Energy.Max))
+                .ForMember(d => d.EnergyRegenPerMinute, m => m.MapFrom(s => s.Energy.RegenPerMinute))
+                .ForMember(d => d.RankPoints, m => m.MapFrom(s => s.Rank.RankPoints))
+                .ForMember(d => d.RankPosition, m => m.MapFrom(s => s.Rank.Position))
+                .ForMember(d => d.LastEnergyCalcUtc, m => m.MapFrom(s => s.LastEnergyCalcUtc))
+                .ReverseMap();
+
+            CreateMap<Domain.Entities.Player, AdminResultPlayerDTO>()
+                .ForMember(d => d.Power, m => m.MapFrom(s => s.Stats.Power))
+                .ForMember(d => d.Defense, m => m.MapFrom(s => s.Stats.Defense))
+                .ForMember(d => d.Agility, m => m.MapFrom(s => s.Stats.Agility))
+                .ForMember(d => d.Luck, m => m.MapFrom(s => s.Stats.Luck))
+                .ForMember(d => d.EnergyCurrent, m => m.MapFrom(s => s.Energy.Current))
+                .ForMember(d => d.EnergyMax, m => m.MapFrom(s => s.Energy.Max))
+                .ForMember(d => d.EnergyRegenPerMinute, m => m.MapFrom(s => s.Energy.RegenPerMinute))
+                .ForMember(d => d.RankPoints, m => m.MapFrom(s => s.Rank.RankPoints))
+                .ForMember(d => d.RankPosition, m => m.MapFrom(s => s.Rank.Position))
+                .ForMember(d => d.LastEnergyCalcUtc, m => m.MapFrom(s => s.LastEnergyCalcUtc))
+                .ForMember(d => d.CreatedAtUtc, m => m.MapFrom(s => s.CreatedAtUtc))
+                .ForMember(d => d.UpdatedAtUtc, m => m.MapFrom(s => s.UpdatedAtUtc))
                 .ReverseMap();
         }
     }

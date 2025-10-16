@@ -6,7 +6,7 @@ using Shared.Domain.Repository;
 
 namespace PlayerProfile.Application.Features.Player.Commands.CreatePlayer
 {
-    public sealed class CreatePlayerHandler(
+    public sealed class CreatePlayerCommandHandler(
         IWriteRepository<Domain.Entities.Player> repo, IMapper mapper) : IRequestHandler<CreatePlayerCommand, CreatePlayerDTO>
     {
         public async Task<CreatePlayerDTO> Handle(CreatePlayerCommand r, CancellationToken ct)

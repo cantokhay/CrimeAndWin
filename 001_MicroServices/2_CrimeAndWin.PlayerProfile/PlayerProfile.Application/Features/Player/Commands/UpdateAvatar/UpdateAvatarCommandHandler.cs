@@ -3,7 +3,7 @@ using Shared.Domain.Repository;
 
 namespace PlayerProfile.Application.Features.Player.Commands.UpdateAvatar
 {
-    public sealed class UpdateAvatarHandler(IWriteRepository<Domain.Entities.Player> writeRepo, IReadRepository<Domain.Entities.Player> readRepo) : IRequestHandler<UpdateAvatarCommand, Unit>
+    public sealed class UpdateAvatarCommandHandler(IWriteRepository<Domain.Entities.Player> writeRepo, IReadRepository<Domain.Entities.Player> readRepo) : IRequestHandler<UpdateAvatarCommand, Unit>
     {
         public async Task<Unit> Handle(UpdateAvatarCommand r, CancellationToken ct)
         {

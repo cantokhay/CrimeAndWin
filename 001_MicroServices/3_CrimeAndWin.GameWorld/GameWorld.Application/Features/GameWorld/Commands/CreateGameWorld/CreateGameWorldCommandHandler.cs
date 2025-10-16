@@ -6,12 +6,12 @@ using Shared.Domain.Repository;
 
 namespace GameWorld.Application.Features.GameWorld.Commands.CreateGameWorld
 {
-    public class CreateGameWorldHandler : IRequestHandler<CreateGameWorldCommand, CreateGameWorldDTO>
+    public class CreateGameWorldCommandHandler : IRequestHandler<CreateGameWorldCommand, CreateGameWorldDTO>
     {
         private readonly IWriteRepository<Domain.Entities.GameWorld> _repo;
         private readonly IMapper _mapper;
 
-        public CreateGameWorldHandler(IWriteRepository<Domain.Entities.GameWorld> repo, IMapper mapper)
+        public CreateGameWorldCommandHandler(IWriteRepository<Domain.Entities.GameWorld> repo, IMapper mapper)
         {
             _repo = repo; _mapper = mapper;
         }
