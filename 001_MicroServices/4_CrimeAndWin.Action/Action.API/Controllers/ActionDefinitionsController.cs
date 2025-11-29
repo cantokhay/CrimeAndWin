@@ -1,4 +1,4 @@
-﻿using Action.Application.DTOs;
+﻿using Action.Application.DTOs.ActionDefinitionDTOs;
 using Action.Application.Features.ActionDefinitons.Commands.CreateAction;
 using Action.Application.Features.ActionDefinitons.Commands.Seed;
 using Action.Application.Features.ActionDefinitons.Queries.GetAllAction;

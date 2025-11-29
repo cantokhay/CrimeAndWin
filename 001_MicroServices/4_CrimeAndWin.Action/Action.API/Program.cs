@@ -1,6 +1,7 @@
 using Action.Application;
 using Action.Application.Abstract;
-using Action.Application.DTOs;
+using Action.Application.DTOs.ActionAttemptDTOs;
+using Action.Application.DTOs.ActionDefinitionDTOs;
 using Action.Application.Mapping;
 using Action.Application.ValidationRules.ActionDefinitionValidations;
 using Action.Application.ValidationRules.PlayerActionValidations;

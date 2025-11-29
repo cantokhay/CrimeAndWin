@@ -1,7 +1,7 @@
-﻿using Action.Application.DTOs;
-using Action.Application.Features.PlayerActions.Commands.PerformPlayerAction;
-using Action.Application.Features.PlayerActions.Commands.Seed;
-using Action.Application.Features.PlayerActions.Queries.GetAllPlayerAttempts;
+﻿using Action.Application.DTOs.ActionAttemptDTOs;
+using Action.Application.Features.PlayerActionAttempts.Commands.PerformPlayerAction;
+using Action.Application.Features.PlayerActionAttempts.Commands.Seed;
+using Action.Application.Features.PlayerActionAttempts.Queries.GetAllPlayerAttempts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

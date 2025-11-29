@@ -1,4 +1,4 @@
-﻿using Action.Application.DTOs;
+﻿using Action.Application.DTOs.ActionDefinitionDTOs;
 using Action.Domain.Entities;
 using AutoMapper;
 using MediatR;

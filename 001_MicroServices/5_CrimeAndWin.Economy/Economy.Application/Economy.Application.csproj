@@ -17,8 +17,4 @@
     <ProjectReference Include="..\Economy.Domain\Economy.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ValidationRules\TransactionValidations\" />
-  </ItemGroup>
-
 </Project>

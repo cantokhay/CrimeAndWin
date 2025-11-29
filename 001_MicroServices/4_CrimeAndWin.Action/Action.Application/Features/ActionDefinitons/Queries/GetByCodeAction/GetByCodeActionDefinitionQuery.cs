@@ -1,4 +1,4 @@
-﻿using Action.Application.DTOs;
+﻿using Action.Application.DTOs.ActionDefinitionDTOs;
 using MediatR;
 
 namespace Action.Application.Features.ActionDefinitons.Queries.GetByCodeAction
