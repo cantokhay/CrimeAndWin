@@ -25,7 +25,7 @@ namespace Notification.Application.Features.Notification.Commands.Seed
 
             var notifications = new List<Domain.Entities.Notification>();
 
-            for (int i = 0; i < request.Count; i++)
+            for (int i = 0; i < request.count; i++)
             {
                 var playerId = Guid.NewGuid();
                 var countPerPlayer = faker.Random.Int(2, 5);
