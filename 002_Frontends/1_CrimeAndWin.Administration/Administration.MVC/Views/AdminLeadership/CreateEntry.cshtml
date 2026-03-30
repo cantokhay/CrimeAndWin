@@ -1,0 +1,61 @@
+﻿@model CreateLeaderboardEntryVM
+
+@{
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h3 class="card-title">Entry Oluştur</h3>
+        <a asp-action="Entries" asp-controller="AdminLeadership" class="btn btn-sm btn-light">Listeye Dön</a>
+    </div>
+
+    <div class="card-body">
+        <form asp-action="CreateEntry" asp-controller="AdminLeadership" method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Leaderboard</label>
+                    <select asp-for="LeaderboardId" asp-items="Model.LeaderboardOptions" class="form-select"></select>
+                    <span asp-validation-for="LeaderboardId" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Player</label>
+                    <select asp-for="PlayerId" asp-items="Model.PlayerOptions" class="form-select"></select>
+                    <span asp-validation-for="PlayerId" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">RankPoints</label>
+                    <input asp-for="RankPoints" class="form-control" type="number" />
+                    <span asp-validation-for="RankPoints" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Position</label>
+                    <input asp-for="Position" class="form-control" type="number" />
+                    <span asp-validation-for="Position" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">IsActive</label>
+                    <div class="form-check form-switch mt-2">
+                        <input asp-for="IsActive" class="form-check-input" type="checkbox" />
+                        <label class="form-check-label">Active</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary">Kaydet</button>
+                <a asp-action="Entries" asp-controller="AdminLeadership" class="btn btn-light ms-2">İptal</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,82 @@
+﻿@model UpdateSeasonVM
+
+@{
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h3 class="card-title">Season Düzenle</h3>
+
+        <a asp-action="Seasons"
+           asp-controller="AdminGameWorld"
+           class="btn btn-sm btn-light">
+            Listeye Dön
+        </a>
+    </div>
+    <div class="card-body">
+        <form asp-action="EditSeason"
+              asp-controller="AdminGameWorld"
+              method="post">
+            @Html.AntiForgeryToken()
+            <input asp-for="Id" type="hidden" />
+            <input asp-for="ReturnUrl" type="hidden" />
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">GameWorld</label>
+                    <select asp-for="GameWorldId"
+                            asp-items="Model.GameWorldOptions"
+                            class="form-select">
+                        <option value="">Seçiniz...</option>
+                    </select>
+                    <span asp-validation-for="GameWorldId" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">Season No</label>
+                    <input asp-for="SeasonNumber" type="number" class="form-control" />
+                    <span asp-validation-for="SeasonNumber" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-3 d-flex align-items-center">
+                    <div class="form-check mt-3">
+                        <input asp-for="IsActive" class="form-check-input" type="checkbox" />
+                        <label class="form-check-label">Aktif</label>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Başlangıç (UTC)</label>
+                    <input asp-for="StartUtc"
+                           type="datetime-local"
+                           class="form-control"
+                           value="@Model.StartUtc.ToString("yyyy-MM-ddTHH:mm")" />
+                    <span asp-validation-for="StartUtc" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Bitiş (UTC)</label>
+                    <input asp-for="EndUtc"
+                           type="datetime-local"
+                           class="form-control"
+                           value="@Model.EndUtc.ToString("yyyy-MM-ddTHH:mm")" />
+                    <span asp-validation-for="EndUtc" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary">Güncelle</button>
+                <a asp-action="Seasons"
+                   asp-controller="AdminGameWorld"
+                   class="btn btn-light ms-2">
+                    İptal
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

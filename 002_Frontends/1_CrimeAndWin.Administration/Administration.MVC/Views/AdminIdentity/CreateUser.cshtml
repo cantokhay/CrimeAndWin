@@ -1,0 +1,73 @@
+﻿@model CreateAppUserVM
+
+@{
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h3 class="card-title">Yeni Kullanıcı Oluştur</h3>
+
+        <a asp-action="Users"
+           asp-controller="AdminIdentity"
+           class="btn btn-sm btn-light">
+            Listeye Dön
+        </a>
+    </div>
+    <div class="card-body">
+        <form asp-action="CreateUser"
+              asp-controller="AdminIdentity"
+              method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Kullanıcı Adı</label>
+                    <input asp-for="UserName" class="form-control" />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Email</label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6"> 
+                    <label class="form-label">Şifre</label> 
+                    <input asp-for="PasswordHash" class="form-control" type="password" /> 
+                    <span asp-validation-for="PasswordHash" class="text-danger"></span> 
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Telefon</label>
+                    <input asp-for="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 form-check mt-3">
+                    <input asp-for="EmailConfirmed" class="form-check-input" type="checkbox" />
+                    <label class="form-check-label">Email Onaylı</label>
+                </div>
+
+                <div class="col-md-6 form-check mt-3">
+                    <input asp-for="PhoneNumberConfirmed" class="form-check-input" type="checkbox" />
+                    <label class="form-check-label">Telefon Onaylı</label>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary">Kaydet</button>
+                <a asp-action="Users"
+                   asp-controller="AdminIdentity"
+                   class="btn btn-light ms-2">
+                    İptal
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

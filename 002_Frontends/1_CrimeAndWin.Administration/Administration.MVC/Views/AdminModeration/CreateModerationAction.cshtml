@@ -1,0 +1,69 @@
+﻿@model CreateModerationActionVM
+@{
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h3 class="card-title">Moderation Action Oluştur</h3>
+        <a asp-action="ModerationActions" asp-controller="AdminModeration" class="btn btn-sm btn-light">Listeye Dön</a>
+    </div>
+
+    <div class="card-body">
+        <form asp-action="CreateModerationAction" asp-controller="AdminModeration" method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="row g-3">
+                <div class="col-md-12">
+                    <label class="form-label">Player</label>
+                    <select asp-for="PlayerId" asp-items="Model.PlayerOptions" class="form-select"></select>
+                    <span asp-validation-for="PlayerId" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Action Type</label>
+                    <select asp-for="ActionType" asp-items="Model.ActionTypeOptions" class="form-select"></select>
+                    <span asp-validation-for="ActionType" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Is Active</label>
+                    <div class="form-check form-switch mt-2">
+                        <input class="form-check-input" asp-for="IsActive" type="checkbox" />
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <label class="form-label">Reason</label>
+                    <input asp-for="Reason" class="form-control" />
+                    <span asp-validation-for="Reason" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Action Date (UTC)</label>
+                    <input asp-for="ActionDateUtc" class="form-control" type="datetime-local" />
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Expiry Date (UTC)</label>
+                    <input asp-for="ExpiryDateUtc" class="form-control" type="datetime-local" />
+                </div>
+
+                <div class="col-md-12">
+                    <label class="form-label">ModeratorId (Guid)</label>
+                    <input asp-for="ModeratorId" class="form-control" placeholder="00000000-0000-0000-0000-000000000000" />
+                    <span asp-validation-for="ModeratorId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <button class="btn btn-primary" type="submit">Kaydet</button>
+                <a asp-action="ModerationActions" asp-controller="AdminModeration" class="btn btn-light ms-2">İptal</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,93 @@
+﻿@model CreateActionDefinitionVM
+
+@{
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h3 class="card-title">Yeni Action Definition</h3>
+
+        <a asp-action="ActionDefinitions"
+           asp-controller="AdminAction"
+           class="btn btn-sm btn-light">
+            Listeye Dön
+        </a>
+    </div>
+
+    <div class="card-body">
+        <form asp-action="CreateActionDefinition"
+              asp-controller="AdminAction"
+              method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Code</label>
+                    <input asp-for="Code" class="form-control" />
+                    <span asp-validation-for="Code" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Display Name</label>
+                    <input asp-for="DisplayName" class="form-control" />
+                    <span asp-validation-for="DisplayName" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-12">
+                    <label class="form-label">Description</label>
+                    <textarea asp-for="Description" class="form-control"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">Min Power</label>
+                    <input asp-for="MinPower" class="form-control" type="number" />
+                    <span asp-validation-for="MinPower" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">Energy Cost</label>
+                    <input asp-for="EnergyCost" class="form-control" type="number" />
+                    <span asp-validation-for="EnergyCost" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">Power Gain</label>
+                    <input asp-for="PowerGain" class="form-control" type="number" />
+                    <span asp-validation-for="PowerGain" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">Money Gain</label>
+                    <input asp-for="MoneyGain" class="form-control" type="number" step="0.01" />
+                    <span asp-validation-for="MoneyGain" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-3 form-check mt-3">
+                    <input asp-for="ItemDrop" class="form-check-input" type="checkbox" />
+                    <label class="form-check-label">Item Drop</label>
+                </div>
+
+                <div class="col-md-3 form-check mt-3">
+                    <input asp-for="IsActive" class="form-check-input" type="checkbox" />
+                    <label class="form-check-label">Is Active</label>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary">Kaydet</button>
+
+                <a asp-action="ActionDefinitions"
+                   asp-controller="AdminAction"
+                   class="btn btn-light ms-2">
+                    İptal
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

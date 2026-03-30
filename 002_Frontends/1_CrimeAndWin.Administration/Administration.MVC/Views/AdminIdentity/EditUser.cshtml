@@ -1,0 +1,85 @@
+﻿@model UpdateAppUserVM
+
+@{
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h3 class="card-title">Kullanıcı Düzenle</h3>
+
+        <a asp-action="Users"
+           asp-controller="AdminIdentity"
+           class="btn btn-sm btn-light">
+            Listeye Dön
+        </a>
+    </div>
+    <div class="card-body">
+        <form asp-action="EditUser"
+              asp-controller="AdminIdentity"
+              method="post">
+            @Html.AntiForgeryToken()
+            <input asp-for="Id" type="hidden" />
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Kullanıcı Adı</label>
+                    <input asp-for="UserName" class="form-control" />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Email</label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Telefon</label>
+                    <input asp-for="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 form-check mt-3">
+                    <input asp-for="EmailConfirmed" class="form-check-input" type="checkbox" />
+                    <label class="form-check-label">Email Onaylı</label>
+                </div>
+
+                <div class="col-md-6 form-check mt-3">
+                    <input asp-for="PhoneNumberConfirmed" class="form-check-input" type="checkbox" />
+                    <label class="form-check-label">Telefon Onaylı</label>
+                </div>
+
+                <div class="col-md-6 form-check mt-3">
+                    <input asp-for="LockoutEnabled" class="form-check-input" type="checkbox" />
+                    <label class="form-check-label">Lockout Aktif</label>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Lockout Bitiş</label>
+                    <input asp-for="LockoutEnd" class="form-control" type="datetime-local" />
+                    <span asp-validation-for="LockoutEnd" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Hata Sayısı</label>
+                    <input asp-for="AccessFailedCount" class="form-control" type="number" />
+                    <span asp-validation-for="AccessFailedCount" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary">Güncelle</button>
+                <a asp-action="Users"
+                   asp-controller="AdminIdentity"
+                   class="btn btn-light ms-2">
+                    İptal
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

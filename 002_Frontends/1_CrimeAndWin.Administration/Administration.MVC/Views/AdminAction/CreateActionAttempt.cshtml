@@ -1,0 +1,59 @@
+﻿@model CreatePlayerActionAttemptVM
+
+@{
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h3 class="card-title">Yeni Player Action Attempt</h3>
+
+        <a asp-action="ActionAttempts"
+           asp-controller="AdminAction"
+           class="btn btn-sm btn-light">
+            Listeye Dön
+        </a>
+    </div>
+
+    <div class="card-body">
+        <form asp-action="CreateActionAttempt"
+              asp-controller="AdminAction"
+              method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">PlayerId</label>
+                    <input asp-for="PlayerId" class="form-control" />
+                    <span asp-validation-for="PlayerId" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">ActionDefinitionId</label>
+                    <input asp-for="ActionDefinitionId" class="form-control" />
+                    <span asp-validation-for="ActionDefinitionId" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">SuccessRate (0-1)</label>
+                    <input asp-for="SuccessRate" class="form-control" type="number" step="0.01" min="0" max="1" />
+                    <span asp-validation-for="SuccessRate" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary">Kaydet</button>
+
+                <a asp-action="ActionAttempts"
+                   asp-controller="AdminAction"
+                   class="btn btn-light ms-2">
+                    İptal
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
