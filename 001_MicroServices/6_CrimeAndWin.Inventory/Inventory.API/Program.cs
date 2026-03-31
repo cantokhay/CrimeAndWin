@@ -41,14 +41,26 @@ builder.Services.AddScoped<IValidator<AddItemCommand>, AddItemCommandValidator>(
 //RabbitMQ & MassTransit
 builder.Services.AddMassTransit(x =>
 {
+    x.AddConsumersFromNamespaceContaining<Inventory.API.Consumers.GrantItemCommandConsumer>();
     x.AddConsumer<ActionPerformedIntegrationEventConsumer>();
+
     x.UsingRabbitMq((ctx, cfg) =>
     {
-        cfg.Host("rabbitmq", "/", h => { /* credentials */ });
+        var rabbit = builder.Configuration.GetSection("Rabbit");
+        cfg.Host(rabbit["Host"] ?? "localhost", rabbit["VirtualHost"] ?? "/", h =>
+        {
+            h.Username(rabbit["User"] ?? "guest");
+            h.Password(rabbit["Pass"] ?? "guest");
+        });
+
+        // Retain original explicit endpoint if needed
         cfg.ReceiveEndpoint("inventory.action-performed", e =>
         {
             e.ConfigureConsumer<ActionPerformedIntegrationEventConsumer>(ctx);
         });
+
+        // Default mass transit endpoint auto setup
+        cfg.ConfigureEndpoints(ctx);
     });
 });
 

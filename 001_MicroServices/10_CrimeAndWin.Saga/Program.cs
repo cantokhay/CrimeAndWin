@@ -13,11 +13,11 @@ builder.Host.UseSerilog((context, loggerConfig) =>
     loggerConfig.ReadFrom.Configuration(context.Configuration);
 });
 
-// DbContext setup
-var connectionString = builder.Configuration.GetConnectionString("SagaDb");
-builder.Services.AddDbContext<SagaDbContext>(options =>
+// DbContext
+builder.Services.AddDbContext<SagaDbContext>(opt =>
 {
-    options.UseSqlServer(connectionString);
+    //opt.UseSqlServer(builder.Configuration.GetConnectionString("PlayerProfileConnection"));
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("SagaDb"));
 });
 
 // MassTransit Config
@@ -63,11 +63,11 @@ builder.Services.AddMassTransit(x =>
     x.UsingRabbitMq((context, cfg) =>
     {
         var rabbitMqSettings = builder.Configuration.GetSection("RabbitMq");
-        cfg.Host(rabbitMqSettings["Host"] ?? "localhost", rabbitMqSettings["VirtualHost"] ?? "/", h =>
-        {
-            h.Username(rabbitMqSettings["Username"] ?? "guest");
-            h.Password(rabbitMqSettings["Password"] ?? "guest");
-        });
+        //cfg.Host(rabbitMqSettings["Host"] ?? "localhost", rabbitMqSettings["VirtualHost"] ?? "/", h =>
+        //{
+        //    h.Username(rabbitMqSettings["Username"] ?? "guest");
+        //    h.Password(rabbitMqSettings["Password"] ?? "guest");
+        //});
 
         // Setup endpoints automatically based on registered State Machines
         cfg.ConfigureEndpoints(context);

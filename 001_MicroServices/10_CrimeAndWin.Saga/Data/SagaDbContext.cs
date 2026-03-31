@@ -20,9 +20,9 @@ public class SagaDbContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         // Inbox / Outbox state tables for MassTransit atomicity
-        modelBuilder.AddInboxStateEntity();
-        modelBuilder.AddOutboxMessageEntity();
-        modelBuilder.AddOutboxStateEntity();
+        //modelBuilder.AddInboxStateEntity();
+        //modelBuilder.AddOutboxMessageEntity();
+        //modelBuilder.AddOutboxStateEntity();
 
         modelBuilder.Entity<CrimeRewardState>(entity =>
         {

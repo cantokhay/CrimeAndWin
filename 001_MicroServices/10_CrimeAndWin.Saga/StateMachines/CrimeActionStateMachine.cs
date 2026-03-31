@@ -19,11 +19,11 @@ public class CrimeActionStateMachine : MassTransitStateMachine<CrimeActionState>
     {
         InstanceState(x => x.CurrentState);
 
-        Event(() => CrimeCompleted, x => 
-        {
-            x.CorrelateBy(state => state.ActionId, context => context.Message.ActionId);
-            x.SelectId(context => NewId.NextGuid());
-        });
+        //Event(() => CrimeCompleted, x => 
+        //{
+        //    x.CorrelateBy(state => state.ActionId, context => context.Message.ActionId);
+        //    x.SelectId(context => NewId.NextGuid());
+        //});
         
         Event(() => PlayerStatsUpdated, x => x.CorrelateById(m => m.Message.CorrelationId));
 

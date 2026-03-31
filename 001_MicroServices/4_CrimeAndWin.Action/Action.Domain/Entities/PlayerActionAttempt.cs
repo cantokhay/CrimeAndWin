@@ -1,10 +1,11 @@
-﻿using Action.Domain.VOs;
+using Action.Domain.VOs;
 using Shared.Domain;
 
 namespace Action.Domain.Entities
 {
     public class PlayerActionAttempt : BaseEntity
     {
+        public Guid CorrelationId { get; set; }
         public Guid PlayerId { get; set; }
         public Guid ActionDefinitionId { get; set; }
         public DateTime AttemptedAtUtc { get; set; }

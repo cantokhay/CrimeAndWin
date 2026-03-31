@@ -1,4 +1,5 @@
 using FluentValidation;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using PlayerProfile.Application;
 using PlayerProfile.Application.Features.Player.Commands.CreatePlayer;
@@ -31,8 +32,25 @@ builder.Services.AddAutoMapper(cfg =>
     cfg.AddProfile(new GeneralMapping());
 });
 
-//FluentValidation
 builder.Services.AddScoped<IValidator<CreatePlayerCommand>, CreatePlayerCommandValidator>();
+
+// MassTransit Config
+builder.Services.AddMassTransit(x =>
+{
+    x.AddConsumersFromNamespaceContaining<PlayerProfile.API.Consumers.UpdatePlayerStatsCommandConsumer>();
+
+    x.UsingRabbitMq((ctx, cfg) =>
+    {
+        var rabbit = builder.Configuration.GetSection("Rabbit");
+        cfg.Host(rabbit["Host"] ?? "localhost", rabbit["VirtualHost"] ?? "/", h =>
+        {
+            h.Username(rabbit["User"] ?? "guest");
+            h.Password(rabbit["Pass"] ?? "guest");
+        });
+
+        cfg.ConfigureEndpoints(ctx);
+    });
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

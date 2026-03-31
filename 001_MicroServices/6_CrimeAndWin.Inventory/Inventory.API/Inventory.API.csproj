@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Inventory.Infrastructure\Inventory.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\Shared\CrimeAndWin.Contracts\CrimeAndWin.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

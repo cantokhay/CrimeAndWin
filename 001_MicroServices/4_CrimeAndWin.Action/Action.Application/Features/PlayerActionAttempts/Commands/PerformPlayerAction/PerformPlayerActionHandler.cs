@@ -1,7 +1,7 @@
-﻿using Action.Application.Abstract;
+using Action.Application.Abstract;
 using Action.Domain.Entities;
-using Action.Domain.Events;
 using AutoMapper;
+using CrimeAndWin.Contracts.Events.Action;
 using MediatR;
 using Shared.Domain.Repository;
 
@@ -34,21 +34,24 @@ namespace Action.Application.Features.PlayerActionAttempts.Commands.PerformPlaye
 
             var attempt = _mapper.Map<PlayerActionAttempt>(request.Request);
             attempt.Id = Guid.NewGuid();
+            attempt.CorrelationId = Guid.NewGuid();
             attempt.AttemptedAtUtc = DateTime.UtcNow;
             attempt.CreatedAtUtc = DateTime.UtcNow;
 
             await _attemptWrite.AddAsync(attempt);
             await _attemptWrite.SaveAsync();
 
-            // publish ActionPerformed
-            await _publisher.PublishAsync(new ActionPerformedIntegrationEvent
+            await _publisher.PublishAsync(new CrimeCompletedEvent
             {
+                CorrelationId = attempt.CorrelationId,
                 PlayerId = attempt.PlayerId,
-                ActionDefinitionId = attempt.ActionDefinitionId,
-                PowerGain = def.Rewards.PowerGain,
-                ItemDrop = def.Rewards.ItemDrop,
-                MoneyGain = def.Rewards.MoneyGain,
-                OccurredAtUtc = attempt.AttemptedAtUtc
+                ActionId = attempt.Id,
+                ActionType = def.Code,
+                IsSuccess = true, // Simplified assuming creation success implies business success
+                MoneyReward = def.Rewards.MoneyGain,
+                ExpReward = def.Rewards.PowerGain,
+                EnergyCost = def.Requirements.EnergyCost,
+                ItemRewardId = def.Rewards.ItemDrop ? Guid.NewGuid() : null // random item if bool is true
             }, ct);
 
             return attempt.Id;

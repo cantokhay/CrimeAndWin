@@ -1,5 +1,5 @@
-using Economy.Application;
 using Economy.Application.Features.Wallet.Commands.DepositMoney;
+using MassTransit;
 using Economy.Application.Features.Wallet.Commands.WithdrawMoney;
 using Economy.Application.Mapping;
 using Economy.Application.ValidationRules.WalletValidations;
@@ -35,6 +35,23 @@ builder.Services.AddScoped<IDateTimeProvider, SystemDateTimeProvider>();
 //FluentValidation
 builder.Services.AddScoped<IValidator<DepositMoneyCommand>, DepositMoneyValidator>();
 builder.Services.AddScoped<IValidator<WithdrawMoneyCommand>, WithdrawMoneyValidator>();
+
+// MassTransit setup
+builder.Services.AddMassTransit(x =>
+{
+    x.AddConsumersFromNamespaceContaining<Economy.API.Consumers.RewardMoneyCommandConsumer>();
+
+    x.UsingRabbitMq((ctx, cfg) =>
+    {
+        var rabbit = builder.Configuration.GetSection("Rabbit");
+        cfg.Host(rabbit["Host"] ?? "localhost", rabbit["VirtualHost"] ?? "/", h =>
+        {
+            h.Username(rabbit["User"] ?? "guest");
+            h.Password(rabbit["Pass"] ?? "guest");
+        });
+        cfg.ConfigureEndpoints(ctx);
+    });
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
