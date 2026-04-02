@@ -1,9 +1,9 @@
-ï»¿using Action.Application.DTOs.ActionDefinitionDTOs;
+using Action.Application.DTOs.ActionDefinitionDTOs;
 using Action.Application.Features.ActionDefinitons.Commands.CreateAction;
 using Action.Application.Features.ActionDefinitons.Commands.Seed;
 using Action.Application.Features.ActionDefinitons.Queries.GetAllAction;
 using Action.Application.Features.ActionDefinitons.Queries.GetByCodeAction;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Action.API.Controllers
@@ -37,7 +37,7 @@ namespace Action.API.Controllers
         }
 
         /// <summary>
-        /// TÃ¼m ActionDefinition kayÄ±tlarÄ±nÄ± listeler.
+        /// Tüm ActionDefinition kayýtlarýný listeler.
         /// </summary>
         [HttpGet("GetAll")]
         public async Task<ActionResult<List<ResultActionDefinitionDTO>>> GetAll()
@@ -47,13 +47,14 @@ namespace Action.API.Controllers
         }
 
         /// <summary>
-        /// Bogus ile rastgele ActionDefinition verileri oluÅŸturur.
+        /// Bogus ile rastgele ActionDefinition verileri oluþturur.
         /// </summary>
         [HttpPost("SeedRun")]
         public async Task<IActionResult> SeedRun([FromQuery] int count = 10)
         {
             await _mediator.Send(new RunActionSeedCommand(count));
-            return Ok(new { message = $"{count} adet ActionDefinition baÅŸarÄ±yla seed edildi." });
+            return Ok(new { message = $"{count} adet ActionDefinition baþarýyla seed edildi." });
         }
     }
 }
+

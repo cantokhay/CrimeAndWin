@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using PlayerProfile.Domain.Entities;
 
 namespace PlayerProfile.Infrastructure.Persistance.Context

@@ -1,4 +1,4 @@
-﻿<div class="menu-item">
+<div class="menu-item">
     <div class="menu-content pt-8 pb-2">
         <span class="menu-section text-muted text-uppercase fs-8 ls-1">Dropdowns</span>
     </div>
@@ -367,3 +367,94 @@
         </div>
     </div>
 </div>
+<!-- =========================
+     DROPDOWN 10: Oyun Yonetimi
+========================= -->
+<div data-kt-menu-trigger="click" class="menu-item menu-accordion @Html.IsMenuOpen("AdminEnergy", "AdminCooldown", "AdminActionLog", "AdminSaga", "AdminBoost")">
+    <span class="menu-link">
+        <span class="menu-icon">
+            <span class="svg-icon svg-icon-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </span>
+        <span class="menu-title">Game Management</span>
+        <span class="menu-arrow"></span>
+    </span>
+
+    <div class="menu-sub menu-sub-accordion menu-active-bg">
+
+        <div class="menu-item">
+            <a class="menu-link @Html.IsActive("AdminEnergy", "Index")" asp-controller="AdminEnergy" asp-action="Index">
+                <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                <span class="menu-title">Energy Status</span>
+            </a>
+        </div>
+
+        <div class="menu-item">
+            <a class="menu-link @Html.IsActive("AdminCooldown", "Index")" asp-controller="AdminCooldown" asp-action="Index">
+                <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                <span class="menu-title">Cooldown Tracking</span>
+            </a>
+        </div>
+
+        <div class="menu-item">
+            <a class="menu-link @Html.IsActive("AdminActionLog", "Index")" asp-controller="AdminActionLog" asp-action="Index">
+                <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                <span class="menu-title">Action Logs</span>
+            </a>
+        </div>
+
+        <div class="menu-item">
+            <a class="menu-link @Html.IsActive("AdminSaga", "Index")" asp-controller="AdminSaga" asp-action="Index">
+                <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                <span class="menu-title">Saga State</span>
+            </a>
+        </div>
+
+        <div class="menu-item">
+            <a class="menu-link @Html.IsActive("AdminBoost", "Index")" asp-controller="AdminBoost" asp-action="Index">
+                <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                <span class="menu-title">Boost Management</span>
+            </a>
+        </div>
+
+    </div>
+</div>
+
+<!-- =========================
+     DROPDOWN 11: Altyapi
+========================= -->
+<div data-kt-menu-trigger="click" class="menu-item menu-accordion @Html.IsMenuOpen("AdminHealth", "AdminGatewayLog")">
+    <span class="menu-link">
+        <span class="menu-icon">
+            <span class="svg-icon svg-icon-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </span>
+        <span class="menu-title">Infrastructure</span>
+        <span class="menu-arrow"></span>
+    </span>
+
+    <div class="menu-sub menu-sub-accordion menu-active-bg">
+
+        <div class="menu-item">
+            <a class="menu-link @Html.IsActive("AdminHealth", "Index")" asp-controller="AdminHealth" asp-action="Index">
+                <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                <span class="menu-title">Service Health</span>
+            </a>
+        </div>
+
+        <div class="menu-item">
+            <a class="menu-link @Html.IsActive("AdminGatewayLog", "Index")" asp-controller="AdminGatewayLog" asp-action="Index">
+                <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                <span class="menu-title">Gateway Logs</span>
+            </a>
+        </div>
+
+    </div>
+</div>
+

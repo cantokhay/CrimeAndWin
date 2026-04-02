@@ -1,4 +1,4 @@
-﻿using Economy.Domain.VOs;
+using Economy.Domain.VOs;
 using Shared.Domain;
 
 namespace Economy.Domain.Entities
@@ -12,3 +12,4 @@ namespace Economy.Domain.Entities
         public Wallet Wallet { get; set; }
     }
 }
+

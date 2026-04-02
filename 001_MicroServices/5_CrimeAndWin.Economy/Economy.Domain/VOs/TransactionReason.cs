@@ -1,4 +1,4 @@
-﻿namespace Economy.Domain.VOs
+namespace Economy.Domain.VOs
 {
     public record TransactionReason
         (
@@ -6,3 +6,4 @@
         string Description
         );
 }
+

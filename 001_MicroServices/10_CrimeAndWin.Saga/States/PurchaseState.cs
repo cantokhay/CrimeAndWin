@@ -14,3 +14,4 @@ public class PurchaseState : SagaStateMachineInstance
     public DateTime CreatedAt    { get; set; }
     public string? FailReason    { get; set; }
 }
+

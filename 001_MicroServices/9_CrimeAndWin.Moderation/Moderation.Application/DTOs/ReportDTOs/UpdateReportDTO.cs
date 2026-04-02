@@ -1,4 +1,4 @@
-﻿namespace Moderation.Application.DTOs.ReportDTOs
+namespace Moderation.Application.DTOs.ReportDTOs
 {
     public class UpdateReportDTO
     {
@@ -13,3 +13,4 @@
         public Guid? ResolvedByModeratorId { get; set; }
     }
 }
+

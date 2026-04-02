@@ -1,11 +1,11 @@
-Ôªøusing GameWorld.Application.DTOs.GameWorldDTOs;
+using GameWorld.Application.DTOs.GameWorldDTOs;
 using GameWorld.Application.Features.GameWorld.Commands.CreateGameWorld;
 using GameWorld.Application.Features.GameWorld.Commands.DeleteGameWorld;
 using GameWorld.Application.Features.GameWorld.Commands.Seed;
 using GameWorld.Application.Features.GameWorld.Commands.UpdateGameWorld;
 using GameWorld.Application.Features.GameWorld.Queries.GetByIdGameWorld;
 using GameWorld.Application.Features.GameWorld.Queries.GetListGameWorld;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameWorld.API.Controllers
@@ -32,12 +32,12 @@ namespace GameWorld.API.Controllers
         [HttpPut("{id}/GameWorld")]
         public async Task<ActionResult<UpdateGameWorldDTO>> UpdateGameWorld(Guid id, [FromBody] UpdateGameWorldCommand body)
         {
-            if (id != body.GameWorldId) return BadRequest("Route id ile body id e≈üle≈ümiyor.");
+            if (id != body.GameWorldId) return BadRequest("Route id ile body id e˛le˛miyor.");
             return Ok(await _mediator.Send(body));
         }
 
         // -------------------------------
-        // ‚ùå DELETE GAME WORLD (Admin)
+        // ? DELETE GAME WORLD (Admin)
         // -------------------------------
         [HttpDelete("DeleteGameWorld/{id:guid}")]
         public async Task<IActionResult> DeletePlayerAsAdmin(Guid id)
@@ -48,13 +48,15 @@ namespace GameWorld.API.Controllers
         }
 
         /// <summary>
-        /// Bogus ile rastgele GameWorld + Season verileri olu≈üturur.
+        /// Bogus ile rastgele GameWorld + Season verileri olu˛turur.
         /// </summary>
         [HttpPost("SeedRun")]
         public async Task<IActionResult> SeedRun([FromQuery] int count = 3)
         {
             await _mediator.Send(new RunGameWorldSeedCommand(count));
-            return Ok(new { message = $"{count} adet GameWorld ba≈üarƒ±yla seed edildi." });
+            return Ok(new { message = $"{count} adet GameWorld ba˛ar˝yla seed edildi." });
         }
     }
 }
+
+

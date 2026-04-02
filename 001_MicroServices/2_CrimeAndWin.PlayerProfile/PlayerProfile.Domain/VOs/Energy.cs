@@ -1,4 +1,4 @@
-﻿namespace PlayerProfile.Domain.VOs
+namespace PlayerProfile.Domain.VOs
 {
     public readonly record struct Energy(
         int Current,
@@ -6,3 +6,4 @@
         int RegenPerMinute
         );
 }
+

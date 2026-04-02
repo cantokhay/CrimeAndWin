@@ -1,6 +1,6 @@
-﻿using Economy.Application.DTOs.TransactionDTOs;
+using Economy.Application.DTOs.TransactionDTOs;
 using Economy.Domain.Entities;
-using MediatR;
+using Mediator;
 using Microsoft.EntityFrameworkCore;
 using Shared.Domain.Repository;
 
@@ -16,7 +16,7 @@ namespace Economy.Application.Features.Transactions.Queries.GetTransactionByPlay
             _tx = tx;
         }
 
-        public async Task<List<ResultTransactionDTO>> Handle(GetTransactionsByPlayerIdQuery request, CancellationToken ct)
+        public async ValueTask<List<ResultTransactionDTO>> Handle(GetTransactionsByPlayerIdQuery request, CancellationToken ct)
         {
             return await _tx.Table
                 .AsNoTracking()
@@ -36,3 +36,5 @@ namespace Economy.Application.Features.Transactions.Queries.GetTransactionByPlay
         }
     }
 }
+
+

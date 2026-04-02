@@ -1,4 +1,4 @@
-﻿using Economy.Domain.Entities;
+using Economy.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -29,3 +29,4 @@ namespace Economy.Infrastructure.Persistance.Configuration
         }
     }
 }
+

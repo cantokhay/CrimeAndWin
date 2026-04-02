@@ -1,4 +1,4 @@
-﻿namespace Identity.Application.DTOs.AuthDTOs
+namespace Identity.Application.DTOs.AuthDTOs
 {
     public sealed class ResultAuthDTO
     {
@@ -10,3 +10,4 @@
         public string Email { get; set; } = null!;
     }
 }
+

@@ -1,4 +1,4 @@
-ï»¿using FluentValidation;
+using FluentValidation;
 using Moderation.Application.DTOs.ModerationActionDTOs.Admin;
 
 namespace Moderation.Application.ValidationRules.ModerationValidations
@@ -15,7 +15,8 @@ namespace Moderation.Application.ValidationRules.ModerationValidations
 
             RuleFor(x => x.ExpiryDateUtc)
                 .Must(d => d is null || d > DateTime.UtcNow)
-                .WithMessage("ExpiryDateUtc geÃ§miÅŸ olamaz.");
+                .WithMessage("ExpiryDateUtc geçmiþ olamaz.");
         }
     }
 }
+

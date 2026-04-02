@@ -1,4 +1,4 @@
-﻿namespace Identity.Application.Features.Auth
+namespace Identity.Application.Features.Auth
 {
 
     public sealed class JwtOptions
@@ -10,3 +10,4 @@
         public int RefreshTokenDays { get; set; } = 7;
     }
 }
+

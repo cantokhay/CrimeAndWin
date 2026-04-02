@@ -1,5 +1,5 @@
-﻿using Identity.Application.DTOs.RoleDTOs.Admin;
-using MediatR;
+using Identity.Application.DTOs.RoleDTOs.Admin;
+using Mediator;
 using Shared.Domain.Repository;
 
 namespace Identity.Application.Features.Role.Queries.GetRoleById
@@ -13,7 +13,7 @@ namespace Identity.Application.Features.Role.Queries.GetRoleById
             _readRepository = readRepository;
         }
 
-        public async Task<ResultRoleDTO> Handle(GetRoleByIdQuery request, CancellationToken cancellationToken)
+        public async ValueTask<ResultRoleDTO> Handle(GetRoleByIdQuery request, CancellationToken cancellationToken)
         {
             var role = await _readRepository.GetByIdAsync(request.id.ToString());
             if (role == null) return null!;
@@ -30,3 +30,4 @@ namespace Identity.Application.Features.Role.Queries.GetRoleById
         }
     }
 }
+

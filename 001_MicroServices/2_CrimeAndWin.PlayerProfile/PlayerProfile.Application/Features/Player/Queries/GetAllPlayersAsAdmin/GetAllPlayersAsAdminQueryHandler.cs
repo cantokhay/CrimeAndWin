@@ -1,4 +1,4 @@
-﻿using MediatR;
+using Mediator;
 using Microsoft.EntityFrameworkCore;
 using PlayerProfile.Application.DTOs.PlayerDTOs.Admin;
 using Shared.Domain.Repository;
@@ -14,7 +14,7 @@ namespace PlayerProfile.Application.Features.Player.Queries.GetAllPlayersAsAdmin
             _read = read;
         }
 
-        public async Task<List<AdminResultPlayerDTO>> Handle(GetAllPlayersAsAdminQuery request, CancellationToken cancellationToken)
+        public async ValueTask<List<AdminResultPlayerDTO>> Handle(GetAllPlayersAsAdminQuery request, CancellationToken cancellationToken)
         {
             return await _read.GetAll(false)
                 .Select(p => new AdminResultPlayerDTO
@@ -40,3 +40,5 @@ namespace PlayerProfile.Application.Features.Player.Queries.GetAllPlayersAsAdmin
         }
     }
 }
+
+

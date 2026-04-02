@@ -1,4 +1,4 @@
-﻿using Action.Application.DTOs.ActionAttemptDTOs.Admin;
+using Action.Application.DTOs.ActionAttemptDTOs.Admin;
 using Action.Application.DTOs.ActionDefinitionDTOs.Admin;
 using Action.Application.Features.ActionDefinitons.Commands.AdminCreateAction;
 using Action.Application.Features.ActionDefinitons.Commands.AdminDeleteAction;
@@ -10,7 +10,7 @@ using Action.Application.Features.PlayerActionAttempts.Commands.AdminDeletePlaye
 using Action.Application.Features.PlayerActionAttempts.Commands.AdminUpdatePlayerActionAttempt;
 using Action.Application.Features.PlayerActionAttempts.Queries.GetAllPlayerActionAttemptsAsAdmin;
 using Action.Application.Features.PlayerActionAttempts.Queries.GetPlayerActionAttemptByIdAsAdmin;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Action.API.Controllers
@@ -121,3 +121,4 @@ namespace Action.API.Controllers
         }
     }
 }
+

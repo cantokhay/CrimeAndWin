@@ -1,4 +1,4 @@
-﻿namespace Action.Domain.VOs
+namespace Action.Domain.VOs
 {
     public sealed record ActionRewards
         (
@@ -7,3 +7,4 @@
         decimal MoneyGain
         );
 }
+

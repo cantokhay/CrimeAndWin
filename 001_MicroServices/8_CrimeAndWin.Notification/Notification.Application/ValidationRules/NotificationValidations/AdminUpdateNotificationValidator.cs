@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using Notification.Application.DTOs.Admin;
 
 namespace Notification.Application.ValidationRules.NotificationValidations
@@ -15,3 +15,4 @@ namespace Notification.Application.ValidationRules.NotificationValidations
         }
     }
 }
+

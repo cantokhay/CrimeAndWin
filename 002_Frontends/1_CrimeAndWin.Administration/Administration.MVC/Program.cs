@@ -49,6 +49,33 @@ builder.Services.AddHttpClient("ModerationApi", client =>
     client.BaseAddress = new Uri("https://localhost:6109/api/ModerationAdmins/");
 });
 
+// Typed HttpClients for Adım 1c
+builder.Services.AddHttpClient<Administration.MVC.Services.ActionApiClient>(c =>
+    c.BaseAddress = new Uri(builder.Configuration["ServiceEndpoints:Action"]!));
+
+builder.Services.AddHttpClient<Administration.MVC.Services.SagaApiClient>(c =>
+    c.BaseAddress = new Uri(builder.Configuration["ServiceEndpoints:Saga"]!));
+
+builder.Services.AddHttpClient<Administration.MVC.Services.InventoryApiClient>(c =>
+    c.BaseAddress = new Uri(builder.Configuration["ServiceEndpoints:Inventory"]!));
+
+builder.Services.AddHttpClient<Administration.MVC.Services.HealthApiClient>(); // BaseAddress yok
+
+builder.Services.AddHttpClient<Administration.MVC.Services.GatewayApiClient>(c =>
+    c.BaseAddress = new Uri(builder.Configuration["ServiceEndpoints:Gateway"]!));
+
+// SSL Bypass for Development (Adım 1d)
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.ConfigureHttpClientDefaults(b =>
+        b.ConfigurePrimaryHttpMessageHandler(() =>
+            new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback =
+                    HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+            }));
+}
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 

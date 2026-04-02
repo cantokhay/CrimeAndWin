@@ -1,4 +1,4 @@
-﻿namespace Leadership.Application.DTOs.LeaderboardEntryDTOs.Admin
+namespace Leadership.Application.DTOs.LeaderboardEntryDTOs.Admin
 {
     public sealed class AdminResultLeaderboardEntryDTO
     {
@@ -15,3 +15,4 @@
         public DateTime? UpdatedAtUtc { get; set; }
     }
 }
+

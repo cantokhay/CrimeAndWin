@@ -1,4 +1,4 @@
-﻿namespace PlayerProfile.Application.DTOs.PlayerDTOs.Admin
+namespace PlayerProfile.Application.DTOs.PlayerDTOs.Admin
 {
     public sealed class AdminResultPlayerDTO
     {
@@ -24,3 +24,4 @@
         public DateTime? UpdatedAtUtc { get; set; }
     }
 }
+

@@ -1,4 +1,5 @@
-﻿namespace PlayerProfile.Application
+namespace PlayerProfile.Application
 {
     public interface IApplicationAssemblyMarker { }
 }
+

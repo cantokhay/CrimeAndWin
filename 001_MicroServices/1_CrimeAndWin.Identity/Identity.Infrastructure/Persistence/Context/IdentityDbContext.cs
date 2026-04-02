@@ -1,4 +1,4 @@
-﻿using Identity.Domain.Entities;
+using Identity.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Identity.Infrastructure.Persistence.Context
@@ -23,3 +23,4 @@ namespace Identity.Infrastructure.Persistence.Context
         }
     }
 }
+

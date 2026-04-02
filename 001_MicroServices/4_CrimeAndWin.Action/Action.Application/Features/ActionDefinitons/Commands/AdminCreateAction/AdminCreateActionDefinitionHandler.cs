@@ -1,6 +1,6 @@
-﻿using Action.Domain.Entities;
+using Action.Domain.Entities;
 using Action.Domain.VOs;
-using MediatR;
+using Mediator;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 
@@ -18,7 +18,7 @@ namespace Action.Application.Features.ActionDefinitons.Commands.AdminCreateActio
             _time = time;
         }
 
-        public async Task<Guid> Handle(AdminCreateActionDefinitionCommand request, CancellationToken ct)
+        public async ValueTask<Guid> Handle(AdminCreateActionDefinitionCommand request, CancellationToken ct)
         {
             var d = request.createActionDefinitionDTO;
 
@@ -40,3 +40,4 @@ namespace Action.Application.Features.ActionDefinitons.Commands.AdminCreateActio
         }
     }
 }
+

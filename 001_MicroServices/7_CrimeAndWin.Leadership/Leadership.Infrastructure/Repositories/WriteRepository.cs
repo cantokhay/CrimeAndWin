@@ -1,4 +1,4 @@
-ï»¿using Leadership.Infrastructure.Persistance.Context;
+using Leadership.Infrastructure.Persistance.Context;
 using Microsoft.EntityFrameworkCore;
 using Shared.Domain;
 using Shared.Domain.Repository;
@@ -48,7 +48,7 @@ namespace Leadership.Infrastructure.Repositories
         public async Task<bool> RemoveAsync(string id)
         {
             if (!Guid.TryParse(id, out var guid))
-                throw new ArgumentException("GeÃ§ersiz id formatÄ± (Guid bekleniyor).", nameof(id));
+                throw new ArgumentException("Geçersiz id formatý (Guid bekleniyor).", nameof(id));
 
             var entity = await Table.FirstOrDefaultAsync(e => e.Id == guid);
             if (entity is null) return false;
@@ -60,3 +60,4 @@ namespace Leadership.Infrastructure.Repositories
         public Task<int> SaveAsync() => _ctx.SaveChangesAsync();
     }
 }
+

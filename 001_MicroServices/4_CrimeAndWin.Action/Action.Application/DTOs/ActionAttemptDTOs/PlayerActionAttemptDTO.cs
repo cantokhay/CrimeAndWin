@@ -1,4 +1,4 @@
-﻿namespace Action.Application.DTOs.ActionAttemptDTOs
+namespace Action.Application.DTOs.ActionAttemptDTOs
 {
     public class PlayerActionAttemptDTO
     {
@@ -7,3 +7,4 @@
         public double SuccessRate { get; set; }
     }
 }
+

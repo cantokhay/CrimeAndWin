@@ -1,7 +1,7 @@
-﻿using AutoMapper;
+using GameWorld.Application.Mapping;
 using GameWorld.Application.Abstract;
 using GameWorld.Application.DTOs.GameWorldDTOs;
-using MediatR;
+using Mediator;
 using Shared.Domain.Repository;
 using GameWorld.Domain.VOs;
 
@@ -11,10 +11,10 @@ namespace GameWorld.Application.Features.GameWorld.Commands.UpdateGameWorld
     {
         private readonly IReadRepository<Domain.Entities.GameWorld> _readRepo;
         private readonly IWriteRepository<Domain.Entities.GameWorld> _writeRepo;
-        private readonly IMapper _mapper;
+        private readonly GameWorldMapper _mapper;
         private readonly IEventBus _bus;
 
-        public UpdateGameWorldHandler(IReadRepository<Domain.Entities.GameWorld> readRepo, IWriteRepository<Domain.Entities.GameWorld> writeRepo, IMapper mapper, IEventBus bus)
+        public UpdateGameWorldHandler(IReadRepository<Domain.Entities.GameWorld> readRepo, IWriteRepository<Domain.Entities.GameWorld> writeRepo, GameWorldMapper mapper, IEventBus bus)
         {
             _readRepo = readRepo;
             _writeRepo = writeRepo;
@@ -22,7 +22,7 @@ namespace GameWorld.Application.Features.GameWorld.Commands.UpdateGameWorld
             _bus = bus;
         }
 
-        public async Task<UpdateGameWorldDTO> Handle(UpdateGameWorldCommand request, CancellationToken ct)
+        public async ValueTask<UpdateGameWorldDTO> Handle(UpdateGameWorldCommand request, CancellationToken ct)
         {
             var gw = await _readRepo.GetByIdAsync(request.GameWorldId.ToString());
             if (gw is null) throw new KeyNotFoundException("GameWorld not found.");
@@ -41,7 +41,9 @@ namespace GameWorld.Application.Features.GameWorld.Commands.UpdateGameWorld
                 OccurredUtc = DateTime.UtcNow
             }, ct);
 
-            return _mapper.Map<UpdateGameWorldDTO>(gw);
+            return _mapper.ToUpdateDto(gw);
         }
     }
 }
+
+

@@ -1,4 +1,5 @@
-﻿namespace Identity.Application
+namespace Identity.Application
 {
     public interface IApplicationAssemblyMarker { }
 }
+

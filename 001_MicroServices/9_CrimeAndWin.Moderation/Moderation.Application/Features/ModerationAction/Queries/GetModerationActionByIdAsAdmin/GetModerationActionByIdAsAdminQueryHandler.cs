@@ -1,4 +1,4 @@
-﻿using MediatR;
+using Mediator;
 using Moderation.Application.DTOs.ModerationActionDTOs.Admin;
 using Shared.Domain.Repository;
 
@@ -14,7 +14,7 @@ namespace Moderation.Application.Features.ModerationAction.Queries.GetModeration
             _read = read;
         }
 
-        public async Task<AdminResultModerationActionDTO?> Handle(GetModerationActionByIdAsAdminQuery request, CancellationToken cancellationToken)
+        public async ValueTask<AdminResultModerationActionDTO?> Handle(GetModerationActionByIdAsAdminQuery request, CancellationToken cancellationToken)
         {
             var m = await _read.GetByIdAsync(request.id.ToString(), tracking: false);
             if (m is null) return null;
@@ -35,3 +35,4 @@ namespace Moderation.Application.Features.ModerationAction.Queries.GetModeration
         }
     }
 }
+

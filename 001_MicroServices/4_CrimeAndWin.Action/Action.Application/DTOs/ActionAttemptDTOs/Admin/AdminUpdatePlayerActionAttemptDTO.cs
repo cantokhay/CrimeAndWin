@@ -1,4 +1,4 @@
-﻿namespace Action.Application.DTOs.ActionAttemptDTOs.Admin
+namespace Action.Application.DTOs.ActionAttemptDTOs.Admin
 {
     public sealed class AdminUpdatePlayerActionAttemptDTO
     {
@@ -8,3 +8,4 @@
         public double SuccessRate { get; set; }  // 0.0 - 1.0
     }
 }
+

@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using GameWorld.Application.Features.GameWorld.Commands.UpdateGameWorld;
 
 namespace GameWorld.Application.ValidationRules.GameWorldValidations
@@ -13,3 +13,5 @@ namespace GameWorld.Application.ValidationRules.GameWorldValidations
         }
     }
 }
+
+

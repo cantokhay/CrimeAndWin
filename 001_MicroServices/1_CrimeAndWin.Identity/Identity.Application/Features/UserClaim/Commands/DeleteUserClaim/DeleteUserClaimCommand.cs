@@ -1,6 +1,7 @@
-﻿using MediatR;
+using Mediator;
 
 namespace Identity.Application.Features.UserClaim.Commands.DeleteUserClaim
 {
     public record DeleteUserClaimCommand(Guid Id) : IRequest<bool>;
 }
+

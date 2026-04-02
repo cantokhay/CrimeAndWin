@@ -1,6 +1,6 @@
-﻿using AutoMapper;
+using Inventory.Application.Mapping;
 using Inventory.Application.DTOs.InventoryDTOs;
-using MediatR;
+using Mediator;
 using Microsoft.EntityFrameworkCore;
 using Shared.Domain.Repository;
 
@@ -10,21 +10,22 @@ namespace Inventory.Application.Features.Inventory.Queries.GetInventoryByPlayerI
         IRequestHandler<GetInventoryByPlayerIdQuery, ResultInventoryDTO>
     {
         private readonly IReadRepository<Domain.Entities.Inventory> _read;
-        private readonly IMapper _mapper;
+        private readonly InventoryMapper _mapper;
 
-        public GetInventoryByPlayerIdQueryHandler(IReadRepository<Domain.Entities.Inventory> read, IMapper mapper)
+        public GetInventoryByPlayerIdQueryHandler(IReadRepository<Domain.Entities.Inventory> read, InventoryMapper mapper)
         {
             _read = read;
             _mapper = mapper;
         }
 
-        public async Task<ResultInventoryDTO> Handle(GetInventoryByPlayerIdQuery request, CancellationToken ct)
+        public async ValueTask<ResultInventoryDTO> Handle(GetInventoryByPlayerIdQuery request, CancellationToken ct)
         {
             var inv = await _read.GetWhere(x => x.PlayerId == request.PlayerId, tracking: false)
                                  .Include(x => x.Items)
                                  .FirstOrDefaultAsync(ct);
 
-            return inv is null ? null : _mapper.Map<ResultInventoryDTO>(inv);
+            return inv is null ? null : _mapper.ToDto(inv);
         }
     }
 }
+

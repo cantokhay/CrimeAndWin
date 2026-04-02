@@ -1,7 +1,8 @@
-﻿namespace Moderation.Application.Test
+namespace Moderation.Application.Test
 {
     public class Class1
     {
 
     }
 }
+

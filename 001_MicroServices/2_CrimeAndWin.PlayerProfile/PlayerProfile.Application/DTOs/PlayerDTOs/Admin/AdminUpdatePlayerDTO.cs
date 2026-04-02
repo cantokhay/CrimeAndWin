@@ -1,4 +1,4 @@
-﻿namespace PlayerProfile.Application.DTOs.PlayerDTOs.Admin
+namespace PlayerProfile.Application.DTOs.PlayerDTOs.Admin
 {
     public sealed class AdminUpdatePlayerDTO
     {
@@ -22,3 +22,4 @@
         public DateTime LastEnergyCalcUtc { get; set; }
     }
 }
+

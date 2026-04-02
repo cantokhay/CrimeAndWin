@@ -1,4 +1,4 @@
-﻿namespace Economy.Domain.VOs
+namespace Economy.Domain.VOs
 {
     public record Money
         (
@@ -6,3 +6,4 @@
         string CurrencyType
         );
 }
+

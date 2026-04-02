@@ -1,4 +1,4 @@
-﻿namespace Leadership.Application.DTOs.LeaderboardDTOs
+namespace Leadership.Application.DTOs.LeaderboardDTOs
 {
     public class CreateLeaderboardDTO
     {
@@ -9,3 +9,4 @@
         public bool IsSeasonal { get; set; }
     }
 }
+

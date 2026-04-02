@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using Leadership.Application.DTOs.LeaderboardDTOs;
 
 namespace Leadership.Application.ValidationRules.LeaderboardValidations
@@ -10,7 +10,8 @@ namespace Leadership.Application.ValidationRules.LeaderboardValidations
             RuleFor(x => x.Name).NotEmpty().MaximumLength(100);
             RuleFor(x => x.Description).MaximumLength(500);
             RuleFor(x => x.IsSeasonal).NotNull();
-            // GameWorldId/SeasonId opsiyonel, seasonal'a göre UI kontrol edilebilir
+            // GameWorldId/SeasonId opsiyonel, seasonal'a g�re UI kontrol edilebilir
         }
     }
 }
+

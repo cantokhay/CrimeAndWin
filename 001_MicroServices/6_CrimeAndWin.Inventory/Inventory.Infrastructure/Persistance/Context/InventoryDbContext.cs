@@ -1,4 +1,4 @@
-﻿using Inventory.Domain.Entities;
+using Inventory.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Inventory.Infrastructure.Persistance.Context
@@ -15,3 +15,4 @@ namespace Inventory.Infrastructure.Persistance.Context
         }
     }
 }
+

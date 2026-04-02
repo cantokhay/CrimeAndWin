@@ -74,8 +74,18 @@ builder.Services.AddMassTransit(x =>
     });
 });
 
+// Add controllers
+builder.Services.AddControllers();
+
+builder.Services.AddHealthChecks();
+
 var app = builder.Build();
+
+app.MapHealthChecks("/health");
 
 app.UseSerilogRequestLogging();
 
+app.MapControllers();
+
 app.Run();
+

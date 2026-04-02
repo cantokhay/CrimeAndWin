@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using PlayerProfile.Application.Features.Player.Commands.CreatePlayer;
 
 namespace PlayerProfile.Application.ValidationRules.PlayerValidations
@@ -26,3 +26,4 @@ namespace PlayerProfile.Application.ValidationRules.PlayerValidations
         }
     }
 }
+

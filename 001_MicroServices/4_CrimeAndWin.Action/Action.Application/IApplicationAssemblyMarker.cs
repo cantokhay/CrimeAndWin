@@ -1,4 +1,5 @@
-﻿namespace Action.Application
+namespace Action.Application
 {
     public interface IApplicationAssemblyMarker { }
 }
+

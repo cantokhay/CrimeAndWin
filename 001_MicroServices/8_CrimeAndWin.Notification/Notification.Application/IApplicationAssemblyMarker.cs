@@ -1,4 +1,5 @@
-﻿namespace Notification.Application
+namespace Notification.Application
 {
     public interface IApplicationAssemblyMarker { }
 }
+

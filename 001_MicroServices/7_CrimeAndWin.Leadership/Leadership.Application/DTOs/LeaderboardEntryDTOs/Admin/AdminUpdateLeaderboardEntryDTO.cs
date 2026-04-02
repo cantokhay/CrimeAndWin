@@ -1,4 +1,4 @@
-﻿namespace Leadership.Application.DTOs.LeaderboardEntryDTOs.Admin
+namespace Leadership.Application.DTOs.LeaderboardEntryDTOs.Admin
 {
     public sealed class AdminUpdateLeaderboardEntryDTO
     {
@@ -12,3 +12,4 @@
         public bool IsActive { get; set; }
     }
 }
+

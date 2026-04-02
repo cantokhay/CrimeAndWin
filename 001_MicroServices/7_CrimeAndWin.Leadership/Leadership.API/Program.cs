@@ -12,6 +12,8 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
+using Shared.Infrastructure;
+using Shared.Infrastructure.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,12 +24,10 @@ builder.Services.AddDbContext<LeadershipDbContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("LeadershipLaptopConnection"));
 });
 
-// MediatR & AutoMapper
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(IApplicationAssemblyMarker).Assembly));
-builder.Services.AddAutoMapper(cfg =>
-{
-    cfg.AddProfile(new GeneralMapping());
-});
+// MediatR & Mapperly & Validation
+builder.Services.AddMediator();
+builder.Services.AddScoped<LeadershipMapper>();
+builder.Services.AddSharedValidation(typeof(IApplicationAssemblyMarker).Assembly);
 
 //DI Registrations
 builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
@@ -35,9 +35,8 @@ builder.Services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));
 builder.Services.AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>));
 builder.Services.AddScoped<IDateTimeProvider, SystemDateTimeProvider>();
 
-//FluentValidation
-builder.Services.AddScoped<IValidator<CreateLeaderboardDTO>, CreateLeaderboardDTOValidator>();
-builder.Services.AddScoped<IValidator<CreateLeaderboardEntryDTO>, CreateLeaderboardEntryDTOValidator>();
+// builder.Services.AddScoped<IValidator<CreateLeaderboardDTO>, CreateLeaderboardDTOValidator>();
+// builder.Services.AddScoped<IValidator<CreateLeaderboardEntryDTO>, CreateLeaderboardEntryDTOValidator>();
 
 ////RabbitMQ & MassTransit
 //builder.Services.AddMassTransit(x =>
@@ -63,12 +62,19 @@ builder.Services.AddScoped<IValidator<CreateLeaderboardEntryDTO>, CreateLeaderbo
 //    });
 //});
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(opt =>
+{
+    opt.Filters.Add<GlobalExceptionFilter>();
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddHealthChecks();
+
 var app = builder.Build();
+
+app.MapHealthChecks("/health");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -84,3 +90,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+

@@ -1,4 +1,4 @@
-﻿using Shared.Domain;
+using Shared.Domain;
 
 namespace Identity.Domain.Entities
 {
@@ -12,3 +12,4 @@ namespace Identity.Domain.Entities
         public Role Role { get; set; } = null!;
     }
 }
+

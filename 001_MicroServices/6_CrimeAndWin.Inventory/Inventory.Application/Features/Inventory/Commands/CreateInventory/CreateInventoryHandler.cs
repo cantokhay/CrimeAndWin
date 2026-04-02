@@ -1,4 +1,4 @@
-﻿using MediatR;
+using Mediator;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 
@@ -17,7 +17,7 @@ namespace Inventory.Application.Features.Inventory.Commands.CreateInventory
             _read = read;
         }
 
-        public async Task<bool> Handle(CreateInventoryCommand request, CancellationToken ct)
+        public async ValueTask<bool> Handle(CreateInventoryCommand request, CancellationToken ct)
         {
             var existingInventory = await _read.GetSingleAsync(i => i.PlayerId == request.PlayerId);
             if (existingInventory != null)
@@ -37,3 +37,4 @@ namespace Inventory.Application.Features.Inventory.Commands.CreateInventory
         }
     }
 }
+

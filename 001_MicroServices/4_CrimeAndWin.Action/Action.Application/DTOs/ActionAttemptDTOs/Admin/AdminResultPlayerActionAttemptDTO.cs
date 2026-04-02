@@ -1,4 +1,4 @@
-﻿namespace Action.Application.DTOs.ActionAttemptDTOs.Admin
+namespace Action.Application.DTOs.ActionAttemptDTOs.Admin
 {
     public sealed class AdminResultPlayerActionAttemptDTO
     {
@@ -12,3 +12,4 @@
     }
 
 }
+

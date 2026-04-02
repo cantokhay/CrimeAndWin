@@ -1,4 +1,4 @@
-﻿using MediatR;
+using Mediator;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 
@@ -15,7 +15,7 @@ namespace Identity.Application.Features.UserToken.Commands.CreateUserToken
             _time = time;
         }
 
-        public async Task<Guid> Handle(CreateUserTokenCommand request, CancellationToken cancellationToken)
+        public async ValueTask<Guid> Handle(CreateUserTokenCommand request, CancellationToken cancellationToken)
         {
             var dto = request.createUserTokenDTO;
 
@@ -36,3 +36,4 @@ namespace Identity.Application.Features.UserToken.Commands.CreateUserToken
         }
     }
 }
+

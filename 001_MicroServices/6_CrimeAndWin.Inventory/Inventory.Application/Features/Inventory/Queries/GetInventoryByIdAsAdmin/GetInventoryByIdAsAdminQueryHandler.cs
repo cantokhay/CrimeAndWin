@@ -1,6 +1,6 @@
-﻿using Inventory.Application.DTOs.InventoryDTOs.Admin;
+using Inventory.Application.DTOs.InventoryDTOs.Admin;
 using Inventory.Application.DTOs.ItemDTOs.Admin;
-using MediatR;
+using Mediator;
 using Shared.Domain.Repository;
 
 namespace Inventory.Application.Features.Inventory.Queries.GetInventoryByIdAsAdmin
@@ -15,7 +15,7 @@ namespace Inventory.Application.Features.Inventory.Queries.GetInventoryByIdAsAdm
             _read = read;
         }
 
-        public async Task<AdminResultInventoryDTO?> Handle(GetInventoryByIdAsAdminQuery request, CancellationToken ct)
+        public async ValueTask<AdminResultInventoryDTO?> Handle(GetInventoryByIdAsAdminQuery request, CancellationToken ct)
         {
             var inv = await _read.GetByIdAsync(request.id.ToString(), false);
             if (inv is null) return null;
@@ -44,3 +44,4 @@ namespace Inventory.Application.Features.Inventory.Queries.GetInventoryByIdAsAdm
         }
     }
 }
+

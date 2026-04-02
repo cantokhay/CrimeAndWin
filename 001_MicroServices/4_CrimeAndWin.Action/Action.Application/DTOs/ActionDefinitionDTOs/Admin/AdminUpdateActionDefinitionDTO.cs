@@ -1,4 +1,4 @@
-﻿namespace Action.Application.DTOs.ActionDefinitionDTOs.Admin
+namespace Action.Application.DTOs.ActionDefinitionDTOs.Admin
 {
     public sealed class AdminUpdateActionDefinitionDTO
     {
@@ -14,3 +14,4 @@
         public bool IsActive { get; set; }
     }
 }
+

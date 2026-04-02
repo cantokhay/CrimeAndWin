@@ -1,4 +1,4 @@
-﻿namespace Identity.Application.DTOs.RoleDTOs.Admin
+namespace Identity.Application.DTOs.RoleDTOs.Admin
 {
     public sealed class CreateRoleDTO
     {
@@ -7,3 +7,4 @@
         public string? Description { get; set; }
     }
 }
+

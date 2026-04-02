@@ -1,4 +1,4 @@
-﻿using Leadership.Domain.VOs;
+using Leadership.Domain.VOs;
 using Shared.Domain;
 
 namespace Leadership.Domain.Entities
@@ -13,3 +13,4 @@ namespace Leadership.Domain.Entities
         public Leaderboard Leaderboard { get; set; }
     }
 }
+

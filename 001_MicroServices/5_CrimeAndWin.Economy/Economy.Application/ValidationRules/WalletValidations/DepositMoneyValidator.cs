@@ -1,4 +1,4 @@
-﻿using Economy.Application.Features.Wallet.Commands.DepositMoney;
+using Economy.Application.Features.Wallet.Commands.DepositMoney;
 using FluentValidation;
 
 namespace Economy.Application.ValidationRules.WalletValidations
@@ -13,3 +13,4 @@ namespace Economy.Application.ValidationRules.WalletValidations
         }
     }
 }
+

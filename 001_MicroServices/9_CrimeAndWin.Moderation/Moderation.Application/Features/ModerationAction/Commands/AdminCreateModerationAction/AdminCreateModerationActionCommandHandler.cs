@@ -1,4 +1,4 @@
-﻿using MediatR;
+using Mediator;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 
@@ -18,7 +18,7 @@ namespace Moderation.Application.Features.ModerationAction.Commands.AdminCreateM
             _time = time;
         }
 
-        public async Task<Guid> Handle(AdminCreateModerationActionCommand request, CancellationToken cancellationToken)
+        public async ValueTask<Guid> Handle(AdminCreateModerationActionCommand request, CancellationToken cancellationToken)
         {
             var d = request.createModerationActionDTO;
 
@@ -43,3 +43,4 @@ namespace Moderation.Application.Features.ModerationAction.Commands.AdminCreateM
         }
     }
 }
+

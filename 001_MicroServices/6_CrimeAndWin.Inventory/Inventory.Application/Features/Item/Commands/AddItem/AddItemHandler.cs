@@ -1,6 +1,6 @@
-﻿using Inventory.Application.Messaging.Abstract;
+using Inventory.Application.Messaging.Abstract;
 using Inventory.Domain.VOs;
-using MediatR;
+using Mediator;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 
@@ -19,7 +19,7 @@ namespace Inventory.Application.Features.Item.Commands.AddItem
             _time = time;
         }
 
-        public async Task<bool> Handle(AddItemCommand request, CancellationToken ct)
+        public async ValueTask<bool> Handle(AddItemCommand request, CancellationToken ct)
         {
             var item = new Domain.Entities.Item
             {
@@ -36,10 +36,11 @@ namespace Inventory.Application.Features.Item.Commands.AddItem
 
             //await _publisher.PublishAsync(
             //    new ItemAddedToInventoryIntegrationEvent(Guid.NewGuid(), _time.UtcNow,
-            //        PlayerId: Guid.Empty, // controller/handler’da resolve edilebilir
+            //        PlayerId: Guid.Empty, // controller/handler�da resolve edilebilir
             //        request.InventoryId, item.Id, item.Name, item.Quantity), ct);
 
             return await _itemWrite.SaveAsync() > 0;
         }
     }
 }
+

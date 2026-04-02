@@ -1,4 +1,4 @@
-﻿namespace Identity.Application.DTOs.UserDTOs.Admin
+namespace Identity.Application.DTOs.UserDTOs.Admin
 {
     public sealed class UpdateAppUserDTO
     {
@@ -9,3 +9,4 @@
         public bool LockoutEnabled { get; set; }
     }
 }
+

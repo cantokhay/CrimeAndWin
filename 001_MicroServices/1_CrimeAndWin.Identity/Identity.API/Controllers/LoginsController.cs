@@ -1,6 +1,6 @@
-ï»¿using Identity.Application.DTOs.AuthDTOs;
+using Identity.Application.DTOs.AuthDTOs;
 using Identity.Application.Features.Auth.Commands.Login;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,7 +13,7 @@ namespace Identity.API.Controllers
         private readonly IMediator _mediator;
         public LoginsController(IMediator mediator) => _mediator = mediator;
 
-        /// <summary>KullanÄ±cÄ± giriÅŸi yapar ve JWT Ã¼retir.</summary>
+        /// <summary>Kullanýcý giriþi yapar ve JWT üretir.</summary>
         [HttpPost]
         [AllowAnonymous]
         [ProducesResponseType(typeof(ResultAuthDTO), StatusCodes.Status200OK)]
@@ -32,8 +32,9 @@ namespace Identity.API.Controllers
             }
             catch (ArgumentException ex)
             {
-                return ValidationProblem(title: "GeÃ§ersiz alan", detail: ex.Message, statusCode: StatusCodes.Status400BadRequest);
+                return ValidationProblem(title: "Geçersiz alan", detail: ex.Message, statusCode: StatusCodes.Status400BadRequest);
             }
         }
     }
 }
+

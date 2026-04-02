@@ -1,0 +1,91 @@
+@model List<SagaStateDto>
+@{
+    ViewData["Title"] = "Saga State Takibi";
+    string currentFilter = ViewBag.StateFilter ?? "";
+}
+
+<!--begin::Toolbar-->
+<div class="toolbar py-5 py-lg-15" id="kt_toolbar">
+    <div id="kt_toolbar_container" class="container-xxl d-flex flex-stack flex-wrap">
+        <div class="page-title d-flex flex-column me-3">
+            <h1 class="d-flex text-white fw-bolder my-1 fs-3">Saga State Takibi</h1>
+            <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
+                <li class="breadcrumb-item text-white opacity-75">
+                    <a asp-controller="AdminHome" asp-action="Index" class="text-white opacity-75 text-hover-primary">Ana Sayfa</a>
+                </li>
+                <li class="breadcrumb-item"><span class="bullet bg-white opacity-75 w-5px h-2px"></span></li>
+                <li class="breadcrumb-item text-white opacity-75">Saga State Takibi</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--end::Toolbar-->
+
+<!--begin::Post-->
+<div class="post d-flex flex-column-fluid" id="kt_post">
+    <div id="kt_content_container" class="container-xxl">
+        <!--begin::Card-->
+        <div class="card card-flush">
+            <div class="card-header align-items-center py-5 gap-2 gap-md-5">
+                <div class="card-title">
+                    <h2 class="fw-bolder">Saga State Takibi</h2>
+                </div>
+                <div class="card-toolbar">
+                    <div class="d-flex justify-content-end" data-kt-docs-table-toolbar="base">
+                        <a asp-action="Index" asp-route-state="" class="btn btn-sm @(currentFilter == "" ? "btn-primary" : "btn-light btn-active-light-primary") me-2">Tümü</a>
+                        <a asp-action="Index" asp-route-state="Processing" class="btn btn-sm @(currentFilter == "Processing" ? "btn-primary" : "btn-light btn-active-light-primary") me-2">Processing</a>
+                        <a asp-action="Index" asp-route-state="Completed" class="btn btn-sm @(currentFilter == "Completed" ? "btn-primary" : "btn-light btn-active-light-primary") me-2">Completed</a>
+                        <a asp-action="Index" asp-route-state="Failed" class="btn btn-sm @(currentFilter == "Failed" ? "btn-primary" : "btn-light btn-active-light-primary")">Failed</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body pt-0">
+                <div class="table-responsive">
+                    <table class="table align-middle table-row-dashed fs-6 gy-5 table-hover">
+                        <thead>
+                            <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
+                                <th>Correlation ID</th>
+                                <th>Saga Tipi</th>
+                                <th>Oyuncu</th>
+                                <th>State</th>
+                                <th>Başlangıç</th>
+                                <th>Bitiş</th>
+                                <th>Hata</th>
+                            </tr>
+                        </thead>
+                        <tbody class="fw-bold text-gray-600">
+                            @foreach (var item in Model)
+                            {
+                                <tr style="cursor: pointer" onclick="location.href='@Url.Action("Detail", new { id = item.CorrelationId })'">
+                                    <td>@item.CorrelationId.ToString().Substring(0, 8)</td>
+                                    <td>@item.SagaType</td>
+                                    <td>@item.PlayerId</td>
+                                    <td>
+                                        @{
+                                            var badgeClass = item.CurrentState switch
+                                            {
+                                                "Completed" => "badge-light-success",
+                                                "Failed" => "badge-light-danger",
+                                                _ => "badge-light-warning"
+                                            };
+                                        }
+                                        <span class="badge @badgeClass fs-7 fw-bolder">@item.CurrentState</span>
+                                    </td>
+                                    <td>@item.CreatedAt.ToLocalTime().ToString("g")</td>
+                                    <td>@(item.CompletedAt?.ToLocalTime().ToString("g") ?? "-")</td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(item.FailReason))
+                                        {
+                                            <small class="text-danger fw-bolder">@item.FailReason</small>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!--end::Card-->
+    </div>
+</div>

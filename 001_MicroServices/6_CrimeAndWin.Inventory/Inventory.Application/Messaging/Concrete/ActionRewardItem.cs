@@ -1,4 +1,4 @@
-﻿namespace Inventory.Application.Messaging.Concrete
+namespace Inventory.Application.Messaging.Concrete
 {
     public sealed record ActionRewardItem
         (
@@ -11,3 +11,4 @@
         int Currency
         );
 }
+

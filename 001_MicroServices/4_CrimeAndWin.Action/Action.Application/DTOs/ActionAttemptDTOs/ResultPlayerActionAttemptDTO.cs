@@ -1,4 +1,4 @@
-﻿using Action.Domain.Enums;
+using Action.Domain.Enums;
 
 namespace Action.Application.DTOs.ActionAttemptDTOs
 {
@@ -12,3 +12,4 @@ namespace Action.Application.DTOs.ActionAttemptDTOs
         public OutcomeType OutcomeType { get; set; }
     }
 }
+

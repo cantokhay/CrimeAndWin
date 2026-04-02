@@ -1,4 +1,4 @@
-﻿using MediatR;
+using Mediator;
 using Shared.Domain.Repository;
 
 namespace Economy.Application.Features.Wallet.Commands.AdminDeleteWallet
@@ -13,7 +13,7 @@ namespace Economy.Application.Features.Wallet.Commands.AdminDeleteWallet
             _write = write;
         }
 
-        public async Task<bool> Handle(AdminDeleteWalletCommand request, CancellationToken cancellationToken)
+        public async ValueTask<bool> Handle(AdminDeleteWalletCommand request, CancellationToken cancellationToken)
         {
             var ok = await _write.RemoveAsync(request.id.ToString());
             await _write.SaveAsync();
@@ -21,3 +21,4 @@ namespace Economy.Application.Features.Wallet.Commands.AdminDeleteWallet
         }
     }
 }
+

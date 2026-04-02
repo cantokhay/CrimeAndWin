@@ -1,5 +1,6 @@
-﻿using Action.Application.DTOs.ActionDefinitionDTOs;
-using FluentValidation;
+﻿using FluentValidation;
+using Action.Application.DTOs.ActionDefinitionDTOs;
+using Shared.Infrastructure.Validation;
 
 namespace Action.Application.ValidationRules.ActionDefinitionValidations
 {
@@ -10,8 +11,8 @@ namespace Action.Application.ValidationRules.ActionDefinitionValidations
             RuleFor(x => x.Code)
                 .NotEmpty()
                 .MaximumLength(32)
-                .Matches("^[A-Z0-9_]+$").WithMessage("Code yalnızca A-Z, 0-9 ve _ içerebilir.")
-                .Must(code => code.Trim() == code).WithMessage("Code başında/sonunda boşluk olamaz.");
+                .Matches("^[A-Z0-9_]+$").WithMessage("Code yalnizca A-Z, 0-9 ve _ icerebilir.")
+                .Must(code => code.Trim() == code).WithMessage("Code basinda/sonunda bosluk olamaz.");
 
             RuleFor(x => x.DisplayName)
                 .NotEmpty()
@@ -22,11 +23,11 @@ namespace Action.Application.ValidationRules.ActionDefinitionValidations
                 .MaximumLength(500);
 
             RuleFor(x => x.MinPower).GreaterThanOrEqualTo(0);
-            RuleFor(x => x.EnergyCost).GreaterThanOrEqualTo(0);
-            RuleFor(x => x.PowerGain).GreaterThanOrEqualTo(0);
-            RuleFor(x => x.MoneyGain).GreaterThanOrEqualTo(0m);
+            RuleFor(x => x.EnergyCost).Positive(); 
+            RuleFor(x => x.PowerGain).Positive();
+            RuleFor(x => x.MoneyGain).PositiveCurrency();
 
-            // IsActive bool olduğundan NotNull gereksiz
+            // IsActive bool oldugundan NotNull gereksiz
         }
     }
 }

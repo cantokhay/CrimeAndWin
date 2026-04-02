@@ -1,4 +1,4 @@
-﻿using Inventory.Domain.Enums;
+using Inventory.Domain.Enums;
 
 namespace Inventory.Application.DTOs.ItemDTOs.Admin
 {
@@ -20,3 +20,4 @@ namespace Inventory.Application.DTOs.ItemDTOs.Admin
         public DateTime? UpdatedAtUtc { get; set; }
     }
 }
+

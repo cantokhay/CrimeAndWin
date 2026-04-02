@@ -1,4 +1,4 @@
-﻿using Leadership.Application.DTOs.LeaderboardDTOs.Admin;
+using Leadership.Application.DTOs.LeaderboardDTOs.Admin;
 using Leadership.Application.DTOs.LeaderboardEntryDTOs.Admin;
 using Leadership.Application.Features.Leaderboard.Commands.AdminCreateLeaderboard;
 using Leadership.Application.Features.Leaderboard.Commands.AdminDeleteLeaderboard;
@@ -10,7 +10,7 @@ using Leadership.Application.Features.LeaderboardEntry.Commands.AdminDeleteLeade
 using Leadership.Application.Features.LeaderboardEntry.Commands.AdminUpdateLeaderboardEntry;
 using Leadership.Application.Features.LeaderboardEntry.Queries.GetAllLeaderboardEntriesAsAdmin;
 using Leadership.Application.Features.LeaderboardEntry.Queries.GetLeaderboardEntryByIdAsAdmin;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -106,3 +106,4 @@ namespace Leadership.API.Controllers
         }
     }
 }
+

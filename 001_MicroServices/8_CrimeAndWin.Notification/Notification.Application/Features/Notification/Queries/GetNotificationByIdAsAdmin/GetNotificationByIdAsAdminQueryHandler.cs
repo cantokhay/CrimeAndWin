@@ -1,4 +1,4 @@
-﻿using MediatR;
+using Mediator;
 using Notification.Application.DTOs.Admin;
 using Shared.Domain.Repository;
 
@@ -14,7 +14,7 @@ namespace Notification.Application.Features.Notification.Queries.GetNotification
             _read = read;
         }
 
-        public async Task<AdminResultNotificationDTO?> Handle(GetNotificationByIdAsAdminQuery request, CancellationToken cancellationToken)
+        public async ValueTask<AdminResultNotificationDTO?> Handle(GetNotificationByIdAsAdminQuery request, CancellationToken cancellationToken)
         {
             var n = await _read.GetByIdAsync(request.id.ToString(), tracking: false);
             if (n is null) return null;
@@ -32,3 +32,4 @@ namespace Notification.Application.Features.Notification.Queries.GetNotification
         }
     }
 }
+

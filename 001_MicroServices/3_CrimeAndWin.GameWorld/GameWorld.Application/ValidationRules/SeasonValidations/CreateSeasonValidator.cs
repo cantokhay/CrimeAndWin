@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using GameWorld.Application.Features.Season.Commands.CreateSeason;
 
 namespace GameWorld.Application.ValidationRules.SeasonValidations
@@ -9,7 +9,9 @@ namespace GameWorld.Application.ValidationRules.SeasonValidations
         {
             RuleFor(x => x.GameWorldId).NotEmpty();
             RuleFor(x => x.SeasonNumber).GreaterThan(0);
-            RuleFor(x => x.StartUtc).LessThan(x => x.EndUtc).WithMessage("Start Date < End Date olmalı");
+            RuleFor(x => x.StartUtc).LessThan(x => x.EndUtc).WithMessage("Start Date < End Date olmal�");
         }
     }
 }
+
+

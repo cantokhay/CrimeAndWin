@@ -1,7 +1,7 @@
-ï»¿using Identity.Application.DTOs.AuthDTOs;
+using Identity.Application.DTOs.AuthDTOs;
 using Identity.Application.Features.Auth.Abstract;
 using Identity.Domain.Entities;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -37,9 +37,9 @@ namespace Identity.Application.Features.Auth.Commands.Login
             _jwt = jwt;
         }
 
-        public async Task<ResultAuthDTO> Handle(LoginCommand request, CancellationToken ct)
+        public async ValueTask<ResultAuthDTO> Handle(LoginCommand request, CancellationToken ct)
         {
-            // 1) KullanÄ±cÄ±yÄ± bul
+            // 1) Kullanýcýyý bul
             var norm = request.UserNameOrEmail.Trim().ToUpperInvariant();
 
             var user = await _usersRead
@@ -47,13 +47,13 @@ namespace Identity.Application.Features.Auth.Commands.Login
                 .FirstOrDefaultAsync(ct);
 
             if (user is null)
-                throw new UnauthorizedAccessException("KullanÄ±cÄ± adÄ±/e-posta veya ÅŸifre hatalÄ±.");
+                throw new UnauthorizedAccessException("Kullanýcý adý/e-posta veya þifre hatalý.");
 
-            // 2) Åžifre doÄŸrulama
+            // 2) Þifre doðrulama
             var hasher = new PasswordHasher<AppUser>();
             var verify = hasher.VerifyHashedPassword(user, user.PasswordHash, request.Password);
             if (verify == PasswordVerificationResult.Failed)
-                throw new UnauthorizedAccessException("KullanÄ±cÄ± adÄ±/e-posta veya ÅŸifre hatalÄ±.");
+                throw new UnauthorizedAccessException("Kullanýcý adý/e-posta veya þifre hatalý.");
 
             // 3) Roller
             var roleIds = await _userRolesRead
@@ -79,7 +79,7 @@ namespace Identity.Application.Features.Auth.Commands.Login
 
             var allClaims = userClaims.Concat(roleClaimPairs).ToList();
 
-            // 5) Token Ã¼ret
+            // 5) Token üret
             var (accessToken, expiresAtUtc) = _jwt.Generate(user, roles, allClaims);
             var refreshTokenValue = _jwt.GenerateRefreshToken();
 
@@ -89,7 +89,7 @@ namespace Identity.Application.Features.Auth.Commands.Login
                 Id = Guid.NewGuid(),
                 UserId = user.Id,
                 Token = refreshTokenValue,
-                ExpiresAtUtc = DateTime.UtcNow.AddDays(7), // JwtOptions.RefreshTokenDays kullanÄ±labilir
+                ExpiresAtUtc = DateTime.UtcNow.AddDays(7), // JwtOptions.RefreshTokenDays kullanýlabilir
                 CreatedAtUtc = DateTime.UtcNow,
                 IsDeleted = false
             };
@@ -109,3 +109,4 @@ namespace Identity.Application.Features.Auth.Commands.Login
         }
     }
 }
+

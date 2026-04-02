@@ -1,7 +1,7 @@
-﻿using Action.Domain.Entities;
+using Action.Domain.Entities;
 using Action.Domain.Enums;
 using Action.Domain.VOs;
-using MediatR;
+using Mediator;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 
@@ -19,7 +19,7 @@ namespace Action.Application.Features.PlayerActionAttempts.Commands.AdminCreateP
             _time = time;
         }
 
-        public async Task<Guid> Handle(AdminCreatePlayerActionAttemptCommand request, CancellationToken ct)
+        public async ValueTask<Guid> Handle(AdminCreatePlayerActionAttemptCommand request, CancellationToken ct)
         {
             var d = request.Dto;
             var outcome = d.SuccessRate >= 0.5 ? OutcomeType.Success : OutcomeType.Fail;
@@ -39,3 +39,4 @@ namespace Action.Application.Features.PlayerActionAttempts.Commands.AdminCreateP
         }
     }
 }
+

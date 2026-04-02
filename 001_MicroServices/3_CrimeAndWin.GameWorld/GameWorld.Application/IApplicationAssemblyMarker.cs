@@ -1,4 +1,6 @@
-﻿namespace GameWorld.Application
+namespace GameWorld.Application
 {
     public interface IApplicationAssemblyMarker { }
 }
+
+

@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GameWorld.Infrastructure.Persistance.Configuration
@@ -27,3 +27,5 @@ namespace GameWorld.Infrastructure.Persistance.Configuration
         }
     }
 }
+
+

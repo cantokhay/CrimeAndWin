@@ -1,7 +1,7 @@
-﻿using Action.Application.DTOs.ActionDefinitionDTOs;
+using Action.Application.DTOs.ActionDefinitionDTOs;
 using Action.Domain.Entities;
-using AutoMapper;
-using MediatR;
+using Action.Application.Mapping;
+using Mediator;
 using Shared.Domain.Repository;
 
 namespace Action.Application.Features.ActionDefinitons.Commands.CreateAction
@@ -10,9 +10,9 @@ namespace Action.Application.Features.ActionDefinitons.Commands.CreateAction
             : IRequestHandler<CreateActionDefinitionCommand, CreateActionDefinitionDTO>
     {
         private readonly IWriteRepository<ActionDefinition> _write;
-        private readonly IMapper _mapper;
+        private readonly ActionMapper _mapper;
 
-        public CreateActionDefinitionHandler(IWriteRepository<ActionDefinition> write, IMapper mapper)
+        public CreateActionDefinitionHandler(IWriteRepository<ActionDefinition> write, ActionMapper mapper)
         {
             _write = write;
             _mapper = mapper;
@@ -20,14 +20,16 @@ namespace Action.Application.Features.ActionDefinitons.Commands.CreateAction
 
         public async Task<CreateActionDefinitionDTO> Handle(CreateActionDefinitionCommand cmd, CancellationToken ct)
         {
-            var entity = _mapper.Map<ActionDefinition>(cmd.Request);
+            var entity = _mapper.ToEntity(cmd.Request);
             entity.Id = Guid.NewGuid();
             entity.CreatedAtUtc = DateTime.UtcNow;
 
             await _write.AddAsync(entity);
             await _write.SaveAsync();
 
-            return _mapper.Map<CreateActionDefinitionDTO>(entity);
+            return _mapper.ToCreateDto(entity);
         }
     }
 }
+
+

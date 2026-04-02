@@ -1,5 +1,5 @@
-﻿using Identity.Application.DTOs.AuthDTOs;
-using MediatR;
+using Identity.Application.DTOs.AuthDTOs;
+using Mediator;
 
 namespace Identity.Application.Features.Auth.Commands.Login
 {
@@ -9,3 +9,4 @@ namespace Identity.Application.Features.Auth.Commands.Login
         public string Password { get; set; } = null!;
     }
 }
+

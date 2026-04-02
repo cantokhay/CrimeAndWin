@@ -1,4 +1,4 @@
-﻿using MediatR;
+using Mediator;
 using Microsoft.EntityFrameworkCore;
 using Moderation.Application.DTOs.ReportDTOs.Admin;
 using Shared.Domain.Repository;
@@ -15,7 +15,7 @@ namespace Moderation.Application.Features.Report.Queries.GetAllReportsAsAdmin
             _read = read;
         }
 
-        public async Task<List<AdminResultReportDTO>> Handle(GetAllReportsAsAdminQuery request, CancellationToken cancellationToken)
+        public async ValueTask<List<AdminResultReportDTO>> Handle(GetAllReportsAsAdminQuery request, CancellationToken cancellationToken)
         {
             return await _read.GetAll(false)
                 .Select(r => new AdminResultReportDTO
@@ -35,3 +35,5 @@ namespace Moderation.Application.Features.Report.Queries.GetAllReportsAsAdmin
         }
     }
 }
+
+

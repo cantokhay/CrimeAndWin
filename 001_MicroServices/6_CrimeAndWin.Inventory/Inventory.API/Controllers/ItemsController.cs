@@ -1,9 +1,9 @@
-ï»¿using AutoMapper;
+using AutoMapper;
 using Inventory.Application.DTOs.ItemDTOs;
 using Inventory.Application.Features.Item.Commands;
 using Inventory.Application.Features.Item.Commands.AddItem;
 using Inventory.Application.Features.Item.Commands.GetAllItems;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,7 +35,7 @@ namespace Inventory.API.Controllers
         }
 
         /// <summary>
-        /// TÃ¼m Item kayÄ±tlarÄ±nÄ± getirir.
+        /// Tüm Item kayýtlarýný getirir.
         /// </summary>
         [HttpGet("GetAll")]
         public async Task<ActionResult<List<ResultItemDTO>>> GetAll()
@@ -45,3 +45,4 @@ namespace Inventory.API.Controllers
         }
     }
 }
+

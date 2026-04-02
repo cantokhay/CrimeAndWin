@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using PlayerProfile.Application.Features.Player.Commands.UpdateAvatar;
 
 namespace PlayerProfile.Application.ValidationRules.PlayerValidations
@@ -13,3 +13,4 @@ namespace PlayerProfile.Application.ValidationRules.PlayerValidations
         }
     }
 }
+

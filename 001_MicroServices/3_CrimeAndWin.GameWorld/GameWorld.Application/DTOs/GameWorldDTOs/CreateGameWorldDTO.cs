@@ -1,4 +1,4 @@
-﻿using GameWorld.Application.DTOs.SeasonDTOs;
+using GameWorld.Application.DTOs.SeasonDTOs;
 
 namespace GameWorld.Application.DTOs.GameWorldDTOs
 {
@@ -10,3 +10,5 @@ namespace GameWorld.Application.DTOs.GameWorldDTOs
         public IReadOnlyList<ResultSeasonDTO> Seasons { get; set; }
     }
 }
+
+

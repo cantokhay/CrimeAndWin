@@ -1,4 +1,4 @@
-﻿using MediatR;
+using Mediator;
 using System.Text.Json.Serialization;
 
 namespace Economy.Application.Features.Wallet.Commands.WithdrawMoney
@@ -12,3 +12,4 @@ namespace Economy.Application.Features.Wallet.Commands.WithdrawMoney
         public string Reason { get; set; }
     }
 }
+

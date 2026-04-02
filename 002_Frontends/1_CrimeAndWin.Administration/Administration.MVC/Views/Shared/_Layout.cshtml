@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -21,6 +21,27 @@
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Oyun Mekanikleri
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" asp-controller="Energy" asp-action="Index">Enerji Durumu</a></li>
+                                <li><a class="dropdown-item" asp-controller="Cooldown" asp-action="Index">Cooldown Takibi</a></li>
+                                <li><a class="dropdown-item" asp-controller="ActionLog" asp-action="Index">Aksiyon Logları</a></li>
+                                <li><a class="dropdown-item" asp-controller="Boost" asp-action="Index">Aktif Boostlar</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="systemDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Sistem & Log
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="systemDropdown">
+                                <li><a class="dropdown-item" asp-controller="Saga" asp-action="Index">Saga State Takibi</a></li>
+                                <li><a class="dropdown-item" asp-controller="Health" asp-action="Index">Servis Sağlığı</a></li>
+                                <li><a class="dropdown-item" asp-controller="GatewayLog" asp-action="Index">Gateway Log Analizi</a></li>
+                            </ul>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>

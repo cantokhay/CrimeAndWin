@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Moderation.API.Filters
@@ -9,7 +9,7 @@ namespace Moderation.API.Filters
         {
             var problem = new ProblemDetails
             {
-                Title = "Beklenmeyen bir hata oluştu",
+                Title = "Beklenmeyen bir hata olu�tu",
                 Detail = context.Exception.Message,
                 Status = StatusCodes.Status500InternalServerError
             };
@@ -18,3 +18,4 @@ namespace Moderation.API.Filters
         }
     }
 }
+

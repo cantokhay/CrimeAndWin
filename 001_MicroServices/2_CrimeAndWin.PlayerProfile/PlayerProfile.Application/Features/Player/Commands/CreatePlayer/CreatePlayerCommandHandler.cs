@@ -1,5 +1,5 @@
-﻿using AutoMapper;
-using MediatR;
+using PlayerProfile.Application.Mapping;
+using Mediator;
 using PlayerProfile.Application.DTOs.PlayerDTOs;
 using PlayerProfile.Domain.VOs;
 using Shared.Domain.Repository;
@@ -7,7 +7,7 @@ using Shared.Domain.Repository;
 namespace PlayerProfile.Application.Features.Player.Commands.CreatePlayer
 {
     public sealed class CreatePlayerCommandHandler(
-        IWriteRepository<Domain.Entities.Player> repo, IMapper mapper) : IRequestHandler<CreatePlayerCommand, CreatePlayerDTO>
+        IWriteRepository<Domain.Entities.Player> repo, PlayerProfileMapper mapper) : IRequestHandler<CreatePlayerCommand, CreatePlayerDTO>
     {
         public async Task<CreatePlayerDTO> Handle(CreatePlayerCommand r, CancellationToken ct)
         {
@@ -23,7 +23,9 @@ namespace PlayerProfile.Application.Features.Player.Commands.CreatePlayer
             };
             await repo.AddAsync(entity);
             await repo.SaveAsync();
-            return mapper.Map<CreatePlayerDTO>(entity);
+            return mapper.ToCreateDto(entity);
         }
     }
 }
+
+

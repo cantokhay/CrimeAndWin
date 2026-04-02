@@ -1,5 +1,5 @@
-﻿using AutoMapper;
-using MediatR;
+using Moderation.Application.Mapping;
+using Mediator;
 using Shared.Domain.Repository;
 
 namespace Moderation.Application.Features.ModerationAction.Commands.CreateRestriction
@@ -7,17 +7,17 @@ namespace Moderation.Application.Features.ModerationAction.Commands.CreateRestri
     public class CreateRestrictHandler : IRequestHandler<CreateRestrictCommand, Guid>
     {
         private readonly IWriteRepository<Domain.Entities.ModerationAction> _writeRepo;
-        private readonly IMapper _mapper;
+        private readonly ModerationMapper _mapper;
 
-        public CreateRestrictHandler(IWriteRepository<Domain.Entities.ModerationAction> writeRepo, IMapper mapper)
+        public CreateRestrictHandler(IWriteRepository<Domain.Entities.ModerationAction> writeRepo, ModerationMapper mapper)
         {
             _writeRepo = writeRepo;
             _mapper = mapper;
         }
 
-        public async Task<Guid> Handle(CreateRestrictCommand request, CancellationToken ct)
+        public async ValueTask<Guid> Handle(CreateRestrictCommand request, CancellationToken ct)
         {
-            var entity = _mapper.Map<Domain.Entities.ModerationAction>(request.Dto);
+            var entity = _mapper.ToEntity(request.Dto);
             entity.ActionType = "Restrict";
             entity.IsActive = true;
             entity.ActionDateUtc = DateTime.UtcNow;
@@ -28,3 +28,4 @@ namespace Moderation.Application.Features.ModerationAction.Commands.CreateRestri
         }
     }
 }
+

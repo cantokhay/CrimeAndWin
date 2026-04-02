@@ -1,4 +1,4 @@
-﻿namespace Moderation.Application.DTOs.ModerationActionDTOs
+namespace Moderation.Application.DTOs.ModerationActionDTOs
 {
     public class ResultModerationActionDTO
     {
@@ -12,3 +12,4 @@
         public bool IsActive { get; set; }
     }
 }
+

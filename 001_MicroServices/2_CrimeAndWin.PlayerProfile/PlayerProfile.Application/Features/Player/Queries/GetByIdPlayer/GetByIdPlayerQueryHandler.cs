@@ -1,5 +1,5 @@
-﻿using AutoMapper;
-using MediatR;
+using PlayerProfile.Application.Mapping;
+using Mediator;
 using PlayerProfile.Application.DTOs.PlayerDTOs;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
@@ -7,7 +7,7 @@ using Shared.Domain.Time;
 namespace PlayerProfile.Application.Features.Player.Queries.GetByIdPlayer
 {
     public sealed class GetByIdPlayerQueryHandler(
-        IReadRepository<Domain.Entities.Player> readRepo, IWriteRepository<Domain.Entities.Player> writeRepo, IMapper mapper, IDateTimeProvider clock)
+        IReadRepository<Domain.Entities.Player> readRepo, IWriteRepository<Domain.Entities.Player> writeRepo, PlayerProfileMapper mapper, IDateTimeProvider clock)
         : IRequestHandler<GetByIdPlayerQuery, ResultPlayerDTO?>
     {
         public async Task<ResultPlayerDTO?> Handle(GetByIdPlayerQuery q, CancellationToken ct)
@@ -25,7 +25,9 @@ namespace PlayerProfile.Application.Features.Player.Queries.GetByIdPlayer
                 await writeRepo.SaveAsync();
             }
 
-            return mapper.Map<ResultPlayerDTO>(p);
+            return mapper.ToResultDto(p);
         }
     }
 }
+
+

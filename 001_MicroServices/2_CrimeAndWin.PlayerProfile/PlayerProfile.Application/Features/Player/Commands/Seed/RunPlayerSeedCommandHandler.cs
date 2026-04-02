@@ -1,5 +1,5 @@
-﻿using Bogus;
-using MediatR;
+using Bogus;
+using Mediator;
 using PlayerProfile.Domain.VOs;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
@@ -17,7 +17,7 @@ namespace PlayerProfile.Application.Features.Player.Commands.Seed
             _dateTimeProvider = dateTimeProvider;
         }
 
-        public async Task<Unit> Handle(RunPlayerSeedCommand request, CancellationToken cancellationToken)
+        public async ValueTask<Unit> Handle(RunPlayerSeedCommand request, CancellationToken cancellationToken)
         {
             var faker = new Faker("tr");
 
@@ -37,7 +37,7 @@ namespace PlayerProfile.Application.Features.Player.Commands.Seed
                 var player = new Domain.Entities.Player
                 {
                     Id = Guid.NewGuid(),
-                    AppUserId = Guid.NewGuid(), // Identity service'den değil, fake seed
+                    AppUserId = Guid.NewGuid(), // Identity service'den de�il, fake seed
                     DisplayName = faker.Internet.UserName(),
                     AvatarKey = faker.PickRandom("avatar_knight", "avatar_mage", "avatar_thief", "avatar_rogue", "avatar_priest"),
 
@@ -72,3 +72,4 @@ namespace PlayerProfile.Application.Features.Player.Commands.Seed
         }
     }
 }
+

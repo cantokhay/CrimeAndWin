@@ -1,4 +1,4 @@
-﻿namespace Economy.Application.DTOs.TransactionDTOs.Admin
+namespace Economy.Application.DTOs.TransactionDTOs.Admin
 {
     public sealed class AdminCreateTransactionDTO
     {
@@ -9,3 +9,4 @@
         public string Description { get; set; } = null!;
     }
 }
+

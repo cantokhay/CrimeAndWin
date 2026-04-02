@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using Identity.Application.DTOs.UserClaimDTOs.Admin;
 
 namespace Identity.Application.ValidationRules.UserClaim
@@ -14,3 +14,4 @@ namespace Identity.Application.ValidationRules.UserClaim
         }
     }
 }
+

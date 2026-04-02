@@ -1,10 +1,10 @@
-ï»¿using AutoMapper;
+using AutoMapper;
 using Inventory.Application.DTOs.InventoryDTOs;
 using Inventory.Application.Features.Inventory.Commands.CreateInventory;
 using Inventory.Application.Features.Inventory.Commands.Seed;
 using Inventory.Application.Features.Inventory.Queries.GetAllInventories;
 using Inventory.Application.Features.Inventory.Queries.GetInventoryByPlayerId;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventory.API.Controllers
@@ -37,17 +37,17 @@ namespace Inventory.API.Controllers
         }
 
         /// <summary>
-        /// Rastgele Inventory + Item verileri oluÅŸturur.
+        /// Rastgele Inventory + Item verileri oluþturur.
         /// </summary>
         [HttpPost("SeedRun")]
         public async Task<IActionResult> SeedRun([FromQuery] int count = 10)
         {
             await _mediator.Send(new RunInventorySeedCommand(count));
-            return Ok(new { message = $"{count} adet Inventory baÅŸarÄ±yla seed edildi." });
+            return Ok(new { message = $"{count} adet Inventory baþarýyla seed edildi." });
         }
 
         /// <summary>
-        /// TÃ¼m Inventory kayÄ±tlarÄ±nÄ± ve iÃ§indeki Item'larÄ± dÃ¶ndÃ¼rÃ¼r.
+        /// Tüm Inventory kayýtlarýný ve içindeki Item'larý döndürür.
         /// </summary>
         [HttpGet("GetAll")]
         public async Task<ActionResult<List<ResultInventoryDTO>>> GetAll()
@@ -57,3 +57,4 @@ namespace Inventory.API.Controllers
         }
     }
 }
+

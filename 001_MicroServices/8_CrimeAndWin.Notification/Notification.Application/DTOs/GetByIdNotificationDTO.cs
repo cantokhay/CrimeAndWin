@@ -1,4 +1,4 @@
-﻿namespace Notification.Application.DTOs
+namespace Notification.Application.DTOs
 {
     public class GetByIdNotificationDTO
     {
@@ -9,3 +9,4 @@
         public string Type { get; set; }
     }
 }
+

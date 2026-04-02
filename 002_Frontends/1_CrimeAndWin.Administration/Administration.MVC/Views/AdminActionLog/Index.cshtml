@@ -1,0 +1,109 @@
+@model List<ActionLogDto>
+@{ ViewData["Title"] = "Aksiyon Logları"; }
+
+<!--begin::Toolbar-->
+<div class="toolbar py-5 py-lg-15" id="kt_toolbar">
+    <div id="kt_toolbar_container" class="container-xxl d-flex flex-stack flex-wrap">
+        <div class="page-title d-flex flex-column me-3">
+            <h1 class="d-flex text-white fw-bolder my-1 fs-3">Aksiyon Logları</h1>
+            <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
+                <li class="breadcrumb-item text-white opacity-75">
+                    <a asp-controller="AdminHome" asp-action="Index" class="text-white opacity-75 text-hover-primary">Ana Sayfa</a>
+                </li>
+                <li class="breadcrumb-item"><span class="bullet bg-white opacity-75 w-5px h-2px"></span></li>
+                <li class="breadcrumb-item text-white opacity-75">Aksiyon Logları</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--end::Toolbar-->
+
+<!--begin::Post-->
+<div class="post d-flex flex-column-fluid" id="kt_post">
+    <div id="kt_content_container" class="container-xxl">
+        <!--begin::Card-->
+        <div class="card card-flush">
+            <div class="card-header align-items-center py-5 gap-2 gap-md-5">
+                <div class="card-title">
+                    <h2 class="fw-bolder">Aksiyon Logları</h2>
+                </div>
+                <!--begin::Card toolbar-->
+                <div class="card-toolbar">
+                </div>
+            </div>
+            <div class="card-body pt-0">
+                <div class="table-responsive">
+                    <table class="table align-middle table-row-dashed fs-6 gy-5">
+                        <thead>
+                            <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
+                                <th>Zaman</th>
+                                <th>Oyuncu</th>
+                                <th>Aksiyon Tipi</th>
+                                <th>Sonuç</th>
+                                <th>Başarı Oranı</th>
+                                <th>Bileşenler</th>
+                                <th>Enerji</th>
+                            </tr>
+                        </thead>
+                        <tbody class="fw-bold text-gray-600">
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.ActionAt.ToLocalTime().ToString("g")</td>
+                                    <td>@item.PlayerName <br/><small class="text-muted">@item.PlayerId</small></td>
+                                    <td>@item.ActionType</td>
+                                    <td>
+                                        @if (item.IsSuccess)
+                                        {
+                                            <span class="badge badge-light-success fs-7 fw-bolder">Başarılı</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-light-danger fs-7 fw-bolder">Başarısız</span>
+                                        }
+                                    </td>
+                                    <td>%@((item.SuccessRate * 100).ToString("F1"))</td>
+                                    <td>
+                                        <small class="text-muted" data-bs-toggle="tooltip" title="Lvl: @item.LevelBonus, Equip: @item.EquipBonus, Rand: @item.RandomVariation">
+                                            Detay Gör
+                                        </small>
+                                    </td>
+                                    <td><span class="text-danger fw-bolder">-@item.EnergyCost</span></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <nav aria-label="Page navigation" class="mt-5">
+                    <ul class="pagination pagination-outline justify-content-center">
+                        @{
+                            int currentPage = ViewBag.CurrentPage ?? 1;
+                        }
+                        @if (currentPage > 1)
+                        {
+                            <li class="page-item previous">
+                                <a class="page-link" asp-action="Index" asp-route-page="@(currentPage - 1)"><i class="previous"></i></a>
+                            </li>
+                        }
+                        <li class="page-item active"><a class="page-link">@currentPage</a></li>
+                        <li class="page-item next">
+                            <a class="page-link" asp-action="Index" asp-route-page="@(currentPage + 1)"><i class="next"></i></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <!--end::Card-->
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+          return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
+}

@@ -1,4 +1,4 @@
-﻿namespace Moderation.Application.DTOs.ModerationActionDTOs.Admin
+namespace Moderation.Application.DTOs.ModerationActionDTOs.Admin
 {
     public sealed class AdminResultModerationActionDTO
     {
@@ -16,3 +16,4 @@
         public DateTime? UpdatedAtUtc { get; set; }
     }
 }
+

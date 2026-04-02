@@ -1,13 +1,15 @@
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Moderation.Application;
-using Moderation.Application.Mappings;
+using Moderation.Application.Mapping;
 using Moderation.Application.Messaging.Abstract;
 using Moderation.Application.Messaging.Concrete;
 using Moderation.Infrastructure.Persistance.Context;
 using Moderation.Infrastructure.Repositories;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
+using Shared.Infrastructure;
+using Shared.Infrastructure.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,12 +20,10 @@ builder.Services.AddDbContext<ModerationDbContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("ModerationLaptopConnection"));
 });
 
-// MediatR & AutoMapper
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(IApplicationAssemblyMarker).Assembly));
-builder.Services.AddAutoMapper(cfg =>
-{
-    cfg.AddProfile(new GeneralMapping());
-});
+// MediatR & Mapperly & Validation
+builder.Services.AddMediator();
+builder.Services.AddScoped<ModerationMapper>();
+builder.Services.AddSharedValidation(typeof(IApplicationAssemblyMarker).Assembly);
 
 //// FluentValidation
 //builder.Services.AddFluentValidationAutoValidation();
@@ -53,13 +53,17 @@ builder.Services.AddMassTransit(x =>
 });
 
 // Controllers + Filters
-builder.Services.AddControllers(o => o.Filters.Add(new Moderation.API.Filters.ApiExceptionFilter()));
-//builder.Services.AddControllers();
+// builder.Services.AddControllers();
+builder.Services.AddControllers(o => o.Filters.Add(new GlobalExceptionFilter()));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddHealthChecks();
+
 var app = builder.Build();
+
+app.MapHealthChecks("/health");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -75,3 +79,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+

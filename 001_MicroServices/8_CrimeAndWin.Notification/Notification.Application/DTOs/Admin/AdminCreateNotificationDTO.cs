@@ -1,4 +1,4 @@
-﻿namespace Notification.Application.DTOs.Admin
+namespace Notification.Application.DTOs.Admin
 {
     public sealed class AdminCreateNotificationDTO
     {
@@ -10,3 +10,4 @@
 
     }
 }
+

@@ -1,4 +1,4 @@
-﻿namespace Identity.Application.DTOs.RefreshTokenDTOs.Admin
+namespace Identity.Application.DTOs.RefreshTokenDTOs.Admin
 {
     public sealed class ResultRefreshTokenDTO
     {
@@ -12,3 +12,4 @@
         public DateTime? UpdatedAtUtc { get; set; }
     }
 }
+

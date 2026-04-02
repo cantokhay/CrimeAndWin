@@ -1,4 +1,4 @@
-﻿namespace Action.Application.DTOs.ActionDefinitionDTOs.Admin
+namespace Action.Application.DTOs.ActionDefinitionDTOs.Admin
 {
     public sealed class AdminResultActionDefinitionDTO
     {
@@ -16,3 +16,4 @@
         public DateTime? UpdatedAtUtc { get; set; }
     }
 }
+

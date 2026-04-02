@@ -1,4 +1,4 @@
-﻿using Economy.Application.DTOs.TransactionDTOs;
+using Economy.Application.DTOs.TransactionDTOs;
 
 namespace Economy.Application.DTOs.WalletDTOs
 {

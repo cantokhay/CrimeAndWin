@@ -1,4 +1,4 @@
-﻿using MediatR;
+using Mediator;
 using PlayerProfile.Application.DTOs.PlayerDTOs.Admin;
 using Shared.Domain.Repository;
 
@@ -13,7 +13,7 @@ namespace PlayerProfile.Application.Features.Player.Queries.GetByIdPlayerAsAdmin
             _read = read;
         }
 
-        public async Task<AdminResultPlayerDTO?> Handle(GetPlayerByIdAsAdminQuery request, CancellationToken cancellationToken)
+        public async ValueTask<AdminResultPlayerDTO?> Handle(GetPlayerByIdAsAdminQuery request, CancellationToken cancellationToken)
         {
             var entity = await _read.GetByIdAsync(request.Id.ToString(), tracking: false);
             if (entity is null) return null;
@@ -40,3 +40,4 @@ namespace PlayerProfile.Application.Features.Player.Queries.GetByIdPlayerAsAdmin
         }
     }
 }
+

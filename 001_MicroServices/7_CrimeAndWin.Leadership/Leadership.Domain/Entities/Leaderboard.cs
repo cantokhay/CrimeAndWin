@@ -1,4 +1,4 @@
-﻿using Shared.Domain;
+using Shared.Domain;
 
 namespace Leadership.Domain.Entities
 {
@@ -12,3 +12,4 @@ namespace Leadership.Domain.Entities
         public ICollection<LeaderboardEntry> Entries { get; set; } = new List<LeaderboardEntry>();
     }
 }
+

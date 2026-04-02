@@ -1,4 +1,4 @@
-﻿using MediatR;
+using Mediator;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 
@@ -21,7 +21,7 @@ namespace Inventory.Application.Features.Inventory.Commands.AdminUpdateInventory
             _time = time;
         }
 
-        public async Task<bool> Handle(AdminUpdateInventoryCommand request, CancellationToken ct)
+        public async ValueTask<bool> Handle(AdminUpdateInventoryCommand request, CancellationToken ct)
         {
             var d = request.updateInventoryDTO;
             var entity = await _read.GetByIdAsync(d.Id.ToString(), true);
@@ -38,3 +38,4 @@ namespace Inventory.Application.Features.Inventory.Commands.AdminUpdateInventory
         }
     }
 }
+

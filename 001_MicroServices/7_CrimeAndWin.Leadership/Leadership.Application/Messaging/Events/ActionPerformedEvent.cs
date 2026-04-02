@@ -1,4 +1,4 @@
-﻿namespace Leadership.Application.Messaging.Concrete
+namespace Leadership.Application.Messaging.Concrete
 {
     public class ActionPerformedEvent
     {
@@ -8,3 +8,4 @@
         public int RankPointsDelta { get; set; }
     }
 }
+

@@ -1,5 +1,5 @@
-﻿using GameWorld.Application.DTOs.SeasonDTOs;
-using MediatR;
+using GameWorld.Application.DTOs.SeasonDTOs;
+using Mediator;
 
 namespace GameWorld.Application.Features.Season.Commands.UpdateSeason
 {
@@ -11,3 +11,4 @@ namespace GameWorld.Application.Features.Season.Commands.UpdateSeason
         DateTime EndUtc,
         bool IsActive) : IRequest<UpdateSeasonDTO>;
 }
+

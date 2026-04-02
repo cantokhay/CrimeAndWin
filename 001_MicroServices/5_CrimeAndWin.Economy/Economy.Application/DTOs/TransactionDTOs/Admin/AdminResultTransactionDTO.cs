@@ -1,4 +1,4 @@
-﻿namespace Economy.Application.DTOs.TransactionDTOs.Admin
+namespace Economy.Application.DTOs.TransactionDTOs.Admin
 {
     public sealed class AdminResultTransactionDTO
     {
@@ -12,3 +12,4 @@
         public DateTime? UpdatedAtUtc { get; set; }
     }
 }
+

@@ -1,4 +1,4 @@
-﻿using Inventory.Application.DTOs.ItemDTOs.Admin;
+using Inventory.Application.DTOs.ItemDTOs.Admin;
 
 namespace Inventory.Application.DTOs.InventoryDTOs.Admin
 {
@@ -11,3 +11,4 @@ namespace Inventory.Application.DTOs.InventoryDTOs.Admin
         public DateTime? UpdatedAtUtc { get; set; }
     }
 }
+

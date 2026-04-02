@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using PlayerProfile.Application.DTOs.PlayerDTOs.Admin;
 
 namespace PlayerProfile.Application.ValidationRules.AdminPlayerValidaitons
@@ -14,3 +14,4 @@ namespace PlayerProfile.Application.ValidationRules.AdminPlayerValidaitons
         }
     }
 }
+

@@ -1,4 +1,4 @@
-﻿using Leadership.Infrastructure.Persistance.Context;
+using Leadership.Infrastructure.Persistance.Context;
 using Microsoft.EntityFrameworkCore;
 using Shared.Domain;
 using Shared.Domain.Repository;
@@ -13,3 +13,4 @@ namespace Leadership.Infrastructure.Repositories
         public DbSet<T> Table => _ctx.Set<T>();
     }
 }
+

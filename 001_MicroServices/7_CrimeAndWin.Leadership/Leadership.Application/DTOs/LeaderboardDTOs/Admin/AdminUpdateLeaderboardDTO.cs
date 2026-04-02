@@ -1,4 +1,4 @@
-﻿namespace Leadership.Application.DTOs.LeaderboardDTOs.Admin
+namespace Leadership.Application.DTOs.LeaderboardDTOs.Admin
 {
     public sealed class AdminUpdateLeaderboardDTO
     {
@@ -10,3 +10,4 @@
         public bool IsSeasonal { get; set; }
     }
 }
+

@@ -1,4 +1,4 @@
-﻿using Shared.Domain;
+using Shared.Domain;
 
 namespace Inventory.Domain.Entities
 {
@@ -8,3 +8,4 @@ namespace Inventory.Domain.Entities
         public List<Item> Items { get; set; }
     }
 }
+

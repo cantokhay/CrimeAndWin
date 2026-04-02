@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using Moderation.Application.Features.Report.Commands.ResolveReport;
 
 namespace Moderation.Application.ValidationRules.ReportValidations
@@ -12,3 +12,4 @@ namespace Moderation.Application.ValidationRules.ReportValidations
         }
     }
 }
+

@@ -1,5 +1,5 @@
-﻿using Inventory.Domain.Enums;
-using MediatR;
+using Inventory.Domain.Enums;
+using Mediator;
 
 namespace Inventory.Application.Features.Item.Commands.AddItem
 {
@@ -13,3 +13,4 @@ namespace Inventory.Application.Features.Item.Commands.AddItem
         decimal Amount,
         CurrencyType Currency) : IRequest<bool>;
 }
+

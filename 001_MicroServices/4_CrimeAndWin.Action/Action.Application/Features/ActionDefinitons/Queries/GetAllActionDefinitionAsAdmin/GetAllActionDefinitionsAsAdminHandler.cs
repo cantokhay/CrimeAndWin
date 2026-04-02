@@ -1,6 +1,6 @@
-﻿using Action.Application.DTOs.ActionDefinitionDTOs.Admin;
+using Action.Application.DTOs.ActionDefinitionDTOs.Admin;
 using Action.Domain.Entities;
-using MediatR;
+using Mediator;
 using Microsoft.EntityFrameworkCore;
 using Shared.Domain.Repository;
 
@@ -16,7 +16,7 @@ namespace Action.Application.Features.ActionDefinitons.Queries.GetAllActionDefin
             _read = read;
         }
 
-        public async Task<List<AdminResultActionDefinitionDTO>> Handle(GetAllActionDefinitionsAsAdminQuery request, CancellationToken ct)
+        public async ValueTask<List<AdminResultActionDefinitionDTO>> Handle(GetAllActionDefinitionsAsAdminQuery request, CancellationToken ct)
         {
             return await _read.GetAll(false)
                 .Select(a => new AdminResultActionDefinitionDTO
@@ -38,3 +38,5 @@ namespace Action.Application.Features.ActionDefinitons.Queries.GetAllActionDefin
         }
     }
 }
+
+

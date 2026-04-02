@@ -1,5 +1,5 @@
-﻿using Economy.Domain.Entities;
-using MediatR;
+using Economy.Domain.Entities;
+using Mediator;
 using Microsoft.EntityFrameworkCore;
 using Shared.Domain.Repository;
 
@@ -15,7 +15,7 @@ namespace Economy.Application.Features.Transactions.Queries.GetAllTransactions
             _txReadRepository = txReadRepository;
         }
 
-        public async Task<List<Transaction>> Handle(GetTransactionsQuery request, CancellationToken cancellationToken)
+        public async ValueTask<List<Transaction>> Handle(GetTransactionsQuery request, CancellationToken cancellationToken)
         {
             //var wallet = await _walletReadRepository.GetSingleAsync(w => w.PlayerId == request.PlayerId);
             //return wallet?.Transactions.ToList() ?? new List<Transaction>();
@@ -25,3 +25,5 @@ namespace Economy.Application.Features.Transactions.Queries.GetAllTransactions
         }
     }
 }
+
+

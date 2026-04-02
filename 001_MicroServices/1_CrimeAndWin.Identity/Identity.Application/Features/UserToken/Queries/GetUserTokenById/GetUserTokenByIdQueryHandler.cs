@@ -1,5 +1,5 @@
-﻿using Identity.Application.DTOs.UserTokenDTOs.Admin;
-using MediatR;
+using Identity.Application.DTOs.UserTokenDTOs.Admin;
+using Mediator;
 using Shared.Domain.Repository;
 
 namespace Identity.Application.Features.UserToken.Queries.GetUserTokenById
@@ -13,7 +13,7 @@ namespace Identity.Application.Features.UserToken.Queries.GetUserTokenById
             _readRepository = readRepository;
         }
 
-        public async Task<ResultUserTokenDTO> Handle(GetUserTokenByIdQuery request, CancellationToken cancellationToken)
+        public async ValueTask<ResultUserTokenDTO> Handle(GetUserTokenByIdQuery request, CancellationToken cancellationToken)
         {
             var entity = await _readRepository.GetByIdAsync(request.id.ToString());
             if (entity == null) return null!;
@@ -31,3 +31,4 @@ namespace Identity.Application.Features.UserToken.Queries.GetUserTokenById
         }
     }
 }
+

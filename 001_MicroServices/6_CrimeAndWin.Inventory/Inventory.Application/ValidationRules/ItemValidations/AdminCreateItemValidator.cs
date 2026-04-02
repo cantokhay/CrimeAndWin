@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using Inventory.Application.DTOs.ItemDTOs.Admin;
 
 namespace Inventory.Application.ValidationRules.ItemValidations
@@ -18,3 +18,4 @@ namespace Inventory.Application.ValidationRules.ItemValidations
         }
     }
 }
+

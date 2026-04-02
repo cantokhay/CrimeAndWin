@@ -1,0 +1,93 @@
+@model List<GatewayLogDto>
+@{ ViewData["Title"] = "Gateway Logları"; }
+
+<!--begin::Toolbar-->
+<div class="toolbar py-5 py-lg-15" id="kt_toolbar">
+    <div id="kt_toolbar_container" class="container-xxl d-flex flex-stack flex-wrap">
+        <div class="page-title d-flex flex-column me-3">
+            <h1 class="d-flex text-white fw-bolder my-1 fs-3">Gateway Logları</h1>
+            <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
+                <li class="breadcrumb-item text-white opacity-75">
+                    <a asp-controller="AdminHome" asp-action="Index" class="text-white opacity-75 text-hover-primary">Ana Sayfa</a>
+                </li>
+                <li class="breadcrumb-item"><span class="bullet bg-white opacity-75 w-5px h-2px"></span></li>
+                <li class="breadcrumb-item text-white opacity-75">Gateway Logları</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--end::Toolbar-->
+
+<!--begin::Post-->
+<div class="post d-flex flex-column-fluid" id="kt_post">
+    <div id="kt_content_container" class="container-xxl">
+        <!--begin::Card-->
+        <div class="card card-flush">
+            <div class="card-header align-items-center py-5 gap-2 gap-md-5">
+                <div class="card-title">
+                    <h2 class="fw-bolder">Gateway Log Analizi</h2>
+                </div>
+                <div class="card-toolbar">
+                    <!-- Dropdown for count -->
+                    <button class="btn btn-sm btn-light-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Son @(ViewBag.Count ?? 100) Kayıt
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" asp-action="Index" asp-route-count="100">Son 100</a></li>
+                        <li><a class="dropdown-item" asp-action="Index" asp-route-count="500">Son 500</a></li>
+                        <li><a class="dropdown-item" asp-action="Index" asp-route-count="1000">Son 1000</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-body pt-0">
+                <div class="table-responsive">
+                    <table class="table align-middle table-row-dashed fs-6 gy-5 table-hover">
+                        <thead>
+                            <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
+                                <th>Tarih/Saat</th>
+                                <th>Metod</th>
+                                <th>Path</th>
+                                <th>Durum</th>
+                                <th>Süre (ms)</th>
+                                <th>IP</th>
+                            </tr>
+                        </thead>
+                        <tbody class="fw-bold text-gray-600">
+                            @foreach (var item in Model)
+                            {
+                                var statusBadge = item.StatusCode switch
+                                {
+                                    >= 500 => "badge-light-danger",
+                                    >= 400 => "badge-light-warning",
+                                    >= 200 and < 300 => "badge-light-success",
+                                    _ => "badge-light"
+                                };
+
+                                var methodBadge = item.Method switch
+                                {
+                                    "GET" => "badge-light-info",
+                                    "POST" => "badge-light-success",
+                                    "DELETE" => "badge-light-danger",
+                                    "PUT" => "badge-light-warning",
+                                    _ => "badge-light"
+                                };
+
+                                var timeClass = item.ElapsedMs > 500 ? "text-danger fw-bolder" : "";
+
+                                <tr>
+                                    <td>@item.Timestamp.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss.fff")</td>
+                                    <td><span class="badge @methodBadge fs-7 fw-bolder">@item.Method</span></td>
+                                    <td><code class="text-dark bg-light px-2 py-1 rounded">@item.Path</code></td>
+                                    <td><span class="badge @statusBadge fs-7 fw-bolder">@item.StatusCode</span></td>
+                                    <td><span class="@timeClass">@item.ElapsedMs.ToString("N1")</span></td>
+                                    <td><span class="text-muted opacity-75">@item.ClientIp</span></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!--end::Card-->
+    </div>
+</div>

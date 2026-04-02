@@ -1,4 +1,4 @@
-﻿using Leadership.Application.Messaging.Concrete;
+using Leadership.Application.Messaging.Concrete;
 using Leadership.Infrastructure.Persistance.Context;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
@@ -24,3 +24,4 @@ namespace Leadership.Application.Messaging.Consumers
         }
     }
 }
+

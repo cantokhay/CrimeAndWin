@@ -1,4 +1,4 @@
-﻿using MediatR;
+using Mediator;
 using Notification.Domain.VOs;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
@@ -19,7 +19,7 @@ namespace Notification.Application.Features.Notification.Commands.AdminCreateNot
             _time = time;
         }
 
-        public async Task<Guid> Handle(AdminCreateNotificationCommand request, CancellationToken cancellationToken)
+        public async ValueTask<Guid> Handle(AdminCreateNotificationCommand request, CancellationToken cancellationToken)
         {
             var d = request.createNotificationDTO;
 
@@ -39,3 +39,4 @@ namespace Notification.Application.Features.Notification.Commands.AdminCreateNot
         }
     }
 }
+

@@ -1,5 +1,5 @@
-﻿using Economy.Application.DTOs.WalletDTOs;
-using MediatR;
+using Economy.Application.DTOs.WalletDTOs;
+using Mediator;
 
 namespace Economy.Application.Features.Wallet.Queries
 {
@@ -8,3 +8,4 @@ namespace Economy.Application.Features.Wallet.Queries
         public Guid PlayerId { get; set; }
     }
 }
+

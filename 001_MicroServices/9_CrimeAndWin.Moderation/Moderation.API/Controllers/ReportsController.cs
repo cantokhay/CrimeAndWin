@@ -1,5 +1,5 @@
-﻿using AutoMapper;
-using MediatR;
+using AutoMapper;
+using Mediator;
 using Microsoft.AspNetCore.Mvc;
 using Moderation.Application.DTOs.ReportDTOs;
 using Moderation.Application.Features.ModerationAction.Queries.GetAllReports;
@@ -16,12 +16,10 @@ namespace Moderation.API.Controllers
     public class ReportsController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IMapper _mapper;
 
-        public ReportsController(IMediator mediator, IMapper mapper)
+        public ReportsController(IMediator mediator)
         {
             _mediator = mediator;
-            _mapper = mapper;
         }
 
         [HttpPost]
@@ -81,3 +79,4 @@ namespace Moderation.API.Controllers
         }
     }
 }
+

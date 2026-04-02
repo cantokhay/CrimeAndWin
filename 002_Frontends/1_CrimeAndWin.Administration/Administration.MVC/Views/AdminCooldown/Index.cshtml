@@ -1,0 +1,90 @@
+@model List<CooldownDto>
+@{ ViewData["Title"] = "Aktif Cooldown'lar"; }
+
+<!--begin::Toolbar-->
+<div class="toolbar py-5 py-lg-15" id="kt_toolbar">
+    <div id="kt_toolbar_container" class="container-xxl d-flex flex-stack flex-wrap">
+        <div class="page-title d-flex flex-column me-3">
+            <h1 class="d-flex text-white fw-bolder my-1 fs-3">Aktif Cooldown'lar</h1>
+            <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
+                <li class="breadcrumb-item text-white opacity-75">
+                    <a asp-controller="AdminHome" asp-action="Index" class="text-white opacity-75 text-hover-primary">Ana Sayfa</a>
+                </li>
+                <li class="breadcrumb-item"><span class="bullet bg-white opacity-75 w-5px h-2px"></span></li>
+                <li class="breadcrumb-item text-white opacity-75">Aktif Cooldown'lar</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--end::Toolbar-->
+
+<!--begin::Post-->
+<div class="post d-flex flex-column-fluid" id="kt_post">
+    <div id="kt_content_container" class="container-xxl">
+
+        @if (Model == null || !Model.Any())
+        {
+            <div class="alert alert-dismissible bg-light-info d-flex flex-column flex-sm-row p-5 mb-10">
+                <span class="svg-icon svg-icon-2hx svg-icon-info me-4 mb-5 mb-sm-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="10" fill="currentColor"></rect>
+                        <rect x="11" y="14" width="7" height="2" rx="1" transform="rotate(-90 11 14)" fill="currentColor"></rect>
+                        <rect x="11" y="17" width="2" height="2" rx="1" transform="rotate(-90 11 17)" fill="currentColor"></rect>
+                    </svg>
+                </span>
+                <div class="d-flex flex-column text-info pe-0 pe-sm-10">
+                    <span>Şu an aktif cooldown bulunmuyor.</span>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        }
+        else
+        {
+            <!--begin::Card-->
+            <div class="card card-flush">
+                <div class="card-header align-items-center py-5 gap-2 gap-md-5">
+                    <div class="card-title">
+                        <h2 class="fw-bolder">Aktif Cooldown'lar</h2>
+                    </div>
+                    <div class="card-toolbar">
+                    </div>
+                </div>
+                <div class="card-body pt-0">
+                    <div class="table-responsive">
+                        <table class="table align-middle table-row-dashed fs-6 gy-5">
+                            <thead>
+                                <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
+                                    <th>Oyuncu Adı</th>
+                                    <th>Aksiyon Tipi</th>
+                                    <th>Bitiş Zamanı</th>
+                                    <th>Kalan Süre</th>
+                                </tr>
+                            </thead>
+                            <tbody class="fw-bold text-gray-600">
+                                @foreach (var item in Model)
+                                {
+                                    var remaining = (item.CooldownEndsAt - DateTime.UtcNow).TotalSeconds;
+                                    if (remaining < 0) remaining = 0;
+                                    <tr>
+                                        <td>@item.PlayerName <br/><small class="text-muted">@item.PlayerId</small></td>
+                                        <td>@item.ActionType</td>
+                                        <td>@item.CooldownEndsAt.ToLocalTime().ToString("g")</td>
+                                        <td>
+                                            @{
+                                                var minutes = (int)remaining / 60;
+                                                var seconds = (int)remaining % 60;
+                                                var badgeClass = remaining < 60 ? "badge-light-warning" : "badge-light-primary";
+                                            }
+                                            <span class="badge @badgeClass fs-7 fw-bolder">@minutes.ToString("D2"):@seconds.ToString("D2")</span>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!--end::Card-->
+        }
+    </div>
+</div>

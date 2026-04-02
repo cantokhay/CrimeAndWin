@@ -1,4 +1,4 @@
-﻿namespace Action.Domain.Events
+namespace Action.Domain.Events
 {
     public sealed class ActionPerformedIntegrationEvent
     {
@@ -10,3 +10,4 @@
         public DateTime OccurredAtUtc { get; init; }
     }
 }
+

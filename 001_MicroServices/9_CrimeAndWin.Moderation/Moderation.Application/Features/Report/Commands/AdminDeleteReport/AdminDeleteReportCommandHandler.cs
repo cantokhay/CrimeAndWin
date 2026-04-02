@@ -1,4 +1,4 @@
-﻿using MediatR;
+using Mediator;
 using Shared.Domain.Repository;
 
 namespace Moderation.Application.Features.Report.Commands.AdminDeleteReport
@@ -13,7 +13,7 @@ namespace Moderation.Application.Features.Report.Commands.AdminDeleteReport
             _write = write;
         }
 
-        public async Task<bool> Handle(AdminDeleteReportCommand request, CancellationToken cancellationToken)
+        public async ValueTask<bool> Handle(AdminDeleteReportCommand request, CancellationToken cancellationToken)
         {
             var ok = await _write.RemoveAsync(request.id.ToString());
             await _write.SaveAsync();
@@ -21,3 +21,4 @@ namespace Moderation.Application.Features.Report.Commands.AdminDeleteReport
         }
     }
 }
+

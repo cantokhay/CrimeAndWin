@@ -1,0 +1,138 @@
+@model SagaDetailDto
+@{ ViewData["Title"] = "Saga Detayı"; }
+
+<!--begin::Toolbar-->
+<div class="toolbar py-5 py-lg-15" id="kt_toolbar">
+    <div id="kt_toolbar_container" class="container-xxl d-flex flex-stack flex-wrap">
+        <div class="page-title d-flex flex-column me-3">
+            <h1 class="d-flex text-white fw-bolder my-1 fs-3">Saga Detayı</h1>
+            <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
+                <li class="breadcrumb-item text-white opacity-75">
+                    <a asp-controller="AdminHome" asp-action="Index" class="text-white opacity-75 text-hover-primary">Ana Sayfa</a>
+                </li>
+                <li class="breadcrumb-item"><span class="bullet bg-white opacity-75 w-5px h-2px"></span></li>
+                <li class="breadcrumb-item text-white opacity-75">
+                    <a asp-controller="AdminSaga" asp-action="Index" class="text-white opacity-75 text-hover-primary">Saga State Takibi</a>
+                </li>
+                <li class="breadcrumb-item"><span class="bullet bg-white opacity-75 w-5px h-2px"></span></li>
+                <li class="breadcrumb-item text-white opacity-75">Saga Detayı</li>
+            </ul>
+        </div>
+        <div class="d-flex align-items-center py-3 py-md-1">
+            <a asp-action="Index" class="btn btn-bg-white btn-active-color-primary">Listeye Dön</a>
+        </div>
+    </div>
+</div>
+<!--end::Toolbar-->
+
+<!--begin::Post-->
+<div class="post d-flex flex-column-fluid" id="kt_post">
+    <div id="kt_content_container" class="container-xxl">
+
+        <div class="row g-5 g-xl-8">
+            <div class="col-xl-6">
+                <!--begin::Card-->
+                <div class="card card-flush h-xl-100">
+                    <div class="card-header pt-7">
+                        <div class="card-title">
+                            <h2 class="fw-bolder">Genel Bilgiler</h2>
+                        </div>
+                    </div>
+                    <div class="card-body pt-5">
+                        <div class="d-flex flex-column gap-5">
+                            <div class="d-flex flex-stack">
+                                <span class="fw-bold fs-6 text-gray-500">Saga Tipi</span>
+                                <span class="fw-bolder fs-6 text-gray-800">@Model.SagaType</span>
+                            </div>
+                            <div class="d-flex flex-stack">
+                                <span class="fw-bold fs-6 text-gray-500">Oyuncu ID</span>
+                                <span class="fw-bolder fs-6 text-gray-800">@Model.PlayerId</span>
+                            </div>
+                            <div class="d-flex flex-stack">
+                                <span class="fw-bold fs-6 text-gray-500">Mevcut Durum</span>
+                                @{
+                                    var badgeClass = Model.CurrentState switch
+                                    {
+                                        "Completed" => "badge-light-success",
+                                        "Failed" => "badge-light-danger",
+                                        _ => "badge-light-warning"
+                                    };
+                                }
+                                <span class="badge @badgeClass fs-7 fw-bolder">@Model.CurrentState</span>
+                            </div>
+                            <div class="d-flex flex-stack">
+                                <span class="fw-bold fs-6 text-gray-500">Başlangıç</span>
+                                <span class="fw-bolder fs-6 text-gray-800">@Model.CreatedAt.ToLocalTime().ToString("g")</span>
+                            </div>
+                            <div class="d-flex flex-stack">
+                                <span class="fw-bold fs-6 text-gray-500">Bitiş</span>
+                                <span class="fw-bolder fs-6 text-gray-800">@(Model.CompletedAt?.ToLocalTime().ToString("g") ?? "-")</span>
+                            </div>
+                            @if (!string.IsNullOrEmpty(Model.FailReason))
+                            {
+                                <div class="d-flex flex-column mt-3">
+                                    <span class="fw-bold fs-6 text-danger mb-1">Hata Detayı</span>
+                                    <span class="fw-bolder fs-6 text-danger bg-light-danger p-3 rounded">@Model.FailReason</span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <!--end::Card-->
+            </div>
+            <div class="col-xl-6">
+                <!--begin::Card-->
+                <div class="card card-flush h-xl-100">
+                    <div class="card-header pt-7">
+                        <div class="card-title">
+                            <h2 class="fw-bolder">Adım Durumu</h2>
+                        </div>
+                    </div>
+                    <div class="card-body pt-5">
+                        <div class="d-flex flex-column gap-5">
+                            
+                            <div class="d-flex align-items-center bg-light p-4 rounded">
+                                <span class="svg-icon svg-icon-2hx me-4 @(Model.EconomyDone ? "svg-icon-success" : "svg-icon-muted")">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <path d="M9.89557 13.4982L7.79487 11.2651C7.26967 10.7068 6.38251 10.7068 5.85731 11.2651C5.37559 11.7772 5.37559 12.5757 5.85731 13.0878L9.74989 17.2257C10.1448 17.6455 10.8118 17.6455 11.2066 17.2257L18.1427 9.85252C18.6244 9.34044 18.6244 8.54191 18.1427 8.02984C17.6175 7.47154 16.7303 7.47154 16.2051 8.02984L10.865 13.7027C10.5843 14.001 10.134 14.001 9.89557 13.4982Z" fill="currentColor"/>
+                                    </svg>
+                                </span>
+                                <div class="d-flex flex-column">
+                                    <span class="fw-bolder fs-5 text-gray-800">Economy Adımı</span>
+                                    <span class="fw-bold fs-7 text-gray-500">@(Model.EconomyDone ? "Tamamlandı" : "Bekliyor")</span>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-center bg-light p-4 rounded">
+                                <span class="svg-icon svg-icon-2hx me-4 @(Model.InventoryDone ? "svg-icon-success" : "svg-icon-muted")">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <path d="M9.89557 13.4982L7.79487 11.2651C7.26967 10.7068 6.38251 10.7068 5.85731 11.2651C5.37559 11.7772 5.37559 12.5757 5.85731 13.0878L9.74989 17.2257C10.1448 17.6455 10.8118 17.6455 11.2066 17.2257L18.1427 9.85252C18.6244 9.34044 18.6244 8.54191 18.1427 8.02984C17.6175 7.47154 16.7303 7.47154 16.2051 8.02984L10.865 13.7027C10.5843 14.001 10.134 14.001 9.89557 13.4982Z" fill="currentColor"/>
+                                    </svg>
+                                </span>
+                                <div class="d-flex flex-column">
+                                    <span class="fw-bolder fs-5 text-gray-800">Inventory Adımı</span>
+                                    <span class="fw-bold fs-7 text-gray-500">@(Model.InventoryDone ? "Tamamlandı" : "Bekliyor")</span>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-center bg-light p-4 rounded">
+                                <span class="svg-icon svg-icon-2hx me-4 @(Model.ProfileDone ? "svg-icon-success" : "svg-icon-muted")">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <path d="M9.89557 13.4982L7.79487 11.2651C7.26967 10.7068 6.38251 10.7068 5.85731 11.2651C5.37559 11.7772 5.37559 12.5757 5.85731 13.0878L9.74989 17.2257C10.1448 17.6455 10.8118 17.6455 11.2066 17.2257L18.1427 9.85252C18.6244 9.34044 18.6244 8.54191 18.1427 8.02984C17.6175 7.47154 16.7303 7.47154 16.2051 8.02984L10.865 13.7027C10.5843 14.001 10.134 14.001 9.89557 13.4982Z" fill="currentColor"/>
+                                    </svg>
+                                </span>
+                                <div class="d-flex flex-column">
+                                    <span class="fw-bolder fs-5 text-gray-800">Profile Adımı</span>
+                                    <span class="fw-bold fs-7 text-gray-500">@(Model.ProfileDone ? "Tamamlandı" : "Bekliyor")</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!--end::Card-->
+            </div>
+        </div>
+
+    </div>
+</div>

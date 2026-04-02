@@ -1,10 +1,11 @@
-ï»¿namespace Moderation.Application.DTOs.ModerationActionDTOs
+namespace Moderation.Application.DTOs.ModerationActionDTOs
 {
 
     public class LiftRestrictionDTO
     {
         public Guid PlayerId { get; set; }
         public Guid ModeratorId { get; set; }
-        public string Reason { get; set; } // KaldÄ±rma gerekÃ§esi
+        public string Reason { get; set; } // Kaldýrma gerekçesi
     }
 }
+

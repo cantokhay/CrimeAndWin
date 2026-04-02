@@ -1,4 +1,4 @@
-﻿using Economy.Application.Features.Wallet.Commands.WithdrawMoney;
+using Economy.Application.Features.Wallet.Commands.WithdrawMoney;
 using FluentValidation;
 
 namespace Economy.Application.ValidationRules.WalletValidations
@@ -13,3 +13,4 @@ namespace Economy.Application.ValidationRules.WalletValidations
         }
     }
 }
+

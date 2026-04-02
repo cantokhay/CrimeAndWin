@@ -1,7 +1,7 @@
-ï»¿using Action.Domain.Entities;
+using Action.Domain.Entities;
 using Action.Domain.VOs;
 using Bogus;
-using MediatR;
+using Mediator;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 
@@ -18,7 +18,7 @@ namespace Action.Application.Features.ActionDefinitons.Commands.Seed
             _clock = clock;
         }
 
-        public async Task<Unit> Handle(RunActionSeedCommand request, CancellationToken cancellationToken)
+        public async ValueTask<Unit> Handle(RunActionSeedCommand request, CancellationToken cancellationToken)
         {
             var faker = new Faker("en");
 
@@ -26,7 +26,7 @@ namespace Action.Application.Features.ActionDefinitons.Commands.Seed
 
             for (int i = 0; i < request.Count; i++)
             {
-                // benzersiz code oluÅŸtur
+                // benzersiz code oluþtur
                 var code = faker.Hacker.Verb().Replace(" ", "_") + "_" + faker.Random.AlphaNumeric(5).ToUpper();
 
                 var def = new ActionDefinition
@@ -41,7 +41,7 @@ namespace Action.Application.Features.ActionDefinitons.Commands.Seed
                     ),
                     Rewards = new ActionRewards(
                         PowerGain: faker.Random.Int(1, 10),
-                        ItemDrop: faker.Random.Bool(0.3f), // %30 drop ÅŸansÄ±
+                        ItemDrop: faker.Random.Bool(0.3f), // %30 drop þansý
                         MoneyGain: Math.Round(faker.Random.Decimal(10, 500), 2)
                     ),
                     IsActive = faker.Random.Bool(0.85f), // %85 aktif
@@ -59,3 +59,4 @@ namespace Action.Application.Features.ActionDefinitons.Commands.Seed
         }
     }
 }
+

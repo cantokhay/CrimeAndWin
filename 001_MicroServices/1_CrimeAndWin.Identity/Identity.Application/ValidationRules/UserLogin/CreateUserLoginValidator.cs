@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using Identity.Application.DTOs.UserLoginDTOs.Admin;
 
 namespace Identity.Application.ValidationRules.UserLogin
@@ -13,3 +13,4 @@ namespace Identity.Application.ValidationRules.UserLogin
         }
     }
 }
+

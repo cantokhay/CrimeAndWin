@@ -1,7 +1,7 @@
-﻿using Economy.Application.DTOs.TransactionDTOs;
+using Economy.Application.DTOs.TransactionDTOs;
 using Economy.Application.DTOs.WalletDTOs;
 using Economy.Domain.Entities;
-using MediatR;
+using Mediator;
 
 namespace Economy.Application.Features.Transactions.Queries.GetTransactionByPlayerId
 {
@@ -10,3 +10,4 @@ namespace Economy.Application.Features.Transactions.Queries.GetTransactionByPlay
         public Guid PlayerId { get; set; }
     }
 }
+

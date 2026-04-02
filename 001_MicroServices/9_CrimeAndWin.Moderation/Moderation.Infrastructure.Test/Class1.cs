@@ -1,7 +1,8 @@
-﻿namespace Moderation.Infrastructure.Test
+namespace Moderation.Infrastructure.Test
 {
     public class Class1
     {
 
     }
 }
+

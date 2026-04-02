@@ -1,11 +1,11 @@
-ï»¿using Economy.Application.DTOs.WalletDTOs;
+using Economy.Application.DTOs.WalletDTOs;
 using Economy.Application.Features.Seed;
 using Economy.Application.Features.Wallet.Commands.CreateWallet;
 using Economy.Application.Features.Wallet.Commands.DepositMoney;
 using Economy.Application.Features.Wallet.Commands.WithdrawMoney;
 using Economy.Application.Features.Wallet.Queries;
 using Economy.Application.Features.Wallet.Queries.GetAllWallets;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Economy.API.Controllers
@@ -55,7 +55,7 @@ namespace Economy.API.Controllers
         }
 
         /// <summary>
-        /// TÃ¼m Wallet kayÄ±tlarÄ±nÄ± ve Transactions detaylarÄ±nÄ± listeler.
+        /// Tüm Wallet kayýtlarýný ve Transactions detaylarýný listeler.
         /// </summary>
         [HttpGet]
         public async Task<ActionResult<List<ResultWalletDTO>>> GetAll()
@@ -65,13 +65,14 @@ namespace Economy.API.Controllers
         }
 
         /// <summary>
-        /// Rastgele Wallet ve Transaction verileri oluÅŸturur.
+        /// Rastgele Wallet ve Transaction verileri oluþturur.
         /// </summary>
         [HttpPost("SeedRun")]
         public async Task<IActionResult> SeedRun([FromQuery] int count = 10)
         {
             await _mediator.Send(new RunEconomySeedCommand(count));
-            return Ok(new { message = $"{count} adet Wallet ve Transaction baÅŸarÄ±yla seed edildi." });
+            return Ok(new { message = $"{count} adet Wallet ve Transaction baþarýyla seed edildi." });
         }
     }
 }
+

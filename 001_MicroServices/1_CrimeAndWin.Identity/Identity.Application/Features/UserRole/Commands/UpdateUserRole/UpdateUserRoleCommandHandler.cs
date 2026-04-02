@@ -1,4 +1,4 @@
-﻿using MediatR;
+using Mediator;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 using System;
@@ -25,7 +25,7 @@ namespace Identity.Application.Features.UserRole.Commands.UpdateUserRole
             _time = time;
         }
 
-        public async Task<bool> Handle(UpdateUserRoleCommand request, CancellationToken cancellationToken)
+        public async ValueTask<bool> Handle(UpdateUserRoleCommand request, CancellationToken cancellationToken)
         {
             var dto = request.updateUserRoleDTO;
             var entity = await _readRepository.GetByIdAsync(dto.Id.ToString());
@@ -41,3 +41,4 @@ namespace Identity.Application.Features.UserRole.Commands.UpdateUserRole
         }
     }
 }
+

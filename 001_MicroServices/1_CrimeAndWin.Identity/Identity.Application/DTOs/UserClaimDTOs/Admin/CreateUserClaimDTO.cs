@@ -1,4 +1,4 @@
-﻿namespace Identity.Application.DTOs.UserClaimDTOs.Admin
+namespace Identity.Application.DTOs.UserClaimDTOs.Admin
 {
     public sealed class CreateUserClaimDTO
     {
@@ -7,3 +7,4 @@
         public string ClaimValue { get; set; } = null!;
     }
 }
+

@@ -1,4 +1,4 @@
-ï»¿using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Mvc;
 using Notification.Application.DTOs;
 using Notification.Application.Features.Notification.Commands.CreateNotification;
@@ -34,7 +34,7 @@ namespace Notification.API.Controllers
         }
 
         /// <summary>
-        /// TÃ¼m Notification kayÄ±tlarÄ±nÄ± listeler.
+        /// Tüm Notification kayýtlarýný listeler.
         /// </summary>
         [HttpGet("GetAll")]
         public async Task<ActionResult<List<ResultNotificationDTO>>> GetAll()
@@ -44,13 +44,14 @@ namespace Notification.API.Controllers
         }
 
         /// <summary>
-        /// Rastgele Notification verilerini oluÅŸturur.
+        /// Rastgele Notification verilerini oluþturur.
         /// </summary>
         [HttpPost("SeedRun")]
         public async Task<IActionResult> SeedRun([FromQuery] int count = 10)
         {
             await _mediator.Send(new RunNotificationSeedCommand(count));
-            return Ok(new { message = $"{count} oyuncu iÃ§in rastgele bildirimler oluÅŸturuldu." });
+            return Ok(new { message = $"{count} oyuncu için rastgele bildirimler oluþturuldu." });
         }
     }
 }
+

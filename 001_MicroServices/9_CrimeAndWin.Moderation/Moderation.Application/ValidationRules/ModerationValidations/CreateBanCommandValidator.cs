@@ -1,4 +1,4 @@
-ï»¿using FluentValidation;
+using FluentValidation;
 using Moderation.Application.Features.ModerationAction.Commands.CreateBan;
 
 namespace Moderation.Application.ValidationRules.ModerationValidations
@@ -10,10 +10,11 @@ namespace Moderation.Application.ValidationRules.ModerationValidations
             RuleFor(x => x.Dto.PlayerId).NotEmpty();
             RuleFor(x => x.Dto.ModeratorId).NotEmpty();
             RuleFor(x => x.Dto.Reason).NotEmpty().MaximumLength(500);
-            // ExpiryDate opsiyonel; varsa geÃ§miÅŸ olamaz
+            // ExpiryDate opsiyonel; varsa geçmiþ olamaz
             RuleFor(x => x.Dto.ExpiryDateUtc)
                 .Must(d => d is null || d > DateTime.UtcNow)
-                .WithMessage("ExpiryDateUtc geÃ§miÅŸ olamaz.");
+                .WithMessage("ExpiryDateUtc geçmiþ olamaz.");
         }
     }
 }
+

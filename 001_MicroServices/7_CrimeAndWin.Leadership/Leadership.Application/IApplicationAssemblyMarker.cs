@@ -1,4 +1,5 @@
-﻿namespace Leadership.Application
+namespace Leadership.Application
 {
     public interface IApplicationAssemblyMarker { }
 }
+

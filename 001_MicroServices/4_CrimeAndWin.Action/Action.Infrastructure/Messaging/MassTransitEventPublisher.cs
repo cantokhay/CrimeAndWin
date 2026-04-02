@@ -1,4 +1,4 @@
-﻿using Action.Application.Abstract;
+using Action.Application.Abstract;
 using MassTransit;
 
 namespace Action.Infrastructure.Messaging
@@ -10,3 +10,4 @@ namespace Action.Infrastructure.Messaging
         public Task PublishAsync<T>(T @event, CancellationToken ct = default) => _publish.Publish(@event, ct);
     }
 }
+

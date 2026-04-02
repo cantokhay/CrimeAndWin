@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Moderation.Domain.Entities;
 using System.Reflection;
 
@@ -18,3 +18,4 @@ namespace Moderation.Infrastructure.Persistance.Context
         }
     }
 }
+

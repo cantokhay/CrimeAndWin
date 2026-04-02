@@ -1,4 +1,4 @@
-﻿using MassTransit.Transports.Fabric;
+using MassTransit.Transports.Fabric;
 using Notification.Application.Messaging.Abstract;
 using System.Text;
 using System.Text.Json;
@@ -37,3 +37,4 @@ namespace Notification.Application.Messaging.Concrete
         //}
     }
 }
+

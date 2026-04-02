@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Moderation.Domain.Entities;
 
@@ -23,3 +23,4 @@ namespace Moderation.Infrastructure.Persistance.Configurations
         }
     }
 }
+

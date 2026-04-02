@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using Notification.Application.Features.Notification.Commands.CreateNotification;
 
 namespace Notification.Application.ValidationRules.NotificationValidations
@@ -14,3 +14,4 @@ namespace Notification.Application.ValidationRules.NotificationValidations
         }
     }
 }
+

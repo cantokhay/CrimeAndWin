@@ -1,4 +1,4 @@
-﻿namespace Inventory.Domain.VOs
+namespace Inventory.Domain.VOs
 {
     public readonly record struct ItemStats
         (
@@ -7,3 +7,4 @@
         int Power
         );
 }
+

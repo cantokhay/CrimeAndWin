@@ -40,7 +40,7 @@ namespace Inventory.API.Consumers
                     inv = new Inventory.Domain.Entities.Inventory
                     {
                         PlayerId = msg.PlayerId,
-                        Capacity = 100,
+                        //Capacity = 100,
                         CreatedAtUtc = _time.UtcNow
                     };
                     await _invWrite.AddAsync(inv);
@@ -54,7 +54,7 @@ namespace Inventory.API.Consumers
                     Name = $"Reward Item {msg.ItemId.ToString().Substring(0, 4)}",
                     Quantity = msg.Quantity,
                     Stats = new ItemStats(0, 0, 0),
-                    Value = new ItemValue(0m, CurrencyType.Cash),
+                    //Value = new ItemValue(0m, CurrencyType.Cash),
                     CreatedAtUtc = _time.UtcNow
                 };
 
@@ -82,3 +82,4 @@ namespace Inventory.API.Consumers
         }
     }
 }
+

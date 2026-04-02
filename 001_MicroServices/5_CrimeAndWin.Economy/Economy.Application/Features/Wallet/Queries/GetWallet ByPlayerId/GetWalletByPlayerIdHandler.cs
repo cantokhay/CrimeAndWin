@@ -1,6 +1,6 @@
-﻿using Economy.Application.DTOs.TransactionDTOs;
+using Economy.Application.DTOs.TransactionDTOs;
 using Economy.Application.DTOs.WalletDTOs;
-using MediatR;
+using Mediator;
 using Microsoft.EntityFrameworkCore;
 using Shared.Domain.Repository;
 
@@ -15,7 +15,7 @@ namespace Economy.Application.Features.Wallet.Queries
             _wallets = wallets;
         }
 
-        public async Task<ResultWalletDTO?> Handle(GetWalletByPlayerIdQuery request, CancellationToken ct)
+        public async ValueTask<ResultWalletDTO?> Handle(GetWalletByPlayerIdQuery request, CancellationToken ct)
         {
             return await _wallets.Table
                 .AsNoTracking()
@@ -40,3 +40,4 @@ namespace Economy.Application.Features.Wallet.Queries
         }
     }
 }
+

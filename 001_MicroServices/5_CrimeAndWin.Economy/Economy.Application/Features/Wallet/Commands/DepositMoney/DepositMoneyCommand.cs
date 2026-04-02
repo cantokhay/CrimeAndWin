@@ -1,4 +1,4 @@
-﻿using MediatR;
+using Mediator;
 using System.Text.Json.Serialization;
 
 namespace Economy.Application.Features.Wallet.Commands.DepositMoney
@@ -12,3 +12,4 @@ namespace Economy.Application.Features.Wallet.Commands.DepositMoney
         public string Reason { get; set; }
     }
 }
+

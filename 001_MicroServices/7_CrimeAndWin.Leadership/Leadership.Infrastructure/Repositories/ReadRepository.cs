@@ -1,4 +1,4 @@
-ï»¿using Leadership.Infrastructure.Persistance.Context;
+using Leadership.Infrastructure.Persistance.Context;
 using Microsoft.EntityFrameworkCore;
 using Shared.Domain;
 using Shared.Domain.Repository;
@@ -28,10 +28,11 @@ namespace Leadership.Infrastructure.Repositories
         public async Task<T> GetByIdAsync(string id, bool tracking = true)
         {
             if (!Guid.TryParse(id, out var guid))
-                throw new ArgumentException("GeÃ§ersiz id formatÄ± (Guid bekleniyor).", nameof(id));
+                throw new ArgumentException("Geçersiz id formatý (Guid bekleniyor).", nameof(id));
 
             var query = tracking ? Table : Table.AsNoTracking();
             return await query.FirstOrDefaultAsync(e => e.Id == guid) ?? default!;
         }
     }
 }
+

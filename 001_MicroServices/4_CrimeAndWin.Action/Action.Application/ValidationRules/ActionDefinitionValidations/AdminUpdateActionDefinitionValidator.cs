@@ -1,4 +1,4 @@
-﻿using Action.Application.DTOs.ActionDefinitionDTOs.Admin;
+using Action.Application.DTOs.ActionDefinitionDTOs.Admin;
 using FluentValidation;
 
 namespace Action.Application.ValidationRules.ActionDefinitionValidations
@@ -18,3 +18,4 @@ namespace Action.Application.ValidationRules.ActionDefinitionValidations
         }
     }
 }
+

@@ -1,4 +1,4 @@
-﻿using Moderation.Infrastructure.Persistance.Context;
+using Moderation.Infrastructure.Persistance.Context;
 using Microsoft.EntityFrameworkCore;
 using Shared.Domain;
 using Shared.Domain.Repository;
@@ -13,3 +13,4 @@ namespace Moderation.Infrastructure.Repositories
         public DbSet<T> Table => _ctx.Set<T>();
     }
 }
+

@@ -1,5 +1,5 @@
-﻿using Identity.Application.DTOs.UserDTOs;
-using MediatR;
+using Identity.Application.DTOs.UserDTOs;
+using Mediator;
 
 namespace Identity.Application.Features.User.Commands.RegisterUser
 {
@@ -10,3 +10,4 @@ namespace Identity.Application.Features.User.Commands.RegisterUser
         public string Password { get; set; } = null!;
     }
 }
+

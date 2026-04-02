@@ -1,4 +1,4 @@
-﻿using Action.Domain.VOs;
+using Action.Domain.VOs;
 
 namespace Action.Application.DTOs.ActionDefinitionDTOs
 {
@@ -13,3 +13,4 @@ namespace Action.Application.DTOs.ActionDefinitionDTOs
         public bool IsActive { get; set; }
     }
 }
+

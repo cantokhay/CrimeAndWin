@@ -1,4 +1,4 @@
-﻿using Identity.Application;
+using Identity.Application;
 using Identity.Application.Features.Auth;
 using Identity.Application.Features.Auth.Abstract;
 using Identity.Application.Mapping;
@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
+using Shared.Infrastructure;
+using Shared.Infrastructure.Filters;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,12 +22,10 @@ builder.Services.AddDbContext<IdentityDbContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("IdentityLaptopConnection"));
 });
 
-//MediatR & AutoMapper
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(IApplicationAssemblyMarker).Assembly));
-builder.Services.AddAutoMapper(cfg =>
-{
-    cfg.AddProfile(new GeneralMapping());
-});
+//MediatR & Mapperly & Validation
+builder.Services.AddMediator();
+builder.Services.AddScoped<IdentityMapper>();
+builder.Services.AddSharedValidation(typeof(IApplicationAssemblyMarker).Assembly);
 
 //JWT
 var jwtSection = builder.Configuration.GetSection("Jwt");
@@ -64,7 +64,10 @@ builder.Services.AddSwaggerGen(c =>
 
 
 //Default
-builder.Services.AddControllers();
+builder.Services.AddControllers(opt =>
+{
+    opt.Filters.Add<GlobalExceptionFilter>();
+});
 builder.Services.AddEndpointsApiExplorer();
 
 // Authentication
@@ -130,7 +133,11 @@ builder.Services.AddAuthorization(opt =>
     opt.AddPolicy("AdminOnly", p => p.RequireRole("Admin")); // “Oyun Yöneticisi”
 });
 
+builder.Services.AddHealthChecks();
+
 var app = builder.Build();
+
+app.MapHealthChecks("/health");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -151,3 +158,4 @@ app.MapControllers();
 app.Run();
 
 //comment to push
+

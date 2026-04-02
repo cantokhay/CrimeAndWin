@@ -1,4 +1,4 @@
-﻿namespace Identity.Application.DTOs.UserDTOs
+namespace Identity.Application.DTOs.UserDTOs
 {
     public sealed class AppUserDTO
     {
@@ -8,3 +8,4 @@
         public bool EmailConfirmed { get; set; }
     }
 }
+

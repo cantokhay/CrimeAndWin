@@ -1,4 +1,4 @@
-﻿using Moderation.Domain.VOs;
+using Moderation.Domain.VOs;
 using Shared.Domain;
 
 namespace Moderation.Domain.Entities
@@ -14,3 +14,4 @@ namespace Moderation.Domain.Entities
         public Guid? ResolvedByModeratorId { get; set; }
     }
 }
+

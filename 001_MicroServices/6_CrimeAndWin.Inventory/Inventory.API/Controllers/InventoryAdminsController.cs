@@ -1,4 +1,4 @@
-﻿using Inventory.Application.DTOs.InventoryDTOs.Admin;
+using Inventory.Application.DTOs.InventoryDTOs.Admin;
 using Inventory.Application.DTOs.ItemDTOs.Admin;
 using Inventory.Application.Features.Inventory.Commands.AdminCreateInventory;
 using Inventory.Application.Features.Inventory.Commands.AdminDeleteInventory;
@@ -10,7 +10,7 @@ using Inventory.Application.Features.Item.Commands.AdminDeleteItem;
 using Inventory.Application.Features.Item.Commands.AdminUpdateItem;
 using Inventory.Application.Features.Item.Queries.GetAllItemsAsAdmin;
 using Inventory.Application.Features.Item.Queries.GetItemByIdAsAdmin;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventory.API.Controllers
@@ -121,3 +121,4 @@ namespace Inventory.API.Controllers
         }
     }
 }
+

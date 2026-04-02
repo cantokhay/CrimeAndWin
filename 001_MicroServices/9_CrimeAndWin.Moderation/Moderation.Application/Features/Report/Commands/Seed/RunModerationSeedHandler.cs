@@ -1,5 +1,5 @@
-ï»¿using Bogus;
-using MediatR;
+using Bogus;
+using Mediator;
 using Moderation.Domain.VOs;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
@@ -22,7 +22,7 @@ namespace Moderation.Application.Features.Report.Commands.Seed
             _clock = clock;
         }
 
-        public async Task<Unit> Handle(RunModerationSeedCommand request, CancellationToken cancellationToken)
+        public async ValueTask<Unit> Handle(RunModerationSeedCommand request, CancellationToken cancellationToken)
         {
             var faker = new Faker("tr");
 
@@ -34,7 +34,7 @@ namespace Moderation.Application.Features.Report.Commands.Seed
                 var reporterId = Guid.NewGuid();
                 var reportedId = Guid.NewGuid();
 
-                // ðŸŽ¯ Rastgele ReportReason seÃ§
+                // ?? Rastgele ReportReason seç
                 var reason = faker.PickRandom(new[]
                 {
                     ReportReason.Hile,
@@ -43,7 +43,7 @@ namespace Moderation.Application.Features.Report.Commands.Seed
                     ReportReason.Spam
                 });
 
-                var isResolved = faker.Random.Bool(0.4f); // %40 ihtimal Ã§Ã¶zÃ¼lmÃ¼ÅŸ
+                var isResolved = faker.Random.Bool(0.4f); // %40 ihtimal çözülmüþ
 
                 var report = new Domain.Entities.Report
                 {
@@ -61,7 +61,7 @@ namespace Moderation.Application.Features.Report.Commands.Seed
 
                 reports.Add(report);
 
-                // ðŸŽ¯ Her reportâ€™a baÄŸlÄ± olarak 0â€“1 ModerationAction
+                // ?? Her report’a baðlý olarak 0–1 ModerationAction
                 if (faker.Random.Bool(0.5f))
                 {
                     var actionType = faker.PickRandom("Ban", "Restrict", "Warning");
@@ -93,3 +93,4 @@ namespace Moderation.Application.Features.Report.Commands.Seed
         }
     }
 }
+

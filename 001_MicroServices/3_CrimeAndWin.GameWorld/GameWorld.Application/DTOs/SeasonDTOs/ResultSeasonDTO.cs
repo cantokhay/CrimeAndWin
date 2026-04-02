@@ -1,4 +1,4 @@
-﻿namespace GameWorld.Application.DTOs.SeasonDTOs
+namespace GameWorld.Application.DTOs.SeasonDTOs
 {
     public class ResultSeasonDTO
     {
@@ -10,3 +10,4 @@
         public bool IsActive { get; set; }
     }
 }
+

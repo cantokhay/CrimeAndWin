@@ -1,4 +1,4 @@
-﻿using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Mvc;
 using PlayerProfile.Application.DTOs.PlayerDTOs.Admin;
 using PlayerProfile.Application.Features.Player.Commands.AdminCreatePlayer;
@@ -22,7 +22,7 @@ namespace PlayerProfile.API.Controllers
         }
 
         // -------------------------------
-        // 📋 GET ALL PLAYERS
+        // ?? GET ALL PLAYERS
         // -------------------------------
         [HttpGet("GetAllPlayersAsAdmin")]
         public async Task<IActionResult> GetAllPlayersAsAdmin()
@@ -32,7 +32,7 @@ namespace PlayerProfile.API.Controllers
         }
 
         // -------------------------------
-        // 🔍 GET PLAYER BY ID
+        // ?? GET PLAYER BY ID
         // -------------------------------
         [HttpGet("GetByIdPlayerAsAdmin/{id:guid}")]
         public async Task<IActionResult> GetByIdPlayerAsAdmin(Guid id)
@@ -42,7 +42,7 @@ namespace PlayerProfile.API.Controllers
         }
 
         // -------------------------------
-        // ➕ CREATE PLAYER (Admin)
+        // ? CREATE PLAYER (Admin)
         // -------------------------------
         [HttpPost("CreatePlayerAsAdmin")]
         public async Task<IActionResult> CreatePlayerAsAdmin([FromBody] AdminCreatePlayerDTO dto)
@@ -53,7 +53,7 @@ namespace PlayerProfile.API.Controllers
         }
 
         // -------------------------------
-        // ✏️ UPDATE PLAYER (Admin)
+        // ?? UPDATE PLAYER (Admin)
         // -------------------------------
         [HttpPut("UpdatePlayerAsAdmin")]
         public async Task<IActionResult> UpdatePlayerAsAdmin([FromBody] AdminUpdatePlayerDTO dto)
@@ -64,7 +64,7 @@ namespace PlayerProfile.API.Controllers
         }
 
         // -------------------------------
-        // ❌ DELETE PLAYER (Admin)
+        // ? DELETE PLAYER (Admin)
         // -------------------------------
         [HttpDelete("DeletePlayerAsAdmin/{id:guid}")]
         public async Task<IActionResult> DeletePlayerAsAdmin(Guid id)
@@ -75,7 +75,7 @@ namespace PlayerProfile.API.Controllers
         }
 
         // -------------------------------
-        // 🌱 SEED PLAYERS (Admin Utility)
+        // ?? SEED PLAYERS (Admin Utility)
         // -------------------------------
         [HttpPost("SeedPlayersAsAdmin")]
         public async Task<IActionResult> SeedPlayersAsAdmin([FromQuery] int count = 10)
@@ -84,7 +84,8 @@ namespace PlayerProfile.API.Controllers
                 return BadRequest("Count must be greater than zero.");
 
             await _mediator.Send(new RunPlayerSeedCommand(count));
-            return Ok($"✅ {count} adet oyuncu başarıyla seedlendi.");
+            return Ok($"? {count} adet oyuncu ba�ar�yla seedlendi.");
         }
     }
 }
+

@@ -1,6 +1,6 @@
-﻿using Bogus;
+using Bogus;
 using Leadership.Domain.VOs;
-using MediatR;
+using Mediator;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 
@@ -22,7 +22,7 @@ namespace Leadership.Application.Features.Leaderboard.Commands.Seed
             _clock = clock;
         }
 
-        public async Task<Unit> Handle(RunLeadershipSeedCommand request, CancellationToken cancellationToken)
+        public async ValueTask<Unit> Handle(RunLeadershipSeedCommand request, CancellationToken cancellationToken)
         {
             var faker = new Faker("en");
             var leaderboards = new List<Domain.Entities.Leaderboard>();
@@ -44,7 +44,7 @@ namespace Leadership.Application.Features.Leaderboard.Commands.Seed
                     IsDeleted = false
                 };
 
-                // 5–10 rastgele entry
+                // 5�10 rastgele entry
                 var entryCount = faker.Random.Int(5, 10);
                 var usedPositions = new HashSet<int>();
 
@@ -84,3 +84,4 @@ namespace Leadership.Application.Features.Leaderboard.Commands.Seed
         }
     }
 }
+

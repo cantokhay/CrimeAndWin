@@ -1,4 +1,4 @@
-﻿namespace Identity.Application.DTOs.RefreshTokenDTOs.Admin
+namespace Identity.Application.DTOs.RefreshTokenDTOs.Admin
 {
     public sealed class CreateRefreshTokenDTO
     {
@@ -9,3 +9,4 @@
         public string? ReplacedByToken { get; set; }
     }
 }
+

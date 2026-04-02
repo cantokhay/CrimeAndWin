@@ -1,4 +1,5 @@
-﻿namespace Inventory.Application
+namespace Inventory.Application
 {
     public interface IApplicationAssemblyMarker { }
 }
+

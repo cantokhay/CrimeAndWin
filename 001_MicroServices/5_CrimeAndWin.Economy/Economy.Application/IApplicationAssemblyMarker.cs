@@ -1,4 +1,5 @@
-﻿namespace Economy.Application
+namespace Economy.Application
 {
     public interface IApplicationAssemblyMarker { }
 }
+

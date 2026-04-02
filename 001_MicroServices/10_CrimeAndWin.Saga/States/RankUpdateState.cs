@@ -12,3 +12,4 @@ public class RankUpdateState : SagaStateMachineInstance
     public DateTime CreatedAt  { get; set; }
     public string? FailReason  { get; set; }
 }
+

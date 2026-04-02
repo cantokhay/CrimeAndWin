@@ -1,5 +1,5 @@
-﻿using Economy.Application.DTOs.WalletDTOs.Admin;
-using MediatR;
+using Economy.Application.DTOs.WalletDTOs.Admin;
+using Mediator;
 using Microsoft.EntityFrameworkCore;
 using Shared.Domain.Repository;
 
@@ -15,7 +15,7 @@ namespace Economy.Application.Features.Wallet.Queries.GetAllWalletsAsAdmin
             _read = read;
         }
 
-        public async Task<List<AdminResultWalletDTO>> Handle(GetAllWalletsAsAdminQuery request, CancellationToken cancellationToken)
+        public async ValueTask<List<AdminResultWalletDTO>> Handle(GetAllWalletsAsAdminQuery request, CancellationToken cancellationToken)
         {
             return await _read.GetAll(false)
                 .Select(w => new AdminResultWalletDTO
@@ -30,3 +30,5 @@ namespace Economy.Application.Features.Wallet.Queries.GetAllWalletsAsAdmin
         }
     }
 }
+
+

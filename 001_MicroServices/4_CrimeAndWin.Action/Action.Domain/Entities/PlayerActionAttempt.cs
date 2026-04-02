@@ -10,5 +10,10 @@ namespace Action.Domain.Entities
         public Guid ActionDefinitionId { get; set; }
         public DateTime AttemptedAtUtc { get; set; }
         public PlayerActionResult PlayerActionResults { get; set; }
+        
+        public DateTime CooldownEndsAt  { get; set; }
+        public bool     IsSuccess       { get; set; }
+        public double   SuccessRate     { get; set; }
     }
 }
+

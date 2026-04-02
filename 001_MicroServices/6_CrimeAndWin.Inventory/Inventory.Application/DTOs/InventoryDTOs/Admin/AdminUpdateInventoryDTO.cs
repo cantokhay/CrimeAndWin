@@ -1,4 +1,4 @@
-﻿namespace Inventory.Application.DTOs.InventoryDTOs.Admin
+namespace Inventory.Application.DTOs.InventoryDTOs.Admin
 {
     public sealed class AdminUpdateInventoryDTO
     {
@@ -6,3 +6,4 @@
         public Guid PlayerId { get; set; }
     }
 }
+

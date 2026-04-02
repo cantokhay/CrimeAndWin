@@ -1,5 +1,5 @@
-﻿using AutoMapper;
-using MediatR;
+using AutoMapper;
+using Mediator;
 using Microsoft.AspNetCore.Mvc;
 using Moderation.Application.DTOs.ModerationActionDTOs;
 using Moderation.Application.Features.ModerationAction.Commands.CreateBan;
@@ -15,12 +15,10 @@ namespace Moderation.API.Controllers
     public class ModerationActionsController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IMapper _mapper;
 
-        public ModerationActionsController(IMediator mediator, IMapper mapper)
+        public ModerationActionsController(IMediator mediator)
         {
             _mediator = mediator;
-            _mapper = mapper;
         }
 
         [HttpPost("ban")]
@@ -65,3 +63,4 @@ namespace Moderation.API.Controllers
         }
     }
 }
+

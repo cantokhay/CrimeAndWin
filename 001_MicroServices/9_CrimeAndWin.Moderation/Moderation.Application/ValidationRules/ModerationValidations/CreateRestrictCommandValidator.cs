@@ -1,4 +1,4 @@
-ï»¿using FluentValidation;
+using FluentValidation;
 using Moderation.Application.Features.ModerationAction.Commands.CreateRestriction;
 
 namespace Moderation.Application.ValidationRules.ModerationValidations
@@ -12,7 +12,8 @@ namespace Moderation.Application.ValidationRules.ModerationValidations
             RuleFor(x => x.Dto.Reason).NotEmpty().MaximumLength(500);
             RuleFor(x => x.Dto.ExpiryDateUtc)
                 .Must(d => d is null || d > DateTime.UtcNow)
-                .WithMessage("ExpiryDateUtc geÃ§miÅŸ olamaz.");
+                .WithMessage("ExpiryDateUtc geçmiþ olamaz.");
         }
     }
 }
+

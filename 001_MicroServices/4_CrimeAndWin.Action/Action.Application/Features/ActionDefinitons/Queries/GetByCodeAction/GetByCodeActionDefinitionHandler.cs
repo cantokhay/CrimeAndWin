@@ -1,7 +1,7 @@
-﻿using Action.Application.DTOs.ActionDefinitionDTOs;
+using Action.Application.DTOs.ActionDefinitionDTOs;
 using Action.Domain.Entities;
-using AutoMapper;
-using MediatR;
+using Action.Application.Mapping;
+using Mediator;
 using Shared.Domain.Repository;
 
 namespace Action.Application.Features.ActionDefinitons.Queries.GetByCodeAction
@@ -10,18 +10,19 @@ namespace Action.Application.Features.ActionDefinitons.Queries.GetByCodeAction
         : IRequestHandler<GetByCodeActionDefinitionQuery, ActionDefinitionDTO>
     {
         private readonly IReadRepository<ActionDefinition> _read;
-        private readonly IMapper _mapper;
+        private readonly ActionMapper _mapper;
 
-        public GetByCodeActionDefinitionHandler(IReadRepository<ActionDefinition> read, IMapper mapper)
+        public GetByCodeActionDefinitionHandler(IReadRepository<ActionDefinition> read, ActionMapper mapper)
         {
             _read = read;
             _mapper = mapper;
         }
 
-        public async Task<ActionDefinitionDTO> Handle(GetByCodeActionDefinitionQuery request, CancellationToken ct)
+        public async ValueTask<ActionDefinitionDTO> Handle(GetByCodeActionDefinitionQuery request, CancellationToken ct)
         {
             var entity = await _read.GetSingleAsync(a => a.Code == request.Code);
-            return _mapper.Map<ActionDefinitionDTO>(entity);
+            return _mapper.ToDto(entity);
         }
     }
 }
+

@@ -1,4 +1,4 @@
-﻿using MediatR;
+using Mediator;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 
@@ -18,7 +18,7 @@ namespace Leadership.Application.Features.Leaderboard.Commands.AdminCreateLeader
             _time = time;
         }
 
-        public async Task<Guid> Handle(AdminCreateLeaderboardCommand request, CancellationToken cancellationToken)
+        public async ValueTask<Guid> Handle(AdminCreateLeaderboardCommand request, CancellationToken cancellationToken)
         {
             var d = request.createLeaderboardDTO;
 
@@ -41,3 +41,4 @@ namespace Leadership.Application.Features.Leaderboard.Commands.AdminCreateLeader
         }
     }
 }
+

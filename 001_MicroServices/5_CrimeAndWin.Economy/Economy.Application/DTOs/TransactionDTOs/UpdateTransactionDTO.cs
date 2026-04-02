@@ -1,4 +1,4 @@
-﻿namespace Economy.Application.DTOs.TransactionDTOs
+namespace Economy.Application.DTOs.TransactionDTOs
 {
     public class UpdateTransactionDTO
     {
@@ -9,3 +9,4 @@
         public string Description { get; set; }
     }
 }
+

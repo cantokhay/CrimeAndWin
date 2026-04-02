@@ -1,4 +1,4 @@
-﻿namespace Identity.Application.DTOs.UserLoginDTOs.Admin
+namespace Identity.Application.DTOs.UserLoginDTOs.Admin
 {
     public sealed class UpdateUserLoginDTO
     {
@@ -9,3 +9,4 @@
         public string? ProviderDisplayName { get; set; }
     }
 }
+

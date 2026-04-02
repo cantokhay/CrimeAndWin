@@ -1,4 +1,4 @@
-﻿using Inventory.Application.Messaging.Abstract;
+using Inventory.Application.Messaging.Abstract;
 
 namespace Inventory.Application.Messaging.Concrete
 {
@@ -12,3 +12,4 @@ namespace Inventory.Application.Messaging.Concrete
         int Quantity
         ) : IIntegrationEvent;
 }
+

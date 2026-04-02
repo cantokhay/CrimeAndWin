@@ -1,4 +1,4 @@
-﻿namespace Identity.Application.DTOs.UserLoginDTOs.Admin
+namespace Identity.Application.DTOs.UserLoginDTOs.Admin
 {
     public sealed class CreateUserLoginDTO
     {
@@ -8,3 +8,4 @@
         public string? ProviderDisplayName { get; set; }
     }
 }
+

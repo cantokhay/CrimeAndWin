@@ -145,3 +145,4 @@ public class CrimeRewardStateMachine : MassTransitStateMachine<CrimeRewardState>
         );
     }
 }
+

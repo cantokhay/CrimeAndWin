@@ -1,4 +1,4 @@
-﻿namespace Inventory.Application.Messaging.Abstract
+namespace Inventory.Application.Messaging.Abstract
 {
     public interface IIntegrationEvent 
     { 
@@ -6,3 +6,4 @@
         DateTime OccurredOnUtc { get; } 
     }
 }
+

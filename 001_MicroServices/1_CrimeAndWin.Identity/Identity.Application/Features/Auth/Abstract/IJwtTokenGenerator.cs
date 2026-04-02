@@ -1,4 +1,4 @@
-﻿using Identity.Domain.Entities;
+using Identity.Domain.Entities;
 
 namespace Identity.Application.Features.Auth.Abstract
 {
@@ -8,3 +8,4 @@ namespace Identity.Application.Features.Auth.Abstract
         string GenerateRefreshToken(); // basit random; ileride rotate/blacklist ekleriz
     }
 }
+

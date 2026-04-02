@@ -1,7 +1,8 @@
-﻿using MediatR;
+using Mediator;
 using Notification.Application.DTOs.Admin;
 
 namespace Notification.Application.Features.Notification.Commands.AdminUpdateNotification
 {
     public sealed record AdminUpdateNotificationCommand(AdminUpdateNotificationDTO updateNotificationDTO) : IRequest<bool>;
 }
+

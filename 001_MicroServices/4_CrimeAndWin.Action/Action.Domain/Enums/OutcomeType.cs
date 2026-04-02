@@ -1,4 +1,4 @@
-﻿namespace Action.Domain.Enums
+namespace Action.Domain.Enums
 {
     public enum OutcomeType 
     { 
@@ -7,3 +7,4 @@
         Fail = 2 
     }
 }
+

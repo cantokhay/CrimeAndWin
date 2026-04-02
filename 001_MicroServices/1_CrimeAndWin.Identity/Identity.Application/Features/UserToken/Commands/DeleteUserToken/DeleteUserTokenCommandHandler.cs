@@ -1,4 +1,4 @@
-﻿using MediatR;
+using Mediator;
 using Shared.Domain.Repository;
 
 namespace Identity.Application.Features.UserToken.Commands.DeleteUserToken
@@ -12,7 +12,7 @@ namespace Identity.Application.Features.UserToken.Commands.DeleteUserToken
             _writeRepository = writeRepository;
         }
 
-        public async Task<bool> Handle(DeleteUserTokenCommand request, CancellationToken cancellationToken)
+        public async ValueTask<bool> Handle(DeleteUserTokenCommand request, CancellationToken cancellationToken)
         {
             var result = await _writeRepository.RemoveAsync(request.id.ToString());
             await _writeRepository.SaveAsync();
@@ -20,3 +20,4 @@ namespace Identity.Application.Features.UserToken.Commands.DeleteUserToken
         }
     }
 }
+

@@ -1,4 +1,5 @@
-﻿namespace Moderation.Application
+namespace Moderation.Application
 {
     public interface IApplicationAssemblyMarker { }
 }
+

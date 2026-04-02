@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using Moderation.Application.DTOs.ReportDTOs.Admin;
 
 namespace Moderation.Application.ValidationRules.ReportValidations
@@ -15,3 +15,4 @@ namespace Moderation.Application.ValidationRules.ReportValidations
         }
     }
 }
+

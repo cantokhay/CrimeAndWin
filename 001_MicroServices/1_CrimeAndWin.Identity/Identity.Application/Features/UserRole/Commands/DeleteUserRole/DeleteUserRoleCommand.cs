@@ -1,6 +1,7 @@
-﻿using MediatR;
+using Mediator;
 
 namespace Identity.Application.Features.UserRole.Commands.DeleteUserRole
 {
     public record DeleteUserRoleCommand(Guid id) : IRequest<bool>;
 }
+

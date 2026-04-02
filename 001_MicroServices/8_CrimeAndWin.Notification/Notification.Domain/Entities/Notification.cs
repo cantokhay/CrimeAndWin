@@ -1,4 +1,4 @@
-﻿using Notification.Domain.VOs;
+using Notification.Domain.VOs;
 using Shared.Domain;
 
 namespace Notification.Domain.Entities
@@ -9,3 +9,4 @@ namespace Notification.Domain.Entities
         public NotificationContent Content { get; set; }
     }
 }
+

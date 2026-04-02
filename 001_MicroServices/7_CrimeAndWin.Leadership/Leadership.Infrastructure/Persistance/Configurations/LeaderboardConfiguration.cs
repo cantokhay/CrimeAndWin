@@ -1,4 +1,4 @@
-﻿using Leadership.Domain.Entities;
+using Leadership.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -30,3 +30,4 @@ namespace Leadership.Infrastructure.Persistance.Configurations
         }
     }
 }
+

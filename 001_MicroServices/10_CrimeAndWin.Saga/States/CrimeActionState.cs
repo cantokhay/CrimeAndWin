@@ -13,3 +13,4 @@ public class CrimeActionState : SagaStateMachineInstance
     public DateTime CreatedAt  { get; set; }
     public string? FailReason  { get; set; }
 }
+

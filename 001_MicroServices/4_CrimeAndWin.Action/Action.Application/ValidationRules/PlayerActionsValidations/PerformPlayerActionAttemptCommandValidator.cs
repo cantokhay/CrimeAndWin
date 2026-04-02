@@ -1,4 +1,4 @@
-﻿using Action.Application.DTOs.ActionAttemptDTOs;
+using Action.Application.DTOs.ActionAttemptDTOs;
 using FluentValidation;
 
 namespace Action.Application.ValidationRules.PlayerActionValidations
@@ -13,3 +13,4 @@ namespace Action.Application.ValidationRules.PlayerActionValidations
         }
     }
 }
+

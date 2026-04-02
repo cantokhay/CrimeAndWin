@@ -1,4 +1,4 @@
-﻿using Inventory.Application.DTOs.VODTOs;
+using Inventory.Application.DTOs.VODTOs;
 using Inventory.Domain.Enums;
 
 namespace Inventory.Application.DTOs.ItemDTOs
@@ -13,3 +13,4 @@ namespace Inventory.Application.DTOs.ItemDTOs
         public ResultItemValueDTO Value { get; set; }
     }
 }
+

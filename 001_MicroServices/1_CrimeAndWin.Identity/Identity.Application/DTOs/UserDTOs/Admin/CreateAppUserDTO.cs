@@ -1,4 +1,4 @@
-﻿namespace Identity.Application.DTOs.UserDTOs.Admin
+namespace Identity.Application.DTOs.UserDTOs.Admin
 {
     public sealed class CreateAppUserDTO
     {
@@ -8,3 +8,4 @@
         public string? PhoneNumber { get; set; }
     }
 }
+

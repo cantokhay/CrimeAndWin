@@ -1,7 +1,8 @@
-﻿using Identity.Application.DTOs.UserTokenDTOs.Admin;
-using MediatR;
+using Identity.Application.DTOs.UserTokenDTOs.Admin;
+using Mediator;
 
 namespace Identity.Application.Features.UserToken.Commands.UpdateUserToken
 {
     public record UpdateUserTokenCommand(UpdateUserTokenDTO updateUserTokenDTO) : IRequest<bool>;
 }
+

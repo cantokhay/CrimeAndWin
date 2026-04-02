@@ -1,4 +1,4 @@
-﻿namespace Economy.Application.DTOs.TransactionDTOs
+namespace Economy.Application.DTOs.TransactionDTOs
 {
     public class ResultTransactionDTO
     {
@@ -12,3 +12,4 @@
         public string? Description { get; set; }
     }
 }
+

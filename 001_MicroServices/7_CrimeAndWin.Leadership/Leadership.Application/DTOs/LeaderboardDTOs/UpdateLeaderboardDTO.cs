@@ -1,4 +1,4 @@
-﻿using Leadership.Application.DTOs.LeaderboardEntryDTOs;
+using Leadership.Application.DTOs.LeaderboardEntryDTOs;
 
 namespace Leadership.Application.DTOs.LeaderboardDTOs
 {
@@ -14,3 +14,4 @@ namespace Leadership.Application.DTOs.LeaderboardDTOs
         public List<ResultLeaderboardEntryDTO> Entries { get; set; } = new();
     }
 }
+

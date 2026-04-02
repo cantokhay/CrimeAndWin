@@ -1,6 +1,6 @@
-ï»¿using Bogus;
+using Bogus;
 using GameWorld.Domain.VOs;
-using MediatR;
+using Mediator;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 
@@ -22,7 +22,7 @@ namespace GameWorld.Application.Features.GameWorld.Commands.Seed
             _clock = clock;
         }
 
-        public async Task<Unit> Handle(RunGameWorldSeedCommand request, CancellationToken cancellationToken)
+        public async ValueTask<Unit> Handle(RunGameWorldSeedCommand request, CancellationToken cancellationToken)
         {
             var faker = new Faker("tr");
 
@@ -44,7 +44,7 @@ namespace GameWorld.Application.Features.GameWorld.Commands.Seed
                     Seasons = new List<Domain.Entities.Season>()
                 };
 
-                // Her dÃ¼nyaya 1 aktif, 1 geÃ§miÅŸ sezon ekle
+                // Her dünyaya 1 aktif, 1 geçmiþ sezon ekle
                 var currentSeason = new Domain.Entities.Season
                 {
                     Id = Guid.NewGuid(),
@@ -90,3 +90,5 @@ namespace GameWorld.Application.Features.GameWorld.Commands.Seed
         }
     }
 }
+
+

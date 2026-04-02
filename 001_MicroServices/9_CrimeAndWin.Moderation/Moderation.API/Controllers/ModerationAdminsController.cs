@@ -1,4 +1,4 @@
-﻿using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moderation.Application.DTOs.ModerationActionDTOs.Admin;
@@ -106,3 +106,4 @@ namespace Moderation.API.Controllers
         }
     }
 }
+

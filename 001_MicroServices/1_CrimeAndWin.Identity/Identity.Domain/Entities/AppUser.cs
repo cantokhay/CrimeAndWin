@@ -1,4 +1,4 @@
-﻿using Shared.Domain;
+using Shared.Domain;
 
 namespace Identity.Domain.Entities
 {
@@ -29,3 +29,4 @@ namespace Identity.Domain.Entities
         public ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
     }
 }
+

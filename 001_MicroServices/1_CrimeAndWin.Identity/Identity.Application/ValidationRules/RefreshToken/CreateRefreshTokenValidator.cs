@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using Identity.Application.DTOs.RefreshTokenDTOs.Admin;
 
 namespace Identity.Application.ValidationRules.RefreshToken
@@ -13,3 +13,4 @@ namespace Identity.Application.ValidationRules.RefreshToken
         }
     }
 }
+

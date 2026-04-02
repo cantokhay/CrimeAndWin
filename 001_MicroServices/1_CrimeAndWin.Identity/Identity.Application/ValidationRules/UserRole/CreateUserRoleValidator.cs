@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using Identity.Application.DTOs.UserRoleDTOs.Admin;
 
 namespace Identity.Application.ValidationRules.UserRole
@@ -12,3 +12,4 @@ namespace Identity.Application.ValidationRules.UserRole
         }
     }
 }
+

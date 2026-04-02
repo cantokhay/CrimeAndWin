@@ -1,4 +1,4 @@
-﻿using Inventory.Application.Messaging.Abstract;
+using Inventory.Application.Messaging.Abstract;
 using MassTransit;
 
 namespace Inventory.Application.Messaging.Concrete
@@ -11,3 +11,4 @@ namespace Inventory.Application.Messaging.Concrete
             => _bus.Publish(@event, ct);
     }
 }
+

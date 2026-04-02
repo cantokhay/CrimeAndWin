@@ -1,6 +1,6 @@
-ï»¿using Bogus;
+using Bogus;
 using Economy.Domain.VOs;
-using MediatR;
+using Mediator;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 
@@ -22,7 +22,7 @@ namespace Economy.Application.Features.Seed
             _clock = clock;
         }
 
-        public async Task<Unit> Handle(RunEconomySeedCommand request, CancellationToken cancellationToken)
+        public async ValueTask<Unit> Handle(RunEconomySeedCommand request, CancellationToken cancellationToken)
         {
             var faker = new Faker("en");
 
@@ -42,7 +42,7 @@ namespace Economy.Application.Features.Seed
                     IsDeleted = false
                 };
 
-                // Her cÃ¼zdana 3â€“5 rastgele iÅŸlem ekleyelim
+                // Her cüzdana 3–5 rastgele iþlem ekleyelim
                 var txCount = faker.Random.Int(3, 5);
                 for (int j = 0; j < txCount; j++)
                 {
@@ -76,3 +76,4 @@ namespace Economy.Application.Features.Seed
         }
     }
 }
+

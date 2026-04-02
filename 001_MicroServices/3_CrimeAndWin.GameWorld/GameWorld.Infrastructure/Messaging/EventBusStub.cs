@@ -1,4 +1,4 @@
-﻿using GameWorld.Application.Abstract;
+using GameWorld.Application.Abstract;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
 
@@ -16,3 +16,5 @@ namespace GameWorld.Infrastructure.Messaging
         }
     }
 }
+
+

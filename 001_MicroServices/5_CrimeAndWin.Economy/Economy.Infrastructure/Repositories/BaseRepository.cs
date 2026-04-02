@@ -1,4 +1,4 @@
-﻿using Economy.Infrastructure.Persistance.Context;
+using Economy.Infrastructure.Persistance.Context;
 using Microsoft.EntityFrameworkCore;
 using Shared.Domain;
 using Shared.Domain.Repository;
@@ -13,3 +13,4 @@ namespace Economy.Infrastructure.Repositories
         public DbSet<T> Table => _ctx.Set<T>();
     }
 }
+

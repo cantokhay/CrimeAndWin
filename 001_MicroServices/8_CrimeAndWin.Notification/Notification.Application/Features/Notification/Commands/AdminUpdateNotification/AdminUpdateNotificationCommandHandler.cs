@@ -1,4 +1,4 @@
-﻿using MediatR;
+using Mediator;
 using Notification.Domain.VOs;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
@@ -22,7 +22,7 @@ namespace Notification.Application.Features.Notification.Commands.AdminUpdateNot
             _time = time;
         }
 
-        public async Task<bool> Handle(AdminUpdateNotificationCommand request, CancellationToken cancellationToken)
+        public async ValueTask<bool> Handle(AdminUpdateNotificationCommand request, CancellationToken cancellationToken)
         {
             var d = request.updateNotificationDTO;
 
@@ -41,3 +41,4 @@ namespace Notification.Application.Features.Notification.Commands.AdminUpdateNot
         }
     }
 }
+

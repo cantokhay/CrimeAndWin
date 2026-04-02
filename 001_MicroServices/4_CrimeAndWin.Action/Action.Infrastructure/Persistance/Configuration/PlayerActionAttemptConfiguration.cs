@@ -1,4 +1,4 @@
-﻿using Action.Domain.Entities;
+using Action.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -25,3 +25,4 @@ namespace Action.Infrastructure.Persistance.Configuration
         }
     }
 }
+

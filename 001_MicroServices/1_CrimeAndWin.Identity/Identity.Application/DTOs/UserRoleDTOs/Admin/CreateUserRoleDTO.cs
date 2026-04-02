@@ -1,4 +1,4 @@
-﻿namespace Identity.Application.DTOs.UserRoleDTOs.Admin
+namespace Identity.Application.DTOs.UserRoleDTOs.Admin
 {
     public sealed class CreateUserRoleDTO
     {
@@ -6,3 +6,4 @@
         public Guid RoleId { get; set; }
     }
 }
+

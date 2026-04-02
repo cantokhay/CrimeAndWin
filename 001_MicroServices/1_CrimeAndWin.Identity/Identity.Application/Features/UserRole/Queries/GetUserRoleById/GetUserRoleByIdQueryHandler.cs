@@ -1,5 +1,5 @@
-﻿using Identity.Application.DTOs.UserRoleDTOs.Admin;
-using MediatR;
+using Identity.Application.DTOs.UserRoleDTOs.Admin;
+using Mediator;
 using Shared.Domain.Repository;
 
 namespace Identity.Application.Features.UserRole.Queries.GetUserRoleById
@@ -13,7 +13,7 @@ namespace Identity.Application.Features.UserRole.Queries.GetUserRoleById
             _readRepository = readRepository;
         }
 
-        public async Task<ResultUserRoleDTO> Handle(GetUserRoleByIdQuery request, CancellationToken cancellationToken)
+        public async ValueTask<ResultUserRoleDTO> Handle(GetUserRoleByIdQuery request, CancellationToken cancellationToken)
         {
             var entity = await _readRepository.GetByIdAsync(request.id.ToString());
             if (entity == null) return null!;
@@ -29,3 +29,4 @@ namespace Identity.Application.Features.UserRole.Queries.GetUserRoleById
         }
     }
 }
+

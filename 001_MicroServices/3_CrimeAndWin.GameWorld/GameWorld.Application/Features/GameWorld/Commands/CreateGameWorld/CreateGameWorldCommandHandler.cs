@@ -1,7 +1,7 @@
-﻿using AutoMapper;
+using GameWorld.Application.Mapping;
 using GameWorld.Application.DTOs.GameWorldDTOs;
 using GameWorld.Domain.VOs;
-using MediatR;
+using Mediator;
 using Shared.Domain.Repository;
 
 namespace GameWorld.Application.Features.GameWorld.Commands.CreateGameWorld
@@ -9,14 +9,14 @@ namespace GameWorld.Application.Features.GameWorld.Commands.CreateGameWorld
     public class CreateGameWorldCommandHandler : IRequestHandler<CreateGameWorldCommand, CreateGameWorldDTO>
     {
         private readonly IWriteRepository<Domain.Entities.GameWorld> _repo;
-        private readonly IMapper _mapper;
+        private readonly GameWorldMapper _mapper;
 
-        public CreateGameWorldCommandHandler(IWriteRepository<Domain.Entities.GameWorld> repo, IMapper mapper)
+        public CreateGameWorldCommandHandler(IWriteRepository<Domain.Entities.GameWorld> repo, GameWorldMapper mapper)
         {
             _repo = repo; _mapper = mapper;
         }
 
-        public async Task<CreateGameWorldDTO> Handle(CreateGameWorldCommand request, CancellationToken ct)
+        public async ValueTask<CreateGameWorldDTO> Handle(CreateGameWorldCommand request, CancellationToken ct)
         {
             var entity = new Domain.Entities.GameWorld
             {
@@ -30,7 +30,8 @@ namespace GameWorld.Application.Features.GameWorld.Commands.CreateGameWorld
             await _repo.AddAsync(entity);
             await _repo.SaveAsync();
 
-            return _mapper.Map<CreateGameWorldDTO>(entity);
+            return _mapper.ToCreateDto(entity);
         }
     }
 }
+

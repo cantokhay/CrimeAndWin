@@ -1,7 +1,7 @@
-﻿using Action.Domain.Entities;
+using Action.Domain.Entities;
 using Action.Domain.Enums;
 using Action.Domain.VOs;
-using MediatR;
+using Mediator;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 
@@ -24,7 +24,7 @@ namespace Action.Application.Features.PlayerActionAttempts.Commands.AdminUpdateP
             _time = time;
         }
 
-        public async Task<bool> Handle(AdminUpdatePlayerActionAttemptCommand request, CancellationToken ct)
+        public async ValueTask<bool> Handle(AdminUpdatePlayerActionAttemptCommand request, CancellationToken ct)
         {
             var d = request.Dto;
             var entity = await _read.GetByIdAsync(d.Id.ToString(), tracking: true);
@@ -43,3 +43,4 @@ namespace Action.Application.Features.PlayerActionAttempts.Commands.AdminUpdateP
         }
     }
 }
+

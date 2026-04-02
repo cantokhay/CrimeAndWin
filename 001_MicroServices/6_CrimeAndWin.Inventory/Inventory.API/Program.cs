@@ -11,6 +11,8 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
+using Shared.Infrastructure;
+using Shared.Infrastructure.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,12 +23,10 @@ builder.Services.AddDbContext<InventoryDbContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("InventoryLaptopConnection"));
 });
 
-// MediatR & AutoMapper
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(IApplicationAssemblyMarker).Assembly));
-builder.Services.AddAutoMapper(cfg =>
-{
-    cfg.AddProfile(new GeneralMapping());
-});
+// MediatR & Mapperly & Validation
+builder.Services.AddMediator();
+builder.Services.AddScoped<InventoryMapper>();
+builder.Services.AddSharedValidation(typeof(IApplicationAssemblyMarker).Assembly);
 
 //DI Registrations
 builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
@@ -35,8 +35,7 @@ builder.Services.AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>)
 builder.Services.AddSingleton<IDateTimeProvider, SystemDateTimeProvider>();
 builder.Services.AddScoped<IEventPublisher, EventPublisher>();
 
-//FluentValidation
-builder.Services.AddScoped<IValidator<AddItemCommand>, AddItemCommandValidator>();
+// builder.Services.AddScoped<IValidator<AddItemCommand>, AddItemCommandValidator>();
 
 //RabbitMQ & MassTransit
 builder.Services.AddMassTransit(x =>
@@ -64,12 +63,19 @@ builder.Services.AddMassTransit(x =>
     });
 });
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(opt =>
+{
+    opt.Filters.Add<GlobalExceptionFilter>();
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddHealthChecks();
+
 var app = builder.Build();
+
+app.MapHealthChecks("/health");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -85,3 +91,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+

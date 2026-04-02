@@ -1,4 +1,4 @@
-﻿namespace Moderation.Application.DTOs.ModerationActionDTOs.Admin
+namespace Moderation.Application.DTOs.ModerationActionDTOs.Admin
 {
     public sealed class AdminUpdateModerationActionDTO
     {
@@ -13,3 +13,4 @@
         public bool IsActive { get; set; }
     }
 }
+

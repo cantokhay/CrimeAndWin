@@ -1,4 +1,4 @@
-﻿using MediatR;
+using Mediator;
 
 namespace Economy.Application.Features.Wallet.Commands.CreateWallet
 {
@@ -8,3 +8,4 @@ namespace Economy.Application.Features.Wallet.Commands.CreateWallet
         public decimal Amount { get; set; }
     }
 }
+

@@ -1,4 +1,4 @@
-﻿namespace Identity.Application.DTOs.UserDTOs.Admin
+namespace Identity.Application.DTOs.UserDTOs.Admin
 {
     public sealed class ResultAppUserDTO
     {
@@ -16,3 +16,4 @@
         public DateTime? UpdatedAtUtc { get; set; }
     }
 }
+

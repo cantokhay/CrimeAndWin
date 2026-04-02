@@ -1,6 +1,5 @@
-﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using MediatR;
+using Notification.Application.Mapping;
+using Mediator;
 using Microsoft.EntityFrameworkCore;
 using Notification.Application.DTOs;
 using Shared.Domain.Repository;
@@ -10,21 +9,24 @@ namespace Notification.Application.Features.Notification.Queries.GetNotification
     public class GetNotificationByPlayerIdHandler : IRequestHandler<GetNotificationByPlayerIdQuery, List<ResultNotificationDTO>>
     {
         private readonly IReadRepository<Domain.Entities.Notification> _readRepository;
-        private readonly IMapper _mapper;
+        private readonly NotificationMapper _mapper;
 
-        public GetNotificationByPlayerIdHandler(IReadRepository<Domain.Entities.Notification> readRepository, IMapper mapper)
+        public GetNotificationByPlayerIdHandler(IReadRepository<Domain.Entities.Notification> readRepository, NotificationMapper mapper)
         {
             _readRepository = readRepository;
             _mapper = mapper;
         }
 
-        public async Task<List<ResultNotificationDTO>> Handle(GetNotificationByPlayerIdQuery request, CancellationToken cancellationToken)
+        public async ValueTask<List<ResultNotificationDTO>> Handle(GetNotificationByPlayerIdQuery request, CancellationToken cancellationToken)
         {
-            return await _readRepository
+            var data = await _readRepository
                 .GetWhere(x => x.PlayerId == request.PlayerId, tracking: false)
                 .OrderByDescending(x => x.CreatedAtUtc)
-                .ProjectTo<ResultNotificationDTO>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
+
+            return _mapper.ToResultDtoList(data).ToList();
         }
     }
 }
+
+

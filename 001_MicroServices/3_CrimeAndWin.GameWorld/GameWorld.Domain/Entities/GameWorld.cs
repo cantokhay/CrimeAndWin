@@ -1,4 +1,4 @@
-﻿using GameWorld.Domain.VOs;
+using GameWorld.Domain.VOs;
 using Shared.Domain;
 
 namespace GameWorld.Domain.Entities
@@ -10,3 +10,5 @@ namespace GameWorld.Domain.Entities
         public ICollection<Season> Seasons { get; set; }
     }
 }
+
+

@@ -1,4 +1,4 @@
-﻿using MediatR;
+using Mediator;
 using Shared.Domain.Repository;
 
 namespace Moderation.Application.Features.ModerationAction.Commands.AdminDeleteModerationAction
@@ -13,7 +13,7 @@ namespace Moderation.Application.Features.ModerationAction.Commands.AdminDeleteM
             _write = write;
         }
 
-        public async Task<bool> Handle(AdminDeleteModerationActionCommand request, CancellationToken cancellationToken)
+        public async ValueTask<bool> Handle(AdminDeleteModerationActionCommand request, CancellationToken cancellationToken)
         {
             var ok = await _write.RemoveAsync(request.id.ToString());
             await _write.SaveAsync();
@@ -21,3 +21,4 @@ namespace Moderation.Application.Features.ModerationAction.Commands.AdminDeleteM
         }
     }
 }
+

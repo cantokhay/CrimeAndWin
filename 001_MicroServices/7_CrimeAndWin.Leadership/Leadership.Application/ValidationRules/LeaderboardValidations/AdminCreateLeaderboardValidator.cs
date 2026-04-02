@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using Leadership.Application.DTOs.LeaderboardDTOs.Admin;
 
 namespace Leadership.Application.ValidationRules.LeaderboardValidations
@@ -12,3 +12,4 @@ namespace Leadership.Application.ValidationRules.LeaderboardValidations
         }
     }
 }
+

@@ -1,4 +1,4 @@
-﻿using Identity.Application.DTOs.RefreshTokenDTOs.Admin;
+using Identity.Application.DTOs.RefreshTokenDTOs.Admin;
 using Identity.Application.DTOs.RoleDTOs.Admin;
 using Identity.Application.DTOs.UserClaimDTOs.Admin;
 using Identity.Application.DTOs.UserDTOs.Admin;
@@ -41,7 +41,7 @@ using Identity.Application.Features.UserToken.Commands.DeleteUserToken;
 using Identity.Application.Features.UserToken.Commands.UpdateUserToken;
 using Identity.Application.Features.UserToken.Queries.GetAllUserTokens;
 using Identity.Application.Features.UserToken.Queries.GetUserTokenById;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Identity.API.Controllers
@@ -332,3 +332,4 @@ namespace Identity.API.Controllers
         }
     }
 }
+

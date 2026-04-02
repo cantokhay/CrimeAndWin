@@ -1,4 +1,4 @@
-﻿namespace Notification.Application.DTOs
+namespace Notification.Application.DTOs
 {
     public class CreateNotificationDTO
     {
@@ -8,3 +8,4 @@
         public string Type { get; set; }
     }
 }
+

@@ -1,4 +1,4 @@
-ï»¿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
@@ -11,7 +11,7 @@ namespace Identity.API.Controllers
     public sealed class WhoAmIsController : ControllerBase
     {
         [HttpGet]
-        [Authorize] // giriÅŸ yapmÄ±ÅŸ herkes
+        [Authorize] // giriþ yapmýþ herkes
         public IActionResult Get()
         => Ok(new
         {
@@ -21,7 +21,7 @@ namespace Identity.API.Controllers
         });
 
         [HttpGet("admin")]
-        [Authorize(Policy = "AdminOnly")] // yalnÄ±z Admin
+        [Authorize(Policy = "AdminOnly")] // yalnýz Admin
         public IActionResult AdminPing() => Ok("admin ok");
 
         [Authorize]
@@ -38,3 +38,4 @@ namespace Identity.API.Controllers
         }
     }
 }
+

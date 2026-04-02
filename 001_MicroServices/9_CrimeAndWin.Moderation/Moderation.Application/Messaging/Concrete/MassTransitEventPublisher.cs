@@ -1,4 +1,4 @@
-﻿using MassTransit;
+using MassTransit;
 using Moderation.Application.Messaging.Abstract;
 
 namespace Moderation.Application.Messaging.Concrete
@@ -10,3 +10,4 @@ namespace Moderation.Application.Messaging.Concrete
         public Task PublishAsync<T>(T @event, string topic = null) => _publish.Publish(@event);
     }
 }
+

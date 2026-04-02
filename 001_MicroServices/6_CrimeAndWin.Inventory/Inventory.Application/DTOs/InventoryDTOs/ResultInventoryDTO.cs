@@ -1,4 +1,4 @@
-﻿using Inventory.Application.DTOs.ItemDTOs;
+using Inventory.Application.DTOs.ItemDTOs;
 
 namespace Inventory.Application.DTOs.InventoryDTOs
 {
@@ -9,3 +9,4 @@ namespace Inventory.Application.DTOs.InventoryDTOs
         public List<ResultItemDTO> Items { get; set; }
     }
 }
+

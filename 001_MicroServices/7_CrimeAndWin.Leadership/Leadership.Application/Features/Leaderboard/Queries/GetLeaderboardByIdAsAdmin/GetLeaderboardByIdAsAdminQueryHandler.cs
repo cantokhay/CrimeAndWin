@@ -1,6 +1,6 @@
-﻿using Leadership.Application.DTOs.LeaderboardDTOs.Admin;
+using Leadership.Application.DTOs.LeaderboardDTOs.Admin;
 using Leadership.Application.DTOs.LeaderboardEntryDTOs.Admin;
-using MediatR;
+using Mediator;
 using Shared.Domain.Repository;
 
 namespace Leadership.Application.Features.Leaderboard.Queries.GetLeaderboardByIdAsAdmin
@@ -15,7 +15,7 @@ namespace Leadership.Application.Features.Leaderboard.Queries.GetLeaderboardById
             _read = read;
         }
 
-        public async Task<AdminResultLeaderboardDTO?> Handle(GetLeaderboardByIdAsAdminQuery request, CancellationToken cancellationToken)
+        public async ValueTask<AdminResultLeaderboardDTO?> Handle(GetLeaderboardByIdAsAdminQuery request, CancellationToken cancellationToken)
         {
             var lb = await _read.GetByIdAsync(request.id.ToString(), tracking: false);
             if (lb is null) return null;
@@ -45,3 +45,4 @@ namespace Leadership.Application.Features.Leaderboard.Queries.GetLeaderboardById
         }
     }
 }
+

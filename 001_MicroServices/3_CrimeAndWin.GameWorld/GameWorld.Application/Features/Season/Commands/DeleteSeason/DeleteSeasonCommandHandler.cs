@@ -1,4 +1,4 @@
-﻿using MediatR;
+using Mediator;
 using Shared.Domain.Repository;
 using GameWorld.Application.Features.Season.Commands.DeleteSeason;
 
@@ -13,7 +13,7 @@ namespace Season.Application.Features.Season.Commands.DeleteSeason
             _write = write;
         }
 
-        public async Task<bool> Handle(DeleteSeasonCommand request, CancellationToken cancellationToken)
+        public async ValueTask<bool> Handle(DeleteSeasonCommand request, CancellationToken cancellationToken)
         {
             var result = await _write.RemoveAsync(request.Id.ToString());
             await _write.SaveAsync();
@@ -21,3 +21,5 @@ namespace Season.Application.Features.Season.Commands.DeleteSeason
         }
     }
 }
+
+

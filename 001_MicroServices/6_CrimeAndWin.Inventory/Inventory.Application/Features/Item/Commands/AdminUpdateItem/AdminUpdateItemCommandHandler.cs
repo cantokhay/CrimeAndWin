@@ -1,5 +1,5 @@
-﻿using Inventory.Domain.VOs;
-using MediatR;
+using Inventory.Domain.VOs;
+using Mediator;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 
@@ -22,7 +22,7 @@ namespace Inventory.Application.Features.Item.Commands.AdminUpdateItem
             _time = time;
         }
 
-        public async Task<bool> Handle(AdminUpdateItemCommand request, CancellationToken ct)
+        public async ValueTask<bool> Handle(AdminUpdateItemCommand request, CancellationToken ct)
         {
             var d = request.updateItemDTO;
 
@@ -43,3 +43,4 @@ namespace Inventory.Application.Features.Item.Commands.AdminUpdateItem
         }
     }
 }
+

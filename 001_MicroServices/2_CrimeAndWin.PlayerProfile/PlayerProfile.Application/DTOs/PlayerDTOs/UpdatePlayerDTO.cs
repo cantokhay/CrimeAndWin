@@ -1,4 +1,4 @@
-﻿namespace PlayerProfile.Application.DTOs.PlayerDTOs
+namespace PlayerProfile.Application.DTOs.PlayerDTOs
 {
     public sealed class UpdatePlayerDTO
     {
@@ -19,3 +19,4 @@
     }
 
 }
+

@@ -1,4 +1,4 @@
-﻿namespace Identity.Application.DTOs.UserClaimDTOs.Admin
+namespace Identity.Application.DTOs.UserClaimDTOs.Admin
 {
     public sealed class ResultUserClaimDTO
     {
@@ -10,3 +10,4 @@
         public DateTime? UpdatedAtUtc { get; set; }
     }
 }
+

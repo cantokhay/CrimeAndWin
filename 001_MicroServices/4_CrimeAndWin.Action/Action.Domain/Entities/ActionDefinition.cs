@@ -1,4 +1,4 @@
-﻿using Action.Domain.VOs;
+using Action.Domain.VOs;
 using Shared.Domain;
 
 namespace Action.Domain.Entities
@@ -13,3 +13,4 @@ namespace Action.Domain.Entities
         public bool IsActive { get; set; }
     }
 }
+

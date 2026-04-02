@@ -1,5 +1,5 @@
-﻿using Identity.Application.DTOs.UserRoleDTOs.Admin;
-using MediatR;
+using Identity.Application.DTOs.UserRoleDTOs.Admin;
+using Mediator;
 using Microsoft.EntityFrameworkCore;
 using Shared.Domain.Repository;
 
@@ -14,7 +14,7 @@ namespace Identity.Application.Features.UserRole.Queries.GetAllUserRoles
             _readRepository = readRepository;
         }
 
-        public async Task<List<ResultUserRoleDTO>> Handle(GetAllUserRolesQuery request, CancellationToken cancellationToken)
+        public async ValueTask<List<ResultUserRoleDTO>> Handle(GetAllUserRolesQuery request, CancellationToken cancellationToken)
         {
             return await _readRepository
                 .GetAll()
@@ -30,3 +30,5 @@ namespace Identity.Application.Features.UserRole.Queries.GetAllUserRoles
         }
     }
 }
+
+

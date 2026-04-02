@@ -1,4 +1,4 @@
-﻿using Inventory.Domain.VOs;
+using Inventory.Domain.VOs;
 using Shared.Domain;
 
 namespace Inventory.Domain.Entities
@@ -14,3 +14,4 @@ namespace Inventory.Domain.Entities
         public Inventory Inventory { get; set; }
     }
 }
+

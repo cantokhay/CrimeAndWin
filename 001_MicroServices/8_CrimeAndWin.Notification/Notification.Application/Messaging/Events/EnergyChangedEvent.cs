@@ -1,4 +1,4 @@
-﻿namespace Notification.Application.Messaging.Events
+namespace Notification.Application.Messaging.Events
 {
     public record EnergyChangedEvent
         (
@@ -8,3 +8,4 @@
         DateTime OccurredAtUtc
         );
 }
+

@@ -1,4 +1,4 @@
-﻿namespace PlayerProfile.Application.DTOs.PlayerDTOs
+namespace PlayerProfile.Application.DTOs.PlayerDTOs
 {
     public sealed class CreatePlayerDTO
     {
@@ -16,3 +16,4 @@
         public int? RankPosition { get; set; }
     }
 }
+

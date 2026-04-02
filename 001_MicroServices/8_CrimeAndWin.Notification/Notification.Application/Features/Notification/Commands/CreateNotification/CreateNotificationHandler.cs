@@ -1,5 +1,5 @@
-﻿using AutoMapper;
-using MediatR;
+using AutoMapper;
+using Mediator;
 using Notification.Domain.VOs;
 using Shared.Domain.Repository;
 
@@ -17,7 +17,7 @@ namespace Notification.Application.Features.Notification.Commands.CreateNotifica
             _mapper = mapper;
         }
 
-        public async Task<Guid> Handle(CreateNotificationCommand request, CancellationToken cancellationToken)
+        public async ValueTask<Guid> Handle(CreateNotificationCommand request, CancellationToken cancellationToken)
         {
             var entity = new Domain.Entities.Notification
             {
@@ -32,3 +32,4 @@ namespace Notification.Application.Features.Notification.Commands.CreateNotifica
         }
     }
 }
+

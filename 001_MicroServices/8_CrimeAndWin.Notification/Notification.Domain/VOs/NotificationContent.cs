@@ -1,4 +1,4 @@
-﻿namespace Notification.Domain.VOs
+namespace Notification.Domain.VOs
 {
     public record NotificationContent
         (
@@ -7,3 +7,4 @@
         string Type
         );
 }
+

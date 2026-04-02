@@ -1,4 +1,4 @@
-﻿using Inventory.Domain.Enums;
+using Inventory.Domain.Enums;
 
 namespace Inventory.Domain.VOs
 {
@@ -8,3 +8,4 @@ namespace Inventory.Domain.VOs
         CurrencyType Currency
         );
 }
+

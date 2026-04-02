@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Notification.Infrastructure.Persistance.Configurations;
 
 namespace Notification.Infrastructure.Persistance.Context
@@ -15,3 +15,4 @@ namespace Notification.Infrastructure.Persistance.Context
         }
     }
 }
+

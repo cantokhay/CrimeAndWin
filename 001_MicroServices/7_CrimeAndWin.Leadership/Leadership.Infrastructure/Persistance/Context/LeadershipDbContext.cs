@@ -1,4 +1,4 @@
-﻿using Leadership.Domain.Entities;
+using Leadership.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Leadership.Infrastructure.Persistance.Context
@@ -18,3 +18,4 @@ namespace Leadership.Infrastructure.Persistance.Context
         }
     }
 }
+

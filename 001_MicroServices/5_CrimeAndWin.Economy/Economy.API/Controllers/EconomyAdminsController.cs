@@ -1,4 +1,4 @@
-﻿using Economy.Application.DTOs.TransactionDTOs.Admin;
+using Economy.Application.DTOs.TransactionDTOs.Admin;
 using Economy.Application.DTOs.WalletDTOs.Admin;
 using Economy.Application.Features.Transactions.Commands.AdminCreateTransaction;
 using Economy.Application.Features.Transactions.Commands.AdminDeleteTransaction;
@@ -10,7 +10,7 @@ using Economy.Application.Features.Wallet.Commands.AdminDeleteWallet;
 using Economy.Application.Features.Wallet.Commands.AdminUpdateWallet;
 using Economy.Application.Features.Wallet.Queries.GetAllWalletsAsAdmin;
 using Economy.Application.Features.Wallet.Queries.GetWalletByIdAsAdmin;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Economy.API.Controllers
@@ -121,3 +121,4 @@ namespace Economy.API.Controllers
         }
     }
 }
+

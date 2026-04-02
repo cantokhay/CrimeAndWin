@@ -1,4 +1,4 @@
-﻿using MediatR;
+using Mediator;
 
 namespace Inventory.Application.Features.Inventory.Commands.CreateInventory
 {
@@ -7,3 +7,4 @@ namespace Inventory.Application.Features.Inventory.Commands.CreateInventory
         ) 
         : IRequest<bool>;
 }
+

@@ -1,4 +1,4 @@
-﻿namespace Identity.Application.DTOs.UserTokenDTOs.Admin
+namespace Identity.Application.DTOs.UserTokenDTOs.Admin
 {
     public sealed class UpdateUserTokenDTO
     {
@@ -9,3 +9,4 @@
         public string? Value { get; set; }
     }
 }
+

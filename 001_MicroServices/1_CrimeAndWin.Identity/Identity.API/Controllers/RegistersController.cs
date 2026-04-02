@@ -1,6 +1,6 @@
-ï»¿using Identity.Application.DTOs.UserDTOs;
+using Identity.Application.DTOs.UserDTOs;
 using Identity.Application.Features.User.Commands.RegisterUser;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +14,7 @@ namespace Identity.API.Controllers
         private readonly IMediator _mediator;
         public RegistersController(IMediator mediator) => _mediator = mediator;
 
-        /// <summary>KullanÄ±cÄ± kaydÄ± oluÅŸturur.</summary>
+        /// <summary>Kullanıcı kaydı oluşturur.</summary>
         [HttpPost]
         [AllowAnonymous]
         [ProducesResponseType(typeof(AppUserDTO), StatusCodes.Status201Created)]
@@ -25,21 +25,22 @@ namespace Identity.API.Controllers
             try
             {
                 var created = await _mediator.Send(command, ct);
-                // Location header isteÄŸe baÄŸlÄ±: kaynaÄŸÄ± temsil eden basit bir URL
+                // Location header isteğe bağlı: kaynağı temsil eden basit bir URL
                 return CreatedAtAction(nameof(Get), new { id = created.Id }, created);
             }
             catch (ArgumentException ex)
             {
-                return ValidationProblem(title: "GeÃ§ersiz alan", detail: ex.Message, statusCode: StatusCodes.Status400BadRequest);
+                return ValidationProblem(title: "Geçersiz alan", detail: ex.Message, statusCode: StatusCodes.Status400BadRequest);
             }
-            catch (InvalidOperationException ex) // Ã¶r. e-posta/username benzersiz deÄŸil
+            catch (InvalidOperationException ex) // ör. e-posta/username benzersiz değil
             {
-                return Problem(title: "Ã‡akÄ±ÅŸma", detail: ex.Message, statusCode: StatusCodes.Status409Conflict);
+                return Problem(title: "Çakışma", detail: ex.Message, statusCode: StatusCodes.Status409Conflict);
             }
         }
 
-        /// <summary>Basit demo amaÃ§lÄ±: oluÅŸturulan kullanÄ±cÄ±yÄ± gÃ¶rmek iÃ§in (isteÄŸe baÄŸlÄ±)</summary>
+        /// <summary>Basit demo amaçlı: oluşturulan kullanıcıyı görmek için (isteğe bağlı)</summary>
         [HttpGet("{id:guid}")]
-        public IActionResult Get(Guid id) => Ok(new { id }); // gerÃ§ek okuma iÃ§in query/handler eklenebilir
+        public IActionResult Get(Guid id) => Ok(new { id }); // gerçek okuma için query/handler eklenebilir
     }
 }
+

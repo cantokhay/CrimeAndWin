@@ -1,4 +1,4 @@
-﻿using Economy.Application.DTOs.TransactionDTOs.Admin;
+using Economy.Application.DTOs.TransactionDTOs.Admin;
 using FluentValidation;
 
 namespace Economy.Application.ValidationRules.TransactionValidations
@@ -16,3 +16,4 @@ namespace Economy.Application.ValidationRules.TransactionValidations
         }
     }
 }
+

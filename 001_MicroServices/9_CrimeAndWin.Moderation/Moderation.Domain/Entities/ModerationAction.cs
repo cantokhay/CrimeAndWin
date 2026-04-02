@@ -1,4 +1,4 @@
-﻿using Shared.Domain;
+using Shared.Domain;
 
 namespace Moderation.Domain.Entities
 {
@@ -13,3 +13,4 @@ namespace Moderation.Domain.Entities
         public bool IsActive { get; set; }
     }
 }
+

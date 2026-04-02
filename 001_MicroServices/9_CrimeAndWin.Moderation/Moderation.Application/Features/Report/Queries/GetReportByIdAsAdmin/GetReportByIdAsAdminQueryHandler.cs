@@ -1,4 +1,4 @@
-﻿using MediatR;
+using Mediator;
 using Moderation.Application.DTOs.ReportDTOs.Admin;
 using Shared.Domain.Repository;
 
@@ -14,7 +14,7 @@ namespace Moderation.Application.Features.Report.Queries.GetReportByIdAsAdmin
             _read = read;
         }
 
-        public async Task<AdminResultReportDTO?> Handle(GetReportByIdAsAdminQuery request, CancellationToken cancellationToken)
+        public async ValueTask<AdminResultReportDTO?> Handle(GetReportByIdAsAdminQuery request, CancellationToken cancellationToken)
         {
             var r = await _read.GetByIdAsync(request.id.ToString(), tracking: false);
             if (r is null) return null;
@@ -35,3 +35,4 @@ namespace Moderation.Application.Features.Report.Queries.GetReportByIdAsAdmin
         }
     }
 }
+

@@ -1,4 +1,4 @@
-﻿using Inventory.Domain.Enums;
+using Inventory.Domain.Enums;
 
 namespace Inventory.Application.DTOs.ItemDTOs.Admin
 {
@@ -17,3 +17,4 @@ namespace Inventory.Application.DTOs.ItemDTOs.Admin
         public CurrencyType Currency { get; set; }
     }
 }
+

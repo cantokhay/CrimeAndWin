@@ -1,6 +1,6 @@
-﻿using Economy.Domain.Entities;
+using Economy.Domain.Entities;
 using Economy.Domain.VOs;
-using MediatR;
+using Mediator;
 using Shared.Domain.Repository;
 
 namespace Economy.Application.Features.Wallet.Commands.DepositMoney
@@ -20,7 +20,7 @@ namespace Economy.Application.Features.Wallet.Commands.DepositMoney
             _transactionWriteRepository = transactionWriteRepository;
         }
 
-        public async Task<bool> Handle(DepositMoneyCommand request, CancellationToken cancellationToken)
+        public async ValueTask<bool> Handle(DepositMoneyCommand request, CancellationToken cancellationToken)
         {
             var wallet = await _walletReadRepository.GetSingleAsync(w => w.PlayerId == request.PlayerId);
             if (wallet == null) return false;
@@ -41,3 +41,4 @@ namespace Economy.Application.Features.Wallet.Commands.DepositMoney
         }
     }
 }
+

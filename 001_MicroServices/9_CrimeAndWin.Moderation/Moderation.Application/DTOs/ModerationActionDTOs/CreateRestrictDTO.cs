@@ -1,4 +1,4 @@
-﻿namespace Moderation.Application.DTOs.ModerationActionDTOs
+namespace Moderation.Application.DTOs.ModerationActionDTOs
 {
     public class CreateRestrictDTO
     {
@@ -8,3 +8,4 @@
         public DateTime? ExpiryDateUtc { get; set; }
     }
 }
+

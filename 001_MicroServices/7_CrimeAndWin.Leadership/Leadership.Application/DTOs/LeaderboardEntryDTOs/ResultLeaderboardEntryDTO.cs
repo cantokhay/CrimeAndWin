@@ -1,4 +1,4 @@
-﻿namespace Leadership.Application.DTOs.LeaderboardEntryDTOs
+namespace Leadership.Application.DTOs.LeaderboardEntryDTOs
 {
     public class ResultLeaderboardEntryDTO
     {
@@ -10,3 +10,4 @@
         public DateTime CreatedAtUtc { get; set; }
     }
 }
+

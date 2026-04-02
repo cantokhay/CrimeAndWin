@@ -1,4 +1,4 @@
-﻿using Leadership.Application.Messaging.Concrete;
+using Leadership.Application.Messaging.Concrete;
 using Leadership.Domain.Entities;
 using Leadership.Domain.VOs;
 using Leadership.Infrastructure.Persistance.Context;
@@ -62,3 +62,4 @@ namespace Leadership.Application.Messaging.Consumers
         }
     }
 }
+

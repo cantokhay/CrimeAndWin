@@ -1,4 +1,4 @@
-﻿namespace Moderation.Application.Messaging.Concrete
+namespace Moderation.Application.Messaging.Concrete
 {
     public class IntegrationEvents
     {
@@ -9,3 +9,4 @@
         public record PlayerRestrictionLiftedIntegrationEvent(Guid PlayerId, Guid ModeratorId, DateTime ActionDateUtc);
     }
 }
+

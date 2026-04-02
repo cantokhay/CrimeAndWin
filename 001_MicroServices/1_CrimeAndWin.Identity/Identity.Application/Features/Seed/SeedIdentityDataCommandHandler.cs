@@ -1,5 +1,5 @@
-﻿using Bogus;
-using MediatR;
+using Bogus;
+using Mediator;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 
@@ -36,12 +36,12 @@ namespace Identity.Application.Features.Seed
             _time = time;
         }
 
-        public async Task<string> Handle(SeedIdentityDataCommand request, CancellationToken cancellationToken)
+        public async ValueTask<string> Handle(SeedIdentityDataCommand request, CancellationToken cancellationToken)
         {
             var now = _time.UtcNow;
             var count = 10;
 
-            // 🧩 Users
+            // ?? Users
             var users = new Faker<Domain.Entities.AppUser>("tr")
                 .RuleFor(x => x.Id, _ => Guid.NewGuid())
                 .RuleFor(x => x.UserName, f => f.Internet.UserName())
@@ -63,7 +63,7 @@ namespace Identity.Application.Features.Seed
             await _userWrite.AddRangeAsync(users);
             await _userWrite.SaveAsync();
 
-            // 🧩 Roles
+            // ?? Roles
             var roles = new Faker<Domain.Entities.Role>("tr")
                 .RuleFor(x => x.Id, _ => Guid.NewGuid())
                 .RuleFor(x => x.Name, f => f.PickRandom(new[] { "Player", "Moderator", "Admin", "VIP", "Support", "Guest" }))
@@ -75,7 +75,7 @@ namespace Identity.Application.Features.Seed
             await _roleWrite.AddRangeAsync(roles);
             await _roleWrite.SaveAsync();
 
-            // 🧩 UserRoles
+            // ?? UserRoles
             var userRoles = users.Select((u, i) => new Domain.Entities.UserRole
             {
                 Id = Guid.NewGuid(),
@@ -87,7 +87,7 @@ namespace Identity.Application.Features.Seed
             await _userRoleWrite.AddRangeAsync(userRoles);
             await _userRoleWrite.SaveAsync();
 
-            // 🧩 UserClaims
+            // ?? UserClaims
             var userClaims = new Faker<Domain.Entities.UserClaim>("tr")
                 .RuleFor(x => x.Id, _ => Guid.NewGuid())
                 .RuleFor(x => x.UserId, f => f.PickRandom(users).Id)
@@ -99,7 +99,7 @@ namespace Identity.Application.Features.Seed
             await _userClaimWrite.AddRangeAsync(userClaims);
             await _userClaimWrite.SaveAsync();
 
-            // 🧩 UserLogins
+            // ?? UserLogins
             var userLogins = new Faker<Domain.Entities.UserLogin>("tr")
                 .RuleFor(x => x.Id, _ => Guid.NewGuid())
                 .RuleFor(x => x.UserId, f => f.PickRandom(users).Id)
@@ -112,7 +112,7 @@ namespace Identity.Application.Features.Seed
             await _userLoginWrite.AddRangeAsync(userLogins);
             await _userLoginWrite.SaveAsync();
 
-            // 🧩 UserTokens
+            // ?? UserTokens
             var userTokens = new Faker<Domain.Entities.UserToken>("tr")
                 .RuleFor(x => x.Id, _ => Guid.NewGuid())
                 .RuleFor(x => x.UserId, f => f.PickRandom(users).Id)
@@ -125,7 +125,7 @@ namespace Identity.Application.Features.Seed
             await _userTokenWrite.AddRangeAsync(userTokens);
             await _userTokenWrite.SaveAsync();
 
-            // 🧩 RefreshTokens
+            // ?? RefreshTokens
             var refreshTokens = new Faker<Domain.Entities.RefreshToken>("tr")
                 .RuleFor(x => x.Id, _ => Guid.NewGuid())
                 .RuleFor(x => x.UserId, f => f.PickRandom(users).Id)
@@ -139,7 +139,8 @@ namespace Identity.Application.Features.Seed
             await _refreshTokenWrite.AddRangeAsync(refreshTokens);
             await _refreshTokenWrite.SaveAsync();
 
-            return "Repository üzerinden Identity seed işlemi başarıyla tamamlandı (her entity 10 kayıt).";
+            return "Repository �zerinden Identity seed i�lemi ba�ar�yla tamamland� (her entity 10 kay�t).";
         }
     }
 }
+

@@ -66,6 +66,9 @@ public class Program
                     }));
         });
 
+        // Add controllers
+        builder.Services.AddControllers();
+
         // 4e. YARP
         var reverseProxyBuilder = builder.Services.AddReverseProxy()
             .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
@@ -78,13 +81,18 @@ public class Program
             });
         }
 
-        var app = builder.Build();
+        builder.Services.AddHealthChecks();
+
+var app = builder.Build();
+
+app.MapHealthChecks("/health");
 
         // 4f. Middleware Sırası
         app.UseSerilogRequestLogging();
         app.UseRateLimiter();
         app.UseAuthentication();
         app.UseAuthorization();
+        app.MapControllers();
         app.MapReverseProxy();
 
         app.Run();

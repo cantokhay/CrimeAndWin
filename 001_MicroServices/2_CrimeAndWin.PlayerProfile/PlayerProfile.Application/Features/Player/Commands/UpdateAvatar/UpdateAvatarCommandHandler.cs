@@ -1,4 +1,4 @@
-﻿using MediatR;
+using Mediator;
 using Shared.Domain.Repository;
 
 namespace PlayerProfile.Application.Features.Player.Commands.UpdateAvatar
@@ -15,3 +15,5 @@ namespace PlayerProfile.Application.Features.Player.Commands.UpdateAvatar
         }
     }
 }
+
+

@@ -1,9 +1,9 @@
-Ôªøusing GameWorld.Application.DTOs.SeasonDTOs;
+using GameWorld.Application.DTOs.SeasonDTOs;
 using GameWorld.Application.Features.Season.Commands.CreateSeason;
 using GameWorld.Application.Features.Season.Commands.DeleteSeason;
 using GameWorld.Application.Features.Season.Commands.UpdateSeason;
 using GameWorld.Application.Features.Season.Queries.GetAllSeason;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Mvc;
 using Season.Application.Features.Season.Queries;
 
@@ -19,7 +19,7 @@ namespace GameWorld.API.Controllers
         [HttpPost("{id}/seasons")]
         public async Task<ActionResult<CreateSeasonDTO>> CreateSeason(Guid id, [FromBody] CreateSeasonCommand body)
         {
-            if (id != body.GameWorldId) return BadRequest("Route id ile body id e≈üle≈ümiyor.");
+            if (id != body.GameWorldId) return BadRequest("Route id ile body id e˛le˛miyor.");
             return Ok(await _mediator.Send(body));
         }
 
@@ -35,14 +35,14 @@ namespace GameWorld.API.Controllers
         public async Task<ActionResult<UpdateSeasonDTO>> Update(Guid id, [FromBody] UpdateSeasonCommand cmd)
         {
             if (id != cmd.SeasonId)
-                return BadRequest("Route id ile body id e≈üle≈ümiyor.");
+                return BadRequest("Route id ile body id e˛le˛miyor.");
 
             var result = await _mediator.Send(cmd);
             return Ok(result);
         }
 
         // -------------------------------
-        // ‚ùå DELETE SEASON (Admin)
+        // ? DELETE SEASON (Admin)
         // -------------------------------
         [HttpDelete("DeleteSeason/{id:guid}")]
         public async Task<IActionResult> DeletePlayerAsAdmin(Guid id)
@@ -53,3 +53,5 @@ namespace GameWorld.API.Controllers
         }
     }
 }
+
+

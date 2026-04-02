@@ -1,10 +1,10 @@
-ï»¿using AutoMapper;
+using AutoMapper;
 using Leadership.Application.DTOs.LeaderboardEntryDTOs;
 using Leadership.Application.Features.LeaderboardEntry.Commands.CreateLeaderboardEntry;
 using Leadership.Application.Features.LeaderboardEntry.Queries.GetAllLeaderboardEntries;
 using Leadership.Application.Features.LeaderboardEntry.Queries.GetLeaderboardEntryByLeaderboardId;
 using Leadership.Application.Features.LeaderboardEntry.Queries.GetPlayerRank;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Leadership.API.Controllers
@@ -47,7 +47,7 @@ namespace Leadership.API.Controllers
         }
 
         /// <summary>
-        /// TÃ¼m LeaderboardEntry kayÄ±tlarÄ±nÄ± listeler.
+        /// Tüm LeaderboardEntry kayýtlarýný listeler.
         /// </summary>
         [HttpGet("GetAll")]
         public async Task<ActionResult<List<ResultLeaderboardEntryDTO>>> GetAll()
@@ -57,3 +57,4 @@ namespace Leadership.API.Controllers
         }
     }
 }
+

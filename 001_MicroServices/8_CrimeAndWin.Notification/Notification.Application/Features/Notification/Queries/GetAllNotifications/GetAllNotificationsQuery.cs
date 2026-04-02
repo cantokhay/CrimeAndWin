@@ -1,7 +1,8 @@
-﻿using MediatR;
+using Mediator;
 using Notification.Application.DTOs;
 
 namespace Notification.Application.Features.Notification.Queries.GetAllNotifications
 {
     public sealed record GetAllNotificationsQuery() : IRequest<List<ResultNotificationDTO>>;
 }
+

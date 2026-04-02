@@ -1,4 +1,4 @@
-﻿namespace Leadership.Domain.VOs
+namespace Leadership.Domain.VOs
 {
     public record Rank
     {
@@ -6,3 +6,4 @@
         public int Position { get; init; }
     }
 }
+

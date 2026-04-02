@@ -1,4 +1,4 @@
-ï»¿using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Mvc;
 using PlayerProfile.Application.DTOs.PlayerDTOs;
 using PlayerProfile.Application.Features.Player.Commands.CreatePlayer;
@@ -42,14 +42,15 @@ namespace PlayerProfile.API.Controllers
             => Ok(await _mediator.Send(new GetAllPlayersQuery()));
 
         /// <summary>
-        /// Bogus ile belirtilen sayÄ±da benzersiz Player verisi oluÅŸturur.
+        /// Bogus ile belirtilen sayıda benzersiz Player verisi oluşturur.
         /// </summary>
-        /// <param name="count">KaÃ§ oyuncu oluÅŸturulacak</param>
+        /// <param name="count">Kaç oyuncu oluşturulacak</param>
         [HttpPost("run")]
         public async Task<IActionResult> Run([FromQuery] int count = 10)
         {
             await _mediator.Send(new RunPlayerSeedCommand(count));
-            return Ok(new { message = $"{count} adet Player baÅŸarÄ±yla seed edildi." });
+            return Ok(new { message = $"{count} adet Player başarıyla seed edildi." });
         }
     }
 }
+

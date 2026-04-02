@@ -1,6 +1,6 @@
-﻿using Action.Application.DTOs.ActionDefinitionDTOs.Admin;
+using Action.Application.DTOs.ActionDefinitionDTOs.Admin;
 using Action.Domain.Entities;
-using MediatR;
+using Mediator;
 using Shared.Domain.Repository;
 
 namespace Action.Application.Features.ActionDefinitons.Queries.GetActionDefinitionByIdAsAdmin
@@ -15,7 +15,7 @@ namespace Action.Application.Features.ActionDefinitons.Queries.GetActionDefiniti
             _read = read;
         }
 
-        public async Task<AdminResultActionDefinitionDTO?> Handle(GetActionDefinitionByIdAsAdminQuery request, CancellationToken ct)
+        public async ValueTask<AdminResultActionDefinitionDTO?> Handle(GetActionDefinitionByIdAsAdminQuery request, CancellationToken ct)
         {
             var a = await _read.GetByIdAsync(request.id.ToString(), tracking: false);
             if (a is null) return null;
@@ -38,3 +38,4 @@ namespace Action.Application.Features.ActionDefinitons.Queries.GetActionDefiniti
         }
     }
 }
+

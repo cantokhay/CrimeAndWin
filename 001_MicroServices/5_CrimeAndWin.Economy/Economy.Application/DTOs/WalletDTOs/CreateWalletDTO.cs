@@ -1,4 +1,4 @@
-﻿namespace Economy.Application.DTOs.WalletDTOs
+namespace Economy.Application.DTOs.WalletDTOs
 {
     public class CreateWalletDTO
     {
@@ -6,3 +6,4 @@
         public decimal Balance { get; set; }
     }
 }
+

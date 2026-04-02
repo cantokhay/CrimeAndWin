@@ -1,4 +1,4 @@
-ï»¿using FluentValidation;
+using FluentValidation;
 using GameWorld.Application.Features.GameWorld.Commands.CreateGameWorld;
 
 namespace GameWorld.Application.ValidationRules.GameWorldValidations
@@ -8,11 +8,11 @@ namespace GameWorld.Application.ValidationRules.GameWorldValidations
         public CreateGameWorldValidator()
         {
             RuleFor(x => x.Name)
-                .NotEmpty().WithMessage("Ä°sim boÅŸ olamaz")
-                .MaximumLength(100).WithMessage("Ä°sim en fazla 100 karakter");
+                .NotEmpty().WithMessage("Ýsim boþ olamaz")
+                .MaximumLength(100).WithMessage("Ýsim en fazla 100 karakter");
 
             RuleFor(x => x.MaxEnergy)
-                .GreaterThan(0).WithMessage("MaxEnergy > 0 olmalÄ±")
+                .GreaterThan(0).WithMessage("MaxEnergy > 0 olmalý")
                 .LessThanOrEqualTo(1000);
 
             RuleFor(x => x.RegenRatePerHour)
@@ -21,3 +21,5 @@ namespace GameWorld.Application.ValidationRules.GameWorldValidations
         }
     }
 }
+
+

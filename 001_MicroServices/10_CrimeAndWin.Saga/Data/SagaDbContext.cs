@@ -17,12 +17,12 @@ public class SagaDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(modelBuilder);
+        // !! ZORUNLU — UseBusOutbox() için bu 3 satırın hepsi gerekli !!
+        modelBuilder.AddInboxStateEntity();
+        modelBuilder.AddOutboxStateEntity();
+        modelBuilder.AddOutboxMessageEntity();
 
-        // Inbox / Outbox state tables for MassTransit atomicity
-        //modelBuilder.AddInboxStateEntity();
-        //modelBuilder.AddOutboxMessageEntity();
-        //modelBuilder.AddOutboxStateEntity();
+        base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<CrimeRewardState>(entity =>
         {
@@ -59,3 +59,4 @@ public class SagaDbContext : DbContext
         });
     }
 }
+

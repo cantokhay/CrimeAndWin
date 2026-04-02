@@ -1,4 +1,4 @@
-﻿namespace Inventory.Domain.Enums
+namespace Inventory.Domain.Enums
 {
     public enum CurrencyType 
     { 
@@ -7,3 +7,4 @@
         Credit = 3 
     }
 }
+

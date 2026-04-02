@@ -1,4 +1,4 @@
-﻿using Economy.Domain.Entities;
+using Economy.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Economy.Infrastructure.Persistance.Context
@@ -17,3 +17,4 @@ namespace Economy.Infrastructure.Persistance.Context
         }
     }
 }
+

@@ -1,4 +1,4 @@
-﻿namespace Action.Application.DTOs.ActionDefinitionDTOs
+namespace Action.Application.DTOs.ActionDefinitionDTOs
 {
     public class CreateActionDefinitionDTO
     {
@@ -13,3 +13,4 @@
         public bool IsActive { get; set; }
     }
 }
+

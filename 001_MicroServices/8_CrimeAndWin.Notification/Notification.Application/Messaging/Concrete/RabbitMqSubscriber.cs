@@ -1,4 +1,4 @@
-ï»¿using MediatR;
+using Mediator;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Hosting;
 using RabbitMQ.Client;
@@ -39,7 +39,7 @@ namespace Notification.Application.Messaging.Concrete
         //            await _mediator.Send(new CreateNotificationCommand(
         //                energyEvent.PlayerId,
         //                "Enerjin doldu!",
-        //                "Enerjin maksimum seviyeye ulaÅŸtÄ±.",
+        //                "Enerjin maksimum seviyeye ulaþtý.",
         //                "EnergyFull"
         //            ));
         //        }
@@ -53,3 +53,4 @@ namespace Notification.Application.Messaging.Concrete
     }
 
 }
+

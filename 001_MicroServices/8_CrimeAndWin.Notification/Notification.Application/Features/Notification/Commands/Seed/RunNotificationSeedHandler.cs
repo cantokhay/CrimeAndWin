@@ -1,5 +1,5 @@
-﻿using Bogus;
-using MediatR;
+using Bogus;
+using Mediator;
 using Notification.Domain.VOs;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
@@ -19,7 +19,7 @@ namespace Notification.Application.Features.Notification.Commands.Seed
             _clock = clock;
         }
 
-        public async Task<Unit> Handle(RunNotificationSeedCommand request, CancellationToken cancellationToken)
+        public async ValueTask<Unit> Handle(RunNotificationSeedCommand request, CancellationToken cancellationToken)
         {
             var faker = new Faker("en");
 
@@ -62,3 +62,4 @@ namespace Notification.Application.Features.Notification.Commands.Seed
             => string.IsNullOrEmpty(value) ? value : value.Length <= maxLength ? value : value[..maxLength];
     }
 }
+

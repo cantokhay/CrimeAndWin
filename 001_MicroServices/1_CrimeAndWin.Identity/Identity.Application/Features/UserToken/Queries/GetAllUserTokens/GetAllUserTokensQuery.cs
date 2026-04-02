@@ -1,7 +1,8 @@
-﻿using Identity.Application.DTOs.UserTokenDTOs.Admin;
-using MediatR;
+using Identity.Application.DTOs.UserTokenDTOs.Admin;
+using Mediator;
 
 namespace Identity.Application.Features.UserToken.Queries.GetAllUserTokens
 {
     public record GetAllUserTokensQuery() : IRequest<List<ResultUserTokenDTO>>;
 }
+

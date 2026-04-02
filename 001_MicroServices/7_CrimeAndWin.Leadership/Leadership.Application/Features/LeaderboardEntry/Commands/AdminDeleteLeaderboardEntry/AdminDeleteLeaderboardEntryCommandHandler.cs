@@ -1,4 +1,4 @@
-﻿using MediatR;
+using Mediator;
 using Shared.Domain.Repository;
 
 namespace Leadership.Application.Features.LeaderboardEntry.Commands.AdminDeleteLeaderboardEntry
@@ -13,7 +13,7 @@ namespace Leadership.Application.Features.LeaderboardEntry.Commands.AdminDeleteL
             _write = write;
         }
 
-        public async Task<bool> Handle(AdminDeleteLeaderboardEntryCommand request, CancellationToken cancellationToken)
+        public async ValueTask<bool> Handle(AdminDeleteLeaderboardEntryCommand request, CancellationToken cancellationToken)
         {
             var ok = await _write.RemoveAsync(request.id.ToString());
             await _write.SaveAsync();
@@ -21,3 +21,4 @@ namespace Leadership.Application.Features.LeaderboardEntry.Commands.AdminDeleteL
         }
     }
 }
+

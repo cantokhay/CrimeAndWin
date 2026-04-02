@@ -1,10 +1,10 @@
-ï»¿using AutoMapper;
+using AutoMapper;
 using Leadership.Application.DTOs.LeaderboardDTOs;
 using Leadership.Application.Features.Leaderboard.Commands.CreateLeaderboard;
 using Leadership.Application.Features.Leaderboard.Commands.Seed;
 using Leadership.Application.Features.Leaderboard.Queries.GetAllLeaderboards;
 using Leadership.Application.Features.Leaderboard.Queries.GetLeaderbordById;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Leadership.API.Controllers
@@ -36,7 +36,7 @@ namespace Leadership.API.Controllers
         }
 
         /// <summary>
-        /// TÃ¼m Leaderboard kayÄ±tlarÄ±nÄ± ve Entries detaylarÄ±nÄ± listeler.
+        /// Tüm Leaderboard kayýtlarýný ve Entries detaylarýný listeler.
         /// </summary>
         [HttpGet("GetAll")]
         public async Task<ActionResult<List<ResultLeaderboardDTO>>> GetAll()
@@ -46,13 +46,14 @@ namespace Leadership.API.Controllers
         }
 
         /// <summary>
-        /// Rastgele Leaderboard ve LeaderboardEntry verileri oluÅŸturur.
+        /// Rastgele Leaderboard ve LeaderboardEntry verileri oluþturur.
         /// </summary>
         [HttpPost("SeedRun")]
         public async Task<IActionResult> SeedRun([FromQuery] int count = 10)
         {
             await _mediator.Send(new RunLeadershipSeedCommand(count));
-            return Ok(new { message = $"{count} adet Leaderboard baÅŸarÄ±yla seed edildi." });
+            return Ok(new { message = $"{count} adet Leaderboard baþarýyla seed edildi." });
         }
     }
 }
+

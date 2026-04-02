@@ -1,5 +1,8 @@
+using CrimeAndWin.Action.GameMechanics;
+using CrimeAndWin.Action.BackgroundServices;
 using Action.Application;
 using Action.Application.Abstract;
+using Action.Infrastructure.Services;
 using Action.Application.DTOs.ActionAttemptDTOs;
 using Action.Application.DTOs.ActionDefinitionDTOs;
 using Action.Application.Mapping;
@@ -13,6 +16,8 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
+using Shared.Infrastructure;
+using Shared.Infrastructure.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,12 +28,10 @@ builder.Services.AddDbContext<ActionDbContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("ActionLaptopConnection"));
 });
 
-// MediatR & AutoMapper
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(IApplicationAssemblyMarker).Assembly));
-builder.Services.AddAutoMapper(cfg =>
-{
-    cfg.AddProfile(new GeneralMapping());
-});
+// MediatR & Mapperly & Validation
+builder.Services.AddMediator();
+builder.Services.AddScoped<ActionMapper>();
+builder.Services.AddSharedValidation(typeof(IApplicationAssemblyMarker).Assembly);
 
 //DI Registrations
 builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
@@ -55,17 +58,30 @@ builder.Services.AddMassTransit(x =>
     });
 });
 
-// FluentValidation
-builder.Services.AddScoped<IValidator<PlayerActionAttemptDTO>, PerformPlayerActionAttemptCommandValidator>();
-builder.Services.AddScoped<IValidator<CreateActionDefinitionDTO>, CreateActionDefinitionCommandValidator>();
+// builder.Services.AddScoped<IValidator<PlayerActionAttemptDTO>, PerformPlayerActionAttemptCommandValidator>();
+// builder.Services.AddScoped<IValidator<CreateActionDefinitionDTO>, CreateActionDefinitionCommandValidator>();
 
 // With this line:
-builder.Services.AddControllers();
+builder.Services.AddScoped<IGameSettingsService, GameSettingsService>();
+builder.Services.AddScoped<IPlayerProfileService, PlayerProfileService>();
+builder.Services.AddControllers(opt =>
+{
+    opt.Filters.Add<GlobalExceptionFilter>();
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+
+builder.Services.AddHostedService<EnergyRefillBackgroundService>();
+builder.Services.AddScoped<SuccessRateCalculator>();
+
+builder.Services.AddHealthChecks();
+
 var app = builder.Build();
+
+app.MapHealthChecks("/health");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -81,3 +97,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+

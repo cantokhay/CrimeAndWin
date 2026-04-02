@@ -1,4 +1,4 @@
-﻿using Shared.Domain;
+using Shared.Domain;
 
 namespace Economy.Domain.Entities
 {
@@ -10,3 +10,4 @@ namespace Economy.Domain.Entities
         public ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
     }
 }
+

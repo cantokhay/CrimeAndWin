@@ -1,6 +1,6 @@
-﻿using Identity.Application.DTOs.UserDTOs;
+using Identity.Application.DTOs.UserDTOs;
 using Identity.Domain.Entities;
-using MediatR;
+using Mediator;
 using Shared.Domain.Repository;
 
 namespace Identity.Application.Features.User.Queries.GetUserById
@@ -10,7 +10,7 @@ namespace Identity.Application.Features.User.Queries.GetUserById
         private readonly IReadRepository<AppUser> _read;
         public GetUserByIdQueryHandler(IReadRepository<AppUser> read) => _read = read;
 
-        public async Task<AppUserDTO?> Handle(GetUserByIdQuery request, CancellationToken ct)
+        public async ValueTask<AppUserDTO?> Handle(GetUserByIdQuery request, CancellationToken ct)
         {
             var user = await _read.GetByIdAsync(request.id.ToString(), tracking: false);
             if (user is null) return null;
@@ -25,3 +25,4 @@ namespace Identity.Application.Features.User.Queries.GetUserById
         }
     }
 }
+

@@ -1,4 +1,4 @@
-﻿using Action.Domain.Enums;
+using Action.Domain.Enums;
 
 namespace Action.Domain.VOs
 {
@@ -8,3 +8,4 @@ namespace Action.Domain.VOs
         OutcomeType OutcomeType
         );
 }
+

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Administration.MVC.Helpers
 {
@@ -26,6 +26,15 @@ namespace Administration.MVC.Helpers
             var currentController = routeData.Values["controller"]?.ToString();
 
             return currentController == controller ? "here show" : "";
+        }
+
+        public static string IsMenuOpen(this IHtmlHelper html,
+                                        params string[] controllers)
+        {
+            var routeData = html.ViewContext.RouteData;
+            var currentController = routeData.Values["controller"]?.ToString();
+
+            return System.Linq.Enumerable.Contains(controllers, currentController) ? "here show" : "";
         }
     }
 }

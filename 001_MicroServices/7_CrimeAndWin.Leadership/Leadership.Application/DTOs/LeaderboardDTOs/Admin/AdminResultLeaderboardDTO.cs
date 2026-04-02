@@ -1,4 +1,4 @@
-﻿using Leadership.Application.DTOs.LeaderboardEntryDTOs.Admin;
+using Leadership.Application.DTOs.LeaderboardEntryDTOs.Admin;
 
 namespace Leadership.Application.DTOs.LeaderboardDTOs.Admin
 {
@@ -17,3 +17,4 @@ namespace Leadership.Application.DTOs.LeaderboardDTOs.Admin
         public DateTime? UpdatedAtUtc { get; set; }
     }
 }
+

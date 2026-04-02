@@ -1,6 +1,6 @@
-﻿using AutoMapper;
+using Economy.Application.Mapping;
 using Economy.Application.DTOs.WalletDTOs;
-using MediatR;
+using Mediator;
 using Microsoft.EntityFrameworkCore;
 using Shared.Domain.Repository;
 
@@ -8,10 +8,10 @@ namespace Economy.Application.Features.Wallet.Queries.GetAllWallets
 {
     public sealed class GetAllWalletsHandler(
             IReadRepository<Domain.Entities.Wallet> readRepo,
-            IMapper mapper)
+            EconomyMapper mapper)
             : IRequestHandler<GetAllWalletsQuery, List<ResultWalletDTO>>
     {
-        public async Task<List<ResultWalletDTO>> Handle(GetAllWalletsQuery request, CancellationToken cancellationToken)
+        public async ValueTask<List<ResultWalletDTO>> Handle(GetAllWalletsQuery request, CancellationToken cancellationToken)
         {
             // Transactions dahil et (Include)
             var wallets = await readRepo.Table
@@ -19,7 +19,9 @@ namespace Economy.Application.Features.Wallet.Queries.GetAllWallets
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
 
-            return mapper.Map<List<ResultWalletDTO>>(wallets);
+            return mapper.ToResultDtoList(wallets).ToList();
         }
     }
 }
+
+

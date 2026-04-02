@@ -1,5 +1,5 @@
-﻿using Economy.Application.DTOs.TransactionDTOs.Admin;
-using MediatR;
+using Economy.Application.DTOs.TransactionDTOs.Admin;
+using Mediator;
 using Shared.Domain.Repository;
 
 namespace Economy.Application.Features.Transactions.Queries
@@ -14,7 +14,7 @@ namespace Economy.Application.Features.Transactions.Queries
             _read = read;
         }
 
-        public async Task<AdminResultTransactionDTO?> Handle(GetTransactionByIdAsAdminQuery request, CancellationToken cancellationToken)
+        public async ValueTask<AdminResultTransactionDTO?> Handle(GetTransactionByIdAsAdminQuery request, CancellationToken cancellationToken)
         {
             var t = await _read.GetByIdAsync(request.id.ToString(), tracking: false);
             if (t is null) return null;
@@ -33,3 +33,4 @@ namespace Economy.Application.Features.Transactions.Queries
         }
     }
 }
+
