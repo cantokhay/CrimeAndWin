@@ -13,3 +13,4 @@ namespace Inventory.Application.Messaging.Concrete
         ) : IIntegrationEvent;
 }
 
+

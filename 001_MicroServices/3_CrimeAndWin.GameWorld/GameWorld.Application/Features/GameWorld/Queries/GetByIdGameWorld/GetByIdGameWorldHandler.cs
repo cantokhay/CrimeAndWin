@@ -1,6 +1,6 @@
 using GameWorld.Application.Mapping;
 using GameWorld.Application.DTOs.GameWorldDTOs;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Shared.Domain.Repository;
 
@@ -16,7 +16,7 @@ namespace GameWorld.Application.Features.GameWorld.Queries.GetByIdGameWorld
             _readRepo = readRepo; _mapper = mapper;
         }
 
-        public async ValueTask<ResultGameWorldDTO> Handle(GetGameWorldByIdQuery request, CancellationToken ct)
+        public async Task<ResultGameWorldDTO> Handle(GetGameWorldByIdQuery request, CancellationToken ct)
         {
             var gameWorld = await _readRepo.Table
                         .Include(x => x.Seasons)
@@ -26,5 +26,6 @@ namespace GameWorld.Application.Features.GameWorld.Queries.GetByIdGameWorld
         }
     }
 }
+
 
 

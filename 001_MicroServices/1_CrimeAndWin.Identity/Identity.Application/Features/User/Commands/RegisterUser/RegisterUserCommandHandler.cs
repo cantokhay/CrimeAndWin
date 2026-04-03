@@ -1,6 +1,6 @@
 using Identity.Application.DTOs.UserDTOs;
 using Identity.Domain.Entities;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.AspNetCore.Identity;
 using Shared.Domain.Repository;
 
@@ -12,7 +12,7 @@ namespace Identity.Application.Features.User.Commands.RegisterUser
 
         public RegisterUserCommandHandler(IWriteRepository<AppUser> write) => _write = write;
 
-        public async ValueTask<AppUserDTO> Handle(RegisterUserCommand request, CancellationToken ct)
+        public async Task<AppUserDTO> Handle(RegisterUserCommand request, CancellationToken ct)
         {
             var hasher = new PasswordHasher<AppUser>();
 
@@ -49,4 +49,5 @@ namespace Identity.Application.Features.User.Commands.RegisterUser
         }
     }
 }
+
 

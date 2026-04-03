@@ -1,3 +1,5 @@
+using Shared.Application.Abstractions.Messaging;
+using Shared.Infrastructure;
 using CrimeAndWin.Action.GameMechanics;
 using CrimeAndWin.Action.BackgroundServices;
 using Action.Application;
@@ -24,10 +26,8 @@ builder.Services.AddDbContext<ActionDbContext>(opt =>
 });
 
 // MediatR & Mapperly & Validation
-builder.Services.AddMediator((Mediator.MediatorOptions options) =>
-{
-    options.ServiceLifetime = ServiceLifetime.Scoped;
-});
+builder.Services.AddScoped<IMediator, Mediator>();
+builder.Services.AddRequestHandlers(typeof(IApplicationAssemblyMarker).Assembly);
 builder.Services.AddScoped<ActionMapper>();
 builder.Services.AddSharedValidation(typeof(IApplicationAssemblyMarker).Assembly);
 
@@ -95,4 +95,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
 

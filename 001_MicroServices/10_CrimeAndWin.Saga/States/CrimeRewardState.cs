@@ -20,3 +20,4 @@ public class CrimeRewardState : SagaStateMachineInstance
     public string? FailReason    { get; set; }
 }
 
+

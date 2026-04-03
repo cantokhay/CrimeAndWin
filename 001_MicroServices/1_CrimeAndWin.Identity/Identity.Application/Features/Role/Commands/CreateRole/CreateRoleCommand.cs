@@ -1,8 +1,9 @@
 using Identity.Application.DTOs.RoleDTOs.Admin;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 
 namespace Identity.Application.Features.Role.Commands.CreateRole
 {
     public record CreateRoleCommand(CreateRoleDTO createRoleDTO) : IRequest<Guid>;
 }
+
 

@@ -83,3 +83,4 @@ public partial class NotificationMapper
     public partial IEnumerable<AdminResultNotificationDTO> ToAdminResultDtoList(IEnumerable<Domain.Entities.Notification> entities);
 }
 
+

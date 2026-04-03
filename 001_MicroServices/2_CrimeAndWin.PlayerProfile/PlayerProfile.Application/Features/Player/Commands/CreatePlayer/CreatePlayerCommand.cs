@@ -1,4 +1,4 @@
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using PlayerProfile.Application.DTOs.PlayerDTOs;
 
 namespace PlayerProfile.Application.Features.Player.Commands.CreatePlayer
@@ -8,4 +8,5 @@ namespace PlayerProfile.Application.Features.Player.Commands.CreatePlayer
         int Power, int Defense, int Agility, int Luck,
         int EnergyCurrent, int EnergyMax, int EnergyRegenPerMinute) : IRequest<CreatePlayerDTO>;
 }
+
 

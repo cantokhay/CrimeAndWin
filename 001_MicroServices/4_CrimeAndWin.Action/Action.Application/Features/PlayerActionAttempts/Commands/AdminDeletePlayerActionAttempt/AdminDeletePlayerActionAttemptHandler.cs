@@ -1,5 +1,5 @@
 using Action.Domain.Entities;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 
 namespace Action.Application.Features.PlayerActionAttempts.Commands.AdminDeletePlayerActionAttempt
@@ -14,7 +14,7 @@ namespace Action.Application.Features.PlayerActionAttempts.Commands.AdminDeleteP
             _write = write;
         }
 
-        public async ValueTask<bool> Handle(AdminDeletePlayerActionAttemptCommand request, CancellationToken ct)
+        public async Task<bool> Handle(AdminDeletePlayerActionAttemptCommand request, CancellationToken ct)
         {
             var ok = await _write.RemoveAsync(request.Id.ToString());
             await _write.SaveAsync();
@@ -22,4 +22,5 @@ namespace Action.Application.Features.PlayerActionAttempts.Commands.AdminDeleteP
         }
     }
 }
+
 

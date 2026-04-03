@@ -13,3 +13,4 @@ namespace Leadership.Application.ValidationRules.LeaderboardValidations
     }
 }
 
+

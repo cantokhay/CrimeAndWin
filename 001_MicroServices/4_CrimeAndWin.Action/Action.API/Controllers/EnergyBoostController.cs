@@ -55,3 +55,4 @@ public class EnergyBoostController : ControllerBase
 
 public record BoostRequest(Guid PlayerId, string ItemType);
 
+

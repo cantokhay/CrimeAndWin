@@ -6,3 +6,4 @@ namespace PlayerProfile.Domain.VOs
         );
 }
 
+

@@ -1,11 +1,11 @@
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 
 namespace PlayerProfile.Application.Features.Player.Commands.UpdateAvatar
 {
     public sealed class UpdateAvatarCommandHandler(IWriteRepository<Domain.Entities.Player> writeRepo, IReadRepository<Domain.Entities.Player> readRepo) : IRequestHandler<UpdateAvatarCommand, Unit>
     {
-        public async ValueTask<Unit> Handle(UpdateAvatarCommand r, CancellationToken ct)
+        public async Task<Unit> Handle(UpdateAvatarCommand r, CancellationToken ct)
         {
             var p = await readRepo.GetByIdAsync(r.PlayerId.ToString()) ?? throw new Exception(nameof(Domain.Entities.Player));
             p.AvatarKey = r.AvatarKey;
@@ -15,5 +15,6 @@ namespace PlayerProfile.Application.Features.Player.Commands.UpdateAvatar
         }
     }
 }
+
 
 

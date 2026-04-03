@@ -1,3 +1,5 @@
+using Shared.Application.Abstractions.Messaging;
+using Shared.Infrastructure;
 using GameWorld.Application;
 using GameWorld.Application.Abstract;
 using GameWorld.Application.Mapping;
@@ -20,10 +22,8 @@ builder.Services.AddDbContext<GameWorldDbContext>(opt =>
 });
 
 // MediatR & Mapperly & Validation
-builder.Services.AddMediator((Mediator.MediatorOptions options) =>
-{
-    options.ServiceLifetime = ServiceLifetime.Scoped;
-});
+builder.Services.AddScoped<IMediator, Mediator>();
+builder.Services.AddRequestHandlers(typeof(IApplicationAssemblyMarker).Assembly);
 builder.Services.AddScoped<GameWorldMapper>();
 builder.Services.AddSharedValidation(typeof(IApplicationAssemblyMarker).Assembly);
 
@@ -69,3 +69,4 @@ app.MapControllers();
 app.Run();
 
 public partial class Program { }
+

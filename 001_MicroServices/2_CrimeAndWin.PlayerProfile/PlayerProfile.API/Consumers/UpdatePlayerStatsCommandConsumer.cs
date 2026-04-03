@@ -61,3 +61,4 @@ namespace PlayerProfile.API.Consumers
     }
 }
 
+

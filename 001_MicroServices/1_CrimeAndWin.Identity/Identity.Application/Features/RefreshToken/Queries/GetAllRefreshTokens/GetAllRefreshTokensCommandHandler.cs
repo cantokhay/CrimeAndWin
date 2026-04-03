@@ -1,5 +1,5 @@
 using Identity.Application.DTOs.RefreshTokenDTOs.Admin;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Shared.Domain.Repository;
 
@@ -14,7 +14,7 @@ namespace Identity.Application.Features.RefreshToken.Queries.GetAllRefreshTokens
             _readRepository = readRepository;
         }
 
-        public async ValueTask<List<ResultRefreshTokenDTO>> Handle(GetAllRefreshTokensQuery request, CancellationToken cancellationToken)
+        public async Task<List<ResultRefreshTokenDTO>> Handle(GetAllRefreshTokensQuery request, CancellationToken cancellationToken)
         {
             return await _readRepository
                 .GetAll()
@@ -33,5 +33,6 @@ namespace Identity.Application.Features.RefreshToken.Queries.GetAllRefreshTokens
         }
     }
 }
+
 
 

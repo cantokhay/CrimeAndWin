@@ -1,6 +1,6 @@
 using Identity.Application.DTOs.UserDTOs.Admin;
 using Identity.Domain.Entities;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Shared.Domain.Repository;
 
@@ -15,7 +15,7 @@ namespace Identity.Application.Features.User.Queries.GetAllAppUsers
             _readRepository = readRepository;
         }
 
-        public async ValueTask<List<ResultAppUserDTO>> Handle(GetAllAppUsersQuery request, CancellationToken cancellationToken)
+        public async Task<List<ResultAppUserDTO>> Handle(GetAllAppUsersQuery request, CancellationToken cancellationToken)
         {
             return await _readRepository
                 .GetAll()
@@ -35,5 +35,6 @@ namespace Identity.Application.Features.User.Queries.GetAllAppUsers
         }
     }
 }
+
 
 

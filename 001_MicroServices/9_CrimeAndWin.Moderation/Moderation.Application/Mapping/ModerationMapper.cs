@@ -72,3 +72,4 @@ public partial class ModerationMapper
     public partial IEnumerable<AdminResultModerationActionDTO> ToAdminResultDtoList(IEnumerable<ModerationAction> entities);
 }
 
+

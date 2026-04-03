@@ -1,4 +1,4 @@
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Moderation.Domain.VOs;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
@@ -22,7 +22,7 @@ namespace Moderation.Application.Features.Report.Commands.AdminUpdateReport
             _time = time;
         }
 
-        public async ValueTask<bool> Handle(AdminUpdateReportCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(AdminUpdateReportCommand request, CancellationToken cancellationToken)
         {
             var d = request.updateReportDTO;
 
@@ -45,4 +45,5 @@ namespace Moderation.Application.Features.Report.Commands.AdminUpdateReport
         }
     }
 }
+
 

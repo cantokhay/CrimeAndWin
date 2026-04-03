@@ -1,4 +1,4 @@
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Moderation.Application.Messaging.Abstract;
 using Shared.Domain.Repository;
 
@@ -17,7 +17,7 @@ namespace Moderation.Application.Features.ModerationAction.Commands.LiftRestrict
             _publisher = publisher;
         }
 
-        public async ValueTask<bool> Handle(LiftRestrictionCommand request, CancellationToken ct)
+        public async Task<bool> Handle(LiftRestrictionCommand request, CancellationToken ct)
         {
             var active = _readRepo.GetWhere(x => x.PlayerId == request.Dto.PlayerId && x.IsActive).ToList();
             if (!active.Any()) return false;
@@ -39,4 +39,5 @@ namespace Moderation.Application.Features.ModerationAction.Commands.LiftRestrict
         }
     }
 }
+
 

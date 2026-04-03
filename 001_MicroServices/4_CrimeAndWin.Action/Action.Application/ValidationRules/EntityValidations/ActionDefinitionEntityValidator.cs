@@ -73,3 +73,4 @@ public class GameSettingsEntityValidator : BaseEntityValidator<GameSettings>
         RuleFor(x => x.Description).MaximumLength(500);
     }
 }
+

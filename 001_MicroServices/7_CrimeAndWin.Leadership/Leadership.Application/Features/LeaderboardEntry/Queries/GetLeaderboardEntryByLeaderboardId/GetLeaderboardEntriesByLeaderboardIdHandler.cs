@@ -1,6 +1,6 @@
 using Leadership.Application.Mapping;
 using Leadership.Application.DTOs.LeaderboardEntryDTOs;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Shared.Domain.Repository;
 
@@ -15,7 +15,7 @@ namespace Leadership.Application.Features.LeaderboardEntry.Queries.GetLeaderboar
         { _readRepo = readRepo; _mapper = mapper; }
 
 
-        public async ValueTask<List<ResultLeaderboardEntryDTO>> Handle(GetEntriesByLeaderboardIdQuery request, CancellationToken cancellationToken)
+        public async Task<List<ResultLeaderboardEntryDTO>> Handle(GetEntriesByLeaderboardIdQuery request, CancellationToken cancellationToken)
         {
             var skip = (request.Page - 1) * request.PageSize;
             var list = await _readRepo.GetWhere(x => x.LeaderboardId == request.LeaderboardId && x.IsActive)
@@ -30,5 +30,6 @@ namespace Leadership.Application.Features.LeaderboardEntry.Queries.GetLeaderboar
         }
     }
 }
+
 
 

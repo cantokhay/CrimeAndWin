@@ -41,7 +41,7 @@ using Identity.Application.Features.UserToken.Commands.DeleteUserToken;
 using Identity.Application.Features.UserToken.Commands.UpdateUserToken;
 using Identity.Application.Features.UserToken.Queries.GetAllUserTokens;
 using Identity.Application.Features.UserToken.Queries.GetUserTokenById;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Identity.API.Controllers
@@ -332,4 +332,5 @@ namespace Identity.API.Controllers
         }
     }
 }
+
 

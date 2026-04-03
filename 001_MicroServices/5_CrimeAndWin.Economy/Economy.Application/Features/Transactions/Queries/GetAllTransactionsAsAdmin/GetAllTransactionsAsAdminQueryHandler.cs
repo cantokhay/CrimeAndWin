@@ -1,5 +1,5 @@
 using Economy.Application.DTOs.TransactionDTOs.Admin;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Shared.Domain.Repository;
 
@@ -15,7 +15,7 @@ namespace Economy.Application.Features.Transactions.Queries.GetAllTransactionsAs
             _read = read;
         }
 
-        public async ValueTask<List<AdminResultTransactionDTO>> Handle(GetAllTransactionsAsAdminQuery request, CancellationToken cancellationToken)
+        public async Task<List<AdminResultTransactionDTO>> Handle(GetAllTransactionsAsAdminQuery request, CancellationToken cancellationToken)
         {
             return await _read.GetAll(false)
                 .Select(t => new AdminResultTransactionDTO
@@ -33,5 +33,6 @@ namespace Economy.Application.Features.Transactions.Queries.GetAllTransactionsAs
         }
     }
 }
+
 
 

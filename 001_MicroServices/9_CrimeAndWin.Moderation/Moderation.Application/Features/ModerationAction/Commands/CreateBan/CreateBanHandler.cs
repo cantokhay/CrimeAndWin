@@ -1,5 +1,5 @@
 using Moderation.Application.Mapping;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Moderation.Application.Messaging.Abstract;
 using Shared.Domain.Repository;
 using static Moderation.Application.Messaging.Concrete.IntegrationEvents;
@@ -19,7 +19,7 @@ namespace Moderation.Application.Features.ModerationAction.Commands.CreateBan
             _publisher = publisher;
         }
 
-        public async ValueTask<Guid> Handle(CreateBanCommand request, CancellationToken ct)
+        public async Task<Guid> Handle(CreateBanCommand request, CancellationToken ct)
         {
             var entity = _mapper.ToEntity(request.Dto);
             entity.ActionType = "Ban";
@@ -36,4 +36,5 @@ namespace Moderation.Application.Features.ModerationAction.Commands.CreateBan
         }
     }
 }
+
 

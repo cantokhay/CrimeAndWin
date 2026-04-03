@@ -61,3 +61,4 @@ namespace Economy.Application.Test.Features.Wallet.Commands.CreateWallet
         }
     }
 }
+

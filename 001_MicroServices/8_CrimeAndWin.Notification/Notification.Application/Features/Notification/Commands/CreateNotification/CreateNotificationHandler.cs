@@ -1,4 +1,4 @@
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Notification.Domain.VOs;
 using Shared.Domain.Repository;
 
@@ -14,7 +14,7 @@ namespace Notification.Application.Features.Notification.Commands.CreateNotifica
             _writeRepository = writeRepository;
         }
 
-        public async ValueTask<Guid> Handle(CreateNotificationCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(CreateNotificationCommand request, CancellationToken cancellationToken)
         {
             var entity = new Domain.Entities.Notification
             {
@@ -29,4 +29,5 @@ namespace Notification.Application.Features.Notification.Commands.CreateNotifica
         }
     }
 }
+
 

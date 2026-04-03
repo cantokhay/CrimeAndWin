@@ -1,5 +1,5 @@
 using Economy.Domain.Entities;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 
 namespace Economy.Application.Features.Transactions.Queries.GetAllTransactions
 {
@@ -8,4 +8,5 @@ namespace Economy.Application.Features.Transactions.Queries.GetAllTransactions
         public Guid PlayerId { get; set; }
     }
 }
+
 

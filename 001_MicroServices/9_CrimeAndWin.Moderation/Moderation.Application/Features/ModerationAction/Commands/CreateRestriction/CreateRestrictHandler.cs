@@ -1,5 +1,5 @@
 using Moderation.Application.Mapping;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 
 namespace Moderation.Application.Features.ModerationAction.Commands.CreateRestriction
@@ -15,7 +15,7 @@ namespace Moderation.Application.Features.ModerationAction.Commands.CreateRestri
             _mapper = mapper;
         }
 
-        public async ValueTask<Guid> Handle(CreateRestrictCommand request, CancellationToken ct)
+        public async Task<Guid> Handle(CreateRestrictCommand request, CancellationToken ct)
         {
             var entity = _mapper.ToEntity(request.Dto);
             entity.ActionType = "Restrict";
@@ -28,4 +28,5 @@ namespace Moderation.Application.Features.ModerationAction.Commands.CreateRestri
         }
     }
 }
+
 

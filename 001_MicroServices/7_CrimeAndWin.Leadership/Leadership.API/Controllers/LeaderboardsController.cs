@@ -3,7 +3,7 @@ using Leadership.Application.Features.Leaderboard.Commands.CreateLeaderboard;
 using Leadership.Application.Features.Leaderboard.Commands.Seed;
 using Leadership.Application.Features.Leaderboard.Queries.GetAllLeaderboards;
 using Leadership.Application.Features.Leaderboard.Queries.GetLeaderbordById;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Leadership.API.Controllers
@@ -56,4 +56,5 @@ namespace Leadership.API.Controllers
         }
     }
 }
+
 

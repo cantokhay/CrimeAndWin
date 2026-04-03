@@ -1,5 +1,5 @@
 using MassTransit;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using CrimeAndWin.Contracts.Commands.Inventory;
 using CrimeAndWin.Contracts.Events.Inventory;
 using Inventory.Application.Features.Item.Commands.AdminDeleteItem;
@@ -43,4 +43,5 @@ namespace Inventory.API.Consumers
         }
     }
 }
+
 

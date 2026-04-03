@@ -60,3 +60,4 @@ public partial class IdentityMapper
     public partial IEnumerable<ResultRoleDTO> ToResultDtoList(IEnumerable<Role> entities);
 }
 
+

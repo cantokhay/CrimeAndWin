@@ -1,4 +1,4 @@
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 
 namespace PlayerProfile.Application.Features.Player.Commands.AdminDeletePlayer
@@ -12,7 +12,7 @@ namespace PlayerProfile.Application.Features.Player.Commands.AdminDeletePlayer
             _write = write;
         }
 
-        public async ValueTask<bool> Handle(AdminDeletePlayerCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(AdminDeletePlayerCommand request, CancellationToken cancellationToken)
         {
             var result = await _write.RemoveAsync(request.Id.ToString());
             await _write.SaveAsync();
@@ -20,4 +20,5 @@ namespace PlayerProfile.Application.Features.Player.Commands.AdminDeletePlayer
         }
     }
 }
+
 

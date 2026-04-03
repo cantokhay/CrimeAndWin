@@ -1,4 +1,4 @@
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 
@@ -16,7 +16,7 @@ namespace Economy.Application.Features.Wallet.Commands.AdminCreateWallet
             _time = time;
         }
 
-        public async ValueTask<Guid> Handle(AdminCreateWalletCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(AdminCreateWalletCommand request, CancellationToken cancellationToken)
         {
             var d = request.createWalletDTO;
 
@@ -35,4 +35,5 @@ namespace Economy.Application.Features.Wallet.Commands.AdminCreateWallet
         }
     }
 }
+
 

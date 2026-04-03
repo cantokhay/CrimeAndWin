@@ -1,5 +1,5 @@
 using Moderation.Application.Mapping;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Moderation.Application.DTOs.ModerationActionDTOs;
 using Shared.Domain.Repository;
@@ -17,7 +17,7 @@ namespace Moderation.Application.Features.ModerationAction.Queries.GetActionsByP
             _mapper = mapper;
         }
 
-        public async ValueTask<List<ResultModerationActionDTO>> Handle(GetActionsByPlayerIdQuery request, CancellationToken ct)
+        public async Task<List<ResultModerationActionDTO>> Handle(GetActionsByPlayerIdQuery request, CancellationToken ct)
         {
             var data = await _readRepo
                 .GetWhere(x => x.PlayerId == request.PlayerId, tracking: false)
@@ -28,5 +28,6 @@ namespace Moderation.Application.Features.ModerationAction.Queries.GetActionsByP
         }
     }
 }
+
 
 

@@ -1,4 +1,4 @@
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 
 namespace Inventory.Application.Features.Inventory.Commands.AdminDeleteInventory
@@ -13,7 +13,7 @@ namespace Inventory.Application.Features.Inventory.Commands.AdminDeleteInventory
             _write = write;
         }
 
-        public async ValueTask<bool> Handle(AdminDeleteInventoryCommand request, CancellationToken ct)
+        public async Task<bool> Handle(AdminDeleteInventoryCommand request, CancellationToken ct)
         {
             var ok = await _write.RemoveAsync(request.id.ToString());
             await _write.SaveAsync();
@@ -21,4 +21,5 @@ namespace Inventory.Application.Features.Inventory.Commands.AdminDeleteInventory
         }
     }
 }
+
 

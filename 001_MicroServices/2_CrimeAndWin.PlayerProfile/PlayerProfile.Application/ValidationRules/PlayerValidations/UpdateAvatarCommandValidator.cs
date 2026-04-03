@@ -14,3 +14,4 @@ namespace PlayerProfile.Application.ValidationRules.PlayerValidations
     }
 }
 
+

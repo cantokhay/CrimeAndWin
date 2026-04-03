@@ -1,3 +1,5 @@
+using Shared.Application.Abstractions.Messaging;
+using Shared.Infrastructure;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Moderation.Application;
@@ -21,10 +23,8 @@ builder.Services.AddDbContext<ModerationDbContext>(opt =>
 });
 
 // MediatR & Mapperly & Validation
-builder.Services.AddMediator((Mediator.MediatorOptions options) =>
-{
-    options.ServiceLifetime = ServiceLifetime.Scoped;
-});
+builder.Services.AddScoped<IMediator, Mediator>();
+builder.Services.AddRequestHandlers(typeof(IApplicationAssemblyMarker).Assembly);
 builder.Services.AddScoped<ModerationMapper>();
 builder.Services.AddSharedValidation(typeof(IApplicationAssemblyMarker).Assembly);
 
@@ -82,4 +82,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
 

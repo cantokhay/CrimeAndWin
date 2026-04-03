@@ -1,8 +1,9 @@
 using Inventory.Application.DTOs.InventoryDTOs;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 
 namespace Inventory.Application.Features.Inventory.Queries.GetInventoryByPlayerId
 {
     public sealed record GetInventoryByPlayerIdQuery(Guid PlayerId) : IRequest<ResultInventoryDTO>;
 }
+
 

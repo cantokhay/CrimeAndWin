@@ -1,5 +1,5 @@
 using Identity.Application.DTOs.UserTokenDTOs.Admin;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Shared.Domain.Repository;
 
@@ -14,7 +14,7 @@ namespace Identity.Application.Features.UserToken.Queries.GetAllUserTokens
             _readRepository = readRepository;
         }
 
-        public async ValueTask<List<ResultUserTokenDTO>> Handle(GetAllUserTokensQuery request, CancellationToken cancellationToken)
+        public async Task<List<ResultUserTokenDTO>> Handle(GetAllUserTokensQuery request, CancellationToken cancellationToken)
         {
             return await _readRepository
                 .GetAll()
@@ -32,5 +32,6 @@ namespace Identity.Application.Features.UserToken.Queries.GetAllUserTokens
         }
     }
 }
+
 
 

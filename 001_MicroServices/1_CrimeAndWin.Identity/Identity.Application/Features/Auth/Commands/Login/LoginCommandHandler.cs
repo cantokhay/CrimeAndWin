@@ -1,7 +1,7 @@
 using Identity.Application.DTOs.AuthDTOs;
 using Identity.Application.Features.Auth.Abstract;
 using Identity.Domain.Entities;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -37,7 +37,7 @@ namespace Identity.Application.Features.Auth.Commands.Login
             _jwt = jwt;
         }
 
-        public async ValueTask<ResultAuthDTO> Handle(LoginCommand request, CancellationToken ct)
+        public async Task<ResultAuthDTO> Handle(LoginCommand request, CancellationToken ct)
         {
             // 1) Kullanýcýyý bul
             var norm = request.UserNameOrEmail.Trim().ToUpperInvariant();
@@ -109,4 +109,5 @@ namespace Identity.Application.Features.Auth.Commands.Login
         }
     }
 }
+
 

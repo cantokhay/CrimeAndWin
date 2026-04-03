@@ -74,3 +74,4 @@ namespace Leadership.Application.Test.Features.Leaderboard.Queries
         }
     }
 }
+

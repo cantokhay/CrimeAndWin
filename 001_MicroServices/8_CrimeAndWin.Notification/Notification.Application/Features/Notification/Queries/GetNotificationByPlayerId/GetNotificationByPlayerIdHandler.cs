@@ -1,5 +1,5 @@
 using Notification.Application.Mapping;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Notification.Application.DTOs;
 using Shared.Domain.Repository;
@@ -17,7 +17,7 @@ namespace Notification.Application.Features.Notification.Queries.GetNotification
             _mapper = mapper;
         }
 
-        public async ValueTask<List<ResultNotificationDTO>> Handle(GetNotificationByPlayerIdQuery request, CancellationToken cancellationToken)
+        public async Task<List<ResultNotificationDTO>> Handle(GetNotificationByPlayerIdQuery request, CancellationToken cancellationToken)
         {
             var data = await _readRepository
                 .GetWhere(x => x.PlayerId == request.PlayerId, tracking: false)
@@ -28,5 +28,6 @@ namespace Notification.Application.Features.Notification.Queries.GetNotification
         }
     }
 }
+
 
 

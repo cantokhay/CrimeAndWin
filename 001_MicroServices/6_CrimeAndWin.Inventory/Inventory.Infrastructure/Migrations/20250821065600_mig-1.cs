@@ -72,3 +72,4 @@ namespace Inventory.Infrastructure.Migrations
     }
 }
 
+

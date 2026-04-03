@@ -1,6 +1,6 @@
 using Bogus;
 using Economy.Domain.VOs;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 
@@ -22,7 +22,7 @@ namespace Economy.Application.Features.Seed
             _clock = clock;
         }
 
-        public async ValueTask<Unit> Handle(RunEconomySeedCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(RunEconomySeedCommand request, CancellationToken cancellationToken)
         {
             var faker = new Faker("en");
 
@@ -76,4 +76,5 @@ namespace Economy.Application.Features.Seed
         }
     }
 }
+
 

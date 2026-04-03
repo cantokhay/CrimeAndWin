@@ -1,7 +1,7 @@
 using GameWorld.Application.Mapping;
 using GameWorld.Application.DTOs.SeasonDTOs;
 using GameWorld.Domain.VOs;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 
 namespace GameWorld.Application.Features.Season.Commands.UpdateSeason
@@ -12,7 +12,7 @@ namespace GameWorld.Application.Features.Season.Commands.UpdateSeason
             GameWorldMapper mapper)
             : IRequestHandler<UpdateSeasonCommand, UpdateSeasonDTO>
     {
-        public async ValueTask<UpdateSeasonDTO> Handle(UpdateSeasonCommand request, CancellationToken cancellationToken)
+        public async Task<UpdateSeasonDTO> Handle(UpdateSeasonCommand request, CancellationToken cancellationToken)
         {
             var entity = await readRepo.GetByIdAsync(request.SeasonId.ToString());
             if (entity is null)
@@ -31,4 +31,5 @@ namespace GameWorld.Application.Features.Season.Commands.UpdateSeason
         }
     }
 }
+
 

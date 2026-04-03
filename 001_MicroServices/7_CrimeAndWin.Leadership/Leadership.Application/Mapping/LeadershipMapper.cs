@@ -75,3 +75,4 @@ public partial class LeadershipMapper
     public partial IEnumerable<AdminResultLeaderboardEntryDTO> ToAdminResultDtoList(IEnumerable<LeaderboardEntry> entities);
 }
 
+

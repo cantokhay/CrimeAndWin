@@ -12,3 +12,4 @@ namespace Inventory.Application.Messaging.Concrete
     }
 }
 
+

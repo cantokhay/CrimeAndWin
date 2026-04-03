@@ -10,7 +10,7 @@ using Inventory.Application.Features.Item.Commands.AdminDeleteItem;
 using Inventory.Application.Features.Item.Commands.AdminUpdateItem;
 using Inventory.Application.Features.Item.Queries.GetAllItemsAsAdmin;
 using Inventory.Application.Features.Item.Queries.GetItemByIdAsAdmin;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventory.API.Controllers
@@ -121,4 +121,5 @@ namespace Inventory.API.Controllers
         }
     }
 }
+
 

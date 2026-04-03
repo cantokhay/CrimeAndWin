@@ -29,3 +29,4 @@ namespace Inventory.Infrastructure.Persistance.Configurations
     }
 }
 
+

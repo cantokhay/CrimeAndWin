@@ -1,7 +1,7 @@
 using Inventory.Application.DTOs.ItemDTOs;
 using Inventory.Application.Features.Item.Commands.AddItem;
 using Inventory.Application.Features.Item.Commands.GetAllItems;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventory.API.Controllers
@@ -40,4 +40,5 @@ namespace Inventory.API.Controllers
         }
     }
 }
+
 

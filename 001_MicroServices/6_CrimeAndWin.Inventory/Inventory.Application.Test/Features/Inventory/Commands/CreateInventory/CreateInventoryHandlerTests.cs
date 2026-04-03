@@ -65,3 +65,4 @@ namespace Inventory.Application.Test.Features.Inventory.Commands.CreateInventory
         }
     }
 }
+

@@ -88,3 +88,4 @@ namespace Notification.Infrastructure.Migrations
     }
 }
 
+

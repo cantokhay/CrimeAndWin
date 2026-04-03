@@ -294,3 +294,4 @@ public partial class InventoryMapper
     }
 }
 
+

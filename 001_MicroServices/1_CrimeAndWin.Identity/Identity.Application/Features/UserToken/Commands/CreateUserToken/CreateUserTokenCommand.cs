@@ -1,8 +1,9 @@
 using Identity.Application.DTOs.UserTokenDTOs.Admin;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 
 namespace Identity.Application.Features.UserToken.Commands.CreateUserToken
 {
     public record CreateUserTokenCommand(CreateUserTokenDTO createUserTokenDTO) : IRequest<Guid>;
 }
+
 

@@ -15,3 +15,4 @@ public class PurchaseState : SagaStateMachineInstance
     public string? FailReason    { get; set; }
 }
 
+

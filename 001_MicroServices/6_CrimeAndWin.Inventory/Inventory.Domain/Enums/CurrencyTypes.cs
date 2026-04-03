@@ -8,3 +8,4 @@ namespace Inventory.Domain.Enums
     }
 }
 
+

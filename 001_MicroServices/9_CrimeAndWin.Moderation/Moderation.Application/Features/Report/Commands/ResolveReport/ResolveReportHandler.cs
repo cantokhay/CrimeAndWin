@@ -1,4 +1,4 @@
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Moderation.Application.Messaging.Abstract;
 using Shared.Domain.Repository;
 
@@ -17,7 +17,7 @@ namespace Moderation.Application.Features.Report.Commands.ResolveReport
             _publisher = publisher;
         }
 
-        public async ValueTask<bool> Handle(ResolveReportCommand request, CancellationToken ct)
+        public async Task<bool> Handle(ResolveReportCommand request, CancellationToken ct)
         {
             var entity = await _readRepo.GetByIdAsync(request.ReportId.ToString(), tracking: true);
             if (entity is null) return false;
@@ -38,4 +38,5 @@ namespace Moderation.Application.Features.Report.Commands.ResolveReport
         }
     }
 }
+
 

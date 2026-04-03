@@ -21,3 +21,4 @@ namespace Inventory.Infrastructure.Migrations
     }
 }
 
+

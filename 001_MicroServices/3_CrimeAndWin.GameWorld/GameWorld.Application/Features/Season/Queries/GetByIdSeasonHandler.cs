@@ -1,6 +1,6 @@
 using GameWorld.Application.Mapping;
 using GameWorld.Application.DTOs.SeasonDTOs;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 
 namespace Season.Application.Features.Season.Queries
@@ -15,7 +15,7 @@ namespace Season.Application.Features.Season.Queries
             _readRepo = readRepo; _mapper = mapper;
         }
 
-        public async ValueTask<ResultSeasonDTO> Handle(GetSeasonByIdQuery request, CancellationToken ct)
+        public async Task<ResultSeasonDTO> Handle(GetSeasonByIdQuery request, CancellationToken ct)
         {
             var s = await _readRepo.GetByIdAsync(request.Id.ToString());
             if (s is null) throw new KeyNotFoundException("Season not found.");
@@ -23,5 +23,6 @@ namespace Season.Application.Features.Season.Queries
         }
     }
 }
+
 
 

@@ -75,3 +75,4 @@ namespace PlayerProfile.Application.Test.Features.Player.Energy
         }
     }
 }
+

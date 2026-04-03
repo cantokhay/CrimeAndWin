@@ -21,3 +21,4 @@ namespace Economy.Infrastructure.Migrations
     }
 }
 
+

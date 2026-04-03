@@ -1,5 +1,5 @@
 using Moderation.Application.Mapping;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Moderation.Application.DTOs.ModerationActionDTOs;
 using Shared.Domain.Repository;
@@ -11,7 +11,7 @@ namespace Moderation.Application.Features.ModerationAction.Queries.GetAllActions
             ModerationMapper mapper)
             : IRequestHandler<GetAllModerationActionsQuery, List<ResultModerationActionDTO>>
     {
-        public async ValueTask<List<ResultModerationActionDTO>> Handle(GetAllModerationActionsQuery request, CancellationToken cancellationToken)
+        public async Task<List<ResultModerationActionDTO>> Handle(GetAllModerationActionsQuery request, CancellationToken cancellationToken)
         {
             var actions = await readRepo.Table
                 .AsNoTracking()
@@ -22,5 +22,6 @@ namespace Moderation.Application.Features.ModerationAction.Queries.GetAllActions
         }
     }
 }
+
 
 

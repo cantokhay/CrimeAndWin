@@ -2,7 +2,7 @@ using Action.Domain.Entities;
 using Action.Domain.Enums;
 using Action.Domain.VOs;
 using Bogus;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 
@@ -24,7 +24,7 @@ namespace Action.Application.Features.PlayerActionAttempts.Commands.Seed
             _clock = clock;
         }
 
-        public async ValueTask<Unit> Handle(RunPlayerActionAttemptSeedCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(RunPlayerActionAttemptSeedCommand request, CancellationToken cancellationToken)
         {
             var faker = new Faker("en");
 
@@ -64,4 +64,5 @@ namespace Action.Application.Features.PlayerActionAttempts.Commands.Seed
         }
     }
 }
+
 

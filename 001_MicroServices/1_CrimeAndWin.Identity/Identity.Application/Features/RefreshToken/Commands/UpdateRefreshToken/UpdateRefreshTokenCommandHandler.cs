@@ -1,4 +1,4 @@
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 
@@ -20,7 +20,7 @@ namespace Identity.Application.Features.RefreshToken.Commands.UpdateRefreshToken
             _time = time;
         }
 
-        public async ValueTask<bool> Handle(UpdateRefreshTokenCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(UpdateRefreshTokenCommand request, CancellationToken cancellationToken)
         {
             var dto = request.updateRefreshTokenDTO;
             var entity = await _readRepository.GetByIdAsync(dto.Id.ToString());
@@ -39,4 +39,5 @@ namespace Identity.Application.Features.RefreshToken.Commands.UpdateRefreshToken
         }
     }
 }
+
 

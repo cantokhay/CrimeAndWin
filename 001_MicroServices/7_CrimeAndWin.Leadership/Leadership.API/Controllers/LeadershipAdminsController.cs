@@ -10,7 +10,7 @@ using Leadership.Application.Features.LeaderboardEntry.Commands.AdminDeleteLeade
 using Leadership.Application.Features.LeaderboardEntry.Commands.AdminUpdateLeaderboardEntry;
 using Leadership.Application.Features.LeaderboardEntry.Queries.GetAllLeaderboardEntriesAsAdmin;
 using Leadership.Application.Features.LeaderboardEntry.Queries.GetLeaderboardEntryByIdAsAdmin;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -106,4 +106,5 @@ namespace Leadership.API.Controllers
         }
     }
 }
+
 

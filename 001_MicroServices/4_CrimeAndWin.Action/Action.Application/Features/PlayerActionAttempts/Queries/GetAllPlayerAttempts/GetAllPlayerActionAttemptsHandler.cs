@@ -1,7 +1,7 @@
 using Action.Application.DTOs.ActionAttemptDTOs;
 using Action.Domain.Entities;
 using Action.Application.Mapping;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 
 namespace Action.Application.Features.PlayerActionAttempts.Queries.GetAllPlayerAttempts
@@ -18,7 +18,7 @@ namespace Action.Application.Features.PlayerActionAttempts.Queries.GetAllPlayerA
             _mapper = mapper;
         }
 
-        public async ValueTask<List<ResultPlayerActionAttemptDTO>> Handle(GetAllPlayerActionAttemptsQuery request, CancellationToken cancellationToken)
+        public async Task<List<ResultPlayerActionAttemptDTO>> Handle(GetAllPlayerActionAttemptsQuery request, CancellationToken cancellationToken)
         {
             var list = _read.GetAll(tracking: false)
                             .OrderByDescending(a => a.AttemptedAtUtc)
@@ -28,5 +28,6 @@ namespace Action.Application.Features.PlayerActionAttempts.Queries.GetAllPlayerA
         }
     }
 }
+
 
 

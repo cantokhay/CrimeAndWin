@@ -1,6 +1,6 @@
 using Inventory.Application.Mapping;
 using Inventory.Application.DTOs.InventoryDTOs;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Shared.Domain.Repository;
 
@@ -18,7 +18,7 @@ namespace Inventory.Application.Features.Inventory.Queries.GetInventoryByPlayerI
             _mapper = mapper;
         }
 
-        public async ValueTask<ResultInventoryDTO> Handle(GetInventoryByPlayerIdQuery request, CancellationToken ct)
+        public async Task<ResultInventoryDTO> Handle(GetInventoryByPlayerIdQuery request, CancellationToken ct)
         {
             var inv = await _read.GetWhere(x => x.PlayerId == request.PlayerId, tracking: false)
                                  .Include(x => x.Items)
@@ -28,4 +28,5 @@ namespace Inventory.Application.Features.Inventory.Queries.GetInventoryByPlayerI
         }
     }
 }
+
 

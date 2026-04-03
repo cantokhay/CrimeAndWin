@@ -1,7 +1,7 @@
 using Action.Application.DTOs.ActionDefinitionDTOs;
 using Action.Domain.Entities;
 using Action.Application.Mapping;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 
 namespace Action.Application.Features.ActionDefinitons.Queries.GetAllAction
@@ -18,7 +18,7 @@ namespace Action.Application.Features.ActionDefinitons.Queries.GetAllAction
             _mapper = mapper;
         }
 
-        public async ValueTask<List<ResultActionDefinitionDTO>> Handle(GetAllActionDefinitionsQuery request, CancellationToken cancellationToken)
+        public async Task<List<ResultActionDefinitionDTO>> Handle(GetAllActionDefinitionsQuery request, CancellationToken cancellationToken)
         {
             var list = _read.GetAll(tracking: false)
                             .OrderBy(a => a.DisplayName)
@@ -28,5 +28,6 @@ namespace Action.Application.Features.ActionDefinitons.Queries.GetAllAction
         }
     }
 }
+
 
 

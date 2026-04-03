@@ -34,3 +34,4 @@ public class RankValidator : AbstractValidator<Rank>
         RuleFor(x => x.Position).GreaterThan(0);
     }
 }
+

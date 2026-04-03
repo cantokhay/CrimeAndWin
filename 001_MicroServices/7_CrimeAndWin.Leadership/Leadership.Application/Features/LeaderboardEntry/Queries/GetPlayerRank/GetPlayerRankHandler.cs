@@ -1,6 +1,6 @@
 using Leadership.Application.Mapping;
 using Leadership.Application.DTOs.LeaderboardEntryDTOs;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 
 namespace Leadership.Application.Features.LeaderboardEntry.Queries.GetPlayerRank
@@ -14,11 +14,12 @@ namespace Leadership.Application.Features.LeaderboardEntry.Queries.GetPlayerRank
         { _readRepo = readRepo; _mapper = mapper; }
 
 
-        public async ValueTask<ResultLeaderboardEntryDTO> Handle(GetPlayerRankQuery request, CancellationToken cancellationToken)
+        public async Task<ResultLeaderboardEntryDTO> Handle(GetPlayerRankQuery request, CancellationToken cancellationToken)
         {
             var entry = await _readRepo.GetSingleAsync(x => x.LeaderboardId == request.LeaderboardId && x.PlayerId == request.PlayerId);
             return entry is null ? null : _mapper.ToResultDto(entry);
         }
     }
 }
+
 

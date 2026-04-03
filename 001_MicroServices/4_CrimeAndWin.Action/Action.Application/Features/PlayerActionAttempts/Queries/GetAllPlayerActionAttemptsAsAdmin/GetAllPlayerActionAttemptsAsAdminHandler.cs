@@ -1,6 +1,6 @@
 using Action.Application.DTOs.ActionAttemptDTOs.Admin;
 using Action.Domain.Entities;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Shared.Domain.Repository;
 
@@ -16,7 +16,7 @@ namespace Action.Application.Features.PlayerActionAttempts.Queries.GetAllPlayerA
             _read = read;
         }
 
-        public async ValueTask<List<AdminResultPlayerActionAttemptDTO>> Handle(GetAllPlayerActionAttemptsAsAdminQuery request, CancellationToken ct)
+        public async Task<List<AdminResultPlayerActionAttemptDTO>> Handle(GetAllPlayerActionAttemptsAsAdminQuery request, CancellationToken ct)
         {
             return await _read.GetAll(false)
                 .Select(x => new AdminResultPlayerActionAttemptDTO
@@ -33,5 +33,6 @@ namespace Action.Application.Features.PlayerActionAttempts.Queries.GetAllPlayerA
         }
     }
 }
+
 
 

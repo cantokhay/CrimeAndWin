@@ -1,5 +1,5 @@
 using Moderation.Application.Mapping;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Moderation.Application.DTOs.ReportDTOs;
 using Shared.Domain.Repository;
@@ -11,7 +11,7 @@ namespace Moderation.Application.Features.ModerationAction.Queries.GetAllReports
             ModerationMapper mapper)
             : IRequestHandler<GetAllReportsQuery, List<ResultReportDTO>>
     {
-        public async ValueTask<List<ResultReportDTO>> Handle(GetAllReportsQuery request, CancellationToken cancellationToken)
+        public async Task<List<ResultReportDTO>> Handle(GetAllReportsQuery request, CancellationToken cancellationToken)
         {
             var reports = await readRepo.Table
                 .AsNoTracking()
@@ -22,5 +22,6 @@ namespace Moderation.Application.Features.ModerationAction.Queries.GetAllReports
         }
     }
 }
+
 
 

@@ -13,3 +13,4 @@ namespace Leadership.Application.DTOs.LeaderboardEntryDTOs.Admin
     }
 }
 
+

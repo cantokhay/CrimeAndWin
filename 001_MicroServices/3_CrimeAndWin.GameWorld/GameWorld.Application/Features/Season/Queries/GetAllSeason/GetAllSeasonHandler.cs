@@ -1,6 +1,6 @@
 using GameWorld.Application.Mapping;
 using GameWorld.Application.DTOs.SeasonDTOs;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 
 namespace GameWorld.Application.Features.Season.Queries.GetAllSeason
@@ -10,7 +10,7 @@ namespace GameWorld.Application.Features.Season.Queries.GetAllSeason
             GameWorldMapper mapper)
             : IRequestHandler<GetAllSeasonsQuery, List<ResultSeasonDTO>>
     {
-        public async ValueTask<List<ResultSeasonDTO>> Handle(GetAllSeasonsQuery request, CancellationToken cancellationToken)
+        public async Task<List<ResultSeasonDTO>> Handle(GetAllSeasonsQuery request, CancellationToken cancellationToken)
         {
             var query = readRepo.GetAll(tracking: false)
                 .OrderByDescending(s => s.CreatedAtUtc);
@@ -20,6 +20,7 @@ namespace GameWorld.Application.Features.Season.Queries.GetAllSeason
         }
     }
 }
+
 
 
 

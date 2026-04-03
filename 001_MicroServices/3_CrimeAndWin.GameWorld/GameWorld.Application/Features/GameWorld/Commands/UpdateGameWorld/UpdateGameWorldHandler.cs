@@ -1,7 +1,7 @@
 using GameWorld.Application.Mapping;
 using GameWorld.Application.Abstract;
 using GameWorld.Application.DTOs.GameWorldDTOs;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 using GameWorld.Domain.VOs;
 
@@ -22,7 +22,7 @@ namespace GameWorld.Application.Features.GameWorld.Commands.UpdateGameWorld
             _bus = bus;
         }
 
-        public async ValueTask<UpdateGameWorldDTO> Handle(UpdateGameWorldCommand request, CancellationToken ct)
+        public async Task<UpdateGameWorldDTO> Handle(UpdateGameWorldCommand request, CancellationToken ct)
         {
             var gw = await _readRepo.GetByIdAsync(request.GameWorldId.ToString());
             if (gw is null) throw new KeyNotFoundException("GameWorld not found.");
@@ -45,5 +45,6 @@ namespace GameWorld.Application.Features.GameWorld.Commands.UpdateGameWorld
         }
     }
 }
+
 
 

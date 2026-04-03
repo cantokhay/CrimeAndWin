@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using Action.Application.DTOs.ActionDefinitionDTOs;
 
 namespace Action.Application.ValidationRules.ActionDefinitionValidations
@@ -32,3 +32,4 @@ namespace Action.Application.ValidationRules.ActionDefinitionValidations
         }
     }
 }
+

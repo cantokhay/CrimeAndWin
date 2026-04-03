@@ -1,5 +1,5 @@
 using Identity.Domain.Entities;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 
@@ -16,7 +16,7 @@ namespace Identity.Application.Features.User.Commands.CreateAppUser
             _time = time;
         }
 
-        public async ValueTask<Guid> Handle(CreateAppUserCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(CreateAppUserCommand request, CancellationToken cancellationToken)
         {
             var dto = request.createAppUserDTO;
 
@@ -47,4 +47,5 @@ namespace Identity.Application.Features.User.Commands.CreateAppUser
     }
 
 }
+
 

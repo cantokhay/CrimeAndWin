@@ -1,11 +1,12 @@
 using FluentValidation;
-using Mediator;
+// using Mediator;
 using Shared.Infrastructure.Exceptions;
+using Shared.Application.Abstractions.Messaging;
 
 namespace Shared.Infrastructure.Validation;
 
-public sealed class ValidationBehavior<TMessage, TResponse> : IPipelineBehavior<TMessage, TResponse>
-    where TMessage : IMessage
+public sealed class ValidationBehavior<TMessage, TResponse> // : IPipelineBehavior<TMessage, TResponse>
+    // where TMessage : IMessage
 {
     private readonly IEnumerable<IValidator<TMessage>> _validators;
 
@@ -14,7 +15,7 @@ public sealed class ValidationBehavior<TMessage, TResponse> : IPipelineBehavior<
         _validators = validators;
     }
 
-    public async ValueTask<TResponse> Handle(
+    public async Task<TResponse> Handle(
         TMessage message,
         MessageHandlerDelegate<TMessage, TResponse> next,
         CancellationToken cancellationToken)

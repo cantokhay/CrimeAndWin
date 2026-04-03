@@ -70,3 +70,4 @@ namespace Economy.Infrastructure.Migrations
     }
 }
 
+

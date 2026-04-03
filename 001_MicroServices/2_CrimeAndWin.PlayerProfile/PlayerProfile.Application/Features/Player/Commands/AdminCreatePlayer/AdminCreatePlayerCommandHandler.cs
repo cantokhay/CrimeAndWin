@@ -1,4 +1,4 @@
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using PlayerProfile.Domain.VOs;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
@@ -16,7 +16,7 @@ namespace PlayerProfile.Application.Features.Player.Commands.AdminCreatePlayer
             _time = time;
         }
 
-        public async ValueTask<Guid> Handle(AdminCreatePlayerCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(AdminCreatePlayerCommand request, CancellationToken cancellationToken)
         {
             var dto = request.createPlayerDTO;
 
@@ -40,4 +40,5 @@ namespace PlayerProfile.Application.Features.Player.Commands.AdminCreatePlayer
         }
     }
 }
+
 

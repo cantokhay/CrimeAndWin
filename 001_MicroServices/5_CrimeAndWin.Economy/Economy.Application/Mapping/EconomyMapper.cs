@@ -115,3 +115,4 @@ public partial class EconomyMapper
     public partial IEnumerable<AdminResultTransactionDTO> ToAdminResultDtoList(IEnumerable<Transaction> entities);
 }
 
+

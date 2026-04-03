@@ -1,3 +1,5 @@
+using Shared.Application.Abstractions.Messaging;
+using Shared.Infrastructure;
 using MassTransit;
 using Economy.Application.Mapping;
 using Economy.Infrastructure.Persistance.Context;
@@ -19,10 +21,8 @@ builder.Services.AddDbContext<EconomyDbContext>(opt =>
 });
 
 // MediatR & Mapperly & Validation
-builder.Services.AddMediator((Mediator.MediatorOptions options) =>
-{
-    options.ServiceLifetime = ServiceLifetime.Scoped;
-});
+builder.Services.AddScoped<IMediator, Mediator>();
+builder.Services.AddRequestHandlers(typeof(IApplicationAssemblyMarker).Assembly);
 builder.Services.AddScoped<EconomyMapper>();
 builder.Services.AddSharedValidation(typeof(IApplicationAssemblyMarker).Assembly);
 
@@ -80,4 +80,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
 

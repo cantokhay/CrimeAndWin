@@ -1,5 +1,5 @@
 using Action.Domain.Entities;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 
 namespace Action.Application.Features.ActionDefinitons.Commands.AdminDeleteAction
@@ -14,7 +14,7 @@ namespace Action.Application.Features.ActionDefinitons.Commands.AdminDeleteActio
             _write = write;
         }
 
-        public async ValueTask<bool> Handle(AdminDeleteActionDefinitionCommand request, CancellationToken ct)
+        public async Task<bool> Handle(AdminDeleteActionDefinitionCommand request, CancellationToken ct)
         {
             var ok = await _write.RemoveAsync(request.id.ToString());
             await _write.SaveAsync();
@@ -22,4 +22,5 @@ namespace Action.Application.Features.ActionDefinitons.Commands.AdminDeleteActio
         }
     }
 }
+
 

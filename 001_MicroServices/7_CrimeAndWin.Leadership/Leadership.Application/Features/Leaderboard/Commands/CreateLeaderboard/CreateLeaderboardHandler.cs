@@ -1,5 +1,5 @@
 using Leadership.Application.Mapping;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 
 namespace Leadership.Application.Features.Leaderboard.Commands.CreateLeaderboard
@@ -15,7 +15,7 @@ namespace Leadership.Application.Features.Leaderboard.Commands.CreateLeaderboard
         }
 
 
-        public async ValueTask<Guid> Handle(CreateLeaderboardCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(CreateLeaderboardCommand request, CancellationToken cancellationToken)
         {
             var entity = _mapper.ToEntity(request.Dto);
             entity.Id = Guid.NewGuid();
@@ -26,4 +26,5 @@ namespace Leadership.Application.Features.Leaderboard.Commands.CreateLeaderboard
         }
     }
 }
+
 

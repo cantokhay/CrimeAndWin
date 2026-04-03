@@ -1,4 +1,4 @@
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 
 namespace GameWorld.Application.Features.GameWorld.Commands.DeleteGameWorld
@@ -12,7 +12,7 @@ namespace GameWorld.Application.Features.GameWorld.Commands.DeleteGameWorld
             _write = write;
         }
 
-        public async ValueTask<bool> Handle(DeleteGameWorldCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(DeleteGameWorldCommand request, CancellationToken cancellationToken)
         {
             var result = await _write.RemoveAsync(request.Id.ToString());
             await _write.SaveAsync();
@@ -20,5 +20,6 @@ namespace GameWorld.Application.Features.GameWorld.Commands.DeleteGameWorld
         }
     }
 }
+
 
 

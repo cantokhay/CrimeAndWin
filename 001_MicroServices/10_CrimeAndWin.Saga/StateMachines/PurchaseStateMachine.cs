@@ -84,3 +84,4 @@ public class PurchaseStateMachine : MassTransitStateMachine<PurchaseState>
     }
 }
 
+

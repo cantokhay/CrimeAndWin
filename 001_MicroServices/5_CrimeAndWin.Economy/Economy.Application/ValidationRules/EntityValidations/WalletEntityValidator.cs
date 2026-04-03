@@ -41,3 +41,4 @@ public class TransactionReasonValidator : AbstractValidator<TransactionReason>
         RuleFor(x => x.Description).MaximumLength(255);
     }
 }
+

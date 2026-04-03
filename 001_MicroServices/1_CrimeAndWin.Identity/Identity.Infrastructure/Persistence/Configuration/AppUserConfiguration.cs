@@ -31,3 +31,4 @@ namespace Identity.Infrastructure.Persistence.Configuration
     }
 }
 
+

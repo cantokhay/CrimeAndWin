@@ -15,3 +15,4 @@ namespace Notification.Application.ValidationRules.NotificationValidations
     }
 }
 
+

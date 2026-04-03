@@ -131,3 +131,4 @@ namespace Identity.Application.Test.Features.Auth.Commands.Login
         }
     }
 }
+

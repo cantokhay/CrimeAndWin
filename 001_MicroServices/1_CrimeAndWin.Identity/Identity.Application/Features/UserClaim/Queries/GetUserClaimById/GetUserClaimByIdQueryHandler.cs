@@ -1,5 +1,5 @@
 using Identity.Application.DTOs.UserClaimDTOs.Admin;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 
 namespace Identity.Application.Features.UserClaim.Queries.GetUserClaimById
@@ -13,7 +13,7 @@ namespace Identity.Application.Features.UserClaim.Queries.GetUserClaimById
             _readRepository = readRepository;
         }
 
-        public async ValueTask<ResultUserClaimDTO> Handle(GetUserClaimByIdQuery request, CancellationToken cancellationToken)
+        public async Task<ResultUserClaimDTO> Handle(GetUserClaimByIdQuery request, CancellationToken cancellationToken)
         {
             var entity = await _readRepository.GetByIdAsync(request.id.ToString());
             if (entity == null) return null!;
@@ -30,4 +30,5 @@ namespace Identity.Application.Features.UserClaim.Queries.GetUserClaimById
         }
     }
 }
+
 

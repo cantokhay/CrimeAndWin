@@ -1,4 +1,4 @@
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.AspNetCore.Mvc;
 using Notification.Application.DTOs.Admin;
 using Notification.Application.Features.Notification.Commands.AdminCreateNotification;
@@ -61,4 +61,5 @@ namespace Notification.API.Controllers
         }
     }
 }
+
 

@@ -1,6 +1,6 @@
 using Bogus;
 using Leadership.Domain.VOs;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 
@@ -22,7 +22,7 @@ namespace Leadership.Application.Features.Leaderboard.Commands.Seed
             _clock = clock;
         }
 
-        public async ValueTask<Unit> Handle(RunLeadershipSeedCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(RunLeadershipSeedCommand request, CancellationToken cancellationToken)
         {
             var faker = new Faker("en");
             var leaderboards = new List<Domain.Entities.Leaderboard>();
@@ -84,4 +84,5 @@ namespace Leadership.Application.Features.Leaderboard.Commands.Seed
         }
     }
 }
+
 

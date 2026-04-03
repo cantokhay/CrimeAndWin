@@ -7,3 +7,4 @@ namespace Inventory.Application.Messaging.Abstract
     }
 }
 
+

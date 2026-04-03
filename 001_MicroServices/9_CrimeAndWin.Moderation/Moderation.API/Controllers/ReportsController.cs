@@ -1,4 +1,4 @@
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.AspNetCore.Mvc;
 using Moderation.Application.DTOs.ReportDTOs;
 using Moderation.Application.Features.ModerationAction.Queries.GetAllReports;
@@ -78,4 +78,5 @@ namespace Moderation.API.Controllers
         }
     }
 }
+
 

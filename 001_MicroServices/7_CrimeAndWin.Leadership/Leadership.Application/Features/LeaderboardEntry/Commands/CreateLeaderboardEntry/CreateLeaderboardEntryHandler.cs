@@ -1,5 +1,5 @@
 using Leadership.Domain.VOs;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 
 namespace Leadership.Application.Features.LeaderboardEntry.Commands.CreateLeaderboardEntry
@@ -14,7 +14,7 @@ namespace Leadership.Application.Features.LeaderboardEntry.Commands.CreateLeader
         { _readRepo = readRepo; _writeRepo = writeRepo; }
 
 
-        public async ValueTask<Guid> Handle(CreateLeaderboardEntryCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(CreateLeaderboardEntryCommand request, CancellationToken cancellationToken)
         {
             var existing = await _readRepo.GetSingleAsync(x => x.LeaderboardId == request.LeaderboardId && x.PlayerId == request.Dto.PlayerId);
             if (existing is null)
@@ -44,4 +44,5 @@ namespace Leadership.Application.Features.LeaderboardEntry.Commands.CreateLeader
         }
     }
 }
+
 

@@ -3,7 +3,7 @@ using Leadership.Application.Features.LeaderboardEntry.Commands.CreateLeaderboar
 using Leadership.Application.Features.LeaderboardEntry.Queries.GetAllLeaderboardEntries;
 using Leadership.Application.Features.LeaderboardEntry.Queries.GetLeaderboardEntryByLeaderboardId;
 using Leadership.Application.Features.LeaderboardEntry.Queries.GetPlayerRank;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Leadership.API.Controllers
@@ -54,4 +54,5 @@ namespace Leadership.API.Controllers
         }
     }
 }
+
 

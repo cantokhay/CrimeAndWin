@@ -1,6 +1,6 @@
 using Bogus;
 using GameWorld.Domain.VOs;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 
@@ -22,7 +22,7 @@ namespace GameWorld.Application.Features.GameWorld.Commands.Seed
             _clock = clock;
         }
 
-        public async ValueTask<Unit> Handle(RunGameWorldSeedCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(RunGameWorldSeedCommand request, CancellationToken cancellationToken)
         {
             var faker = new Faker("tr");
 
@@ -90,5 +90,6 @@ namespace GameWorld.Application.Features.GameWorld.Commands.Seed
         }
     }
 }
+
 
 

@@ -10,3 +10,4 @@ public class GameSettings : BaseEntity
     public string Description { get; set; } = string.Empty;
 }
 
+

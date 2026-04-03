@@ -49,3 +49,4 @@ namespace Identity.Application.ValidationRules.AppUser
         }
     }
 }
+

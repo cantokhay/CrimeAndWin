@@ -1,5 +1,5 @@
 using Economy.Application.Features.Transactions.Queries.GetTransactionByPlayerId;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Economy.API.Controllers
@@ -30,4 +30,5 @@ namespace Economy.API.Controllers
         }
     }
 }
+
 

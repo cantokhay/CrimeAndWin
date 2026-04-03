@@ -1,4 +1,4 @@
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 
 namespace Identity.Application.Features.Role.Commands.DeleteRole
@@ -12,7 +12,7 @@ namespace Identity.Application.Features.Role.Commands.DeleteRole
             _writeRepository = writeRepository;
         }
 
-        public async ValueTask<bool> Handle(DeleteRoleCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(DeleteRoleCommand request, CancellationToken cancellationToken)
         {
             var result = await _writeRepository.RemoveAsync(request.id.ToString());
             await _writeRepository.SaveAsync();
@@ -20,4 +20,5 @@ namespace Identity.Application.Features.Role.Commands.DeleteRole
         }
     }
 }
+
 

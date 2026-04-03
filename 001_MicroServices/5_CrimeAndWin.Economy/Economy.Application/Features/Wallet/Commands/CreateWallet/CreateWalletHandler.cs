@@ -1,4 +1,4 @@
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 
 namespace Economy.Application.Features.Wallet.Commands.CreateWallet
@@ -14,7 +14,7 @@ namespace Economy.Application.Features.Wallet.Commands.CreateWallet
             _walletReadRepository = walletReadRepository;
         }
 
-        public async ValueTask<bool> Handle(CreateWalletCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(CreateWalletCommand request, CancellationToken cancellationToken)
         {
             var existingWallet = await _walletReadRepository.GetSingleAsync(w => w.PlayerId == request.PlayerId);
             if (existingWallet != null)
@@ -32,4 +32,5 @@ namespace Economy.Application.Features.Wallet.Commands.CreateWallet
         }
     }
 }
+
 

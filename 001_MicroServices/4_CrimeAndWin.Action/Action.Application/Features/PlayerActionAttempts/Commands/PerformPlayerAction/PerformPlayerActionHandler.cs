@@ -4,7 +4,7 @@ using Action.Application.Mapping;
 using CrimeAndWin.Contracts.Events.Action;
 using CrimeAndWin.Action.GameMechanics;
 using Microsoft.EntityFrameworkCore;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 
 namespace Action.Application.Features.PlayerActionAttempts.Commands.PerformPlayerAction
@@ -49,7 +49,7 @@ namespace Action.Application.Features.PlayerActionAttempts.Commands.PerformPlaye
             _dateTimeProvider = dateTimeProvider;
         }
 
-        public async ValueTask<Guid> Handle(PerformPlayerActionCommand request, CancellationToken ct)
+        public async Task<Guid> Handle(PerformPlayerActionCommand request, CancellationToken ct)
         {
             var now = _dateTimeProvider.UtcNow;
 
@@ -137,4 +137,5 @@ namespace Action.Application.Features.PlayerActionAttempts.Commands.PerformPlaye
         }
     }
 }
+
 

@@ -5,7 +5,7 @@ using Economy.Application.Features.Wallet.Commands.DepositMoney;
 using Economy.Application.Features.Wallet.Commands.WithdrawMoney;
 using Economy.Application.Features.Wallet.Queries;
 using Economy.Application.Features.Wallet.Queries.GetAllWallets;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Economy.API.Controllers
@@ -75,4 +75,5 @@ namespace Economy.API.Controllers
         }
     }
 }
+
 

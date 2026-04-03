@@ -1,5 +1,5 @@
 using Moderation.Application.Mapping;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Moderation.Application.DTOs.ReportDTOs;
 using Shared.Domain.Repository;
@@ -17,7 +17,7 @@ namespace Moderation.Application.Features.Report.Queries.GetOpenReports
             _mapper = mapper;
         }
         
-        public async ValueTask<List<ResultReportDTO>> Handle(GetOpenReportsQuery request, CancellationToken ct)
+        public async Task<List<ResultReportDTO>> Handle(GetOpenReportsQuery request, CancellationToken ct)
         {
             var query = _readRepo.GetWhere(x => !x.IsResolved, tracking: false);
             var data = await query.OrderBy(x => x.CreatedAtUtc).ToListAsync(ct);
@@ -25,5 +25,6 @@ namespace Moderation.Application.Features.Report.Queries.GetOpenReports
         }
     }
 }
+
 
 

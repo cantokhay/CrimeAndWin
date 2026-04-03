@@ -14,3 +14,4 @@ namespace Economy.Application.ValidationRules.WalletValidations
     }
 }
 
+

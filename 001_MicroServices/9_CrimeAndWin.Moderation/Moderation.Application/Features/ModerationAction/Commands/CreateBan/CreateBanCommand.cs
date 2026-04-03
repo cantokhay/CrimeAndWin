@@ -1,8 +1,9 @@
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Moderation.Application.DTOs.ModerationActionDTOs;
 
 namespace Moderation.Application.Features.ModerationAction.Commands.CreateBan
 {
     public record CreateBanCommand(CreateBanDTO Dto) : IRequest<Guid>;
 }
+
 

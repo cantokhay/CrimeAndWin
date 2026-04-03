@@ -1,6 +1,6 @@
 using Inventory.Application.Messaging.Abstract;
 using Inventory.Domain.VOs;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 
@@ -19,7 +19,7 @@ namespace Inventory.Application.Features.Item.Commands.AddItem
             _time = time;
         }
 
-        public async ValueTask<bool> Handle(AddItemCommand request, CancellationToken ct)
+        public async Task<bool> Handle(AddItemCommand request, CancellationToken ct)
         {
             var item = new Domain.Entities.Item
             {
@@ -43,4 +43,5 @@ namespace Inventory.Application.Features.Item.Commands.AddItem
         }
     }
 }
+
 

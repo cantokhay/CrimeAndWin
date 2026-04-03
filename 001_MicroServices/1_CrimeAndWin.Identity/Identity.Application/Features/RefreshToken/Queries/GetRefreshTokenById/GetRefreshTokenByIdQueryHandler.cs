@@ -1,5 +1,5 @@
 using Identity.Application.DTOs.RefreshTokenDTOs.Admin;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 
 namespace Identity.Application.Features.RefreshToken.Queries.GetRefreshTokenById
@@ -13,7 +13,7 @@ namespace Identity.Application.Features.RefreshToken.Queries.GetRefreshTokenById
             _readRepository = readRepository;
         }
 
-        public async ValueTask<ResultRefreshTokenDTO> Handle(GetRefreshTokenByIdQuery request, CancellationToken cancellationToken)
+        public async Task<ResultRefreshTokenDTO> Handle(GetRefreshTokenByIdQuery request, CancellationToken cancellationToken)
         {
             var entity = await _readRepository.GetByIdAsync(request.id.ToString());
             if (entity == null) return null!;
@@ -32,4 +32,5 @@ namespace Identity.Application.Features.RefreshToken.Queries.GetRefreshTokenById
         }
     }
 }
+
 

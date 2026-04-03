@@ -1,3 +1,5 @@
+using Shared.Application.Abstractions.Messaging;
+using Shared.Infrastructure;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using PlayerProfile.Application;
@@ -25,10 +27,8 @@ builder.Services.AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>)
 builder.Services.AddSingleton<IDateTimeProvider, SystemDateTimeProvider>();
 
 //MediatR & Mapperly & Validation
-builder.Services.AddMediator((Mediator.MediatorOptions options) =>
-{
-    options.ServiceLifetime = ServiceLifetime.Scoped;
-});
+builder.Services.AddScoped<IMediator, Mediator>();
+builder.Services.AddRequestHandlers(typeof(IApplicationAssemblyMarker).Assembly);
 builder.Services.AddScoped<PlayerProfileMapper>();
 builder.Services.AddSharedValidation(typeof(IApplicationAssemblyMarker).Assembly);
 
@@ -80,4 +80,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
 

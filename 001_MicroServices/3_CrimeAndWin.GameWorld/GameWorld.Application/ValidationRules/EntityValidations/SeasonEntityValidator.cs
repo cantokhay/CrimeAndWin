@@ -41,3 +41,4 @@ public class DateRangeValidator : AbstractValidator<DateRange>
         RuleFor(x => x.EndUtc).NotEmpty().GreaterThan(x => x.StartUtc).WithMessage("Bitiş tarihi başlangıçtan sonra olmalıdır.");
     }
 }
+

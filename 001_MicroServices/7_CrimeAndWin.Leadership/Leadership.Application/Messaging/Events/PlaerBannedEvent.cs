@@ -6,3 +6,4 @@ namespace Leadership.Application.Messaging.Concrete
     }
 }
 
+

@@ -1,5 +1,5 @@
 using Identity.Application.DTOs.UserClaimDTOs.Admin;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Shared.Domain.Repository;
 
@@ -14,7 +14,7 @@ namespace Identity.Application.Features.UserClaim.Queries.GetAllUserClaims
             _readRepository = readRepository;
         }
 
-        public async ValueTask<List<ResultUserClaimDTO>> Handle(GetAllUserClaimsQuery request, CancellationToken cancellationToken)
+        public async Task<List<ResultUserClaimDTO>> Handle(GetAllUserClaimsQuery request, CancellationToken cancellationToken)
         {
             return await _readRepository
                 .GetAll()
@@ -31,5 +31,6 @@ namespace Identity.Application.Features.UserClaim.Queries.GetAllUserClaims
         }
     }
 }
+
 
 

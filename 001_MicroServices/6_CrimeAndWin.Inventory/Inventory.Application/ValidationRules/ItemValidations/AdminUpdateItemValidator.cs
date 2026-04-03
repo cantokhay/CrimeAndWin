@@ -20,3 +20,4 @@ namespace Inventory.Application.ValidationRules.ItemValidations
     }
 }
 
+

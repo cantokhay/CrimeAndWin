@@ -1,7 +1,7 @@
 using Identity.Application.DTOs.UserDTOs.Admin;
 using Identity.Application.Features.User.Queries.GetUserById;
 using Identity.Domain.Entities;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 
 namespace Identity.Application.Features.User.Queries.GetAppUserForAdminById
@@ -11,7 +11,7 @@ namespace Identity.Application.Features.User.Queries.GetAppUserForAdminById
         private readonly IReadRepository<AppUser> _read;
         public GetUserByIdQueryHandler(IReadRepository<AppUser> read) => _read = read;
 
-        public async ValueTask<ResultAppUserDTO?> Handle(GetAppUserForAdminByIdQuery request, CancellationToken ct)
+        public async Task<ResultAppUserDTO?> Handle(GetAppUserForAdminByIdQuery request, CancellationToken ct)
         {
             var user = await _read.GetByIdAsync(request.id.ToString(), tracking: false);
             if (user is null) return null;
@@ -34,4 +34,5 @@ namespace Identity.Application.Features.User.Queries.GetAppUserForAdminById
         }
     }
 }
+
 

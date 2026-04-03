@@ -1,8 +1,9 @@
 using Inventory.Application.DTOs.ItemDTOs;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 
 namespace Inventory.Application.Features.Item.Commands.GetAllItems
 {
     public sealed record GetAllItemsQuery() : IRequest<List<ResultItemDTO>>;
 }
+
 

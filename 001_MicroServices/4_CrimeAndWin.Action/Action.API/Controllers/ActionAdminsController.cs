@@ -10,7 +10,7 @@ using Action.Application.Features.PlayerActionAttempts.Commands.AdminDeletePlaye
 using Action.Application.Features.PlayerActionAttempts.Commands.AdminUpdatePlayerActionAttempt;
 using Action.Application.Features.PlayerActionAttempts.Queries.GetAllPlayerActionAttemptsAsAdmin;
 using Action.Application.Features.PlayerActionAttempts.Queries.GetPlayerActionAttemptByIdAsAdmin;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Action.API.Controllers
@@ -121,4 +121,5 @@ namespace Action.API.Controllers
         }
     }
 }
+
 

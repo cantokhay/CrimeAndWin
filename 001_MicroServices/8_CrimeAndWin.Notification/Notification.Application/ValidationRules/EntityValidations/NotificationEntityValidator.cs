@@ -22,3 +22,4 @@ public class NotificationContentValidator : AbstractValidator<NotificationConten
         RuleFor(x => x.Type).NotEmpty().MaximumLength(50).MatchesRegex("^[A-Z_]+$", "Bildirim Tipi");
     }
 }
+

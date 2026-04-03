@@ -1,4 +1,4 @@
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.AspNetCore.Mvc;
 using PlayerProfile.Application.DTOs.PlayerDTOs;
 using PlayerProfile.Application.Features.Player.Commands.CreatePlayer;
@@ -53,4 +53,5 @@ namespace PlayerProfile.API.Controllers
         }
     }
 }
+
 

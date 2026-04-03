@@ -1,4 +1,4 @@
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 
@@ -15,7 +15,7 @@ namespace Identity.Application.Features.RefreshToken.Commands.CreateRefreshToken
             _time = time;
         }
 
-        public async ValueTask<Guid> Handle(CreateRefreshTokenCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(CreateRefreshTokenCommand request, CancellationToken cancellationToken)
         {
             var dto = request.createRefreshTokenDTO;
 
@@ -37,4 +37,5 @@ namespace Identity.Application.Features.RefreshToken.Commands.CreateRefreshToken
         }
     }
 }
+
 

@@ -1,5 +1,5 @@
 using Moderation.Application.Mapping;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Moderation.Application.Messaging.Abstract;
 using Moderation.Domain.VOs;
 using Shared.Domain.Repository;
@@ -19,7 +19,7 @@ namespace Moderation.Application.Features.Report.Commands.CreateReport
             _publisher = publisher;
         }
 
-        public async ValueTask<Guid> Handle(CreateReportCommand request, CancellationToken ct)
+        public async Task<Guid> Handle(CreateReportCommand request, CancellationToken ct)
         {
             var entity = _mapper.ToEntity(request.Dto);
             entity.Reason = new ReportReason(request.Dto.Reason);
@@ -36,4 +36,5 @@ namespace Moderation.Application.Features.Report.Commands.CreateReport
         }
     }
 }
+
 

@@ -13,3 +13,4 @@ namespace Economy.Domain.Entities
     }
 }
 
+

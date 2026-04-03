@@ -15,3 +15,4 @@ namespace Inventory.Domain.Entities
     }
 }
 
+

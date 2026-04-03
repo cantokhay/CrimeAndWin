@@ -1,7 +1,7 @@
 using Action.Domain.Entities;
 using Action.Domain.VOs;
 using Bogus;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 
@@ -18,7 +18,7 @@ namespace Action.Application.Features.ActionDefinitons.Commands.Seed
             _clock = clock;
         }
 
-        public async ValueTask<Unit> Handle(RunActionSeedCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(RunActionSeedCommand request, CancellationToken cancellationToken)
         {
             var faker = new Faker("en");
 
@@ -59,4 +59,5 @@ namespace Action.Application.Features.ActionDefinitons.Commands.Seed
         }
     }
 }
+
 

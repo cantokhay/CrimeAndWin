@@ -1,4 +1,4 @@
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 
@@ -16,7 +16,7 @@ namespace Inventory.Application.Features.Inventory.Commands.AdminCreateInventory
             _time = time;
         }
 
-        public async ValueTask<Guid> Handle(AdminCreateInventoryCommand request, CancellationToken ct)
+        public async Task<Guid> Handle(AdminCreateInventoryCommand request, CancellationToken ct)
         {
             var d = request.createInventoryDTO;
 
@@ -35,4 +35,5 @@ namespace Inventory.Application.Features.Inventory.Commands.AdminCreateInventory
         }
     }
 }
+
 

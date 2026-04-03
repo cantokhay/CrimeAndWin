@@ -1,7 +1,7 @@
 using GameWorld.Application.Mapping;
 using GameWorld.Application.DTOs.GameWorldDTOs;
 using GameWorld.Domain.VOs;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 
 namespace GameWorld.Application.Features.GameWorld.Commands.CreateGameWorld
@@ -16,7 +16,7 @@ namespace GameWorld.Application.Features.GameWorld.Commands.CreateGameWorld
             _repo = repo; _mapper = mapper;
         }
 
-        public async ValueTask<CreateGameWorldDTO> Handle(CreateGameWorldCommand request, CancellationToken ct)
+        public async Task<CreateGameWorldDTO> Handle(CreateGameWorldCommand request, CancellationToken ct)
         {
             var entity = new Domain.Entities.GameWorld
             {
@@ -34,4 +34,5 @@ namespace GameWorld.Application.Features.GameWorld.Commands.CreateGameWorld
         }
     }
 }
+
 

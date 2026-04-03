@@ -1,8 +1,9 @@
 using Identity.Application.DTOs.UserDTOs.Admin;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 
 namespace Identity.Application.Features.User.Queries.GetAppUserForAdminById
 {
     public sealed record GetAppUserForAdminByIdQuery(Guid id) : IRequest<ResultAppUserDTO?>;
 }
+
 

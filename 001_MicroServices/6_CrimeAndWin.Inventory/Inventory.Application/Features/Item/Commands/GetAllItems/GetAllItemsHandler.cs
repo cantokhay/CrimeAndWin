@@ -1,6 +1,6 @@
 using Inventory.Application.Mapping;
 using Inventory.Application.DTOs.ItemDTOs;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Shared.Domain.Repository;
 
@@ -11,7 +11,7 @@ namespace Inventory.Application.Features.Item.Commands.GetAllItems
             InventoryMapper mapper)
             : IRequestHandler<GetAllItemsQuery, List<ResultItemDTO>>
     {
-        public async ValueTask<List<ResultItemDTO>> Handle(GetAllItemsQuery request, CancellationToken cancellationToken)
+        public async Task<List<ResultItemDTO>> Handle(GetAllItemsQuery request, CancellationToken cancellationToken)
         {
             var items = await readRepo.Table
                 .AsNoTracking()
@@ -22,5 +22,6 @@ namespace Inventory.Application.Features.Item.Commands.GetAllItems
         }
     }
 }
+
 
 

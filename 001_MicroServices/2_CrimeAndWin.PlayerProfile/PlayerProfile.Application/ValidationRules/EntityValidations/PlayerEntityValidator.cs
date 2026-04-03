@@ -49,3 +49,4 @@ public class PlayerRankValidator : AbstractValidator<Rank>
         RuleFor(x => (int?)x.Position).Must(p => !p.HasValue || p > 0).WithMessage("Sıralama 1'den küçük olamaz.");
     }
 }
+

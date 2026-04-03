@@ -22,3 +22,4 @@ public static class CooldownConstants
     public const int DefaultCooldownSeconds = 60; // Tanımsız tip için varsayılan
 }
 
+

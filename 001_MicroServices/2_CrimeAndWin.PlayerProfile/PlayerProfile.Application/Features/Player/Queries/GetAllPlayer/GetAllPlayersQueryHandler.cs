@@ -1,5 +1,5 @@
 using PlayerProfile.Application.Mapping;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using PlayerProfile.Application.DTOs.PlayerDTOs;
 using Shared.Domain.Repository;
 
@@ -10,7 +10,7 @@ namespace PlayerProfile.Application.Features.Player.Queries.GetAllPlayer
         PlayerProfileMapper mapper)
         : IRequestHandler<GetAllPlayersQuery, List<ResultPlayerDTO>>
     {
-        public async ValueTask<List<ResultPlayerDTO>> Handle(GetAllPlayersQuery request, CancellationToken cancellationToken)
+        public async Task<List<ResultPlayerDTO>> Handle(GetAllPlayersQuery request, CancellationToken cancellationToken)
         {
             var query = readRepo.GetAll(tracking: false);
 
@@ -22,5 +22,6 @@ namespace PlayerProfile.Application.Features.Player.Queries.GetAllPlayer
         }
     }
 }
+
 
 

@@ -16,3 +16,4 @@ namespace Economy.Infrastructure.Persistance.Configuration
     }
 }
 
+

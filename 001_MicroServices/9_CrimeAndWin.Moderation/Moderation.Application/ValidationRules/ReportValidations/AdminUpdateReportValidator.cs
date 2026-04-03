@@ -16,3 +16,4 @@ namespace Moderation.Application.ValidationRules.ReportValidations
     }
 }
 
+

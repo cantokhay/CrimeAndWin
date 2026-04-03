@@ -81,3 +81,4 @@ public partial class ActionMapper
     public partial IEnumerable<ResultPlayerActionAttemptDTO> ToResultDtoList(IEnumerable<PlayerActionAttempt> entities);
 }
 
+

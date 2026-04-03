@@ -1,4 +1,4 @@
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Moderation.Domain.VOs;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
@@ -17,7 +17,7 @@ namespace Moderation.Application.Features.Report.Commands.AdminCreateReport
             _time = time;
         }
 
-        public async ValueTask<Guid> Handle(AdminCreateReportCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(AdminCreateReportCommand request, CancellationToken cancellationToken)
         {
             var d = request.createReportDTO;
 
@@ -42,4 +42,5 @@ namespace Moderation.Application.Features.Report.Commands.AdminCreateReport
         }
     }
 }
+
 

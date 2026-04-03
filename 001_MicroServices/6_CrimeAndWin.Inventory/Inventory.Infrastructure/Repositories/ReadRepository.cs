@@ -36,3 +36,4 @@ namespace Inventory.Infrastructure.Repositories
     }
 }
 
+

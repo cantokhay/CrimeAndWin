@@ -3,7 +3,7 @@ using GameWorld.Application.Features.Season.Commands.CreateSeason;
 using GameWorld.Application.Features.Season.Commands.DeleteSeason;
 using GameWorld.Application.Features.Season.Commands.UpdateSeason;
 using GameWorld.Application.Features.Season.Queries.GetAllSeason;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.AspNetCore.Mvc;
 using Season.Application.Features.Season.Queries;
 
@@ -53,5 +53,6 @@ namespace GameWorld.API.Controllers
         }
     }
 }
+
 
 

@@ -1,6 +1,6 @@
 using Economy.Domain.Entities;
 using Economy.Domain.VOs;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 
 namespace Economy.Application.Features.Wallet.Commands.WithdrawMoney
@@ -20,7 +20,7 @@ namespace Economy.Application.Features.Wallet.Commands.WithdrawMoney
             _transactionWriteRepository = transactionWriteRepository;
         }
 
-        public async ValueTask<bool> Handle(WithdrawMoneyCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(WithdrawMoneyCommand request, CancellationToken cancellationToken)
         {
             var wallet = await _walletReadRepository.GetSingleAsync(w => w.PlayerId == request.PlayerId);
             if (wallet == null) return false;
@@ -44,4 +44,5 @@ namespace Economy.Application.Features.Wallet.Commands.WithdrawMoney
 
     }
 }
+
 

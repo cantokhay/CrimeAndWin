@@ -1,5 +1,5 @@
 using FluentValidation;
-using Mediator;
+// using Mediator;
 using Microsoft.Extensions.DependencyInjection;
 using Shared.Infrastructure.Validation;
 using System.Reflection;
@@ -15,7 +15,7 @@ public static class SharedValidationDependencyInjection
 
         // 2. Mediator Pipeline Behavior olarak ValidationBehavior’ı kaydet
         // Mediator Source Generator’da Registration IPipelineBehavior<,> üzerinden yapılır.
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+        // services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
         return services;
     }

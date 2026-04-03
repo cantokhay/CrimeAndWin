@@ -1,7 +1,7 @@
 using Bogus;
 using Inventory.Domain.Enums;
 using Inventory.Domain.VOs;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 
@@ -23,7 +23,7 @@ namespace Inventory.Application.Features.Inventory.Commands.Seed
             _clock = clock;
         }
 
-        public async ValueTask<Unit> Handle(RunInventorySeedCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(RunInventorySeedCommand request, CancellationToken cancellationToken)
         {
             var faker = new Faker("en");
 
@@ -82,4 +82,5 @@ namespace Inventory.Application.Features.Inventory.Commands.Seed
         }
     }
 }
+
 

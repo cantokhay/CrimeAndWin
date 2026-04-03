@@ -90,3 +90,4 @@ public class CrimeRewardStateMachineTests
         Assert.Equal("Account Frozen", instance.FailReason);
     }
 }
+

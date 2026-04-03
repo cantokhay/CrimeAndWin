@@ -16,3 +16,4 @@ namespace Economy.Application.ValidationRules.TransactionValidations
     }
 }
 
+

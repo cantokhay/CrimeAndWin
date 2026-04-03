@@ -1,4 +1,4 @@
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Notification.Application.DTOs.Admin;
 using Shared.Domain.Repository;
@@ -15,7 +15,7 @@ namespace Notification.Application.Features.Notification.Queries.GetAllNotificat
             _read = read;
         }
 
-        public async ValueTask<List<AdminResultNotificationDTO>> Handle(GetAllNotificationsAsAdminQuery request, CancellationToken cancellationToken)
+        public async Task<List<AdminResultNotificationDTO>> Handle(GetAllNotificationsAsAdminQuery request, CancellationToken cancellationToken)
         {
             return await _read.GetAll(false)
                 .Select(n => new AdminResultNotificationDTO
@@ -32,5 +32,6 @@ namespace Notification.Application.Features.Notification.Queries.GetAllNotificat
         }
     }
 }
+
 
 

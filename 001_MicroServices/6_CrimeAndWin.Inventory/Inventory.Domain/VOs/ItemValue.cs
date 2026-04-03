@@ -9,3 +9,4 @@ namespace Inventory.Domain.VOs
         );
 }
 
+

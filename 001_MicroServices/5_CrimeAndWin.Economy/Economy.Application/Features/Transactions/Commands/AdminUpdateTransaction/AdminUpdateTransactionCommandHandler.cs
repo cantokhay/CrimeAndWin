@@ -1,5 +1,5 @@
 using Economy.Domain.VOs;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 
@@ -22,7 +22,7 @@ namespace Economy.Application.Features.Transactions.Commands.AdminUpdateTransact
             _time = time;
         }
 
-        public async ValueTask<bool> Handle(AdminUpdateTransactionCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(AdminUpdateTransactionCommand request, CancellationToken cancellationToken)
         {
             var d = request.updateTransactionDTO;
             var entity = await _read.GetByIdAsync(d.Id.ToString(), tracking: true);
@@ -39,4 +39,5 @@ namespace Economy.Application.Features.Transactions.Commands.AdminUpdateTransact
         }
     }
 }
+
 

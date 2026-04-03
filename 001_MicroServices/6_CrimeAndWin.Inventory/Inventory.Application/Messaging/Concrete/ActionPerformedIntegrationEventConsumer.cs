@@ -1,7 +1,7 @@
 using Inventory.Application.Features.Item.Commands.AddItem;
 using Inventory.Domain.Enums;
 using MassTransit;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 
 namespace Inventory.Application.Messaging.Concrete
 {
@@ -25,4 +25,5 @@ namespace Inventory.Application.Messaging.Concrete
         }
     }
 }
+
 

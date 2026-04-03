@@ -1,4 +1,4 @@
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 
@@ -15,7 +15,7 @@ namespace Identity.Application.Features.UserRole.Commands.CreateUserRole
             _time = time;
         }
 
-        public async ValueTask<Guid> Handle(CreateUserRoleCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(CreateUserRoleCommand request, CancellationToken cancellationToken)
         {
             var dto = request.createUserRoleDTO;
 
@@ -34,4 +34,5 @@ namespace Identity.Application.Features.UserRole.Commands.CreateUserRole
         }
     }
 }
+
 

@@ -41,3 +41,4 @@ public class ItemValueValidator : AbstractValidator<ItemValue>
         RuleFor(x => x.Amount).GreaterThanOrEqualTo(0);
     }
 }
+

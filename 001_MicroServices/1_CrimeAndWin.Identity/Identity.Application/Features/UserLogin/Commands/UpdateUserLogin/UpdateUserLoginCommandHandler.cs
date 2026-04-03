@@ -1,4 +1,4 @@
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 
@@ -20,7 +20,7 @@ namespace Identity.Application.Features.UserLogin.Commands.UpdateUserLogin
             _time = time;
         }
 
-        public async ValueTask<bool> Handle(UpdateUserLoginCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(UpdateUserLoginCommand request, CancellationToken cancellationToken)
         {
             var dto = request.updateUserLoginDTO;
             var entity = await _readRepository.GetByIdAsync(dto.Id.ToString());
@@ -38,4 +38,5 @@ namespace Identity.Application.Features.UserLogin.Commands.UpdateUserLogin
         }
     }
 }
+
 

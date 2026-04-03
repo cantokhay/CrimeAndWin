@@ -1,4 +1,4 @@
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 
@@ -15,7 +15,7 @@ namespace Identity.Application.Features.UserClaim.Commands.CreateUserClaim
             _time = time;
         }
 
-        public async ValueTask<Guid> Handle(CreateUserClaimCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(CreateUserClaimCommand request, CancellationToken cancellationToken)
         {
             var dto = request.createUserClaimDTO;
 
@@ -35,4 +35,5 @@ namespace Identity.Application.Features.UserClaim.Commands.CreateUserClaim
         }
     }
 }
+
 

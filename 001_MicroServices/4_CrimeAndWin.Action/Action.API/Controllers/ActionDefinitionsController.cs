@@ -3,7 +3,7 @@ using Action.Application.Features.ActionDefinitons.Commands.CreateAction;
 using Action.Application.Features.ActionDefinitons.Commands.Seed;
 using Action.Application.Features.ActionDefinitons.Queries.GetAllAction;
 using Action.Application.Features.ActionDefinitons.Queries.GetByCodeAction;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Action.API.Controllers
@@ -57,4 +57,5 @@ namespace Action.API.Controllers
         }
     }
 }
+
 

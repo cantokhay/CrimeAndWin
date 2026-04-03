@@ -1,4 +1,4 @@
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using PlayerProfile.Domain.VOs;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
@@ -18,7 +18,7 @@ namespace PlayerProfile.Application.Features.Player.Commands.AdminUpdatePlayer
             _time = time;
         }
 
-        public async ValueTask<bool> Handle(AdminUpdatePlayerCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(AdminUpdatePlayerCommand request, CancellationToken cancellationToken)
         {
             var dto = request.updatePlayerDTO;
             var entity = await _read.GetByIdAsync(dto.Id.ToString(), tracking: true);
@@ -40,4 +40,5 @@ namespace PlayerProfile.Application.Features.Player.Commands.AdminUpdatePlayer
         }
     }
 }
+
 

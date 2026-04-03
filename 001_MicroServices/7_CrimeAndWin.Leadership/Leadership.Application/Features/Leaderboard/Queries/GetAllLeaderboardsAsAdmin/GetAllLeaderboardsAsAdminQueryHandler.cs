@@ -1,6 +1,6 @@
 using Leadership.Application.DTOs.LeaderboardDTOs.Admin;
 using Leadership.Application.DTOs.LeaderboardEntryDTOs.Admin;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Shared.Domain.Repository;
 
@@ -16,7 +16,7 @@ namespace Leadership.Application.Features.Leaderboard.Queries.GetAllLeaderboards
             _read = read;
         }
 
-        public async ValueTask<List<AdminResultLeaderboardDTO>> Handle(GetAllLeaderboardsAsAdminQuery request, CancellationToken cancellationToken)
+        public async Task<List<AdminResultLeaderboardDTO>> Handle(GetAllLeaderboardsAsAdminQuery request, CancellationToken cancellationToken)
         {
             return await _read.GetAll(false)
                 .Select(lb => new AdminResultLeaderboardDTO
@@ -45,5 +45,6 @@ namespace Leadership.Application.Features.Leaderboard.Queries.GetAllLeaderboards
         }
     }
 }
+
 
 

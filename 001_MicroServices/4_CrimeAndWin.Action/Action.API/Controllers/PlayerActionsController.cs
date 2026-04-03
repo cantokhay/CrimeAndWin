@@ -2,7 +2,7 @@ using Action.Application.DTOs.ActionAttemptDTOs;
 using Action.Application.Features.PlayerActionAttempts.Commands.PerformPlayerAction;
 using Action.Application.Features.PlayerActionAttempts.Commands.Seed;
 using Action.Application.Features.PlayerActionAttempts.Queries.GetAllPlayerAttempts;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Action.API.Controllers
@@ -43,4 +43,5 @@ namespace Action.API.Controllers
         }
     }
 }
+
 

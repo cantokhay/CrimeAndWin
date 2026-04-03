@@ -1,3 +1,5 @@
+using Shared.Application.Abstractions.Messaging;
+using Shared.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Notification.Application;
 using Notification.Application.Mapping;
@@ -18,10 +20,8 @@ builder.Services.AddDbContext<NotificationDbContext>(opt =>
 });
 
 // MediatR & Mapperly & Validation
-builder.Services.AddMediator((Mediator.MediatorOptions options) =>
-{
-    options.ServiceLifetime = ServiceLifetime.Scoped;
-});
+builder.Services.AddScoped<IMediator, Mediator>();
+builder.Services.AddRequestHandlers(typeof(IApplicationAssemblyMarker).Assembly);
 builder.Services.AddScoped<NotificationMapper>();
 builder.Services.AddSharedValidation(typeof(IApplicationAssemblyMarker).Assembly);
 
@@ -61,4 +61,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
 

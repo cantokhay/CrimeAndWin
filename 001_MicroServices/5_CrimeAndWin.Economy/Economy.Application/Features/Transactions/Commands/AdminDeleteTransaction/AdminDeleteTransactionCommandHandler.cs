@@ -1,4 +1,4 @@
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 
 namespace Economy.Application.Features.Transactions.Commands.AdminDeleteTransaction
@@ -13,7 +13,7 @@ namespace Economy.Application.Features.Transactions.Commands.AdminDeleteTransact
             _write = write;
         }
 
-        public async ValueTask<bool> Handle(AdminDeleteTransactionCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(AdminDeleteTransactionCommand request, CancellationToken cancellationToken)
         {
             var ok = await _write.RemoveAsync(request.id.ToString());
             await _write.SaveAsync();
@@ -21,4 +21,5 @@ namespace Economy.Application.Features.Transactions.Commands.AdminDeleteTransact
         }
     }
 }
+
 

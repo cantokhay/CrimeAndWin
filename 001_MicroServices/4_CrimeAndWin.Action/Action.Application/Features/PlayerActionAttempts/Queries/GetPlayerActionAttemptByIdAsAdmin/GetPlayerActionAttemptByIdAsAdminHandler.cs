@@ -1,6 +1,6 @@
 using Action.Application.DTOs.ActionAttemptDTOs.Admin;
 using Action.Domain.Entities;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 
 namespace Action.Application.Features.PlayerActionAttempts.Queries.GetPlayerActionAttemptByIdAsAdmin
@@ -15,7 +15,7 @@ namespace Action.Application.Features.PlayerActionAttempts.Queries.GetPlayerActi
             _read = read;
         }
 
-        public async ValueTask<AdminResultPlayerActionAttemptDTO?> Handle(GetPlayerActionAttemptByIdAsAdminQuery request, CancellationToken ct)
+        public async Task<AdminResultPlayerActionAttemptDTO?> Handle(GetPlayerActionAttemptByIdAsAdminQuery request, CancellationToken ct)
         {
             var x = await _read.GetByIdAsync(request.id.ToString(), tracking: false);
             if (x is null) return null;
@@ -33,4 +33,5 @@ namespace Action.Application.Features.PlayerActionAttempts.Queries.GetPlayerActi
         }
     }
 }
+
 

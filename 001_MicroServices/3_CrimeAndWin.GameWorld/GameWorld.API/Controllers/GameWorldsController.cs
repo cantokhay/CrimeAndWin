@@ -5,7 +5,7 @@ using GameWorld.Application.Features.GameWorld.Commands.Seed;
 using GameWorld.Application.Features.GameWorld.Commands.UpdateGameWorld;
 using GameWorld.Application.Features.GameWorld.Queries.GetByIdGameWorld;
 using GameWorld.Application.Features.GameWorld.Queries.GetListGameWorld;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameWorld.API.Controllers
@@ -58,5 +58,6 @@ namespace GameWorld.API.Controllers
         }
     }
 }
+
 
 

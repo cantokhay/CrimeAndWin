@@ -21,3 +21,4 @@ namespace PlayerProfile.Infrastructure.Migrations
     }
 }
 
+

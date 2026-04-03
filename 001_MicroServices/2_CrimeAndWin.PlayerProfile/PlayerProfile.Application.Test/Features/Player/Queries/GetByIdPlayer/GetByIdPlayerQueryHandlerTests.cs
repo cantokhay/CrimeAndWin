@@ -79,3 +79,4 @@ namespace PlayerProfile.Application.Test.Features.Player.Queries.GetByIdPlayer
         }
     }
 }
+

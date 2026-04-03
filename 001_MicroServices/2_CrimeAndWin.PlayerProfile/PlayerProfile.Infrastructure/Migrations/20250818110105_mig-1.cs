@@ -48,3 +48,4 @@ namespace PlayerProfile.Infrastructure.Migrations
     }
 }
 
+

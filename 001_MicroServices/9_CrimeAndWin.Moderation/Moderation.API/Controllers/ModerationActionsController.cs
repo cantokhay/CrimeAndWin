@@ -1,4 +1,4 @@
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.AspNetCore.Mvc;
 using Moderation.Application.DTOs.ModerationActionDTOs;
 using Moderation.Application.Features.ModerationAction.Commands.CreateBan;
@@ -62,4 +62,5 @@ namespace Moderation.API.Controllers
         }
     }
 }
+
 

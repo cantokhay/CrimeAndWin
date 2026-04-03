@@ -1,6 +1,6 @@
 using Identity.Application.DTOs.UserDTOs;
 using Identity.Application.Features.User.Commands.RegisterUser;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -43,4 +43,5 @@ namespace Identity.API.Controllers
         public IActionResult Get(Guid id) => Ok(new { id }); // gerçek okuma için query/handler eklenebilir
     }
 }
+
 

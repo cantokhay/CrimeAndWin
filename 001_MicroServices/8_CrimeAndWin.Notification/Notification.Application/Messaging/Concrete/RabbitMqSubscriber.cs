@@ -1,4 +1,4 @@
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Hosting;
 using RabbitMQ.Client;
@@ -53,4 +53,5 @@ namespace Notification.Application.Messaging.Concrete
     }
 
 }
+
 

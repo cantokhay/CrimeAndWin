@@ -1,5 +1,5 @@
 using MassTransit;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using CrimeAndWin.Contracts.Commands.Economy;
 using CrimeAndWin.Contracts.Events.Economy;
 using Economy.Application.Features.Wallet.Commands.WithdrawMoney;
@@ -49,4 +49,5 @@ namespace Economy.API.Consumers
         }
     }
 }
+
 

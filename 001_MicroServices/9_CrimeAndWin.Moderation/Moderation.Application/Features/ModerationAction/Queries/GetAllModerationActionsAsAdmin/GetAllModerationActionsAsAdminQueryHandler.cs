@@ -1,4 +1,4 @@
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Moderation.Application.DTOs.ModerationActionDTOs.Admin;
 using Shared.Domain.Repository;
@@ -15,7 +15,7 @@ namespace Moderation.Application.Features.ModerationAction.Queries.GetAllModerat
             _read = read;
         }
 
-        public async ValueTask<List<AdminResultModerationActionDTO>> Handle(GetAllModerationActionsAsAdminQuery request, CancellationToken cancellationToken)
+        public async Task<List<AdminResultModerationActionDTO>> Handle(GetAllModerationActionsAsAdminQuery request, CancellationToken cancellationToken)
         {
             return await _read.GetAll(false)
                 .Select(m => new AdminResultModerationActionDTO
@@ -35,5 +35,6 @@ namespace Moderation.Application.Features.ModerationAction.Queries.GetAllModerat
         }
     }
 }
+
 
 

@@ -1,5 +1,5 @@
 using Leadership.Domain.VOs;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 
@@ -22,7 +22,7 @@ namespace Leadership.Application.Features.LeaderboardEntry.Commands.AdminUpdateL
             _time = time;
         }
 
-        public async ValueTask<bool> Handle(AdminUpdateLeaderboardEntryCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(AdminUpdateLeaderboardEntryCommand request, CancellationToken cancellationToken)
         {
             var d = request.updateLeaderboardEntryDTO;
 
@@ -46,4 +46,5 @@ namespace Leadership.Application.Features.LeaderboardEntry.Commands.AdminUpdateL
         }
     }
 }
+
 

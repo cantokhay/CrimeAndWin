@@ -106,3 +106,4 @@ namespace PlayerProfile.Infrastructure.Migrations
     }
 }
 
+

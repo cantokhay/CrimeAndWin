@@ -1,5 +1,5 @@
 using Economy.Application.DTOs.WalletDTOs.Admin;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 
 namespace Economy.Application.Features.Wallet.Queries.GetWalletByIdAsAdmin
@@ -14,7 +14,7 @@ namespace Economy.Application.Features.Wallet.Queries.GetWalletByIdAsAdmin
             _read = read;
         }
 
-        public async ValueTask<AdminResultWalletDTO?> Handle(GetWalletByIdAsAdminQuery request, CancellationToken cancellationToken)
+        public async Task<AdminResultWalletDTO?> Handle(GetWalletByIdAsAdminQuery request, CancellationToken cancellationToken)
         {
             var w = await _read.GetByIdAsync(request.id.ToString(), tracking: false);
             if (w is null) return null;
@@ -30,4 +30,5 @@ namespace Economy.Application.Features.Wallet.Queries.GetWalletByIdAsAdmin
         }
     }
 }
+
 

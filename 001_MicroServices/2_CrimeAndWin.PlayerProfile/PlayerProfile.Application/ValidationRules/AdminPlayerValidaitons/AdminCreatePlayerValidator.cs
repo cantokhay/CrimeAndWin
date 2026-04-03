@@ -15,3 +15,4 @@ namespace PlayerProfile.Application.ValidationRules.AdminPlayerValidaitons
     }
 }
 
+

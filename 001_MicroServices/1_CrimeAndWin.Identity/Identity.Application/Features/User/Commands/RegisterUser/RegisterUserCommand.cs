@@ -1,5 +1,5 @@
 using Identity.Application.DTOs.UserDTOs;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 
 namespace Identity.Application.Features.User.Commands.RegisterUser
 {
@@ -10,4 +10,5 @@ namespace Identity.Application.Features.User.Commands.RegisterUser
         public string Password { get; set; } = null!;
     }
 }
+
 

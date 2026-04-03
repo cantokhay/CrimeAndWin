@@ -10,3 +10,4 @@ namespace Economy.Application.DTOs.WalletDTOs
         public List<ResultTransactionDTO> Transactions { get; set; } = new();
     }
 }
+

@@ -1,4 +1,4 @@
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 
@@ -21,7 +21,7 @@ namespace Leadership.Application.Features.Leaderboard.Commands.AdminUpdateLeader
             _time = time;
         }
 
-        public async ValueTask<bool> Handle(AdminUpdateLeaderboardCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(AdminUpdateLeaderboardCommand request, CancellationToken cancellationToken)
         {
             var d = request.updateLeaderboardDTO;
             var entity = await _read.GetByIdAsync(d.Id.ToString(), tracking: true);
@@ -41,4 +41,5 @@ namespace Leadership.Application.Features.Leaderboard.Commands.AdminUpdateLeader
         }
     }
 }
+
 

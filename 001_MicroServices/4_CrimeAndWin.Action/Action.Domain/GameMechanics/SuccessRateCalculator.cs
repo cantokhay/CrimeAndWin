@@ -62,3 +62,4 @@ public record EquippedItem
     public double SuccessBonus { get; init; } // 0.05 = %5 bonus
 }
 
+

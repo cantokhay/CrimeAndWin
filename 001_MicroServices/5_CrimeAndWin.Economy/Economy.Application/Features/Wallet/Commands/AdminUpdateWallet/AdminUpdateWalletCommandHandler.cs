@@ -1,4 +1,4 @@
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 
@@ -21,7 +21,7 @@ namespace Economy.Application.Features.Wallet.Commands.AdminUpdateWallet
             _time = time;
         }
 
-        public async ValueTask<bool> Handle(AdminUpdateWalletCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(AdminUpdateWalletCommand request, CancellationToken cancellationToken)
         {
             var d = request.updateWalletDTO;
             var entity = await _read.GetByIdAsync(d.Id.ToString(), tracking: true);
@@ -37,4 +37,5 @@ namespace Economy.Application.Features.Wallet.Commands.AdminUpdateWallet
         }
     }
 }
+
 

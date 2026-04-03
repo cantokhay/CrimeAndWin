@@ -1,5 +1,5 @@
 using Identity.Application.DTOs.UserDTOs;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 
 namespace Identity.Application.Features.User.Queries.GetUserById
 {
@@ -8,4 +8,5 @@ namespace Identity.Application.Features.User.Queries.GetUserById
         public Guid id { get; set; }
     }
 }
+
 

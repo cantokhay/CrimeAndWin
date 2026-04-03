@@ -57,3 +57,4 @@ public record CooldownCheckResult
         new() { IsReady = false, Remaining = remaining, EndsAt = endsAt };
 }
 
+

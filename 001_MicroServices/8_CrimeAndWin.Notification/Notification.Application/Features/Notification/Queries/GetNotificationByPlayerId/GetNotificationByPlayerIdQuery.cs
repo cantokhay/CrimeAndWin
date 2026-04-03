@@ -1,8 +1,9 @@
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Notification.Application.DTOs;
 
 namespace Notification.Application.Features.Notification.Queries.GetNotificationByPlayerId
 {
     public record GetNotificationByPlayerIdQuery(Guid PlayerId) : IRequest<List<ResultNotificationDTO>>;
 }
+
 

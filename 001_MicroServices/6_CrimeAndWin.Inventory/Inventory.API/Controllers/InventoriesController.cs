@@ -3,7 +3,7 @@ using Inventory.Application.Features.Inventory.Commands.CreateInventory;
 using Inventory.Application.Features.Inventory.Commands.Seed;
 using Inventory.Application.Features.Inventory.Queries.GetAllInventories;
 using Inventory.Application.Features.Inventory.Queries.GetInventoryByPlayerId;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventory.API.Controllers
@@ -54,4 +54,5 @@ namespace Inventory.API.Controllers
         }
     }
 }
+
 

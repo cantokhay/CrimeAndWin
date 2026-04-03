@@ -14,3 +14,4 @@ namespace Economy.Infrastructure.Repositories
     }
 }
 
+

@@ -10,7 +10,7 @@ using Economy.Application.Features.Wallet.Commands.AdminDeleteWallet;
 using Economy.Application.Features.Wallet.Commands.AdminUpdateWallet;
 using Economy.Application.Features.Wallet.Queries.GetAllWalletsAsAdmin;
 using Economy.Application.Features.Wallet.Queries.GetWalletByIdAsAdmin;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Economy.API.Controllers
@@ -121,4 +121,5 @@ namespace Economy.API.Controllers
         }
     }
 }
+
 

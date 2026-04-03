@@ -36,3 +36,4 @@ namespace Economy.Infrastructure.Repositories
     }
 }
 
+

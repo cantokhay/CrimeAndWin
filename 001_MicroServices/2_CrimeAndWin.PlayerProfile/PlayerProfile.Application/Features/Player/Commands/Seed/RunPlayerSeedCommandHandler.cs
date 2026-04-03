@@ -1,5 +1,5 @@
 using Bogus;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using PlayerProfile.Domain.VOs;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
@@ -17,7 +17,7 @@ namespace PlayerProfile.Application.Features.Player.Commands.Seed
             _dateTimeProvider = dateTimeProvider;
         }
 
-        public async ValueTask<Unit> Handle(RunPlayerSeedCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(RunPlayerSeedCommand request, CancellationToken cancellationToken)
         {
             var faker = new Faker("tr");
 
@@ -72,4 +72,5 @@ namespace PlayerProfile.Application.Features.Player.Commands.Seed
         }
     }
 }
+
 

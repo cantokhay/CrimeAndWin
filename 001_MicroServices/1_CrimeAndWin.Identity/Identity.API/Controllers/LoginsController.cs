@@ -1,6 +1,6 @@
 using Identity.Application.DTOs.AuthDTOs;
 using Identity.Application.Features.Auth.Commands.Login;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,4 +37,5 @@ namespace Identity.API.Controllers
         }
     }
 }
+
 

@@ -1,5 +1,5 @@
 using Bogus;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 
@@ -36,7 +36,7 @@ namespace Identity.Application.Features.Seed
             _time = time;
         }
 
-        public async ValueTask<string> Handle(SeedIdentityDataCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(SeedIdentityDataCommand request, CancellationToken cancellationToken)
         {
             var now = _time.UtcNow;
             var count = 10;
@@ -143,4 +143,5 @@ namespace Identity.Application.Features.Seed
         }
     }
 }
+
 

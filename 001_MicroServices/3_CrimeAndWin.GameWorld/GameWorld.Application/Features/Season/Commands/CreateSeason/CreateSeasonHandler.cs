@@ -1,7 +1,7 @@
 using GameWorld.Application.Mapping;
 using GameWorld.Application.DTOs.SeasonDTOs;
 using GameWorld.Domain.VOs;
-using Mediator;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 
 namespace GameWorld.Application.Features.Season.Commands.CreateSeason
@@ -17,7 +17,7 @@ namespace GameWorld.Application.Features.Season.Commands.CreateSeason
             _gwReadRepo = gwReadRepo; _seasonWriteRepo = seasonWriteRepo; _mapper = mapper;
         }
 
-        public async ValueTask<CreateSeasonDTO> Handle(CreateSeasonCommand request, CancellationToken ct)
+        public async Task<CreateSeasonDTO> Handle(CreateSeasonCommand request, CancellationToken ct)
         {
             var gw = await _gwReadRepo.GetByIdAsync(request.GameWorldId.ToString());
             if (gw is null) throw new KeyNotFoundException("Game World not found.");
@@ -39,5 +39,6 @@ namespace GameWorld.Application.Features.Season.Commands.CreateSeason
         }
     }
 }
+
 
 

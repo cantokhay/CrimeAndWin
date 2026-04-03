@@ -21,3 +21,4 @@ namespace Identity.Infrastructure.Migrations
     }
 }
 
+

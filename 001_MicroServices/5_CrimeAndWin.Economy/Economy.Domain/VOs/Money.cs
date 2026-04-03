@@ -7,3 +7,4 @@ namespace Economy.Domain.VOs
         );
 }
 
+
