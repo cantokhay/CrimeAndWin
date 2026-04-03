@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\000_BuildingBlocks\Shared.Infrastructure\Shared.Infrastructure\Shared.Infrastructure.csproj" />
     <ProjectReference Include="..\GameWorld.Domain\GameWorld.Domain.csproj" />
   </ItemGroup>
 

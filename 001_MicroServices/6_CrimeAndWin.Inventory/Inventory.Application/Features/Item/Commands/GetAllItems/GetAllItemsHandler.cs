@@ -18,7 +18,7 @@ namespace Inventory.Application.Features.Item.Commands.GetAllItems
                 .OrderBy(i => i.Name)
                 .ToListAsync(cancellationToken);
 
-            return mapper.ToDtoList(items).ToList();
+            return mapper.ToResultDtoList(items).ToList();
         }
     }
 }

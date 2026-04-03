@@ -1,7 +1,6 @@
 using System.Linq.Expressions;
 using FluentAssertions;
 using Inventory.Application.Features.Inventory.Commands.CreateInventory;
-using Inventory.Domain.Entities;
 using Moq;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
@@ -33,7 +32,7 @@ namespace Inventory.Application.Test.Features.Inventory.Commands.CreateInventory
             _mockRead.Setup(x => x.GetSingleAsync(It.IsAny<Expression<Func<Domain.Entities.Inventory, bool>>>(), true))
                 .ReturnsAsync(existingInventory);
 
-            var command = new CreateInventoryCommand { PlayerId = playerId };
+            var command = new CreateInventoryCommand(playerId);
 
             // Act
             var result = await _handler.Handle(command, CancellationToken.None);
@@ -54,7 +53,7 @@ namespace Inventory.Application.Test.Features.Inventory.Commands.CreateInventory
             _mockTime.Setup(x => x.UtcNow).Returns(DateTime.UtcNow);
             _mockWrite.Setup(x => x.SaveAsync()).ReturnsAsync(1);
 
-            var command = new CreateInventoryCommand { PlayerId = playerId };
+            var command = new CreateInventoryCommand(playerId);
 
             // Act
             var result = await _handler.Handle(command, CancellationToken.None);

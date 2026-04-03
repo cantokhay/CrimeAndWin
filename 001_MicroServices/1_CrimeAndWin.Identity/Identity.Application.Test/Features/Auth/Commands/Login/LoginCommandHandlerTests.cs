@@ -2,6 +2,7 @@ using System.Linq.Expressions;
 using FluentAssertions;
 using Identity.Application.DTOs.AuthDTOs;
 using Identity.Application.Features.Auth;
+using Identity.Application.Features.Auth.Abstract;
 using Identity.Application.Features.Auth.Commands.Login;
 using Identity.Domain.Entities;
 using Moq;

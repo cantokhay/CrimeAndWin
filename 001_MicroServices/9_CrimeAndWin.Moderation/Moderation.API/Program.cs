@@ -21,7 +21,10 @@ builder.Services.AddDbContext<ModerationDbContext>(opt =>
 });
 
 // MediatR & Mapperly & Validation
-builder.Services.AddMediator();
+builder.Services.AddMediator((Mediator.MediatorOptions options) =>
+{
+    options.ServiceLifetime = ServiceLifetime.Scoped;
+});
 builder.Services.AddScoped<ModerationMapper>();
 builder.Services.AddSharedValidation(typeof(IApplicationAssemblyMarker).Assembly);
 

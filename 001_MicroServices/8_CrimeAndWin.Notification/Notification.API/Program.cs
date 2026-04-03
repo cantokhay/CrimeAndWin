@@ -1,9 +1,6 @@
-using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Notification.Application;
-using Notification.Application.Features.Notification.Commands.CreateNotification;
 using Notification.Application.Mapping;
-using Notification.Application.ValidationRules.NotificationValidations;
 using Notification.Infrastructure.Persistance.Context;
 using Notification.Infrastructure.Repositories;
 using Shared.Domain.Repository;
@@ -21,7 +18,10 @@ builder.Services.AddDbContext<NotificationDbContext>(opt =>
 });
 
 // MediatR & Mapperly & Validation
-builder.Services.AddMediator();
+builder.Services.AddMediator((Mediator.MediatorOptions options) =>
+{
+    options.ServiceLifetime = ServiceLifetime.Scoped;
+});
 builder.Services.AddScoped<NotificationMapper>();
 builder.Services.AddSharedValidation(typeof(IApplicationAssemblyMarker).Assembly);
 

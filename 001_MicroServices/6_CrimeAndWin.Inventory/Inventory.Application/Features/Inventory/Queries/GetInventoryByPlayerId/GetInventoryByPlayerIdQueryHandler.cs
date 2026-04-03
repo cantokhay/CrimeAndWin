@@ -24,7 +24,7 @@ namespace Inventory.Application.Features.Inventory.Queries.GetInventoryByPlayerI
                                  .Include(x => x.Items)
                                  .FirstOrDefaultAsync(ct);
 
-            return inv is null ? null : _mapper.ToDto(inv);
+            return inv is null ? null : _mapper.ToResultDto(inv);
         }
     }
 }

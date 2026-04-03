@@ -3,15 +3,10 @@ using CrimeAndWin.Action.BackgroundServices;
 using Action.Application;
 using Action.Application.Abstract;
 using Action.Infrastructure.Services;
-using Action.Application.DTOs.ActionAttemptDTOs;
-using Action.Application.DTOs.ActionDefinitionDTOs;
 using Action.Application.Mapping;
-using Action.Application.ValidationRules.ActionDefinitionValidations;
-using Action.Application.ValidationRules.PlayerActionValidations;
 using Action.Infrastructure.Messaging;
 using Action.Infrastructure.Persistance.Context;
 using Action.Infrastructure.Repositories;
-using FluentValidation;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Shared.Domain.Repository;
@@ -29,7 +24,10 @@ builder.Services.AddDbContext<ActionDbContext>(opt =>
 });
 
 // MediatR & Mapperly & Validation
-builder.Services.AddMediator();
+builder.Services.AddMediator((Mediator.MediatorOptions options) =>
+{
+    options.ServiceLifetime = ServiceLifetime.Scoped;
+});
 builder.Services.AddScoped<ActionMapper>();
 builder.Services.AddSharedValidation(typeof(IApplicationAssemblyMarker).Assembly);
 

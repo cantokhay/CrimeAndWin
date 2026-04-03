@@ -31,6 +31,6 @@ public class RankValidator : AbstractValidator<Rank>
     public RankValidator()
     {
         RuleFor(x => x.RankPoints).GreaterThanOrEqualTo(0);
-        RuleFor(x => x.Position).Must(p => !p.HasValue || p > 0);
+        RuleFor(x => x.Position).GreaterThan(0);
     }
 }

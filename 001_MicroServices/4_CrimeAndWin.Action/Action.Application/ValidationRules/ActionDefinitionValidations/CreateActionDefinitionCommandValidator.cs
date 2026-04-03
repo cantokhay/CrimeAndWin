@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using Action.Application.DTOs.ActionDefinitionDTOs;
-using Shared.Infrastructure.Validation;
 
 namespace Action.Application.ValidationRules.ActionDefinitionValidations
 {
@@ -23,9 +22,11 @@ namespace Action.Application.ValidationRules.ActionDefinitionValidations
                 .MaximumLength(500);
 
             RuleFor(x => x.MinPower).GreaterThanOrEqualTo(0);
-            RuleFor(x => x.EnergyCost).Positive(); 
-            RuleFor(x => x.PowerGain).Positive();
-            RuleFor(x => x.MoneyGain).PositiveCurrency();
+            RuleFor(x => x.EnergyCost).GreaterThan(0); // Fixed: replaced .Positive() with .GreaterThan(0)
+            RuleFor(x => x.PowerGain).GreaterThan(0);
+            RuleFor(x => x.MoneyGain)
+                .GreaterThan(0).WithMessage("MoneyGain must be a positive value.")
+                .WithMessage("MoneyGain must have at most 2 decimal places.");
 
             // IsActive bool oldugundan NotNull gereksiz
         }

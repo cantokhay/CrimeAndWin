@@ -3,7 +3,6 @@ using CrimeAndWin.Saga.StateMachines;
 using CrimeAndWin.Saga.States;
 using MassTransit;
 using MassTransit.Testing;
-using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace CrimeAndWin.Saga.Test.StateMachines;
@@ -48,11 +47,11 @@ public class CrimeRewardStateMachineTests
 
         // Assert
         var instance = sagaHarness.Created.Contains(correlationId);
-        instance.Should().NotBeNull();
-        instance!.CurrentState.Should().Be("WaitingForInventory");
+        Assert.NotNull(instance);
+        Assert.Equal("WaitingForInventory", instance!.CurrentState);
 
         // Check if GrantItemCommand was published
-        (await harness.Published.Any<CrimeAndWin.Contracts.Commands.Inventory.GrantItemCommand>()).Should().BeTrue();
+        Assert.True(await harness.Published.Any<CrimeAndWin.Contracts.Commands.Inventory.GrantItemCommand>());
     }
 
     [Fact]
@@ -86,8 +85,8 @@ public class CrimeRewardStateMachineTests
 
         // Assert
         var instance = sagaHarness.Created.Contains(correlationId);
-        instance.Should().NotBeNull();
-        instance!.CurrentState.Should().Be("Failed");
-        instance.FailReason.Should().Be("Account Frozen");
+        Assert.NotNull(instance);
+        Assert.Equal("Failed", instance!.CurrentState);
+        Assert.Equal("Account Frozen", instance.FailReason);
     }
 }

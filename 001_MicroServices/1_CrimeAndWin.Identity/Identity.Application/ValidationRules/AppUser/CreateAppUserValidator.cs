@@ -1,6 +1,5 @@
 using FluentValidation;
 using Identity.Application.DTOs.UserDTOs.Admin;
-using Identity.Domain.Entities;
 using Shared.Infrastructure.Validation;
 
 namespace Identity.Application.ValidationRules.AppUser
@@ -28,7 +27,7 @@ namespace Identity.Application.ValidationRules.AppUser
     }
 
     // --- ENTITY VALIDATORS ---
-    public class AppUserEntityValidator : AbstractValidator<AppUser>
+    public class AppUserEntityValidator : AbstractValidator<Domain.Entities.AppUser>
     {
         public AppUserEntityValidator()
         {
@@ -39,7 +38,7 @@ namespace Identity.Application.ValidationRules.AppUser
         }
     }
 
-    public class RefreshTokenEntityValidator : AbstractValidator<RefreshToken>
+    public class RefreshTokenEntityValidator : AbstractValidator<Domain.Entities.RefreshToken>
     {
         public RefreshTokenEntityValidator()
         {

@@ -1,11 +1,7 @@
-using Economy.Application.Features.Wallet.Commands.DepositMoney;
 using MassTransit;
-using Economy.Application.Features.Wallet.Commands.WithdrawMoney;
 using Economy.Application.Mapping;
-using Economy.Application.ValidationRules.WalletValidations;
 using Economy.Infrastructure.Persistance.Context;
 using Economy.Infrastructure.Repositories;
-using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
@@ -23,7 +19,10 @@ builder.Services.AddDbContext<EconomyDbContext>(opt =>
 });
 
 // MediatR & Mapperly & Validation
-builder.Services.AddMediator();
+builder.Services.AddMediator((Mediator.MediatorOptions options) =>
+{
+    options.ServiceLifetime = ServiceLifetime.Scoped;
+});
 builder.Services.AddScoped<EconomyMapper>();
 builder.Services.AddSharedValidation(typeof(IApplicationAssemblyMarker).Assembly);
 

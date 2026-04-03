@@ -1,4 +1,3 @@
-using AutoMapper;
 using Leadership.Application.DTOs.LeaderboardDTOs;
 using Leadership.Application.Features.Leaderboard.Commands.CreateLeaderboard;
 using Leadership.Application.Features.Leaderboard.Commands.Seed;
@@ -14,9 +13,10 @@ namespace Leadership.API.Controllers
     public class LeaderboardsController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IMapper _mapper;
-        public LeaderboardsController(IMediator mediator, IMapper mapper)
-        { _mediator = mediator; _mapper = mapper; }
+        public LeaderboardsController(IMediator mediator)
+        { 
+            _mediator = mediator; 
+        }
 
 
         [HttpPost]

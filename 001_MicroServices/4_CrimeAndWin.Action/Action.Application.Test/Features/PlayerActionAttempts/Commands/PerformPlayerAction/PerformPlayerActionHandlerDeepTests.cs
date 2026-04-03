@@ -1,10 +1,10 @@
 using Action.Application.Abstract;
-using Action.Application.DTOs.PlayerActionAttemptDTOs;
+using Action.Application.DTOs.ActionAttemptDTOs;
 using Action.Application.Features.PlayerActionAttempts.Commands.PerformPlayerAction;
 using Action.Application.Mapping;
 using Action.Domain.Entities;
+using Action.Domain.VOs;
 using CrimeAndWin.Action.GameMechanics;
-using CrimeAndWin.Contracts.Events.Action;
 using FluentAssertions;
 using Moq;
 using Shared.Domain.Repository;
@@ -57,16 +57,16 @@ namespace Action.Application.Test.Features.PlayerActionAttempts.Commands.Perform
             var actionId = Guid.NewGuid();
             var startingEnergy = 100;
             var cost = 40;
-            
+
             var def = new ActionDefinition { Id = actionId, IsActive = true, Requirements = new ActionRequirements { EnergyCost = cost } };
             var energy = new PlayerEnergyState { Id = playerId, CurrentEnergy = startingEnergy };
 
             _mockActionRead.Setup(x => x.GetByIdAsync(actionId.ToString(), false)).ReturnsAsync(def);
             _mockEnergyRead.Setup(x => x.GetByIdAsync(playerId.ToString(), false)).ReturnsAsync(energy);
             _mockClock.Setup(x => x.UtcNow).Returns(DateTime.UtcNow);
-            _mockSuccessCalculator.Setup(x => x.Calculate(It.IsAny<SuccessRateInput>())).Returns(new SuccessResult { IsSuccess = true });
+            _mockSuccessCalculator.Setup(x => x.Calculate(It.IsAny<SuccessRateInput>())).Returns(new SuccessRateResult { IsSuccess = true }); // Fixes CS0246
 
-            var command = new PerformPlayerActionCommand { Request = new RequestPerformActionDTO { ActionDefinitionId = actionId, PlayerId = playerId } };
+            var command = new PerformPlayerActionCommand(new PlayerActionAttemptDTO { ActionDefinitionId = actionId, PlayerId = playerId }); // Fixes CS7036, CS0246, CS0246
 
             // Act
             await _handler.Handle(command, CancellationToken.None);
@@ -83,22 +83,17 @@ namespace Action.Application.Test.Features.PlayerActionAttempts.Commands.Perform
             var playerId = Guid.NewGuid();
             var actionId = Guid.NewGuid();
             var now = new DateTime(2026, 4, 3, 10, 0, 0, DateTimeKind.Utc);
-            
+
             var def = new ActionDefinition { Id = actionId, IsActive = true, Code = "HI-01", Requirements = new ActionRequirements { EnergyCost = 10 } };
             var energy = new PlayerEnergyState { Id = playerId, CurrentEnergy = 100 };
-            
-            // Note: CooldownManager uses hardcoded seconds if not otherwise specified.
-            // Assuming "HI-01" has > 10s cooldown.
-            var lastAttemptAt = now.AddSeconds(-5); 
-            
-            // To mock Table (IQueryable), we'd usually use MockQueryable.
-            // For now I'm skipping the repository verification and testing through error flow.
-            
+
+            var lastAttemptAt = now.AddSeconds(-5);
+
             _mockClock.Setup(x => x.UtcNow).Returns(now);
             _mockActionRead.Setup(x => x.GetByIdAsync(actionId.ToString(), false)).ReturnsAsync(def);
             _mockEnergyRead.Setup(x => x.GetByIdAsync(playerId.ToString(), false)).ReturnsAsync(energy);
-            
-            var command = new PerformPlayerActionCommand { Request = new RequestPerformActionDTO { ActionDefinitionId = actionId, PlayerId = playerId } };
+
+            var command = new PerformPlayerActionCommand(new PlayerActionAttemptDTO { ActionDefinitionId = actionId, PlayerId = playerId }); // Fixes CS7036, CS0246, CS0246
 
             // Act & Assert
             // (Assuming Mocking IQueryable was successful or Handler would return cooldown ends at error)

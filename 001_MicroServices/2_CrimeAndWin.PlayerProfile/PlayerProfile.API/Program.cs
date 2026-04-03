@@ -1,10 +1,7 @@
-using FluentValidation;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using PlayerProfile.Application;
-using PlayerProfile.Application.Features.Player.Commands.CreatePlayer;
 using PlayerProfile.Application.Mapping;
-using PlayerProfile.Application.ValidationRules.PlayerValidations;
 using PlayerProfile.Infrastructure.Persistance.Context;
 using PlayerProfile.Infrastructure.Repositories;
 using Shared.Domain.Repository;
@@ -28,7 +25,10 @@ builder.Services.AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>)
 builder.Services.AddSingleton<IDateTimeProvider, SystemDateTimeProvider>();
 
 //MediatR & Mapperly & Validation
-builder.Services.AddMediator();
+builder.Services.AddMediator((Mediator.MediatorOptions options) =>
+{
+    options.ServiceLifetime = ServiceLifetime.Scoped;
+});
 builder.Services.AddScoped<PlayerProfileMapper>();
 builder.Services.AddSharedValidation(typeof(IApplicationAssemblyMarker).Assembly);
 

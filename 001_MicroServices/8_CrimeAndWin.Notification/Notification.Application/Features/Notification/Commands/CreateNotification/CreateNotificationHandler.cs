@@ -1,4 +1,3 @@
-using AutoMapper;
 using Mediator;
 using Notification.Domain.VOs;
 using Shared.Domain.Repository;
@@ -9,12 +8,10 @@ namespace Notification.Application.Features.Notification.Commands.CreateNotifica
             : IRequestHandler<CreateNotificationCommand, Guid>
     {
         private readonly IWriteRepository<Domain.Entities.Notification> _writeRepository;
-        private readonly IMapper _mapper;
 
-        public CreateNotificationHandler(IWriteRepository<Domain.Entities.Notification> writeRepository, IMapper mapper)
+        public CreateNotificationHandler(IWriteRepository<Domain.Entities.Notification> writeRepository)
         {
             _writeRepository = writeRepository;
-            _mapper = mapper;
         }
 
         public async ValueTask<Guid> Handle(CreateNotificationCommand request, CancellationToken cancellationToken)

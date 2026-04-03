@@ -1,13 +1,6 @@
-using FluentValidation;
 using GameWorld.Application;
 using GameWorld.Application.Abstract;
-using GameWorld.Application.Features.GameWorld.Commands.CreateGameWorld;
-using GameWorld.Application.Features.GameWorld.Commands.UpdateGameWorld;
-using GameWorld.Application.Features.Season.Commands.CreateSeason;
-using GameWorld.Application.Features.Season.Commands.UpdateSeason;
 using GameWorld.Application.Mapping;
-using GameWorld.Application.ValidationRules.GameWorldValidations;
-using GameWorld.Application.ValidationRules.SeasonValidations;
 using GameWorld.Infrastructure.Messaging;
 using GameWorld.Infrastructure.Persistance.Context;
 using GameWorld.Infrastructure.Repositories;
@@ -27,7 +20,10 @@ builder.Services.AddDbContext<GameWorldDbContext>(opt =>
 });
 
 // MediatR & Mapperly & Validation
-builder.Services.AddMediator();
+builder.Services.AddMediator((Mediator.MediatorOptions options) =>
+{
+    options.ServiceLifetime = ServiceLifetime.Scoped;
+});
 builder.Services.AddScoped<GameWorldMapper>();
 builder.Services.AddSharedValidation(typeof(IApplicationAssemblyMarker).Assembly);
 

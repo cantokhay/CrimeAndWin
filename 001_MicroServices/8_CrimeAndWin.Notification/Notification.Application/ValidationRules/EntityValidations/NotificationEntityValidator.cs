@@ -1,11 +1,10 @@
-using Notification.Domain.Entities;
 using Notification.Domain.VOs;
 using FluentValidation;
 using Shared.Infrastructure.Validation;
 
 namespace Notification.Application.ValidationRules.EntityValidations;
 
-public class NotificationEntityValidator : BaseEntityValidator<Notification.Domain.Entities.Notification>
+public class NotificationEntityValidator : BaseEntityValidator<Domain.Entities.Notification>
 {
     public NotificationEntityValidator()
     {

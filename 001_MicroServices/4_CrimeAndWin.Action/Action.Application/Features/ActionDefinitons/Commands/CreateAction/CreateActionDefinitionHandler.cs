@@ -18,7 +18,7 @@ namespace Action.Application.Features.ActionDefinitons.Commands.CreateAction
             _mapper = mapper;
         }
 
-        public async Task<CreateActionDefinitionDTO> Handle(CreateActionDefinitionCommand cmd, CancellationToken ct)
+        public async ValueTask<CreateActionDefinitionDTO> Handle(CreateActionDefinitionCommand cmd, CancellationToken ct)
         {
             var entity = _mapper.ToEntity(cmd.Request);
             entity.Id = Guid.NewGuid();

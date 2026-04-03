@@ -18,7 +18,7 @@ namespace Inventory.Application.Features.Inventory.Queries.GetAllInventories
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
 
-            return mapper.ToDtoList(inventories).ToList();
+            return mapper.ToResultDtoList(inventories).ToList();
         }
     }
 }

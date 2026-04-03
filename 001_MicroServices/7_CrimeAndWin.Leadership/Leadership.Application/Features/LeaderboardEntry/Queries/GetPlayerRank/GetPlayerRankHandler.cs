@@ -17,7 +17,7 @@ namespace Leadership.Application.Features.LeaderboardEntry.Queries.GetPlayerRank
         public async ValueTask<ResultLeaderboardEntryDTO> Handle(GetPlayerRankQuery request, CancellationToken cancellationToken)
         {
             var entry = await _readRepo.GetSingleAsync(x => x.LeaderboardId == request.LeaderboardId && x.PlayerId == request.PlayerId);
-            return entry is null ? null : _mapper.ToDto(entry);
+            return entry is null ? null : _mapper.ToResultDto(entry);
         }
     }
 }

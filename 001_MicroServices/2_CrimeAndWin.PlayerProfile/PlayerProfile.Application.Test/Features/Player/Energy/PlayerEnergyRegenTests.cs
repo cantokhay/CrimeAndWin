@@ -1,10 +1,7 @@
 using FluentAssertions;
 using Moq;
-using PlayerProfile.Application.DTOs.PlayerDTOs;
 using PlayerProfile.Application.Features.Player.Queries.GetByIdPlayer;
 using PlayerProfile.Application.Mapping;
-using PlayerProfile.Domain.Entities;
-using PlayerProfile.Domain.VOs;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 using Xunit;
@@ -13,16 +10,16 @@ namespace PlayerProfile.Application.Test.Features.Player.Energy
 {
     public class PlayerEnergyRegenTests
     {
-        private readonly Mock<IReadRepository<Player>> _mockRead;
-        private readonly Mock<IWriteRepository<Player>> _mockWrite;
+        private readonly Mock<IReadRepository<Domain.Entities.Player>> _mockRead;
+        private readonly Mock<IWriteRepository<Domain.Entities.Player>> _mockWrite;
         private readonly Mock<IDateTimeProvider> _mockClock;
         private readonly PlayerProfileMapper _mapper;
         private readonly GetByIdPlayerQueryHandler _handler;
 
         public PlayerEnergyRegenTests()
         {
-            _mockRead = new Mock<IReadRepository<Player>>();
-            _mockWrite = new Mock<IWriteRepository<Player>>();
+            _mockRead = new Mock<IReadRepository<Domain.Entities.Player>>();
+            _mockWrite = new Mock<IWriteRepository<Domain.Entities.Player>>();
             _mockClock = new Mock<IDateTimeProvider>();
             _mapper = new PlayerProfileMapper();
             
@@ -46,17 +43,17 @@ namespace PlayerProfile.Application.Test.Features.Player.Energy
             var now = DateTime.UtcNow;
             var lastCalc = now.AddMinutes(-minutesPassed);
 
-            var player = new Player 
+            var player = new Domain.Entities.Player 
             { 
                 Id = playerId, 
-                Energy = new Energy(startingEnergy, 100, 2), // 2 regen per minute
+                Energy = new Domain.VOs.Energy(startingEnergy, 100, 2), // 2 regen per minute
                 LastEnergyCalcUtc = lastCalc 
             };
 
             _mockClock.Setup(x => x.UtcNow).Returns(now);
             _mockRead.Setup(x => x.GetByIdAsync(playerId.ToString(), true)).ReturnsAsync(player);
 
-            var query = new GetByIdPlayerQuery { Id = playerId };
+            var query = new GetByIdPlayerQuery(playerId);
 
             // Act
             await _handler.Handle(query, CancellationToken.None);

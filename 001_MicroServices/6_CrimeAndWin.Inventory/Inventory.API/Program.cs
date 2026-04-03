@@ -1,10 +1,7 @@
-using FluentValidation;
 using Inventory.Application;
-using Inventory.Application.Features.Item.Commands.AddItem;
 using Inventory.Application.Mapping;
 using Inventory.Application.Messaging.Abstract;
 using Inventory.Application.Messaging.Concrete;
-using Inventory.Application.ValidationRules.ItemValidations;
 using Inventory.Infrastructure.Persistance.Context;
 using Inventory.Infrastructure.Repositories;
 using MassTransit;
@@ -24,7 +21,10 @@ builder.Services.AddDbContext<InventoryDbContext>(opt =>
 });
 
 // MediatR & Mapperly & Validation
-builder.Services.AddMediator();
+builder.Services.AddMediator((Mediator.MediatorOptions options) =>
+{
+    options.ServiceLifetime = ServiceLifetime.Scoped;
+});
 builder.Services.AddScoped<InventoryMapper>();
 builder.Services.AddSharedValidation(typeof(IApplicationAssemblyMarker).Assembly);
 

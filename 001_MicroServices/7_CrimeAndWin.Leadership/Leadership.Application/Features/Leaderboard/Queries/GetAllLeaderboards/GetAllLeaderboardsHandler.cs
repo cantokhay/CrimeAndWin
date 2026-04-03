@@ -18,7 +18,7 @@ namespace Leadership.Application.Features.Leaderboard.Queries.GetAllLeaderboards
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
 
-            return mapper.ToDtoList(leaderboards).ToList();
+            return mapper.ToResultDtoList(leaderboards).ToList();
         }
     }
 }

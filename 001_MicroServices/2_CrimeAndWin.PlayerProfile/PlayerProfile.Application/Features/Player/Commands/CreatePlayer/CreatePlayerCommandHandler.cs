@@ -9,7 +9,7 @@ namespace PlayerProfile.Application.Features.Player.Commands.CreatePlayer
     public sealed class CreatePlayerCommandHandler(
         IWriteRepository<Domain.Entities.Player> repo, PlayerProfileMapper mapper) : IRequestHandler<CreatePlayerCommand, CreatePlayerDTO>
     {
-        public async Task<CreatePlayerDTO> Handle(CreatePlayerCommand r, CancellationToken ct)
+        public async ValueTask<CreatePlayerDTO> Handle(CreatePlayerCommand r, CancellationToken ct)
         {
             var entity = new Domain.Entities.Player
             {

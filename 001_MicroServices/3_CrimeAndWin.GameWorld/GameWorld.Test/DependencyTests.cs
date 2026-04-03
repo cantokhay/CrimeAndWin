@@ -1,8 +1,6 @@
 using FluentAssertions;
 using GameWorld.Application.Abstract;
-using GameWorld.Domain.Entities;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.DependencyInjection;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 using Xunit;
@@ -21,7 +19,7 @@ namespace GameWorld.Test
         [Theory]
         [InlineData(typeof(IReadRepository<Domain.Entities.GameWorld>))]
         [InlineData(typeof(IWriteRepository<Domain.Entities.GameWorld>))]
-        [InlineData(typeof(IReadRepository<Season>))]
+        [InlineData(typeof(IReadRepository<Domain.Entities.Season>))]
         [InlineData(typeof(IDateTimeProvider))]
         [InlineData(typeof(IEventBus))]
         public void RegisteredServices_ShouldBeResolvable(Type serviceType)

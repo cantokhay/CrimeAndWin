@@ -1,4 +1,3 @@
-using AutoMapper;
 using Leadership.Application.DTOs.LeaderboardEntryDTOs;
 using Leadership.Application.Features.LeaderboardEntry.Commands.CreateLeaderboardEntry;
 using Leadership.Application.Features.LeaderboardEntry.Queries.GetAllLeaderboardEntries;
@@ -14,12 +13,10 @@ namespace Leadership.API.Controllers
     public class LeaderboardEntriesController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IMapper _mapper;
 
-        public LeaderboardEntriesController(IMediator mediator, IMapper mapper)
+        public LeaderboardEntriesController(IMediator mediator)
         {
             _mediator = mediator;
-            _mapper = mapper;
         }
 
         [HttpGet("{id:guid}/entries")]

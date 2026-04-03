@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\000_BuildingBlocks\Shared.Infrastructure\Shared.Infrastructure\Shared.Infrastructure.csproj" />
     <ProjectReference Include="..\Action.Domain\Action.Domain.csproj" />
     <ProjectReference Include="..\..\..\Shared\CrimeAndWin.Contracts\CrimeAndWin.Contracts.csproj" />
   </ItemGroup>

@@ -28,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\000_BuildingBlocks\Shared.Infrastructure\Shared.Infrastructure\Shared.Infrastructure.csproj" />
     <ProjectReference Include="..\Leadership.Domain\Leadership.Domain.csproj" />
     <ProjectReference Include="..\Leadership.Infrastructure\Leadership.Infrastructure.csproj" />
   </ItemGroup>

@@ -23,11 +23,9 @@ public class PlayerStatsValidator : AbstractValidator<Stats>
 {
     public PlayerStatsValidator()
     {
-        RuleFor(x => x.Level).Positive();
-        RuleFor(x => x.Experience).GreaterThanOrEqualTo(0);
         RuleFor(x => x.Power).Positive();
-        RuleFor(x => x.Agility).Positive();
         RuleFor(x => x.Defense).Positive();
+        RuleFor(x => x.Agility).Positive();
         RuleFor(x => x.Luck).Positive();
     }
 }

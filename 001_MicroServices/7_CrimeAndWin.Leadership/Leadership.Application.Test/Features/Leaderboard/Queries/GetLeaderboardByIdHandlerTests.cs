@@ -28,12 +28,9 @@ namespace Leadership.Application.Test.Features.Leaderboard.Queries
             var id = Guid.NewGuid();
             _mockRead.Setup(x => x.GetByIdAsync(id.ToString(), true)).ReturnsAsync((Domain.Entities.Leaderboard)null!);
 
-            var query = new GetLeaderboardByIdQuery { Id = id };
+            var query = new GetLeaderboardByIdQuery(id);
 
             // Act
-            // Note: The original handler used IQueryable with .Include, which requires MockQueryable to test properly.
-            // For now, I'm verifying the 'null' assumption as the most basic requirement.
-            
             var result = await _handler.Handle(query, CancellationToken.None);
 
             // Assert
@@ -45,23 +42,35 @@ namespace Leadership.Application.Test.Features.Leaderboard.Queries
         {
             // Arrange
             var id = Guid.NewGuid();
-            var leaderboard = new Domain.Entities.Leaderboard 
-            { 
-                Id = id, 
+            var leaderboard = new Domain.Entities.Leaderboard
+            {
+                Id = id,
                 Name = "Top Players",
                 Entries = new List<LeaderboardEntry>
                 {
-                    new LeaderboardEntry { PlayerId = Guid.NewGuid(), Rank = 1, Score = 1000 }
+                    new LeaderboardEntry
+                    {
+                        PlayerId = Guid.NewGuid(),
+                        Rank = new Domain.VOs.Rank { RankPoints = 1000, Position = 1 }
+                    }
                 }
             };
 
-            // This would normally use IQueryable for the .Include call in the handler
-            // Mocking it directly for the simple flow test.
-            
-            var query = new GetLeaderboardByIdQuery { Id = id };
+            _mockRead.Setup(x => x.GetByIdAsync(id.ToString(), true)).ReturnsAsync(leaderboard);
 
-            // Act & Assert
-            // (Verification through a full IQueryable mock if available)
+            var query = new GetLeaderboardByIdQuery(id);
+
+            // Act
+            var result = await _handler.Handle(query, CancellationToken.None);
+
+            // Assert
+            result.Should().NotBeNull();
+            result!.Id.Should().Be(id);
+            result.Name.Should().Be("Top Players");
+            result.Entries.Should().HaveCount(1);
+            result.Entries[0].PlayerId.Should().Be(leaderboard.Entries.First().PlayerId);
+            result.Entries[0].RankPoints.Should().Be(1000);
+            result.Entries[0].Position.Should().Be(1);
         }
     }
 }

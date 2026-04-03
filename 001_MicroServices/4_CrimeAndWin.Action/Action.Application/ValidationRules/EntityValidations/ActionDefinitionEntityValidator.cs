@@ -1,6 +1,5 @@
 using Action.Domain.Entities;
 using Action.Domain.VOs;
-using Action.Domain.Enums;
 using FluentValidation;
 using Shared.Infrastructure.Validation;
 
@@ -48,10 +47,10 @@ public class PlayerActionAttemptEntityValidator : BaseEntityValidator<PlayerActi
     public PlayerActionAttemptEntityValidator()
     {
         RuleFor(x => x.PlayerId).NotEmpty();
-        RuleFor(x => x.ActionId).NotEmpty();
+        RuleFor(x => x.ActionDefinitionId).NotEmpty();
         RuleFor(x => x.AttemptedAtUtc).IsPast();
-        RuleFor(x => x.EnergySpent).Positive();
-        RuleFor(x => x.Outcome).IsInEnum(); // Enum validation
+        RuleFor(x => x.SuccessRate).GreaterThanOrEqualTo(0);
+        RuleFor(x => x.IsSuccess).NotNull();
     }
 }
 
@@ -59,11 +58,9 @@ public class PlayerEnergyStateEntityValidator : BaseEntityValidator<PlayerEnergy
 {
     public PlayerEnergyStateEntityValidator()
     {
-        RuleFor(x => x.PlayerId).NotEmpty();
         RuleFor(x => x.CurrentEnergy).GreaterThanOrEqualTo(0);
-        RuleFor(x => x.MaxEnergy).Positive();
-        RuleFor(x => x.CurrentEnergy).LessThanOrEqualTo(x => x.MaxEnergy).WithMessage("Mevcut enerji maksimumu aşamaz.");
-        RuleFor(x => x.LastUpdatedUtc).IsPast();
+        RuleFor(x => x.LastRefillAt).IsPast();
+        // No MaxEnergy or PlayerId or LastUpdatedUtc in PlayerEnergyState, so those rules are removed
     }
 }
 

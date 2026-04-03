@@ -1,4 +1,3 @@
-using AutoMapper;
 using Mediator;
 using Microsoft.AspNetCore.Mvc;
 using Moderation.Application.DTOs.ReportDTOs;

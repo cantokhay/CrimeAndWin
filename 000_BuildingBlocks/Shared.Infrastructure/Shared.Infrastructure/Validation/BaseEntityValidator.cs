@@ -1,6 +1,7 @@
 using FluentValidation;
 using Shared.Domain;
 
+
 namespace Shared.Infrastructure.Validation;
 
 public abstract class BaseEntityValidator<T> : AbstractValidator<T> where T : BaseEntity

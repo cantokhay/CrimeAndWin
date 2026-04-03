@@ -20,7 +20,7 @@ namespace Leadership.Application.Features.Leaderboard.Queries.GetLeaderbordById
             var query = _readRepo.GetWhere(x => x.Id == request.Id)
             .Include(x => x.Entries);
             var entity = await query.FirstOrDefaultAsync(cancellationToken);
-            return entity is null ? null : _mapper.ToDto(entity);
+            return entity is null ? null : _mapper.ToResultDto(entity);
         }
     }
 }

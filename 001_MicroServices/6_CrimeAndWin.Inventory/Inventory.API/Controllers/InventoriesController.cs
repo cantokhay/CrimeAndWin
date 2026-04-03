@@ -1,4 +1,3 @@
-using AutoMapper;
 using Inventory.Application.DTOs.InventoryDTOs;
 using Inventory.Application.Features.Inventory.Commands.CreateInventory;
 using Inventory.Application.Features.Inventory.Commands.Seed;
@@ -14,12 +13,10 @@ namespace Inventory.API.Controllers
     public class InventoriesController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IMapper _mapper;
 
-        public InventoriesController(IMediator mediator, IMapper mapper)
+        public InventoriesController(IMediator mediator)
         {
             _mediator = mediator;
-            _mapper = mapper;
         }
 
         [HttpPost]

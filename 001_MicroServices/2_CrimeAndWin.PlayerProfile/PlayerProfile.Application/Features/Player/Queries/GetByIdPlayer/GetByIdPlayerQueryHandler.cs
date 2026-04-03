@@ -10,7 +10,7 @@ namespace PlayerProfile.Application.Features.Player.Queries.GetByIdPlayer
         IReadRepository<Domain.Entities.Player> readRepo, IWriteRepository<Domain.Entities.Player> writeRepo, PlayerProfileMapper mapper, IDateTimeProvider clock)
         : IRequestHandler<GetByIdPlayerQuery, ResultPlayerDTO?>
     {
-        public async Task<ResultPlayerDTO?> Handle(GetByIdPlayerQuery q, CancellationToken ct)
+        public async ValueTask<ResultPlayerDTO?> Handle(GetByIdPlayerQuery q, CancellationToken ct)
         {
             var p = await readRepo.GetByIdAsync(q.Id.ToString());
             if (p is null) return null;

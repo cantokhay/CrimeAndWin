@@ -13,7 +13,9 @@ public class ReportEntityValidator : BaseEntityValidator<Report>
         RuleFor(x => x.ReportedPlayerId).NotEmpty().NotEqual(x => x.ReporterId).WithMessage("Bir oyuncu kendisini şikayet edemez.");
         RuleFor(x => x.Reason).NotNull().SetValidator(new ReportReasonValidator());
         RuleFor(x => x.Description).NotEmpty().MaximumLength(1000);
-        RuleFor(x => x.ResolvedAtUtc).IsPast();
+        RuleFor(x => x.ResolvedAtUtc)
+            .Must(date => date == null || date.Value < DateTime.UtcNow)
+            .WithMessage("Çözülme tarihi geçmişte olmalıdır.");
     }
 }
 

@@ -19,7 +19,26 @@ public partial class PlayerProfileMapper
     [MapProperty(nameof(Player.Energy.RegenPerMinute), nameof(ResultPlayerDTO.EnergyRegenPerMinute))]
     [MapProperty(nameof(Player.Rank.RankPoints), nameof(ResultPlayerDTO.RankPoints))]
     [MapProperty(nameof(Player.Rank.Position), nameof(ResultPlayerDTO.RankPosition))]
-    public partial ResultPlayerDTO ToResultDto(Player entity);
+    public ResultPlayerDTO ToResultDto(Player entity)
+    {
+        if (entity == null) return null;
+        return new ResultPlayerDTO
+        {
+            Id = entity.Id, 
+            UserId = entity.AppUserId,
+            DisplayName = entity.DisplayName,
+            AvatarKey = entity.AvatarKey,
+            Power = entity.Stats.Power,
+            Defense = entity.Stats.Defense,
+            Agility = entity.Stats.Agility,
+            Luck = entity.Stats.Luck,
+            EnergyCurrent = entity.Energy.Current,
+            EnergyMax = entity.Energy.Max,
+            EnergyRegenPerMinute = entity.Energy.RegenPerMinute,
+            RankPoints = entity.Rank.RankPoints,
+            RankPosition = entity.Rank.Position
+        };
+    }
 
     [MapProperty(nameof(ResultPlayerDTO.Power), "Stats.Power")]
     [MapProperty(nameof(ResultPlayerDTO.Defense), "Stats.Defense")]
@@ -30,7 +49,35 @@ public partial class PlayerProfileMapper
     [MapProperty(nameof(ResultPlayerDTO.EnergyRegenPerMinute), "Energy.RegenPerMinute")]
     [MapProperty(nameof(ResultPlayerDTO.RankPoints), "Rank.RankPoints")]
     [MapProperty(nameof(ResultPlayerDTO.RankPosition), "Rank.Position")]
-    public partial Player ToEntity(ResultPlayerDTO dto);
+    public Player ToEntity(ResultPlayerDTO dto)
+    {
+        if (dto == null) return null;
+        return new Player
+        {
+            Id = dto.Id,
+            AppUserId = dto.UserId,
+            DisplayName = dto.DisplayName,
+            AvatarKey = dto.AvatarKey,
+            Stats = new Domain.VOs.Stats
+            {
+                Power = dto.Power,
+                Defense = dto.Defense,
+                Agility = dto.Agility,
+                Luck = dto.Luck
+            },
+            Energy = new Domain.VOs.Energy
+            {
+                Current = dto.EnergyCurrent,
+                Max = dto.EnergyMax,
+                RegenPerMinute = dto.EnergyRegenPerMinute
+            },
+            Rank = new Domain.VOs.Rank
+            {
+                RankPoints = dto.RankPoints,
+                Position = dto.RankPosition
+            }
+        };
+    }
 
     // CreatePlayerDTO
     [MapProperty(nameof(CreatePlayerDTO.Power), "Stats.Power")]
@@ -42,7 +89,35 @@ public partial class PlayerProfileMapper
     [MapProperty(nameof(CreatePlayerDTO.EnergyRegenPerMinute), "Energy.RegenPerMinute")]
     [MapProperty(nameof(CreatePlayerDTO.RankPoints), "Rank.RankPoints")]
     [MapProperty(nameof(CreatePlayerDTO.RankPosition), "Rank.Position")]
-    public partial Player ToEntity(CreatePlayerDTO dto);
+    public Player ToEntity(CreatePlayerDTO dto)
+    {
+        if (dto == null) return null;
+        return new Player
+        {
+            AppUserId = dto.UserId,
+            DisplayName = dto.DisplayName,
+            AvatarKey = dto.AvatarKey,
+            Stats = new Domain.VOs.Stats
+            {
+                Power = dto.Power,
+                Defense = dto.Defense,
+                Agility = dto.Agility,
+                Luck = dto.Luck
+            },
+            Energy = new Domain.VOs.Energy
+            {
+                Current = dto.EnergyCurrent,
+                Max = dto.EnergyMax,
+                RegenPerMinute = dto.EnergyRegenPerMinute
+            },
+            Rank = new Domain.VOs.Rank
+            {
+                RankPoints = dto.RankPoints,
+                Position = dto.RankPosition
+            }
+        };
+    }
+
     [MapProperty("Stats.Power", nameof(CreatePlayerDTO.Power))]
     [MapProperty("Stats.Defense", nameof(CreatePlayerDTO.Defense))]
     [MapProperty("Stats.Agility", nameof(CreatePlayerDTO.Agility))]
@@ -52,7 +127,25 @@ public partial class PlayerProfileMapper
     [MapProperty("Energy.RegenPerMinute", nameof(CreatePlayerDTO.EnergyRegenPerMinute))]
     [MapProperty("Rank.RankPoints", nameof(CreatePlayerDTO.RankPoints))]
     [MapProperty("Rank.Position", nameof(CreatePlayerDTO.RankPosition))]
-    public partial CreatePlayerDTO ToCreateDto(Player entity);
+    public CreatePlayerDTO ToCreateDto(Player entity)
+    {
+        if (entity == null) return null;
+        return new CreatePlayerDTO
+        {
+            UserId = entity.AppUserId,
+            DisplayName = entity.DisplayName,
+            AvatarKey = entity.AvatarKey,
+            Power = entity.Stats.Power,
+            Defense = entity.Stats.Defense,
+            Agility = entity.Stats.Agility,
+            Luck = entity.Stats.Luck,
+            EnergyCurrent = entity.Energy.Current,
+            EnergyMax = entity.Energy.Max,
+            EnergyRegenPerMinute = entity.Energy.RegenPerMinute,
+            RankPoints = entity.Rank.RankPoints,
+            RankPosition = entity.Rank.Position
+        };
+    }
 
     // UpdatePlayerDTO
     [MapProperty(nameof(UpdatePlayerDTO.Power), "Stats.Power")]
@@ -64,7 +157,36 @@ public partial class PlayerProfileMapper
     [MapProperty(nameof(UpdatePlayerDTO.EnergyRegenPerMinute), "Energy.RegenPerMinute")]
     [MapProperty(nameof(UpdatePlayerDTO.RankPoints), "Rank.RankPoints")]
     [MapProperty(nameof(UpdatePlayerDTO.RankPosition), "Rank.Position")]
-    public partial Player ToEntity(UpdatePlayerDTO dto);
+    public Player ToEntity(UpdatePlayerDTO dto)
+    {
+        if (dto == null) return null;
+        return new Player
+        {
+            Id = dto.Id,
+            AppUserId = dto.UserId,
+            DisplayName = dto.DisplayName,
+            AvatarKey = dto.AvatarKey,
+            Stats = new Domain.VOs.Stats
+            {
+                Power = dto.Power,
+                Defense = dto.Defense,
+                Agility = dto.Agility,
+                Luck = dto.Luck
+            },
+            Energy = new Domain.VOs.Energy
+            {
+                Current = dto.EnergyCurrent,
+                Max = dto.EnergyMax,
+                RegenPerMinute = dto.EnergyRegenPerMinute
+            },
+            Rank = new Domain.VOs.Rank
+            {
+                RankPoints = dto.RankPoints,
+                Position = dto.RankPosition
+            },
+            CreatedAtUtc = dto.CreatedAtUtc
+        };
+    }
 
     // Admin Mappings
     [MapProperty(nameof(Player.Stats.Power), nameof(AdminResultPlayerDTO.Power))]
@@ -76,7 +198,29 @@ public partial class PlayerProfileMapper
     [MapProperty(nameof(Player.Energy.RegenPerMinute), nameof(AdminResultPlayerDTO.EnergyRegenPerMinute))]
     [MapProperty(nameof(Player.Rank.RankPoints), nameof(AdminResultPlayerDTO.RankPoints))]
     [MapProperty(nameof(Player.Rank.Position), nameof(AdminResultPlayerDTO.RankPosition))]
-    public partial AdminResultPlayerDTO ToAdminResultDto(Player entity);
+    public AdminResultPlayerDTO ToAdminResultDto(Player entity)
+    {
+        if (entity == null) return null;
+        return new AdminResultPlayerDTO
+        {
+            Id = entity.Id,
+            AppUserId = entity.AppUserId,
+            DisplayName = entity.DisplayName,
+            AvatarKey = entity.AvatarKey,
+            Power = entity.Stats.Power,
+            Defense = entity.Stats.Defense,
+            Agility = entity.Stats.Agility,
+            Luck = entity.Stats.Luck,
+            EnergyCurrent = entity.Energy.Current,
+            EnergyMax = entity.Energy.Max,
+            EnergyRegenPerMinute = entity.Energy.RegenPerMinute,
+            RankPoints = entity.Rank.RankPoints,
+            RankPosition = entity.Rank.Position,
+            LastEnergyCalcUtc = entity.LastEnergyCalcUtc,
+            CreatedAtUtc = entity.CreatedAtUtc,
+            UpdatedAtUtc = entity.UpdatedAtUtc
+        };
+    }
 
     [MapProperty(nameof(AdminCreatePlayerDTO.Power), "Stats.Power")]
     [MapProperty(nameof(AdminCreatePlayerDTO.Defense), "Stats.Defense")]
@@ -87,7 +231,35 @@ public partial class PlayerProfileMapper
     [MapProperty(nameof(AdminCreatePlayerDTO.EnergyRegenPerMinute), "Energy.RegenPerMinute")]
     [MapProperty(nameof(AdminCreatePlayerDTO.RankPoints), "Rank.RankPoints")]
     [MapProperty(nameof(AdminCreatePlayerDTO.RankPosition), "Rank.Position")]
-    public partial Player ToEntity(AdminCreatePlayerDTO dto);
+    public Player ToEntity(AdminCreatePlayerDTO dto)
+    {
+        if (dto == null) return null;
+        return new Player
+        {
+            AppUserId = dto.AppUserId,
+            DisplayName = dto.DisplayName,
+            AvatarKey = dto.AvatarKey,
+            Stats = new Domain.VOs.Stats
+            {
+                Power = dto.Power,
+                Defense = dto.Defense,
+                Agility = dto.Agility,
+                Luck = dto.Luck
+            },
+            Energy = new Domain.VOs.Energy
+            {
+                Current = dto.EnergyCurrent,
+                Max = dto.EnergyMax,
+                RegenPerMinute = dto.EnergyRegenPerMinute
+            },
+            Rank = new Domain.VOs.Rank
+            {
+                RankPoints = dto.RankPoints,
+                Position = dto.RankPosition
+            },
+            LastEnergyCalcUtc = dto.LastEnergyCalcUtc
+        };
+    }
 
     [MapProperty(nameof(AdminUpdatePlayerDTO.Power), "Stats.Power")]
     [MapProperty(nameof(AdminUpdatePlayerDTO.Defense), "Stats.Defense")]
@@ -98,10 +270,46 @@ public partial class PlayerProfileMapper
     [MapProperty(nameof(AdminUpdatePlayerDTO.EnergyRegenPerMinute), "Energy.RegenPerMinute")]
     [MapProperty(nameof(AdminUpdatePlayerDTO.RankPoints), "Rank.RankPoints")]
     [MapProperty(nameof(AdminUpdatePlayerDTO.RankPosition), "Rank.Position")]
-    public partial Player ToEntity(AdminUpdatePlayerDTO dto);
+    public Player ToEntity(AdminUpdatePlayerDTO dto)
+    {
+        if (dto == null) return null;
+        return new Player
+        {
+            Id = dto.Id,
+            AppUserId = dto.AppUserId,
+            DisplayName = dto.DisplayName,
+            AvatarKey = dto.AvatarKey,
+            Stats = new Domain.VOs.Stats
+            {
+                Power = dto.Power,
+                Defense = dto.Defense,
+                Agility = dto.Agility,
+                Luck = dto.Luck
+            },
+            Energy = new Domain.VOs.Energy
+            {
+                Current = dto.EnergyCurrent,
+                Max = dto.EnergyMax,
+                RegenPerMinute = dto.EnergyRegenPerMinute
+            },
+            Rank = new Domain.VOs.Rank
+            {
+                RankPoints = dto.RankPoints,
+                Position = dto.RankPosition
+            },
+            LastEnergyCalcUtc = dto.LastEnergyCalcUtc
+        };
+    }
 
     // Collection Mappings
-    public partial IEnumerable<ResultPlayerDTO> ToResultDtoList(IEnumerable<Player> entities);
-    public partial IEnumerable<AdminResultPlayerDTO> ToAdminResultDtoList(IEnumerable<Player> entities);
+    public IEnumerable<ResultPlayerDTO> ToResultDtoList(IEnumerable<Player> entities)
+    {
+        return entities?.Select(ToResultDto);
+    }
+
+    public IEnumerable<AdminResultPlayerDTO> ToAdminResultDtoList(IEnumerable<Player> entities)
+    {
+        return entities?.Select(ToAdminResultDto);
+    }
 }
 

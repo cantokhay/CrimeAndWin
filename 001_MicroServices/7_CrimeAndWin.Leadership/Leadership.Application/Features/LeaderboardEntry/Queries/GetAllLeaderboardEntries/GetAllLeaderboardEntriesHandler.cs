@@ -18,7 +18,7 @@ namespace Leadership.Application.Features.LeaderboardEntry.Queries.GetAllLeaderb
                 .OrderByDescending(e => e.Rank.RankPoints)
                 .ToListAsync(cancellationToken);
 
-            return mapper.ToDtoList(entries).ToList();
+            return mapper.ToResultDtoList(entries).ToList();
         }
     }
 }

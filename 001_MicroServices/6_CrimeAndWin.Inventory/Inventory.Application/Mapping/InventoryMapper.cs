@@ -1,3 +1,4 @@
+using System.Linq;
 using Inventory.Application.DTOs.InventoryDTOs;
 using Inventory.Application.DTOs.InventoryDTOs.Admin;
 using Inventory.Application.DTOs.ItemDTOs;
@@ -13,39 +14,146 @@ namespace Inventory.Application.Mapping;
 public partial class InventoryMapper
 {
     // Item
-    public partial ResultItemDTO ToResultDto(Item entity);
-    public partial Item ToEntity(ResultItemDTO dto);
+    public ResultItemDTO ToResultDto(Item entity)
+    {
+        if (entity == null) return null;
+        return new ResultItemDTO
+        {
+            Id = entity.Id,
+            InventoryId = entity.InventoryId,
+            Name = entity.Name,
+            Quantity = entity.Quantity,
+            Stats = ToResultDto(entity.Stats),
+            Value = ToResultDto(entity.Value)
+        };
+    }
+
+    public Item ToEntity(ResultItemDTO dto)
+    {
+        if (dto == null) return null;
+        return new Item
+        {
+            Id = dto.Id,
+            InventoryId = dto.InventoryId,
+            Name = dto.Name,
+            Quantity = dto.Quantity,
+            Stats = ToEntity(dto.Stats),
+            Value = ToEntity(dto.Value)
+        };
+    }
 
     // ItemStats
-    public partial ResultItemStatsDTO ToResultDto(ItemStats entity);
-    public partial ItemStats ToEntity(ResultItemStatsDTO dto);
+    public ResultItemStatsDTO ToResultDto(ItemStats entity)
+    {
+        return new ResultItemStatsDTO
+        {
+            Damage = entity.Damage,
+            Defense = entity.Defense,
+            Power = entity.Power
+        };
+    }
+
+    public ItemStats ToEntity(ResultItemStatsDTO dto)
+    {
+        return new ItemStats
+        {
+            Damage = dto.Damage,
+            Defense = dto.Defense,
+            Power = dto.Power
+        };
+    }
 
     // ItemValue
-    public partial ResultItemValueDTO ToResultDto(ItemValue entity);
-    public partial ItemValue ToEntity(ResultItemValueDTO dto);
+    public ResultItemValueDTO ToResultDto(ItemValue entity)
+    {
+        return new ResultItemValueDTO
+        {
+            Amount = entity.Amount,
+            Currency = entity.Currency
+        };
+    }
+
+    public ItemValue ToEntity(ResultItemValueDTO dto)
+    {
+        return new ItemValue
+        {
+            Amount = dto.Amount,
+            Currency = dto.Currency
+        };
+    }
 
     // Inventory
-    public partial ResultInventoryDTO ToResultDto(Domain.Entities.Inventory entity);
-    public partial Domain.Entities.Inventory ToEntity(ResultInventoryDTO dto);
+    public ResultInventoryDTO ToResultDto(Domain.Entities.Inventory entity)
+    {
+        if (entity == null) return null;
+        return new ResultInventoryDTO
+        {
+            Id = entity.Id,
+            PlayerId = entity.PlayerId,
+            Items = entity.Items?.Select(ToResultDto).ToList()
+        };
+    }
+
+    public Domain.Entities.Inventory ToEntity(ResultInventoryDTO dto)
+    {
+        if (dto == null) return null;
+        return new Domain.Entities.Inventory
+        {
+            Id = dto.Id,
+            PlayerId = dto.PlayerId,
+            Items = dto.Items?.Select(ToEntity).ToList()
+        };
+    }
 
     // ==========================
     //        ADMIN MAPPINGS
     // ==========================
 
     [MapperIgnoreTarget(nameof(Domain.Entities.Inventory.Items))]
-    public partial AdminResultInventoryDTO ToAdminResultDto(Domain.Entities.Inventory entity);
-    public partial Domain.Entities.Inventory ToEntity(AdminResultInventoryDTO dto);
+    public AdminResultInventoryDTO ToAdminResultDto(Domain.Entities.Inventory entity)
+    {
+        if (entity == null) return null;
+        return new AdminResultInventoryDTO
+        {
+            Id = entity.Id,
+            PlayerId = entity.PlayerId,
+            Items = entity.Items?.Select(ToAdminResultDto).ToList(),
+            CreatedAtUtc = entity.CreatedAtUtc,
+            UpdatedAtUtc = entity.UpdatedAtUtc
+        };
+    }
 
-    [MapperIgnoreTarget(nameof(Domain.Entities.Inventory.Id))]
-    [MapperIgnoreTarget(nameof(Domain.Entities.Inventory.Items))]
-    [MapperIgnoreTarget(nameof(Domain.Entities.Inventory.CreatedAtUtc))]
-    [MapperIgnoreTarget(nameof(Domain.Entities.Inventory.UpdatedAtUtc))]
-    [MapperIgnoreTarget(nameof(Domain.Entities.Inventory.IsDeleted))]
-    public partial Domain.Entities.Inventory ToEntity(AdminCreateInventoryDTO dto);
+    public Domain.Entities.Inventory ToEntity(AdminResultInventoryDTO dto)
+    {
+        if (dto == null) return null;
+        return new Domain.Entities.Inventory
+        {
+            Id = dto.Id,
+            PlayerId = dto.PlayerId,
+            Items = dto.Items?.Select(ToEntity).ToList(),
+            CreatedAtUtc = dto.CreatedAtUtc,
+            UpdatedAtUtc = dto.UpdatedAtUtc
+        };
+    }
 
-    [MapperIgnoreTarget(nameof(Domain.Entities.Inventory.Items))]
-    [MapperIgnoreTarget(nameof(Domain.Entities.Inventory.CreatedAtUtc))]
-    public partial Domain.Entities.Inventory ToEntity(AdminUpdateInventoryDTO dto);
+    public Domain.Entities.Inventory ToEntity(AdminCreateInventoryDTO dto)
+    {
+        if (dto == null) return null;
+        return new Domain.Entities.Inventory
+        {
+            PlayerId = dto.PlayerId
+        };
+    }
+
+    public Domain.Entities.Inventory ToEntity(AdminUpdateInventoryDTO dto)
+    {
+        if (dto == null) return null;
+        return new Domain.Entities.Inventory
+        {
+            Id = dto.Id,
+            PlayerId = dto.PlayerId
+        };
+    }
 
     // Item Admin
     [MapProperty(nameof(Item.Stats.Damage), nameof(AdminResultItemDTO.Damage))]
@@ -53,14 +161,54 @@ public partial class InventoryMapper
     [MapProperty(nameof(Item.Stats.Power), nameof(AdminResultItemDTO.Power))]
     [MapProperty(nameof(Item.Value.Amount), nameof(AdminResultItemDTO.Amount))]
     [MapProperty(nameof(Item.Value.Currency), nameof(AdminResultItemDTO.Currency))]
-    public partial AdminResultItemDTO ToAdminResultDto(Item entity);
-    
+    public AdminResultItemDTO ToAdminResultDto(Item entity)
+    {
+        if (entity == null) return null;
+        return new AdminResultItemDTO
+        {
+            Id = entity.Id,
+            InventoryId = entity.InventoryId,
+            Name = entity.Name,
+            Quantity = entity.Quantity,
+            Damage = entity.Stats.Damage,
+            Defense = entity.Stats.Defense,
+            Power = entity.Stats.Power,
+            Amount = entity.Value.Amount,
+            Currency = entity.Value.Currency,
+            CreatedAtUtc = entity.CreatedAtUtc,
+            UpdatedAtUtc = entity.UpdatedAtUtc
+        };
+    }
+
     [MapProperty(nameof(AdminResultItemDTO.Damage), "Stats.Damage")]
     [MapProperty(nameof(AdminResultItemDTO.Defense), "Stats.Defense")]
     [MapProperty(nameof(AdminResultItemDTO.Power), "Stats.Power")]
     [MapProperty(nameof(AdminResultItemDTO.Amount), "Value.Amount")]
     [MapProperty(nameof(AdminResultItemDTO.Currency), "Value.Currency")]
-    public partial Item ToEntity(AdminResultItemDTO dto);
+    public Item ToEntity(AdminResultItemDTO dto)
+    {
+        if (dto == null) return null;
+        return new Item
+        {
+            Id = dto.Id,
+            InventoryId = dto.InventoryId,
+            Name = dto.Name,
+            Quantity = dto.Quantity,
+            Stats = new ItemStats
+            {
+                Damage = dto.Damage,
+                Defense = dto.Defense,
+                Power = dto.Power
+            },
+            Value = new ItemValue
+            {
+                Amount = dto.Amount,
+                Currency = dto.Currency
+            },
+            CreatedAtUtc = dto.CreatedAtUtc,
+            UpdatedAtUtc = dto.UpdatedAtUtc
+        };
+    }
 
     [MapperIgnoreTarget(nameof(Item.Id))]
     [MapperIgnoreTarget(nameof(Item.CreatedAtUtc))]
@@ -72,7 +220,27 @@ public partial class InventoryMapper
     [MapProperty(nameof(AdminCreateItemDTO.Power), "Stats.Power")]
     [MapProperty(nameof(AdminCreateItemDTO.Amount), "Value.Amount")]
     [MapProperty(nameof(AdminCreateItemDTO.Currency), "Value.Currency")]
-    public partial Item ToEntity(AdminCreateItemDTO dto);
+    public Item ToEntity(AdminCreateItemDTO dto)
+    {
+        if (dto == null) return null;
+        return new Item
+        {
+            InventoryId = dto.InventoryId,
+            Name = dto.Name,
+            Quantity = dto.Quantity,
+            Stats = new ItemStats
+            {
+                Damage = dto.Damage,
+                Defense = dto.Defense,
+                Power = dto.Power
+            },
+            Value = new ItemValue
+            {
+                Amount = dto.Amount,
+                Currency = dto.Currency
+            }
+        };
+    }
 
     [MapperIgnoreTarget(nameof(Item.CreatedAtUtc))]
     [MapperIgnoreTarget(nameof(Item.Inventory))]
@@ -81,12 +249,48 @@ public partial class InventoryMapper
     [MapProperty(nameof(AdminUpdateItemDTO.Power), "Stats.Power")]
     [MapProperty(nameof(AdminUpdateItemDTO.Amount), "Value.Amount")]
     [MapProperty(nameof(AdminUpdateItemDTO.Currency), "Value.Currency")]
-    public partial Item ToEntity(AdminUpdateItemDTO dto);
+    public Item ToEntity(AdminUpdateItemDTO dto)
+    {
+        if (dto == null) return null;
+        return new Item
+        {
+            Id = dto.Id,
+            InventoryId = dto.InventoryId,
+            Name = dto.Name,
+            Quantity = dto.Quantity,
+            Stats = new ItemStats
+            {
+                Damage = dto.Damage,
+                Defense = dto.Defense,
+                Power = dto.Power
+            },
+            Value = new ItemValue
+            {
+                Amount = dto.Amount,
+                Currency = dto.Currency
+            }
+        };
+    }
 
     // Collection Mappings
-    public partial IEnumerable<ResultItemDTO> ToResultDtoList(IEnumerable<Item> entities);
-    public partial IEnumerable<ResultInventoryDTO> ToResultDtoList(IEnumerable<Domain.Entities.Inventory> entities);
-    public partial IEnumerable<AdminResultItemDTO> ToAdminResultDtoList(IEnumerable<Item> entities);
-    public partial IEnumerable<AdminResultInventoryDTO> ToAdminResultDtoList(IEnumerable<Domain.Entities.Inventory> entities);
+    public IEnumerable<ResultItemDTO> ToResultDtoList(IEnumerable<Item> entities)
+    {
+        return entities?.Select(ToResultDto);
+    }
+
+    public IEnumerable<ResultInventoryDTO> ToResultDtoList(IEnumerable<Domain.Entities.Inventory> entities)
+    {
+        return entities?.Select(ToResultDto);
+    }
+
+    public IEnumerable<AdminResultItemDTO> ToAdminResultDtoList(IEnumerable<Item> entities)
+    {
+        return entities?.Select(ToAdminResultDto);
+    }
+
+    public IEnumerable<AdminResultInventoryDTO> ToAdminResultDtoList(IEnumerable<Domain.Entities.Inventory> entities)
+    {
+        return entities?.Select(ToAdminResultDto);
+    }
 }
 

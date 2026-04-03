@@ -1,10 +1,7 @@
-using AutoMapper;
 using Inventory.Application.DTOs.ItemDTOs;
-using Inventory.Application.Features.Item.Commands;
 using Inventory.Application.Features.Item.Commands.AddItem;
 using Inventory.Application.Features.Item.Commands.GetAllItems;
 using Mediator;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventory.API.Controllers
@@ -14,12 +11,10 @@ namespace Inventory.API.Controllers
     public class ItemsController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IMapper _mapper;
 
-        public ItemsController(IMediator mediator, IMapper mapper)
+        public ItemsController(IMediator mediator)
         {
             _mediator = mediator;
-            _mapper = mapper;
         }
 
         [HttpPost("{inventoryId:guid}/items")]

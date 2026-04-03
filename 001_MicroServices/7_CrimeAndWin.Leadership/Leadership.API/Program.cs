@@ -1,14 +1,7 @@
-using FluentValidation;
 using Leadership.Application;
-using Leadership.Application.DTOs.LeaderboardDTOs;
-using Leadership.Application.DTOs.LeaderboardEntryDTOs;
 using Leadership.Application.Mapping;
-using Leadership.Application.Messaging.Consumers;
-using Leadership.Application.ValidationRules.LeaderboardEntryValidations;
-using Leadership.Application.ValidationRules.LeaderboardValidations;
 using Leadership.Infrastructure.Persistance.Context;
 using Leadership.Infrastructure.Repositories;
-using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
@@ -25,7 +18,10 @@ builder.Services.AddDbContext<LeadershipDbContext>(opt =>
 });
 
 // MediatR & Mapperly & Validation
-builder.Services.AddMediator();
+builder.Services.AddMediator((Mediator.MediatorOptions options) =>
+{
+    options.ServiceLifetime = ServiceLifetime.Scoped;
+});
 builder.Services.AddScoped<LeadershipMapper>();
 builder.Services.AddSharedValidation(typeof(IApplicationAssemblyMarker).Assembly);
 
@@ -34,33 +30,6 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));
 builder.Services.AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>));
 builder.Services.AddScoped<IDateTimeProvider, SystemDateTimeProvider>();
-
-// builder.Services.AddScoped<IValidator<CreateLeaderboardDTO>, CreateLeaderboardDTOValidator>();
-// builder.Services.AddScoped<IValidator<CreateLeaderboardEntryDTO>, CreateLeaderboardEntryDTOValidator>();
-
-////RabbitMQ & MassTransit
-//builder.Services.AddMassTransit(x =>
-//{
-//    x.AddConsumer<ActionPerformedConsumer>();
-//    x.UsingRabbitMq((ctx, cfg) =>
-//    {
-//        cfg.Host("rabbitmq", "/", h => { /* credentials */ });
-//        cfg.ReceiveEndpoint("leadership.action-performed", e =>
-//        {
-//            e.ConfigureConsumer<ActionPerformedConsumer>(ctx);
-//        });
-//    });
-
-//    x.AddConsumer<PlayerBannedConsumer>();
-//    x.UsingRabbitMq((ctx, cfg) =>
-//    {
-//        cfg.Host("rabbitmq", "/", h => { /* credentials */ });
-//        cfg.ReceiveEndpoint("leadership.player-banned", e =>
-//        {
-//            e.ConfigureConsumer<PlayerBannedConsumer>(ctx);
-//        });
-//    });
-//});
 
 builder.Services.AddControllers(opt =>
 {

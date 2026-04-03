@@ -26,7 +26,7 @@ namespace Leadership.Application.Features.LeaderboardEntry.Queries.GetLeaderboar
             .ToListAsync(cancellationToken);
 
 
-            return _mapper.ToDtoList(list).ToList();
+            return _mapper.ToResultDtoList(list).ToList();
         }
     }
 }

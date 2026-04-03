@@ -1,17 +1,16 @@
-using GameWorld.Domain.Entities;
 using GameWorld.Domain.VOs;
 using FluentValidation;
 using Shared.Infrastructure.Validation;
 
 namespace GameWorld.Application.ValidationRules.EntityValidations;
 
-public class GameWorldEntityValidator : BaseEntityValidator<GameWorld.Domain.Entities.GameWorld>
+public class GameWorldEntityValidator : BaseEntityValidator<Domain.Entities.GameWorld>
 {
     public GameWorldEntityValidator()
     {
         RuleFor(x => x.Name).NotEmpty().MaximumLength(100);
-        RuleFor(x => x.Code).NotEmpty().MaximumLength(20).MatchesRegex("^[A-Z0-9]+$", "Dünya Kodu");
-        RuleFor(x => x.Settings).NotNull().SetValidator(new GameRuleValidator());
+        // Removed invalid RuleFor(x => x.Code) and RuleFor(x => x.Settings)
+        RuleFor(x => x.Rule).NotNull().SetValidator(new GameRuleValidator());
     }
 }
 
@@ -19,17 +18,17 @@ public class GameRuleValidator : AbstractValidator<GameRule>
 {
     public GameRuleValidator()
     {
-        RuleFor(x => x.MaxEnergy).Positive();
-        RuleFor(x => x.RegenRatePerHour).Positive();
+        RuleFor(x => x.MaxEnergy).GreaterThan(0);
+        RuleFor(x => x.RegenRatePerHour).GreaterThan(0);
     }
 }
 
-public class SeasonEntityValidator : BaseEntityValidator<Season>
+public class SeasonEntityValidator : BaseEntityValidator<Domain.Entities.Season>
 {
     public SeasonEntityValidator()
     {
         RuleFor(x => x.GameWorldId).NotEmpty();
-        RuleFor(x => x.SeasonNumber).Positive();
+        RuleFor(x => x.SeasonNumber).GreaterThan(0);
         RuleFor(x => x.DateRange).NotNull().SetValidator(new DateRangeValidator());
     }
 }
