@@ -9,11 +9,10 @@ namespace GameWorld.Application.Features.GameWorld.Queries.GetListGameWorld
     public class GetListGameWorldHandler : IRequestHandler<GetGameWorldListQuery, IReadOnlyList<ResultGameWorldDTO>>
     {
         private readonly IReadRepository<Domain.Entities.GameWorld> _readRepo;
-        private readonly GameWorldMapper _mapper;
 
-        public GetListGameWorldHandler(IReadRepository<Domain.Entities.GameWorld> readRepo, GameWorldMapper mapper)
+        public GetListGameWorldHandler(IReadRepository<Domain.Entities.GameWorld> readRepo)
         {
-            _readRepo = readRepo; _mapper = mapper;
+            _readRepo = readRepo;
         }
 
         public async Task<IReadOnlyList<ResultGameWorldDTO>> Handle(GetGameWorldListQuery request, CancellationToken ct)
@@ -23,7 +22,7 @@ namespace GameWorld.Application.Features.GameWorld.Queries.GetListGameWorld
                 .AsNoTracking()
                 .ToListAsync(ct);
 
-            return _mapper.ToResultDtoList(list).ToList();
+            return GameWorldMapper.ToResultDtoList(list).ToList();
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿@model List<ResultItemVM>
 
 @{
-    Layout = "~/Views/AdminLayout/Index.cshtml";
+    Layout = "_AdminLayout";
 
     var total = Model.Count;
     var totalQty = Model.Sum(x => x.Quantity);

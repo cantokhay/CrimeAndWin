@@ -2,51 +2,51 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpClient("IdentityApi", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:6101/api/IdentityAdmins/");
+    client.BaseAddress = new Uri("http://localhost:6001/api/IdentityAdmins/");
 });
 
 builder.Services.AddHttpClient("PlayerProfileApi", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:6102/api/PlayerAdmins/");
+    client.BaseAddress = new Uri("http://localhost:6002/api/PlayerAdmins/");
 });
 
 builder.Services.AddHttpClient("GameWorldApi", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:6103/api/");
+    client.BaseAddress = new Uri("http://localhost:6003/api/");
     // GameWorldsController => /api/GameWorlds
     // SeasonsController   => /api/Seasons
 });
 
 builder.Services.AddHttpClient("ActionApi", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:6104/api/");
+    client.BaseAddress = new Uri("http://localhost:6004/api/");
     // ActionDefinitionsController => /api/ActionDefinitionAdmins
     // ActionAttemptsController    => /api/ActionAttemptAdmins
 });
 
 builder.Services.AddHttpClient("EconomyApi", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:6105/api/EconomyAdmins/");
+    client.BaseAddress = new Uri("http://localhost:6005/api/EconomyAdmins/");
 });
 
 builder.Services.AddHttpClient("InventoryApi", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:6106/api/InventoryAdmins/");
+    client.BaseAddress = new Uri("http://localhost:6006/api/InventoryAdmins/");
 });
 
 builder.Services.AddHttpClient("LeadershipApi", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:6107/api/LeadershipAdmins/");
+    client.BaseAddress = new Uri("http://localhost:6007/api/LeadershipAdmins/");
 });
 
 builder.Services.AddHttpClient("NotificationApi", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:6108/api/NotificationAdmins/");
+    client.BaseAddress = new Uri("http://localhost:6008/api/NotificationAdmins/");
 });
 
 builder.Services.AddHttpClient("ModerationApi", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:6109/api/ModerationAdmins/");
+    client.BaseAddress = new Uri("http://localhost:6009/api/ModerationAdmins/");
 });
 
 // Typed HttpClients for Adım 1c

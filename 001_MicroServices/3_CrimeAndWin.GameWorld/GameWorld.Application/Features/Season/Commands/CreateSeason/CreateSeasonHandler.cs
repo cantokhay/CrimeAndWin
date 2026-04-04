@@ -10,11 +10,10 @@ namespace GameWorld.Application.Features.Season.Commands.CreateSeason
     {
         private readonly IReadRepository<Domain.Entities.GameWorld> _gwReadRepo;
         private readonly IWriteRepository<Domain.Entities.Season> _seasonWriteRepo;
-        private readonly GameWorldMapper _mapper;
 
-        public AddSeasonHandler(IReadRepository<Domain.Entities.GameWorld> gwReadRepo, IWriteRepository<Domain.Entities.Season> seasonWriteRepo, GameWorldMapper mapper)
+        public AddSeasonHandler(IReadRepository<Domain.Entities.GameWorld> gwReadRepo, IWriteRepository<Domain.Entities.Season> seasonWriteRepo)
         {
-            _gwReadRepo = gwReadRepo; _seasonWriteRepo = seasonWriteRepo; _mapper = mapper;
+            _gwReadRepo = gwReadRepo; _seasonWriteRepo = seasonWriteRepo; 
         }
 
         public async Task<CreateSeasonDTO> Handle(CreateSeasonCommand request, CancellationToken ct)
@@ -35,7 +34,7 @@ namespace GameWorld.Application.Features.Season.Commands.CreateSeason
             await _seasonWriteRepo.AddAsync(season);
             await _seasonWriteRepo.SaveAsync();
 
-            return _mapper.ToCreateDto(season);
+            return GameWorldMapper.ToCreateDto(season);
         }
     }
 }

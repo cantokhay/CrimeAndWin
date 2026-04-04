@@ -8,18 +8,17 @@ namespace Season.Application.Features.Season.Queries
     public class GetByIdSeasonHandler : IRequestHandler<GetSeasonByIdQuery, ResultSeasonDTO>
     {
         private readonly IReadRepository<GameWorld.Domain.Entities.Season> _readRepo;
-        private readonly GameWorldMapper _mapper;
 
-        public GetByIdSeasonHandler(IReadRepository<GameWorld.Domain.Entities.Season> readRepo, GameWorldMapper mapper)
+        public GetByIdSeasonHandler(IReadRepository<GameWorld.Domain.Entities.Season> readRepo)
         {
-            _readRepo = readRepo; _mapper = mapper;
+            _readRepo = readRepo; 
         }
 
         public async Task<ResultSeasonDTO> Handle(GetSeasonByIdQuery request, CancellationToken ct)
         {
             var s = await _readRepo.GetByIdAsync(request.Id.ToString());
             if (s is null) throw new KeyNotFoundException("Season not found.");
-            return _mapper.ToResultDto(s);
+            return GameWorldMapper.ToResultDto(s);
         }
     }
 }

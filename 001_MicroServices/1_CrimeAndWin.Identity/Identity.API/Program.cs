@@ -11,7 +11,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
-using Shared.Infrastructure;
 using Shared.Infrastructure.Filters;
 using System.Text;
 
@@ -25,7 +24,7 @@ builder.Services.AddDbContext<IdentityDbContext>(opt =>
 });
 
 //MediatR & Mapperly & Validation
-builder.Services.AddScoped<IMediator, Mediator>();
+builder.Services.AddScoped<IMediator, Shared.Application.Abstractions.Messaging.Mediator>();
 builder.Services.AddRequestHandlers(typeof(IApplicationAssemblyMarker).Assembly);
 builder.Services.AddScoped<IdentityMapper>();
 builder.Services.AddSharedValidation(typeof(IApplicationAssemblyMarker).Assembly);

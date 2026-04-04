@@ -1,7 +1,7 @@
 ﻿@model List<ResultReportVM>
 
 @{
-    Layout = "~/Views/AdminLayout/Index.cshtml";
+    Layout = "_AdminLayout";
     var total = Model.Count;
     var resolved = Model.Count(x => x.IsResolved);
     var open = total - resolved;

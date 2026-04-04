@@ -1,7 +1,7 @@
 ﻿@model List<ResultModerationActionVM>
 
 @{
-    Layout = "~/Views/AdminLayout/Index.cshtml";
+    Layout = "_AdminLayout";
     var total = Model.Count;
     var active = Model.Count(x => x.IsActive);
 }

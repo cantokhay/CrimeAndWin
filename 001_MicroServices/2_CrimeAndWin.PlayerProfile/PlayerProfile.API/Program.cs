@@ -8,7 +8,6 @@ using PlayerProfile.Infrastructure.Persistance.Context;
 using PlayerProfile.Infrastructure.Repositories;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
-using Shared.Infrastructure;
 using Shared.Infrastructure.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,7 +26,7 @@ builder.Services.AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>)
 builder.Services.AddSingleton<IDateTimeProvider, SystemDateTimeProvider>();
 
 //MediatR & Mapperly & Validation
-builder.Services.AddScoped<IMediator, Mediator>();
+builder.Services.AddScoped<IMediator, Shared.Application.Abstractions.Messaging.Mediator>();
 builder.Services.AddRequestHandlers(typeof(IApplicationAssemblyMarker).Assembly);
 builder.Services.AddScoped<PlayerProfileMapper>();
 builder.Services.AddSharedValidation(typeof(IApplicationAssemblyMarker).Assembly);

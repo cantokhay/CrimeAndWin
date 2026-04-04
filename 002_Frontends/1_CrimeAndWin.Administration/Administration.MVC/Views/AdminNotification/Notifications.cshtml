@@ -1,7 +1,7 @@
 ﻿@model List<ResultNotificationVM>
 
 @{
-    Layout = "~/Views/AdminLayout/Index.cshtml";
+    Layout = "_AdminLayout";
 
     var total = Model.Count;
     var infoCount = Model.Count(x => (x.Type ?? "").Equals("Info", StringComparison.OrdinalIgnoreCase));

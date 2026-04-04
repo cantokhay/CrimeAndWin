@@ -1,7 +1,7 @@
-﻿@model List<ResultSeasonVM>
+@model List<ResultSeasonVM>
 
 @{
-    Layout = "~/Views/AdminLayout/Index.cshtml";
+    Layout = "_AdminLayout";
 
     var total = Model.Count;
     var activeCount = Model.Count(x => x.IsActive);

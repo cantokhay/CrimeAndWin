@@ -8,8 +8,7 @@ namespace GameWorld.Application.Features.Season.Commands.UpdateSeason
 {
     public sealed class UpdateSeasonHandler(
             IWriteRepository<Domain.Entities.Season> writeRepo,
-            IReadRepository<Domain.Entities.Season> readRepo,
-            GameWorldMapper mapper)
+            IReadRepository<Domain.Entities.Season> readRepo)
             : IRequestHandler<UpdateSeasonCommand, UpdateSeasonDTO>
     {
         public async Task<UpdateSeasonDTO> Handle(UpdateSeasonCommand request, CancellationToken cancellationToken)
@@ -27,7 +26,7 @@ namespace GameWorld.Application.Features.Season.Commands.UpdateSeason
             writeRepo.Update(entity);
             await writeRepo.SaveAsync();
 
-            return mapper.ToUpdateDto(entity);
+            return GameWorldMapper.ToUpdateDto(entity);
         }
     }
 }

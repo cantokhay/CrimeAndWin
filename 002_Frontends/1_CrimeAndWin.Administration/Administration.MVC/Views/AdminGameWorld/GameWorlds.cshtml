@@ -1,7 +1,7 @@
-﻿@model List<ResultGameWorldVM>
+@model List<ResultGameWorldVM>
 
 @{
-    Layout = "~/Views/AdminLayout/Index.cshtml";
+    Layout = "_AdminLayout";
 
     var totalSeasons = Model.Sum(x => x.SeasonsCount);
     var avgMaxEnergy = Model.Any() ? (int)Model.Average(x => x.MaxEnergy) : 0;
@@ -66,14 +66,14 @@
                 </div>
                 <div class="separator mb-3 opacity-75"></div>
 
-                <div class="menu-link px-3 pb-3">
-                    <a asp-action="CreateGameWorld" asp-controller="AdminGameWorld">
+                <div class="menu-item px-3 pb-3">
+                    <a asp-action="CreateGameWorld" asp-controller="AdminGameWorld" class="menu-link px-3">
                         Yeni GameWorld
                     </a>
                 </div>
 
-                <div class="menu-link px-3 pb-3">
-                    <a asp-action="Seasons" asp-controller="AdminGameWorld">
+                <div class="menu-item px-3 pb-3">
+                    <a asp-action="Seasons" asp-controller="AdminGameWorld" class="menu-link px-3">
                         Seasons
                     </a>
                 </div>

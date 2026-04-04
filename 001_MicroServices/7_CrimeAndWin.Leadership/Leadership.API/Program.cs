@@ -7,7 +7,6 @@ using Leadership.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
-using Shared.Infrastructure;
 using Shared.Infrastructure.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,7 +19,7 @@ builder.Services.AddDbContext<LeadershipDbContext>(opt =>
 });
 
 // MediatR & Mapperly & Validation
-builder.Services.AddScoped<IMediator, Mediator>();
+builder.Services.AddScoped<IMediator, Shared.Application.Abstractions.Messaging.Mediator>();
 builder.Services.AddRequestHandlers(typeof(IApplicationAssemblyMarker).Assembly);
 builder.Services.AddScoped<LeadershipMapper>();
 builder.Services.AddSharedValidation(typeof(IApplicationAssemblyMarker).Assembly);

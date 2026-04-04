@@ -1,7 +1,7 @@
-﻿@model UpdateGameWorldVM
+@model UpdateGameWorldVM
 
 @{
-    Layout = "~/Views/AdminLayout/Index.cshtml";
+    Layout = "_AdminLayout";
     var returnUrl = Url.Action("EditGameWorld", "AdminGameWorld", new { id = Model.Id });
 }
 

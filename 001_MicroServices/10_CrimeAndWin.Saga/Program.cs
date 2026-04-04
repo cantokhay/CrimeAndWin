@@ -63,13 +63,12 @@ builder.Services.AddMassTransit(x =>
     x.UsingRabbitMq((context, cfg) =>
     {
         var rabbitMqSettings = builder.Configuration.GetSection("RabbitMq");
-        //cfg.Host(rabbitMqSettings["Host"] ?? "localhost", rabbitMqSettings["VirtualHost"] ?? "/", h =>
-        //{
-        //    h.Username(rabbitMqSettings["Username"] ?? "guest");
-        //    h.Password(rabbitMqSettings["Password"] ?? "guest");
-        //});
+        cfg.Host(rabbitMqSettings["Host"] ?? "localhost", rabbitMqSettings["VirtualHost"] ?? "/", h =>
+        {
+            h.Username(rabbitMqSettings["Username"] ?? "guest");
+            h.Password(rabbitMqSettings["Password"] ?? "guest");
+        });
 
-        // Setup endpoints automatically based on registered State Machines
         cfg.ConfigureEndpoints(context);
     });
 });

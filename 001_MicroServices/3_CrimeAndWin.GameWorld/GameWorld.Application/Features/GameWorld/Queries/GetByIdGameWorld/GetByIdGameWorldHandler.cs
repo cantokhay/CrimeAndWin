@@ -9,11 +9,10 @@ namespace GameWorld.Application.Features.GameWorld.Queries.GetByIdGameWorld
     public class GetByIdGameWorldHandler : IRequestHandler<GetGameWorldByIdQuery, ResultGameWorldDTO>
     {   
         private readonly IReadRepository<Domain.Entities.GameWorld> _readRepo;
-        private readonly GameWorldMapper _mapper;
 
-        public GetByIdGameWorldHandler(IReadRepository<Domain.Entities.GameWorld> readRepo, GameWorldMapper mapper)
+        public GetByIdGameWorldHandler(IReadRepository<Domain.Entities.GameWorld> readRepo)
         {
-            _readRepo = readRepo; _mapper = mapper;
+            _readRepo = readRepo; 
         }
 
         public async Task<ResultGameWorldDTO> Handle(GetGameWorldByIdQuery request, CancellationToken ct)
@@ -22,7 +21,7 @@ namespace GameWorld.Application.Features.GameWorld.Queries.GetByIdGameWorld
                         .Include(x => x.Seasons)
                         .FirstOrDefaultAsync(x => x.Id == request.Id && !x.IsDeleted);
             if (gameWorld is null) throw new KeyNotFoundException("GameWorld not found.");
-            return _mapper.ToResultDto(gameWorld);
+            return GameWorldMapper.ToResultDto(gameWorld);
         }
     }
 }

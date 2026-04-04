@@ -11,14 +11,12 @@ namespace GameWorld.Application.Features.GameWorld.Commands.UpdateGameWorld
     {
         private readonly IReadRepository<Domain.Entities.GameWorld> _readRepo;
         private readonly IWriteRepository<Domain.Entities.GameWorld> _writeRepo;
-        private readonly GameWorldMapper _mapper;
         private readonly IEventBus _bus;
 
-        public UpdateGameWorldHandler(IReadRepository<Domain.Entities.GameWorld> readRepo, IWriteRepository<Domain.Entities.GameWorld> writeRepo, GameWorldMapper mapper, IEventBus bus)
+        public UpdateGameWorldHandler(IReadRepository<Domain.Entities.GameWorld> readRepo, IWriteRepository<Domain.Entities.GameWorld> writeRepo, IEventBus bus)
         {
             _readRepo = readRepo;
             _writeRepo = writeRepo;
-            _mapper = mapper;
             _bus = bus;
         }
 
@@ -41,7 +39,7 @@ namespace GameWorld.Application.Features.GameWorld.Commands.UpdateGameWorld
                 OccurredUtc = DateTime.UtcNow
             }, ct);
 
-            return _mapper.ToUpdateDto(gw);
+            return GameWorldMapper.ToUpdateDto(gw);
         }
     }
 }

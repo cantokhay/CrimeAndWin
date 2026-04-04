@@ -9,17 +9,17 @@ public class HealthApiClient(HttpClient http, IConfiguration config)
     {
         var services = new[]
         {
-            ("Identity",      "https://localhost:6101"),
-            ("PlayerProfile", "https://localhost:6102"),
-            ("GameWorld",     "https://localhost:6103"),
-            ("Action",        "https://localhost:6104"),
-            ("Economy",       "https://localhost:6105"),
-            ("Inventory",     "https://localhost:6106"),
-            ("Leadership",    "https://localhost:6107"),
-            ("Notification",  "https://localhost:6108"),
-            ("Moderation",    "https://localhost:6109"),
-            ("Saga",          "https://localhost:6110"),
-            ("Gateway",       "https://localhost:7000"),
+            ("Identity",      "http://localhost:6001"),
+            ("PlayerProfile", "http://localhost:6002"),
+            ("GameWorld",     "http://localhost:6003"),
+            ("Action",        "http://localhost:6004"),
+            ("Economy",       "http://localhost:6005"),
+            ("Inventory",     "http://localhost:6006"),
+            ("Leadership",    "http://localhost:6007"),
+            ("Notification",  "http://localhost:6008"),
+            ("Moderation",    "http://localhost:6009"),
+            ("Saga",          "http://localhost:6910"),
+            ("Gateway",       "http://localhost:5000"),
         };
 
         var tasks = services.Select(async s =>
