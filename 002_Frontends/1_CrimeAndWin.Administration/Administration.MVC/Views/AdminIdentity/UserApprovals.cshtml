@@ -1,0 +1,106 @@
+@model List<ResultAppUserVM>
+
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Onay Bekleyen Kullanıcılar";
+}
+
+<div class="card mb-5 mb-xl-8">
+    <div class="card-header border-0 pt-5">
+        <h3 class="card-title align-items-start flex-column">
+            <span class="card-label fw-bolder fs-3 mb-1">Onay Bekleyen Kullanıcılar</span>
+            <span class="text-muted mt-1 fw-bold fs-7">@Model.Count kullanıcı onayınızı bekliyor</span>
+        </h3>
+    </div>
+    <div class="card-body py-3">
+        <div class="table-responsive">
+            <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
+                <thead>
+                    <tr class="fw-bolder text-muted">
+                        <th>Kullanıcı Adı</th>
+                        <th>Email</th>
+                        <th>Kayıt Tarihi</th>
+                        <th class="min-w-100px text-end">İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <span class="text-dark fw-bolder text-hover-primary fs-6">@item.UserName</span>
+                            </td>
+                            <td>
+                                <span class="text-muted fw-bold d-block fs-7">@item.Email</span>
+                            </td>
+                            <td>
+                                <span class="text-muted fw-bold d-block fs-7">@item.CreatedAtUtc.ToString("g")</span>
+                            </td>
+                            <td class="text-end">
+                                <button type="button" 
+                                        class="btn btn-sm btn-light-success btn-active-success btn-approve-user" 
+                                        data-id="@item.Id"
+                                        data-username="@item.UserName">
+                                    <i class="ki-duotone ki-check fs-2"></i>
+                                    Onayla (Approve)
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                    @if (Model.Count == 0)
+                    {
+                        <tr>
+                            <td colspan="4" class="text-center text-muted py-5">
+                                Onay bekleyen kullanıcı bulunmamaktadır.
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).on('click', '.btn-approve-user', function() {
+            const userId = $(this).data('id');
+            const username = $(this).data('username');
+
+            Swal.fire({
+                title: 'Kullanıcıyı Onayla',
+                text: `${username} isimli kullanıcının hesabını aktifleştirmek istediğinize emin misiniz?`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Evet, Onayla!',
+                cancelButtonText: 'Vazgeç',
+                customClass: {
+                    confirmButton: "btn btn-primary",
+                    cancelButton: "btn btn-active-light"
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const token = $('input[name="__RequestVerificationToken"]').val();
+
+                    $.ajax({
+                        url: '/AdminIdentity/ApproveUser',
+                        type: 'POST',
+                        data: {
+                            id: userId,
+                            __RequestVerificationToken: token
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                Swal.fire('Başarılı!', 'Kullanıcı hesabı başarıyla aktifleştirildi.', 'success').then(() => {
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire('Hata!', 'İşlem sırasında bir hata oluştu.', 'error');
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

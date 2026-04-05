@@ -28,6 +28,7 @@ builder.Services.AddScoped<IMediator, Shared.Application.Abstractions.Messaging.
 builder.Services.AddRequestHandlers(typeof(IApplicationAssemblyMarker).Assembly);
 builder.Services.AddScoped<IdentityMapper>();
 builder.Services.AddSharedValidation(typeof(IApplicationAssemblyMarker).Assembly);
+builder.Services.AddSharedMail(builder.Configuration);
 
 //JWT
 var jwtSection = builder.Configuration.GetSection("Jwt");

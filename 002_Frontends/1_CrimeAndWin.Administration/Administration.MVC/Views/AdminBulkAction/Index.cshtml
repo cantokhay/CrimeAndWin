@@ -1,0 +1,106 @@
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Toplu İşlem Merkezi";
+}
+
+<div class="card mb-5 mb-xl-10">
+    <div class="card-header border-0 pt-5">
+        <h3 class="card-title align-items-start flex-column">
+            <span class="card-label fw-bold fs-3 mb-1">Sistem Genel Toplu İşlemler</span>
+            <span class="text-muted mt-1 fw-bold fs-7">Tüm oyuncuları veya sistemi etkileyecek yüksek yetkili operasyonlar</span>
+        </h3>
+    </div>
+    <div class="card-body py-3">
+        <div class="row g-5">
+            <!-- Reset Energy -->
+            <div class="col-md-4">
+                <div class="card border-dashed p-6 text-center hover-elevate-up">
+                    <div class="symbol symbol-60px mb-5">
+                        <span class="symbol-label bg-light-success">
+                            <i class="ki-duotone ki-flash-drive fs-2x text-success"></i>
+                        </span>
+                    </div>
+                    <h3 class="fs-4 fw-bold mb-2">Tüm Enerjileri Yenile</h3>
+                    <p class="text-muted fs-7 mb-6">Sistemdeki tüm aktif oyuncuların enerjisini maksimum kapasiteye çıkarır.</p>
+                    <form asp-action="ResetAllEnergy" method="post" onsubmit="return confirmAction(event, 'Enerjileri yenilemek istediğinize emin misiniz?')">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-success btn-sm w-100">Şimdi Uygula</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Clear Cooldowns -->
+            <div class="col-md-4">
+                <div class="card border-dashed p-6 text-center hover-elevate-up">
+                    <div class="symbol symbol-60px mb-5">
+                        <span class="symbol-label bg-light-primary">
+                            <i class="ki-duotone ki-timer fs-2x text-primary"></i>
+                        </span>
+                    </div>
+                    <h3 class="fs-4 fw-bold mb-2">Tüm Cooldownları Sıfırla</h3>
+                    <p class="text-muted fs-7 mb-6">Bekleyen tüm aksiyon sürelerini anında sonlandırır.</p>
+                    <form asp-action="ClearAllCooldowns" method="post" onsubmit="return confirmAction(event, 'Tüm bekleme sürelerini sıfırlamak istediğinize emin misiniz?')">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-primary btn-sm w-100">Şimdi Uygula</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Approve All Users -->
+            <div class="col-md-4">
+                <div class="card border-dashed p-6 text-center hover-elevate-up">
+                    <div class="symbol symbol-60px mb-5">
+                        <span class="symbol-label bg-light-warning">
+                            <i class="ki-duotone ki-user-tick fs-2x text-warning"></i>
+                        </span>
+                    </div>
+                    <h3 class="fs-4 fw-bold mb-2">Tüm Onay Bekleyenleri Onayla</h3>
+                    <p class="text-muted fs-7 mb-6">Onay sırasında bekleyen tüm yeni kullanıcıları sisteme kabul eder.</p>
+                    <form asp-action="ApproveAllPendingUsers" method="post" onsubmit="return confirmAction(event, 'Tüm bekleyen kullanıcıları onaylamak istediğinize emin misiniz?')">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-warning btn-sm w-100 text-white">Şimdi Uygula</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert alert-dismissible bg-light-danger d-flex flex-center flex-column py-10 px-10 px-lg-20 mt-5 border border-danger border-dashed">
+            <i class="ki-duotone ki-information-5 fs-5x text-danger mb-5"></i>
+            <div class="text-center">
+                <h1 class="fw-bold mb-5">DİKKAT: Geri Dönülemez İşlemler!</h1>
+                <div class="separator separator-dashed border-danger opacity-25 mb-5"></div>
+                <div class="mb-9 text-dark">
+                    Buradaki işlemler <strong>veritabanındaki binlerce kaydı</strong> aynı anda etkiler. 
+                    <br/>Lütfen bu işlemleri sadece kritik durumlarda veya bakım zamanlarında kullanın.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function confirmAction(event, message) {
+            event.preventDefault();
+            const form = event.target;
+            
+            Swal.fire({
+                title: "Emin misiniz?",
+                text: message,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Evet, Uygula!",
+                cancelButtonText: "Vazgeç",
+                customClass: {
+                    confirmButton: "btn btn-danger",
+                    cancelButton: "btn btn-active-light"
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+            return false;
+        }
+    </script>
+}

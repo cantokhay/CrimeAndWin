@@ -1,0 +1,217 @@
+@{
+    ViewData["Title"] = "Sistem Veri Simülasyonu";
+    Layout = "_AdminLayout";
+}
+
+<div class="card mb-5 mb-xl-10">
+    <div class="card-header border-0 pt-5">
+        <h3 class="card-title align-items-start flex-column">
+            <span class="card-label fw-bolder fs-3 mb-1">Sistem Veri Üretimi (Seeding)</span>
+            <span class="text-muted mt-1 fw-bold fs-7">Mikroservisler için Bogus kütüphanesi kullanarak test verisi üretin</span>
+        </h3>
+    </div>
+    <div class="card-body py-10">
+        <div class="row g-5">
+            <!-- Identity Service -->
+            <div class="col-md-4">
+                <div class="card shadow-sm border border-dashed border-primary p-5 h-100">
+                    <div class="d-flex align-items-center mb-5">
+                        <div class="symbol symbol-40px me-3">
+                            <span class="symbol-label bg-light-primary">
+                                <i class="ki-duotone ki-user fs-2 text-primary"></i>
+                            </span>
+                        </div>
+                        <div class="d-flex flex-column">
+                            <a href="#" class="text-dark text-hover-primary fs-6 fw-bolder">Identity Service</a>
+                            <span class="text-muted fw-bold fs-7">Kullanıcı ve Rol</span>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 fw-bold fs-7 flex-grow-1">Uygulama kullanıcıları, şifreleri ve rolleri üretir.</p>
+                    <div class="d-flex align-items-center gap-2 mt-5">
+                        <input type="number" id="count-identity" class="form-control form-control-solid w-80px" value="10" min="1" />
+                        <button class="btn btn-primary btn-sm px-4 btn-seed w-100" 
+                                data-service="IdentityApi" data-endpoint="SeedRun" data-input="count-identity">
+                            <i class="ki-duotone ki-arrows-loop fs-4 me-1"></i> Seed Et
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Player Profile Service -->
+            <div class="col-md-4">
+                <div class="card shadow-sm border border-dashed border-success p-5 h-100">
+                    <div class="d-flex align-items-center mb-5">
+                        <div class="symbol symbol-40px me-3">
+                            <span class="symbol-label bg-light-success">
+                                <i class="ki-duotone ki-profile-user fs-2 text-success"></i>
+                            </span>
+                        </div>
+                        <div class="d-flex flex-column">
+                            <a href="#" class="text-dark text-hover-success fs-6 fw-bolder">Player Profile</a>
+                            <span class="text-muted fw-bold fs-7">Profil ve Stats</span>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 fw-bold fs-7 flex-grow-1">Oyuncu profilleri, güç değerleri ve başlangıç istatistikleri üretir.</p>
+                    <div class="d-flex align-items-center gap-2 mt-5">
+                        <input type="number" id="count-player" class="form-control form-control-solid w-80px" value="10" min="1" />
+                        <button class="btn btn-success btn-sm px-4 btn-seed w-100" 
+                                data-service="PlayerProfileApi" data-endpoint="SeedRun" data-input="count-player">
+                            <i class="ki-duotone ki-arrows-loop fs-4 me-1"></i> Seed Et
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game World Service -->
+            <div class="col-md-4">
+                <div class="card shadow-sm border border-dashed border-warning p-5 h-100">
+                    <div class="d-flex align-items-center mb-5">
+                        <div class="symbol symbol-40px me-3">
+                            <span class="symbol-label bg-light-warning">
+                                <i class="ki-duotone ki-global fs-2 text-warning"></i>
+                            </span>
+                        </div>
+                        <div class="d-flex flex-column">
+                            <a href="#" class="text-dark text-hover-warning fs-6 fw-bolder">Game World</a>
+                            <span class="text-muted fw-bold fs-7">Dünya ve Sezon</span>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 fw-bold fs-7 flex-grow-1">Oyun dünyaları, enerji kuralları ve sezon verileri üretir.</p>
+                    <div class="d-flex align-items-center gap-2 mt-5">
+                        <input type="number" id="count-gameworld" class="form-control form-control-solid w-80px" value="3" min="1" />
+                        <button class="btn btn-warning btn-sm px-4 btn-seed w-100" 
+                                data-service="GameWorldApi" data-endpoint="GameWorlds/SeedRun" data-input="count-gameworld">
+                            <i class="ki-duotone ki-arrows-loop fs-4 me-1"></i> Seed Et
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Service -->
+            <div class="col-md-4">
+                <div class="card shadow-sm border border-dashed border-info p-5 h-100">
+                    <div class="d-flex align-items-center mb-5">
+                        <div class="symbol symbol-40px me-3">
+                            <span class="symbol-label bg-light-info">
+                                <i class="ki-duotone ki-abstract-26 fs-2 text-info"></i>
+                            </span>
+                        </div>
+                        <div class="d-flex flex-column">
+                            <a href="#" class="text-dark text-hover-info fs-6 fw-bolder">Action Service</a>
+                            <span class="text-muted fw-bold fs-7">Aksiyon Tanımı</span>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 fw-bold fs-7 flex-grow-1">Soygun, iş ve diğer oyun aksiyonlarının temel tanımlarını üretir.</p>
+                    <div class="d-flex align-items-center gap-2 mt-5">
+                        <input type="number" id="count-action" class="form-control form-control-solid w-80px" value="10" min="1" />
+                        <button class="btn btn-info btn-sm px-4 btn-seed w-100" 
+                                data-service="ActionApi" data-endpoint="ActionDefinitions/SeedRun" data-input="count-action">
+                            <i class="ki-duotone ki-arrows-loop fs-4 me-1"></i> Seed Et
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Economy Service -->
+            <div class="col-md-4">
+                <div class="card shadow-sm border border-dashed border-danger p-5 h-100">
+                    <div class="d-flex align-items-center mb-5">
+                        <div class="symbol symbol-40px me-3">
+                            <span class="symbol-label bg-light-danger">
+                                <i class="ki-duotone ki-wallet fs-2 text-danger"></i>
+                            </span>
+                        </div>
+                        <div class="d-flex flex-column">
+                            <a href="#" class="text-dark text-hover-danger fs-6 fw-bolder">Economy Service</a>
+                            <span class="text-muted fw-bold fs-7">Cüzdan ve İşlem</span>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 fw-bold fs-7 flex-grow-1">Bakiyeler ve geçmişe dönük tüm para hareketlerini simüle eder.</p>
+                    <div class="d-flex align-items-center gap-2 mt-5">
+                        <input type="number" id="count-economy" class="form-control form-control-solid w-80px" value="10" min="1" />
+                        <button class="btn btn-danger btn-sm px-4 btn-seed w-100" 
+                                data-service="EconomyApi" data-endpoint="../Wallets/SeedRun" data-input="count-economy">
+                            <i class="ki-duotone ki-arrows-loop fs-4 me-1"></i> Seed Et
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inventory Service -->
+            <div class="col-md-4">
+                <div class="card shadow-sm border border-dashed border-dark p-5 h-100">
+                    <div class="d-flex align-items-center mb-5">
+                        <div class="symbol symbol-40px me-3">
+                            <span class="symbol-label bg-light-dark">
+                                <i class="ki-duotone ki-handcart fs-2 text-dark"></i>
+                            </span>
+                        </div>
+                        <div class="d-flex flex-column">
+                            <a href="#" class="text-dark text-hover-dark fs-6 fw-bolder">Inventory Service</a>
+                            <span class="text-muted fw-bold fs-7">Eşya ve Stok</span>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 fw-bold fs-7 flex-grow-1">Silah, zırh ve sarf malzemeleri ile oyuncu envanterlerini üretir.</p>
+                    <div class="d-flex align-items-center gap-2 mt-5">
+                        <input type="number" id="count-inventory" class="form-control form-control-solid w-80px" value="10" min="1" />
+                        <button class="btn btn-dark btn-sm px-4 btn-seed w-100" 
+                                data-service="InventoryApi" data-endpoint="Inventories/SeedRun" data-input="count-inventory">
+                            <i class="ki-duotone ki-arrows-loop fs-4 me-1"></i> Seed Et
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.btn-seed').on('click', function () {
+                const btn = $(this);
+                const service = btn.data('service');
+                const endpoint = btn.data('endpoint');
+                const inputId = btn.data('input');
+                const count = $('#' + inputId).val();
+
+                btn.attr('data-kt-indicator', 'on').prop('disabled', true);
+
+                $.ajax({
+                    url: '/AdminSystem/RunSeed',
+                    type: 'POST',
+                    data: {
+                        serviceName: service,
+                        endpoint: endpoint,
+                        count: count
+                    },
+                    success: function (res) {
+                        if (res.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Üretim Başarılı',
+                                text: res.message,
+                                confirmButtonText: 'Tamam',
+                                customClass: { confirmButton: "btn btn-success" }
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Hata oluştu',
+                                text: res.message,
+                                confirmButtonText: 'Kapat',
+                                customClass: { confirmButton: "btn btn-danger" }
+                            });
+                        }
+                    },
+                    error: function () {
+                        Swal.fire('Hata!', 'İşlem sırasında bir sistem hatası oluştu.', 'error');
+                    },
+                    complete: function () {
+                        btn.removeAttr('data-kt-indicator').prop('disabled', false);
+                    }
+                });
+            });
+        });
+    </script>
+}

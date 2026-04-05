@@ -1,5 +1,6 @@
-using Identity.Application.DTOs.UserDTOs;
+ï»¿using Identity.Application.DTOs.UserDTOs;
 using Identity.Application.Features.User.Commands.RegisterUser;
+using Identity.Application.Features.User.Commands.ConfirmEmail;
 using Shared.Application.Abstractions.Messaging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -14,34 +15,41 @@ namespace Identity.API.Controllers
         private readonly IMediator _mediator;
         public RegistersController(IMediator mediator) => _mediator = mediator;
 
-        /// <summary>Kullanýcý kaydý oluþturur.</summary>
         [HttpPost]
         [AllowAnonymous]
-        [ProducesResponseType(typeof(AppUserDTO), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Register([FromBody] RegisterUserCommand command, CancellationToken ct)
         {
             try
             {
                 var created = await _mediator.Send(command, ct);
-                // Location header isteðe baðlý: kaynaðý temsil eden basit bir URL
                 return CreatedAtAction(nameof(Get), new { id = created.Id }, created);
             }
             catch (ArgumentException ex)
             {
-                return ValidationProblem(title: "Geçersiz alan", detail: ex.Message, statusCode: StatusCodes.Status400BadRequest);
+                return ValidationProblem(title: "GeÃ§ersiz alan", detail: ex.Message, statusCode: StatusCodes.Status400BadRequest);
             }
-            catch (InvalidOperationException ex) // ör. e-posta/username benzersiz deðil
+            catch (InvalidOperationException ex) 
             {
-                return Problem(title: "Çakýþma", detail: ex.Message, statusCode: StatusCodes.Status409Conflict);
+                return Problem(title: "Ã‡akÄ±ÅŸma", detail: ex.Message, statusCode: StatusCodes.Status409Conflict);
             }
         }
 
-        /// <summary>Basit demo amaçlý: oluþturulan kullanýcýyý görmek için (isteðe baðlý)</summary>
         [HttpGet("{id:guid}")]
-        public IActionResult Get(Guid id) => Ok(new { id }); // gerçek okuma için query/handler eklenebilir
+        public IActionResult Get(Guid id) => Ok(new { id });
+
+        [HttpGet("ConfirmEmail")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmEmail([FromQuery] string email, [FromQuery] string token, CancellationToken ct)
+        {
+            var command = new ConfirmEmailCommand(email, token);
+            var success = await _mediator.Send(command, ct);
+
+            if (success)
+            {
+                return Ok(new { message = "E-posta baÅŸarÄ±yla onaylandÄ±. HesabÄ±nÄ±z Admin onayÄ± bekliyor." });
+            }
+
+            return BadRequest(new { message = "E-posta onaylanamadÄ±. GeÃ§ersiz token veya kullanÄ±cÄ±." });
+        }
     }
 }
-
-

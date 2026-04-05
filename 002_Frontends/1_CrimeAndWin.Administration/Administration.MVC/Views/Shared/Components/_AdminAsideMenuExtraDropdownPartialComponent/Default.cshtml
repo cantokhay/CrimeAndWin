@@ -1,9 +1,38 @@
+
+<!-- =========================
+     DASHBOARD (INTELLIGENT)
+========================= -->
 <div class="menu-item">
-    <div class="menu-content pt-8 pb-2">
-        <span class="menu-section text-muted text-uppercase fs-8 ls-1">Dropdowns</span>
-    </div>
+    <a class="menu-link @Html.IsActive("AdminDashboard", "Index")" asp-controller="AdminDashboard" asp-action="Index">
+        <span class="menu-icon">
+            <i class="ki-duotone ki-chart-line fs-2"></i>
+        </span>
+        <span class="menu-title">Analytics Dashboard</span>
+        <span class="badge badge-light-danger fw-bold fs-9 px-2 py-1 ms-2">HOT</span>
+    </a>
 </div>
 
+<div class="menu-item">
+    <a class="menu-link @Html.IsActive("AdminBulkAction", "Index")" asp-controller="AdminBulkAction" asp-action="Index">
+        <span class="menu-icon">
+            <i class="ki-duotone ki-element-plus fs-2"></i>
+        </span>
+        <span class="menu-title">Bulk Action Center</span>
+        <span class="badge badge-light-primary fw-bold fs-9 px-2 py-1 ms-2">NEW</span>
+    </a>
+</div>
+
+<div class="menu-item">
+    <a class="menu-link @Html.IsActive("AdminSettings", "Index")" asp-controller="AdminSettings" asp-action="Index">
+        <span class="menu-icon">
+            <i class="ki-duotone ki-setting-4 fs-2"></i>
+        </span>
+        <span class="menu-title">Environment Manager</span>
+        <span class="badge badge-light-warning fw-bold fs-9 px-2 py-1 ms-2">PRO</span>
+    </a>
+</div>
+
+<div class="separator mx-1 my-4"></div>
 
 <!-- =========================
      DROPDOWN 1: Game World
@@ -72,6 +101,16 @@
                     <span class="bullet bullet-dot"></span>
                 </span>
                 <span class="menu-title">Users</span>
+            </a>
+        </div>
+
+        <!-- User Approvals -->
+        <div class="menu-item">
+            <a class="menu-link @Html.IsActive("AdminIdentity", "UserApprovals")" asp-controller="AdminIdentity" asp-action="UserApprovals">
+                <span class="menu-bullet">
+                    <span class="bullet bullet-dot"></span>
+                </span>
+                <span class="menu-title">User Approvals</span>
             </a>
         </div>
 
@@ -449,12 +488,40 @@
         </div>
 
         <div class="menu-item">
-            <a class="menu-link @Html.IsActive("AdminGatewayLog", "Index")" asp-controller="AdminGatewayLog" asp-action="Index">
+            <a class="menu-link @Html.IsActive("AdminAuditLog", "Index")" asp-controller="AdminAuditLog" asp-action="Index">
                 <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
-                <span class="menu-title">Gateway Logs</span>
+                <span class="menu-title">Audit Logs</span>
+                <span class="badge badge-light-danger fw-bold fs-9 px-2 py-1 ms-2">SEC</span>
             </a>
         </div>
 
+    </div>
+</div>
+
+<!-- =========================
+     DROPDOWN 12: Sistem Ayarları
+========================= -->
+<div data-kt-menu-trigger="click" class="menu-item menu-accordion @Html.IsMenuOpen("AdminSystem")">
+    <span class="menu-link">
+        <span class="menu-icon">
+            <span class="svg-icon svg-icon-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M11.5,2C7.35,2,4,5.35,4,9.5C4,10.15,4.08,10.78,4.24,11.39C3.04,11.83,2,13.06,2,14.5C2,16.43,3.57,18,5.5,18H6V20H17V18H17.5C19.43,18,21,16.43,21,14.5C21,13.06,19.96,11.83,18.76,11.39C18.92,10.78,19,10.15,19,9.5C19,5.35,15.65,2,11.5,2Z" fill="currentColor" opacity="0.3"/>
+                    <path d="M17.5,19H5.5C3.01,19,1,16.99,1,14.5C1,12.75,2,11.23,3.5,10.5C3.17,9.8,3,9.02,3,8.2C3,4.78,5.78,2,9.2,2C11.57,2,13.67,3.33,14.73,5.29C15.42,5.1,16.14,5,16.89,5C20.26,5,23,7.74,23,11.11C23,14.48,20.26,17.22,16.89,17.22H17.5V19Z" fill="currentColor"/>
+                </svg>
+            </span>
+        </span>
+        <span class="menu-title">System Settings</span>
+        <span class="menu-arrow"></span>
+    </span>
+
+    <div class="menu-sub menu-sub-accordion menu-active-bg">
+        <div class="menu-item">
+            <a class="menu-link @Html.IsActive("AdminSystem", "Seed")" asp-controller="AdminSystem" asp-action="Seed">
+                <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                <span class="menu-title">Seed Master Data</span>
+            </a>
+        </div>
     </div>
 </div>
 

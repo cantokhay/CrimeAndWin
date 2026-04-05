@@ -1,0 +1,123 @@
+@model List<Administration.MVC.ViewModels.AuditVMs.AdminAuditLogVM>
+
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Yönetici Denetim Kayıtları";
+}
+
+<div class="card mb-5 mb-xl-10">
+    <div class="card-header border-0 pt-5">
+        <h3 class="card-title align-items-start flex-column">
+            <span class="card-label fw-bold fs-3 mb-1">Yönetici İşlem Günlüğü (Audit)</span>
+            <span class="text-muted mt-1 fw-bold fs-7">Sistem genelinde yapılan tüm yönetsel değişikliklerin tarihçesi</span>
+        </h3>
+    </div>
+    <div class="card-body py-3">
+        <div class="table-responsive">
+            <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
+                <thead>
+                    <tr class="fw-bolder text-muted">
+                        <th class="min-w-150px">Zaman</th>
+                        <th>Yönetici</th>
+                        <th>İşlem / Varlık</th>
+                        <th>Açıklama</th>
+                        <th class="text-end">İşlem IP</th>
+                        <th class="text-end">Detay</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var log in Model.OrderByDescending(x => x.Timestamp))
+                    {
+                        var badgeColor = log.ActionType switch
+                        {
+                            "CREATE" => "success",
+                            "UPDATE" => "primary",
+                            "DELETE" => "danger",
+                            "SYSTEM" => "warning",
+                            _ => "secondary"
+                        };
+
+                        <tr>
+                            <td>
+                                <span class="text-muted fw-bold d-block fs-7">@log.Timestamp.ToString("yyyy-MM-dd HH:mm:ss")</span>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="symbol symbol-30px me-3">
+                                        <span class="symbol-label bg-light-primary text-primary fw-bolder">@log.AdminUser[0]</span>
+                                    </div>
+                                    <span class="text-dark fw-bold fs-6">@log.AdminUser</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex flex-column">
+                                    <span class="badge badge-light-@badgeColor fw-bolder fs-8 w-60px mb-1 text-center">@log.ActionType</span>
+                                    <span class="text-muted fw-bold fs-7">@log.EntityName</span>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="text-dark fw-bold fs-7">@log.Description</span>
+                                @if (!string.IsNullOrEmpty(log.EntityId))
+                                {
+                                    <span class="text-muted fs-8 d-block">ID: @log.EntityId</span>
+                                }
+                            </td>
+                            <td class="text-end">
+                                <span class="text-muted fw-bold fs-8">@log.IpAddress</span>
+                            </td>
+                            <td class="text-end">
+                                <button type="button" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm" 
+                                        data-bs-toggle="modal" data-bs-target="#audit_modal_@log.Id">
+                                    <i class="ki-duotone ki-eye fs-3"></i>
+                                </button>
+                                
+                                <!-- Detail Modal -->
+                                <div class="modal fade" id="audit_modal_@log.Id" tabindex="-1">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content text-start">
+                                            <div class="modal-header">
+                                                <h3 class="modal-title">İşlem Detayı: @log.ActionType - @log.EntityName</h3>
+                                                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal">
+                                                    <i class="ki-duotone ki-cross fs-1"></i>
+                                                </div>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row g-5">
+                                                    <div class="col-md-6">
+                                                        <label class="fw-bold text-gray-400 fs-7">Eski Değerler</label>
+                                                        <div class="bg-light-danger p-4 rounded mt-2">
+                                                            <pre class="fs-8 text-danger mb-0">@(string.IsNullOrEmpty(log.OldValue) ? "Boş" : log.OldValue)</pre>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label class="fw-bold text-gray-400 fs-7">Yeni Değerler</label>
+                                                        <div class="bg-light-success p-4 rounded mt-2">
+                                                            <pre class="fs-8 text-success mb-0">@(string.IsNullOrEmpty(log.NewValue) ? "Değişiklik Yok" : log.NewValue)</pre>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="alert alert-dismissible bg-light-primary d-flex flex-center flex-column py-10 px-10 px-lg-20 border border-primary border-dashed">
+    <i class="ki-duotone ki-shield-search fs-5x text-primary mb-5"></i>
+    <div class="text-center">
+        <h1 class="fw-bold mb-5">Admin Güvenlik Takibi</h1>
+        <div class="separator separator-dashed border-primary opacity-25 mb-5"></div>
+        <div class="mb-9 text-dark">
+            Denetim günlükleri sistem güvenliği için <strong>kritik öneme sahiptir</strong>. 
+            Burada listelenen her işlem, ilgili yöneticinin yetki kullanımıyla kayıt altına alınmıştır. 
+            Bu sayfadaki veriler yöneticiler tarafından <strong>silinemez ve değiştirilemez</strong>.
+        </div>
+    </div>
+</div>

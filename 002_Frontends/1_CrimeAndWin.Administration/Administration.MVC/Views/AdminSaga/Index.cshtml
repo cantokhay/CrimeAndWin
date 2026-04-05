@@ -1,91 +1,166 @@
 @model List<SagaStateDto>
+
 @{
-    ViewData["Title"] = "Saga State Takibi";
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Saga İşlem Takibi";
     string currentFilter = ViewBag.StateFilter ?? "";
+    var total = Model.Count;
+    var completed = Model.Count(x => x.CurrentState == "Completed");
+    var failed = Model.Count(x => x.CurrentState == "Failed");
 }
 
-<!--begin::Toolbar-->
-<div class="toolbar py-5 py-lg-15" id="kt_toolbar">
-    <div id="kt_toolbar_container" class="container-xxl d-flex flex-stack flex-wrap">
-        <div class="page-title d-flex flex-column me-3">
-            <h1 class="d-flex text-white fw-bolder my-1 fs-3">Saga State Takibi</h1>
-            <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
-                <li class="breadcrumb-item text-white opacity-75">
-                    <a asp-controller="AdminHome" asp-action="Index" class="text-white opacity-75 text-hover-primary">Ana Sayfa</a>
-                </li>
-                <li class="breadcrumb-item"><span class="bullet bg-white opacity-75 w-5px h-2px"></span></li>
-                <li class="breadcrumb-item text-white opacity-75">Saga State Takibi</li>
-            </ul>
-        </div>
-    </div>
-</div>
-<!--end::Toolbar-->
-
-<!--begin::Post-->
-<div class="post d-flex flex-column-fluid" id="kt_post">
-    <div id="kt_content_container" class="container-xxl">
-        <!--begin::Card-->
-        <div class="card card-flush">
-            <div class="card-header align-items-center py-5 gap-2 gap-md-5">
-                <div class="card-title">
-                    <h2 class="fw-bolder">Saga State Takibi</h2>
-                </div>
-                <div class="card-toolbar">
-                    <div class="d-flex justify-content-end" data-kt-docs-table-toolbar="base">
-                        <a asp-action="Index" asp-route-state="" class="btn btn-sm @(currentFilter == "" ? "btn-primary" : "btn-light btn-active-light-primary") me-2">Tümü</a>
-                        <a asp-action="Index" asp-route-state="Processing" class="btn btn-sm @(currentFilter == "Processing" ? "btn-primary" : "btn-light btn-active-light-primary") me-2">Processing</a>
-                        <a asp-action="Index" asp-route-state="Completed" class="btn btn-sm @(currentFilter == "Completed" ? "btn-primary" : "btn-light btn-active-light-primary") me-2">Completed</a>
-                        <a asp-action="Index" asp-route-state="Failed" class="btn btn-sm @(currentFilter == "Failed" ? "btn-primary" : "btn-light btn-active-light-primary")">Failed</a>
+<div class="row mb-5 justify-content-center">
+    <div class="col-md-3">
+        <div class="card shadow-sm border-start border-primary border-4">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="symbol symbol-45px me-5">
+                        <span class="symbol-label bg-light-primary">
+                            <i class="ki-duotone ki-arrows-loop fs-2x text-primary"></i>
+                        </span>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <span class="text-muted fw-bold">Toplam Saga</span>
+                        <span class="fs-2 fw-bold mb-0">@total</span>
                     </div>
                 </div>
             </div>
-            <div class="card-body pt-0">
-                <div class="table-responsive">
-                    <table class="table align-middle table-row-dashed fs-6 gy-5 table-hover">
-                        <thead>
-                            <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
-                                <th>Correlation ID</th>
-                                <th>Saga Tipi</th>
-                                <th>Oyuncu</th>
-                                <th>State</th>
-                                <th>Başlangıç</th>
-                                <th>Bitiş</th>
-                                <th>Hata</th>
-                            </tr>
-                        </thead>
-                        <tbody class="fw-bold text-gray-600">
-                            @foreach (var item in Model)
-                            {
-                                <tr style="cursor: pointer" onclick="location.href='@Url.Action("Detail", new { id = item.CorrelationId })'">
-                                    <td>@item.CorrelationId.ToString().Substring(0, 8)</td>
-                                    <td>@item.SagaType</td>
-                                    <td>@item.PlayerId</td>
-                                    <td>
-                                        @{
-                                            var badgeClass = item.CurrentState switch
-                                            {
-                                                "Completed" => "badge-light-success",
-                                                "Failed" => "badge-light-danger",
-                                                _ => "badge-light-warning"
-                                            };
-                                        }
-                                        <span class="badge @badgeClass fs-7 fw-bolder">@item.CurrentState</span>
-                                    </td>
-                                    <td>@item.CreatedAt.ToLocalTime().ToString("g")</td>
-                                    <td>@(item.CompletedAt?.ToLocalTime().ToString("g") ?? "-")</td>
-                                    <td>
-                                        @if (!string.IsNullOrEmpty(item.FailReason))
-                                        {
-                                            <small class="text-danger fw-bolder">@item.FailReason</small>
-                                        }
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm border-start border-success border-4">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="symbol symbol-45px me-5">
+                        <span class="symbol-label bg-light-success">
+                            <i class="ki-duotone ki-check fs-2x text-success"></i>
+                        </span>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <span class="text-muted fw-bold">Tamamlanan</span>
+                        <span class="fs-2 fw-bold mb-0 text-success">@completed</span>
+                    </div>
                 </div>
             </div>
         </div>
-        <!--end::Card-->
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm border-start border-danger border-4">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="symbol symbol-45px me-5">
+                        <span class="symbol-label bg-light-danger">
+                            <i class="ki-duotone ki-cross fs-2x text-danger"></i>
+                        </span>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <span class="text-muted fw-bold">Hatalı</span>
+                        <span class="fs-2 fw-bold mb-0 text-danger">@failed</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+<div class="card mb-5 mb-xl-8">
+    <div class="card-header border-0 pt-5">
+        <h3 class="card-title align-items-start flex-column">
+            <span class="card-label fw-bolder fs-3 mb-1">Saga İşlem Günlükleri</span>
+            <span class="text-muted mt-1 fw-bold fs-7">Dağıtık işlemlerin durum ve hata takibi</span>
+        </h3>
+        <div class="card-toolbar">
+            <div class="d-flex justify-content-end gap-2">
+                <a asp-action="Index" asp-route-state="" class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary @(currentFilter == "" ? "active" : "")" data-bs-toggle="tooltip" title="Tümü">
+                    <i class="ki-duotone ki-category fs-2"></i>
+                </a>
+                <a asp-action="Index" asp-route-state="Processing" class="btn btn-sm btn-icon btn-bg-light btn-active-color-warning @(currentFilter == "Processing" ? "active" : "")" data-bs-toggle="tooltip" title="İşlenenler">
+                    <i class="ki-duotone ki-loading fs-2"></i>
+                </a>
+                <a asp-action="Index" asp-route-state="Completed" class="btn btn-sm btn-icon btn-bg-light btn-active-color-success @(currentFilter == "Completed" ? "active" : "")" data-bs-toggle="tooltip" title="Tamamlananlar">
+                    <i class="ki-duotone ki-check-circle fs-2"></i>
+                </a>
+                <a asp-action="Index" asp-route-state="Failed" class="btn btn-sm btn-icon btn-bg-light btn-active-color-danger @(currentFilter == "Failed" ? "active" : "")" data-bs-toggle="tooltip" title="Hatalılar">
+                    <i class="ki-duotone ki-cross-circle fs-2"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body py-3">
+        <div class="table-responsive">
+            <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
+                <thead>
+                    <tr class="fw-bolder text-muted">
+                        <th class="min-w-100px">Correlation ID</th>
+                        <th>Saga Tipi / Oyuncu</th>
+                        <th>Durum</th>
+                        <th>Zaman Akışı</th>
+                        <th class="min-w-150px text-end">Hata Detayı</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        var badgeColor = item.CurrentState switch
+                        {
+                            "Completed" => "success",
+                            "Failed" => "danger",
+                            _ => "warning"
+                        };
+
+                        <tr style="cursor: pointer" onclick="location.href='@Url.Action("Detail", new { id = item.CorrelationId })'" class="hover-elevate-up">
+                            <td>
+                                <span class="badge badge-light-primary fw-bolder fs-8">@item.CorrelationId.ToString().Substring(0, 8)...</span>
+                            </td>
+                            <td>
+                                <div class="d-flex flex-column">
+                                    <span class="text-dark fw-bolder fs-6">@item.SagaType</span>
+                                    <span class="text-muted fw-bold fs-8">Oyuncu: @item.PlayerId.ToString().Substring(0, 8)...</span>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge badge-light-@badgeColor py-2 px-4 shadow-sm">
+                                    <i class="ki-duotone ki-@(badgeColor == "success" ? "check" : (badgeColor == "danger" ? "cross" : "loading")) fs-5 text-@badgeColor me-1"></i> @item.CurrentState
+                                </span>
+                            </td>
+                            <td>
+                                <div class="d-flex flex-column">
+                                    <span class="text-muted fw-bold fs-7">Baş: @item.CreatedAt.ToLocalTime().ToString("t")</span>
+                                    @if (item.CompletedAt.HasValue)
+                                    {
+                                        <span class="text-success fw-bold fs-8">Bit: @item.CompletedAt.Value.ToLocalTime().ToString("t")</span>
+                                    }
+                                </div>
+                            </td>
+                            <td class="text-end">
+                                @if (!string.IsNullOrEmpty(item.FailReason))
+                                {
+                                    <span class="text-danger fw-bold fs-8" data-bs-toggle="tooltip" title="@item.FailReason">
+                                        @(item.FailReason.Length > 30 ? item.FailReason.Substring(0, 27) + "..." : item.FailReason)
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted fs-8">Detay yok</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.forEach(function (el) {
+                new bootstrap.Tooltip(el);
+            });
+        });
+    </script>
+}

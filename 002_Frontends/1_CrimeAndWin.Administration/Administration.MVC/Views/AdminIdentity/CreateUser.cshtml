@@ -1,4 +1,4 @@
-﻿@model CreateAppUserVM
+@model CreateAppUserVM
 
 @{
     Layout = "_AdminLayout";
@@ -19,18 +19,19 @@
               asp-controller="AdminIdentity"
               method="post">
             @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-5"></div>
 
             <div class="row g-3">
                 <div class="col-md-6">
                     <label class="form-label">Kullanıcı Adı</label>
                     <input asp-for="UserName" class="form-control" />
-                    <span asp-validation-for="UserName" class="text-danger"></span>
+                    <span asp-validation-for="UserName" class="invalid-feedback d-block"></span>
                 </div>
 
                 <div class="col-md-6">
                     <label class="form-label">Email</label>
                     <input asp-for="Email" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
+                    <span asp-validation-for="Email" class="invalid-feedback d-block"></span>
                 </div>
 
                 <div class="col-md-6"> 
@@ -42,7 +43,7 @@
                 <div class="col-md-6">
                     <label class="form-label">Telefon</label>
                     <input asp-for="PhoneNumber" class="form-control" />
-                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    <span asp-validation-for="PhoneNumber" class="invalid-feedback d-block"></span>
                 </div>
 
                 <div class="col-md-6 form-check mt-3">

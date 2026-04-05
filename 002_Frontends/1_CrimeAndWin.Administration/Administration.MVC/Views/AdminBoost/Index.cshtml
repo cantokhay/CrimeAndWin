@@ -1,113 +1,166 @@
 @model List<ActiveBoostDto>
-@{ ViewData["Title"] = "Aktif Item Boost'ları"; }
 
-<!--begin::Toolbar-->
-<div class="toolbar py-5 py-lg-15" id="kt_toolbar">
-    <div id="kt_toolbar_container" class="container-xxl d-flex flex-stack flex-wrap">
-        <div class="page-title d-flex flex-column me-3">
-            <h1 class="d-flex text-white fw-bolder my-1 fs-3">Aktif Item Boost'ları</h1>
-            <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
-                <li class="breadcrumb-item text-white opacity-75">
-                    <a asp-controller="AdminHome" asp-action="Index" class="text-white opacity-75 text-hover-primary">Ana Sayfa</a>
-                </li>
-                <li class="breadcrumb-item"><span class="bullet bg-white opacity-75 w-5px h-2px"></span></li>
-                <li class="breadcrumb-item text-white opacity-75">Aktif Item Boost'ları</li>
-            </ul>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Aktif Item Boostları";
+}
+
+<div class="row mb-5 justify-content-center">
+    <div class="col-md-3">
+        <div class="card shadow-sm border-start border-primary border-4">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="symbol symbol-45px me-5">
+                        <span class="symbol-label bg-light-primary">
+                            <i class="ki-duotone ki-rocket fs-2x text-primary"></i>
+                        </span>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <span class="text-muted fw-bold">Aktif Boost</span>
+                        <span class="fs-2 fw-bold mb-0">@(Model?.Count ?? 0)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm border-start border-danger border-4">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="symbol symbol-45px me-5">
+                        <span class="symbol-label bg-light-danger">
+                            <i class="ki-duotone ki-time fs-2x text-danger"></i>
+                        </span>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <span class="text-muted fw-bold">Bitecek ( < 1 Dakika )</span>
+                        <span class="fs-2 fw-bold mb-0 text-danger">
+                            @(Model?.Count(x => (x.BoostExpiresAt - DateTime.UtcNow).TotalSeconds < 60) ?? 0)
+                        </span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-<!--end::Toolbar-->
 
-<!--begin::Post-->
-<div class="post d-flex flex-column-fluid" id="kt_post">
-    <div id="kt_content_container" class="container-xxl">
-
-        @if (TempData["Success"] != null)
-        {
-            <div class="alert alert-dismissible bg-light-success d-flex flex-column flex-sm-row p-5 mb-10">
-                <span class="svg-icon svg-icon-2hx svg-icon-success me-4 mb-5 mb-sm-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path opacity="0.3" d="M20.5543 4.37824L12.1798 2.02473C12.0626 1.99176 11.9376 1.99176 11.8203 2.02473L3.44572 4.37824C3.18118 4.45258 3 4.6807 3 4.93945V13.569C3 14.6914 3.48509 15.8404 4.4417 16.984C5.17231 17.8575 6.18314 18.7345 7.446 19.5909C9.56752 21.0295 11.6566 21.912 11.7445 21.9488C11.8258 21.9829 11.9129 22 12.0001 22C12.0872 22 12.1744 21.983 12.2557 21.9488C12.3435 21.912 14.4326 21.0295 16.5541 19.5909C17.8169 18.7345 18.8277 17.8575 19.5584 16.984C20.515 15.8404 21 14.6914 21 13.569V4.93945C21 4.6807 20.8189 4.45258 20.5543 4.37824Z" fill="currentColor"></path>
-                        <path d="M10.5606 11.3042L9.57283 10.3018C9.28174 10.0065 8.80522 10.0065 8.51412 10.3018C8.22897 10.5912 8.22897 11.0559 8.51412 11.3452L10.4182 13.2773C10.8099 13.6747 11.451 13.6673 11.8356 13.2633L15.4636 9.46757C15.761 9.15582 15.7486 8.66314 15.4361 8.36866C15.1235 8.07419 14.6305 8.08674 14.3331 8.3985L10.5606 11.3042Z" fill="currentColor"></path>
-                    </svg>
-                </span>
-                <div class="d-flex flex-column text-success pe-0 pe-sm-10">
-                    <span>@TempData["Success"]</span>
-                </div>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        }
-
+<div class="card mb-5 mb-xl-8">
+    <div class="card-header border-0 pt-5">
+        <h3 class="card-title align-items-start flex-column">
+            <span class="card-label fw-bolder fs-3 mb-1">Aktif Item Boostları</span>
+            <span class="text-muted mt-1 fw-bold fs-7">Oyuncuların kullandığı aktif güçlendiriciler</span>
+        </h3>
+    </div>
+    <div class="card-body py-3">
         @if (Model == null || !Model.Any())
         {
-            <div class="alert alert-dismissible bg-light-info d-flex flex-column flex-sm-row p-5 mb-10">
-                <span class="svg-icon svg-icon-2hx svg-icon-info me-4 mb-5 mb-sm-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="10" fill="currentColor"></rect>
-                        <rect x="11" y="14" width="7" height="2" rx="1" transform="rotate(-90 11 14)" fill="currentColor"></rect>
-                        <rect x="11" y="17" width="2" height="2" rx="1" transform="rotate(-90 11 17)" fill="currentColor"></rect>
-                    </svg>
-                </span>
-                <div class="d-flex flex-column text-info pe-0 pe-sm-10">
-                    <span>Aktif boost bulunmuyor.</span>
+            <div class="notice d-flex bg-light-info rounded border-info border border-dashed p-6">
+                <i class="ki-duotone ki-information-5 fs-2tx text-info me-4"></i>
+                <div class="d-flex flex-stack flex-grow-1">
+                    <div class="fw-bold">
+                        <h4 class="text-gray-900 fw-bolder">Boost Kaydı Yok</h4>
+                        <div class="fs-6 text-gray-700">Şu an sistemde aktif olarak kullanılan bir boost bulunmamaktadır.</div>
+                    </div>
                 </div>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         }
         else
         {
-            <!--begin::Card-->
-            <div class="card card-flush">
-                <div class="card-header align-items-center py-5 gap-2 gap-md-5">
-                    <div class="card-title">
-                        <h2 class="fw-bolder">Aktif Item Boost'ları</h2>
-                    </div>
-                    <div class="card-toolbar">
-                    </div>
-                </div>
-                <div class="card-body pt-0">
-                    <div class="table-responsive">
-                        <table class="table align-middle table-row-dashed fs-6 gy-5 table-hover">
-                            <thead>
-                                <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
-                                    <th>Oyuncu Adı</th>
-                                    <th>Boost Item</th>
-                                    <th>Bitiş Zamanı</th>
-                                    <th>Kalan Süre</th>
-                                    <th>İşlem</th>
-                                </tr>
-                            </thead>
-                            <tbody class="fw-bold text-gray-600">
-                                @foreach (var item in Model)
-                                {
-                                    var remaining = (item.BoostExpiresAt - DateTime.UtcNow).TotalSeconds;
-                                    if (remaining < 0) remaining = 0;
-                                    <tr>
-                                        <td>@item.PlayerName <br/><small class="text-muted">@item.PlayerId</small></td>
-                                        <td><span class="badge badge-light-primary fs-7 fw-bolder">@item.BoostItem</span></td>
-                                        <td>@item.BoostExpiresAt.ToLocalTime().ToString("g")</td>
-                                        <td>
-                                            @{
-                                                var minutes = (int)remaining / 60;
-                                                var seconds = (int)remaining % 60;
-                                                var badgeClass = remaining < 60 ? "badge-light-warning" : "badge-light-success";
-                                            }
-                                            <span class="badge @badgeClass fs-7 fw-bolder">@minutes.ToString("D2"):@seconds.ToString("D2")</span>
-                                        </td>
-                                        <td>
-                                            <form asp-action="Revoke" method="post" onsubmit="return confirm('Boostu iptal etmek istediğinizden emin misiniz?')">
-                                                <input type="hidden" name="playerId" value="@item.PlayerId" />
-                                                <button type="submit" class="btn btn-sm btn-light-danger fw-bolder">İptal Et</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+            <div class="table-responsive">
+                <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
+                    <thead>
+                        <tr class="fw-bolder text-muted">
+                            <th class="min-w-150px">Oyuncu Bilgisi</th>
+                            <th>Boost Item / Tip</th>
+                            <th>Bitiş Zamanı (Yerel)</th>
+                            <th>Kalan Süre</th>
+                            <th class="min-w-100px text-end">İşlem</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            var remainingSeconds = (item.BoostExpiresAt - DateTime.UtcNow).TotalSeconds;
+                            if (remainingSeconds < 0) remainingSeconds = 0;
+                            
+                            <tr>
+                                <td>
+                                    <div class="d-flex flex-column">
+                                        <span class="text-dark fw-bolder text-hover-primary fs-6">@item.PlayerName</span>
+                                        <span class="text-muted fw-bold fs-7">@item.PlayerId.ToString().Substring(0, 8)...</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="badge badge-light-primary fw-bold px-3 py-2">
+                                        <i class="ki-duotone ki-abstract-26 fs-6 text-primary me-2"></i> @item.BoostItem
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="text-muted fw-bold d-block fs-7">@item.BoostExpiresAt.ToLocalTime().ToString("g")</span>
+                                </td>
+                                <td>
+                                    @{
+                                        var minutes = (int)remainingSeconds / 60;
+                                        var seconds = (int)remainingSeconds % 60;
+                                        var badgeColor = remainingSeconds < 60 ? "warning" : "success";
+                                    }
+                                    <span class="badge badge-light-@badgeColor fs-7 fw-bolder">
+                                        <i class="ki-duotone ki-watch fs-6 text-@badgeColor me-1"></i> @minutes.ToString("D2"):@seconds.ToString("D2")
+                                    </span>
+                                </td>
+                                <td class="text-end">
+                                    <button type="button" class="btn btn-sm btn-light-danger fw-bolder js-revoke-btn" 
+                                            data-id="@item.PlayerId" data-name="@item.PlayerName" data-item="@item.BoostItem">
+                                        <i class="ki-duotone ki-cross-circle fs-3 me-1"></i> İptal Et
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
-            <!--end::Card-->
         }
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).on('click', '.js-revoke-btn', function() {
+            const id = $(this).data('id');
+            const name = $(this).data('name');
+            const boost = $(this).data('item');
+
+            Swal.fire({
+                title: 'Boost İptal Edilsin mi?',
+                text: `${name} oyuncusunun ${boost} etkisini iptal etmek istediğinize emin misiniz?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Evet, İptal Et!',
+                cancelButtonText: 'Vazgeç',
+                customClass: {
+                    confirmButton: "btn btn-danger",
+                    cancelButton: "btn btn-active-light"
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/AdminBoost/Revoke',
+                        type: 'POST',
+                        data: {
+                            playerId: id,
+                            __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                        },
+                        success: function(res) {
+                            if (res.success) {
+                                Swal.fire('İptal Edildi!', 'Boost etkisi kaldırıldı.', 'success').then(() => location.reload());
+                            } else {
+                                Swal.fire('Hata!', 'İşlem sırasında bir hata oluştu.', 'error');
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

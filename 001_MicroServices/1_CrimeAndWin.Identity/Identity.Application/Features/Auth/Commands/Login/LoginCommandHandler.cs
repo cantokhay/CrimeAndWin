@@ -1,10 +1,9 @@
-using Identity.Application.DTOs.AuthDTOs;
+ï»¿using Identity.Application.DTOs.AuthDTOs;
 using Identity.Application.Features.Auth.Abstract;
 using Identity.Domain.Entities;
 using Shared.Application.Abstractions.Messaging;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-
 using Shared.Domain.Repository;
 
 namespace Identity.Application.Features.Auth.Commands.Login
@@ -39,7 +38,6 @@ namespace Identity.Application.Features.Auth.Commands.Login
 
         public async Task<ResultAuthDTO> Handle(LoginCommand request, CancellationToken ct)
         {
-            // 1) Kullanýcýyý bul
             var norm = request.UserNameOrEmail.Trim().ToUpperInvariant();
 
             var user = await _usersRead
@@ -47,15 +45,19 @@ namespace Identity.Application.Features.Auth.Commands.Login
                 .FirstOrDefaultAsync(ct);
 
             if (user is null)
-                throw new UnauthorizedAccessException("Kullanýcý adý/e-posta veya þifre hatalý.");
+                throw new UnauthorizedAccessException("KullanÄ±cÄ± adÄ±/e-posta veya ÅŸifre hatalÄ±.");
 
-            // 2) Þifre doðrulama
+            if (!user.EmailConfirmed)
+                throw new UnauthorizedAccessException("E-posta adresiniz henÃ¼z onaylanmamÄ±ÅŸ. LÃ¼tfen gelen kutunuzu kontrol edin.");
+
+            if (!user.IsApproved)
+                throw new UnauthorizedAccessException("HesabÄ±nÄ±z henÃ¼z bir yÃ¶netici tarafÄ±ndan onaylanmamÄ±ÅŸ.");
+
             var hasher = new PasswordHasher<AppUser>();
             var verify = hasher.VerifyHashedPassword(user, user.PasswordHash, request.Password);
             if (verify == PasswordVerificationResult.Failed)
-                throw new UnauthorizedAccessException("Kullanýcý adý/e-posta veya þifre hatalý.");
+                throw new UnauthorizedAccessException("KullanÄ±cÄ± adÄ±/e-posta veya ÅŸifre hatalÄ±.");
 
-            // 3) Roller
             var roleIds = await _userRolesRead
                 .GetWhere(ur => ur.UserId == user.Id, tracking: false)
                 .Select(ur => ur.RoleId)
@@ -66,7 +68,6 @@ namespace Identity.Application.Features.Auth.Commands.Login
                 .Select(r => r.Name)
                 .ToListAsync(ct);
 
-            // 4) Claims (user + role)
             var userClaims = await _userClaimsRead
                 .GetWhere(c => c.UserId == user.Id, tracking: false)
                 .Select(c => new KeyValuePair<string, string>(c.ClaimType, c.ClaimValue))
@@ -79,17 +80,15 @@ namespace Identity.Application.Features.Auth.Commands.Login
 
             var allClaims = userClaims.Concat(roleClaimPairs).ToList();
 
-            // 5) Token üret
             var (accessToken, expiresAtUtc) = _jwt.Generate(user, roles, allClaims);
             var refreshTokenValue = _jwt.GenerateRefreshToken();
 
-            // 6) RefreshToken kaydet
             var refresh = new Domain.Entities.RefreshToken
             {
                 Id = Guid.NewGuid(),
                 UserId = user.Id,
                 Token = refreshTokenValue,
-                ExpiresAtUtc = DateTime.UtcNow.AddDays(7), // JwtOptions.RefreshTokenDays kullanýlabilir
+                ExpiresAtUtc = DateTime.UtcNow.AddDays(7),
                 CreatedAtUtc = DateTime.UtcNow,
                 IsDeleted = false
             };
@@ -109,5 +108,3 @@ namespace Identity.Application.Features.Auth.Commands.Login
         }
     }
 }
-
-

@@ -1,90 +1,116 @@
 @model List<CooldownDto>
-@{ ViewData["Title"] = "Aktif Cooldown'lar"; }
 
-<!--begin::Toolbar-->
-<div class="toolbar py-5 py-lg-15" id="kt_toolbar">
-    <div id="kt_toolbar_container" class="container-xxl d-flex flex-stack flex-wrap">
-        <div class="page-title d-flex flex-column me-3">
-            <h1 class="d-flex text-white fw-bolder my-1 fs-3">Aktif Cooldown'lar</h1>
-            <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
-                <li class="breadcrumb-item text-white opacity-75">
-                    <a asp-controller="AdminHome" asp-action="Index" class="text-white opacity-75 text-hover-primary">Ana Sayfa</a>
-                </li>
-                <li class="breadcrumb-item"><span class="bullet bg-white opacity-75 w-5px h-2px"></span></li>
-                <li class="breadcrumb-item text-white opacity-75">Aktif Cooldown'lar</li>
-            </ul>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Aktif Bekleme Süreleri (Cooldowns)";
+}
+
+<div class="row mb-5 justify-content-center">
+    <div class="col-md-3">
+        <div class="card shadow-sm border-start border-primary border-4">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="symbol symbol-45px me-5">
+                        <span class="symbol-label bg-light-primary">
+                            <i class="ki-duotone ki-timer fs-2x text-primary"></i>
+                        </span>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <span class="text-muted fw-bold">Aktif Cooldown</span>
+                        <span class="fs-2 fw-bold mb-0">@(Model?.Count ?? 0)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm border-start border-warning border-4">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="symbol symbol-45px me-5">
+                        <span class="symbol-label bg-light-warning">
+                            <i class="ki-duotone ki-time fs-2x text-warning"></i>
+                        </span>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <span class="text-muted fw-bold">Kritik ( < 1 Dakika )</span>
+                        <span class="fs-2 fw-bold mb-0 text-warning">
+                            @(Model?.Count(x => (x.CooldownEndsAt - DateTime.UtcNow).TotalSeconds < 60) ?? 0)
+                        </span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-<!--end::Toolbar-->
 
-<!--begin::Post-->
-<div class="post d-flex flex-column-fluid" id="kt_post">
-    <div id="kt_content_container" class="container-xxl">
-
+<div class="card mb-5 mb-xl-8">
+    <div class="card-header border-0 pt-5">
+        <h3 class="card-title align-items-start flex-column">
+            <span class="card-label fw-bolder fs-3 mb-1">Aktif Bekleme Süreleri</span>
+            <span class="text-muted mt-1 fw-bold fs-7">Oyuncuların aksiyon yapmasını engelleyen aktif süreler</span>
+        </h3>
+    </div>
+    <div class="card-body py-3">
         @if (Model == null || !Model.Any())
         {
-            <div class="alert alert-dismissible bg-light-info d-flex flex-column flex-sm-row p-5 mb-10">
-                <span class="svg-icon svg-icon-2hx svg-icon-info me-4 mb-5 mb-sm-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="10" fill="currentColor"></rect>
-                        <rect x="11" y="14" width="7" height="2" rx="1" transform="rotate(-90 11 14)" fill="currentColor"></rect>
-                        <rect x="11" y="17" width="2" height="2" rx="1" transform="rotate(-90 11 17)" fill="currentColor"></rect>
-                    </svg>
-                </span>
-                <div class="d-flex flex-column text-info pe-0 pe-sm-10">
-                    <span>Şu an aktif cooldown bulunmuyor.</span>
+            <div class="notice d-flex bg-light-info rounded border-info border border-dashed p-6">
+                <i class="ki-duotone ki-information-5 fs-2tx text-info me-4"></i>
+                <div class="d-flex flex-stack flex-grow-1">
+                    <div class="fw-bold">
+                        <h4 class="text-gray-900 fw-bolder">Kayıt Bulunamadı</h4>
+                        <div class="fs-6 text-gray-700">Şu an sistemde bekleyen (cooldown) oyuncu bulunmamaktadır.</div>
+                    </div>
                 </div>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         }
         else
         {
-            <!--begin::Card-->
-            <div class="card card-flush">
-                <div class="card-header align-items-center py-5 gap-2 gap-md-5">
-                    <div class="card-title">
-                        <h2 class="fw-bolder">Aktif Cooldown'lar</h2>
-                    </div>
-                    <div class="card-toolbar">
-                    </div>
-                </div>
-                <div class="card-body pt-0">
-                    <div class="table-responsive">
-                        <table class="table align-middle table-row-dashed fs-6 gy-5">
-                            <thead>
-                                <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
-                                    <th>Oyuncu Adı</th>
-                                    <th>Aksiyon Tipi</th>
-                                    <th>Bitiş Zamanı</th>
-                                    <th>Kalan Süre</th>
-                                </tr>
-                            </thead>
-                            <tbody class="fw-bold text-gray-600">
-                                @foreach (var item in Model)
-                                {
-                                    var remaining = (item.CooldownEndsAt - DateTime.UtcNow).TotalSeconds;
-                                    if (remaining < 0) remaining = 0;
-                                    <tr>
-                                        <td>@item.PlayerName <br/><small class="text-muted">@item.PlayerId</small></td>
-                                        <td>@item.ActionType</td>
-                                        <td>@item.CooldownEndsAt.ToLocalTime().ToString("g")</td>
-                                        <td>
-                                            @{
-                                                var minutes = (int)remaining / 60;
-                                                var seconds = (int)remaining % 60;
-                                                var badgeClass = remaining < 60 ? "badge-light-warning" : "badge-light-primary";
-                                            }
-                                            <span class="badge @badgeClass fs-7 fw-bolder">@minutes.ToString("D2"):@seconds.ToString("D2")</span>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+            <div class="table-responsive">
+                <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
+                    <thead>
+                        <tr class="fw-bolder text-muted">
+                            <th class="min-w-150px">Oyuncu Bilgisi</th>
+                            <th>Aksiyon Tipi</th>
+                            <th>Bitiş Zamanı (Yerel)</th>
+                            <th class="min-w-100px text-end">Kalan Süre</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            var remainingSeconds = (item.CooldownEndsAt - DateTime.UtcNow).TotalSeconds;
+                            if (remainingSeconds < 0) remainingSeconds = 0;
+                            
+                            <tr>
+                                <td>
+                                    <div class="d-flex flex-column">
+                                        <span class="text-dark fw-bolder text-hover-primary fs-6">@item.PlayerName</span>
+                                        <span class="text-muted fw-bold fs-7">@item.PlayerId.ToString().Substring(0, 8)...</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="badge badge-light-info fw-bold">@item.ActionType</span>
+                                </td>
+                                <td>
+                                    <span class="text-muted fw-bold d-block fs-7">@item.CooldownEndsAt.ToLocalTime().ToString("g")</span>
+                                </td>
+                                <td class="text-end">
+                                    @{
+                                        var minutes = (int)remainingSeconds / 60;
+                                        var seconds = (int)remainingSeconds % 60;
+                                        var badgeColor = remainingSeconds < 60 ? "warning" : "primary";
+                                    }
+                                    <span class="badge badge-light-@badgeColor fs-7 fw-bolder">
+                                        <i class="ki-duotone ki-watch fs-6 text-@badgeColor me-1"></i> @minutes.ToString("D2"):@seconds.ToString("D2")
+                                    </span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
-            <!--end::Card-->
         }
     </div>
 </div>

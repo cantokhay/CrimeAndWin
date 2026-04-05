@@ -22,6 +22,9 @@ namespace Identity.Domain.Entities
         public bool LockoutEnabled { get; set; }
         public int AccessFailedCount { get; set; }
 
+        public bool IsApproved { get; set; } // Admin onayı
+        public string? ActivationToken { get; set; } // Mail aktivasyonu için token
+
         public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
         public ICollection<UserClaim> Claims { get; set; } = new List<UserClaim>();
         public ICollection<UserLogin> Logins { get; set; } = new List<UserLogin>();

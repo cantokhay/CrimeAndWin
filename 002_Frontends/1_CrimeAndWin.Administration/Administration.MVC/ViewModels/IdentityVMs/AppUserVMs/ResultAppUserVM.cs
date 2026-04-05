@@ -1,4 +1,4 @@
-﻿namespace Administration.MVC.ViewModels.IdentityVMs.AppUserVMs
+namespace Administration.MVC.ViewModels.IdentityVMs.AppUserVMs
 {
     public class ResultAppUserVM
     {
@@ -19,5 +19,6 @@
         public bool LockoutEnabled { get; set; }
         public DateTimeOffset? LockoutEnd { get; set; }
         public int AccessFailedCount { get; set; }
+        public bool IsApproved { get; set; }
     }
 }

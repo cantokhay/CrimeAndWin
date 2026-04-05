@@ -1,4 +1,4 @@
-﻿using Administration.MVC.ViewModels.IdentityVMs.AppUserVMs;
+using Administration.MVC.ViewModels.IdentityVMs.AppUserVMs;
 using Administration.MVC.ViewModels.IdentityVMs.RoleVMs;
 using Administration.MVC.ViewModels.IdentityVMs.UserRoleVMs;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +7,7 @@ using Microsoft.CodeAnalysis.Elfie.Extensions;
 
 namespace Administration.MVC.Controllers
 {
-    public class AdminIdentityController : Controller
+    public class AdminIdentityController : BaseAdminController
     {
         private readonly HttpClient _identityClient;
 
@@ -60,7 +60,7 @@ namespace Administration.MVC.Controllers
 
             if (!response.IsSuccessStatusCode)
             {
-                ModelState.AddModelError(string.Empty, "Kullanıcı oluşturulurken bir hata oluştu.");
+                await HandleApiErrorsAsync(response);
                 return View(model);
             }
 
@@ -98,7 +98,7 @@ namespace Administration.MVC.Controllers
 
             if (!response.IsSuccessStatusCode)
             {
-                ModelState.AddModelError(string.Empty, "Kullanıcı güncellenirken bir hata oluştu.");
+                await HandleApiErrorsAsync(response);
                 return View(model);
             }
 
@@ -120,6 +120,33 @@ namespace Administration.MVC.Controllers
             }
 
             return Json(new { success = true });
+        }
+
+        // -----------------------
+        // APP USER APPROVALS
+        // -----------------------
+        [HttpGet]
+        public async Task<IActionResult> UserApprovals()
+        {
+            var allUsers = await _identityClient
+                .GetFromJsonAsync<List<ResultAppUserVM>>("GetAllAppUsers")
+                ?? new List<ResultAppUserVM>();
+
+            // Filtrleme: Email confirmed == true ve IsApproved == false olanları göster
+            var pendingApprovals = allUsers
+                .Where(u => u.EmailConfirmed && !u.IsApproved)
+                .ToList();
+
+            return View(pendingApprovals);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ApproveUser(Guid id)
+        {
+            var response = await _identityClient.PostAsync($"ApproveUser/{id}", null);
+
+            return Json(new { success = response.IsSuccessStatusCode });
         }
 
         #endregion

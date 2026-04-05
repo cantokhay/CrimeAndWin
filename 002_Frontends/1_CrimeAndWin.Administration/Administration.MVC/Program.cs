@@ -77,7 +77,9 @@ if (builder.Environment.IsDevelopment())
 }
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(opt => {
+    opt.Filters.Add<Administration.MVC.Filters.AdminExceptionFilter>();
+});
 
 var app = builder.Build();
 

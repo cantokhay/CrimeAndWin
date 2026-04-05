@@ -1,104 +1,131 @@
 @model List<ServiceHealthDto>
-@{ ViewData["Title"] = "Servis Sağlık Durumu"; }
 
-<!--begin::Toolbar-->
-<div class="toolbar py-5 py-lg-15" id="kt_toolbar">
-    <div id="kt_toolbar_container" class="container-xxl d-flex flex-stack flex-wrap">
-        <div class="page-title d-flex flex-column me-3">
-            <h1 class="d-flex text-white fw-bolder my-1 fs-3">Servis Sağlık Durumu</h1>
-            <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
-                <li class="breadcrumb-item text-white opacity-75">
-                    <a asp-controller="AdminHome" asp-action="Index" class="text-white opacity-75 text-hover-primary">Ana Sayfa</a>
-                </li>
-                <li class="breadcrumb-item"><span class="bullet bg-white opacity-75 w-5px h-2px"></span></li>
-                <li class="breadcrumb-item text-white opacity-75">Servis Sağlığı</li>
-            </ul>
-        </div>
-    </div>
-</div>
-<!--end::Toolbar-->
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Sistem Sağlık İzleme";
+    var healthyCount = Model.Count(x => x.IsHealthy);
+    var totalCount = Model.Count;
+}
 
-<!--begin::Post-->
-<div class="post d-flex flex-column-fluid" id="kt_post">
-    <div id="kt_content_container" class="container-xxl">
-        <!--begin::Card-->
-        <div class="card card-flush">
-            <div class="card-header align-items-center py-5 gap-2 gap-md-5">
-                <div class="card-title">
-                    <h2 class="fw-bolder">Servis Sağlık Durumu</h2>
-                </div>
-                <!--begin::Card toolbar-->
-                <div class="card-toolbar">
-                    <!-- "X / 11 servis çalışıyor" summary area requested in B5.7 -->
-                    <div class="d-flex align-items-center me-4">
-                        <span class="fs-6 fw-bold text-gray-600">@(Model.Count(x => x.IsHealthy)) / @Model.Count() servis çalışıyor</span>
+<div class="row mb-5 justify-content-center">
+    <div class="col-md-3">
+        <div class="card shadow-sm border-start border-success border-4">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="symbol symbol-45px me-5">
+                        <span class="symbol-label bg-light-success">
+                            <i class="ki-duotone ki-check-circle fs-2x text-success"></i>
+                        </span>
                     </div>
-                    <a asp-action="Index" class="btn btn-primary btn-sm">Yenile</a>
-                </div>
-            </div>
-            <div class="card-body pt-0">
-                <div class="table-responsive">
-                    <table class="table align-middle table-row-dashed fs-6 gy-5 table-hover">
-                        <thead>
-                            <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
-                                <th>Servis Adı</th>
-                                <th>Durum</th>
-                                <th>Son Kontrol</th>
-                                <th>Hata Detayı</th>
-                            </tr>
-                        </thead>
-                        <tbody class="fw-bold text-gray-600">
-                            @foreach (var item in Model)
-                            {
-                                var rowClass = item.IsHealthy ? "" : "table-danger";
-                                <tr class="@rowClass">
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <span class="svg-icon svg-icon-2hx me-3 @(item.IsHealthy ? "svg-icon-success" : "svg-icon-danger")">
-                                                @if(item.IsHealthy) {
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                                        <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="10" fill="currentColor"></rect>
-                                                        <path d="M10.4343 12.4343L8.75 10.75C8.33579 10.3358 7.66421 10.3358 7.25 10.75C6.83579 11.1642 6.83579 11.8358 7.25 12.25L10.2929 15.2929C10.6834 15.6834 11.3166 15.6834 11.7071 15.2929L17.25 9.75C17.6642 9.33579 17.6642 8.66421 17.25 8.25C16.8358 7.83579 16.1642 7.83579 15.75 8.25L11.5657 12.4343C11.2533 12.7467 10.7467 12.7467 10.4343 12.4343Z" fill="currentColor"></path>
-                                                    </svg>
-                                                } else {
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                                        <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="10" fill="currentColor"></rect>
-                                                        <rect x="11" y="14" width="7" height="2" rx="1" transform="rotate(-90 11 14)" fill="currentColor"></rect>
-                                                        <rect x="11" y="17" width="2" height="2" rx="1" transform="rotate(-90 11 17)" fill="currentColor"></rect>
-                                                    </svg>
-                                                }
-                                            </span>
-                                            <span class="fw-bolder fs-6 text-gray-800">@item.ServiceName</span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        @if (item.IsHealthy)
-                                        {
-                                            <span class="badge badge-light-success fs-7 fw-bolder">Sağlıklı</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge badge-light-danger fs-7 fw-bolder">Arızalı</span>
-                                        }
-                                    </td>
-                                    <td>@item.CheckedAt.ToLocalTime().ToString("g")</td>
-                                    <td>
-                                        @if (!item.IsHealthy)
-                                        {
-                                            <span class="text-danger fw-bolder">@item.ErrorMessage</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-muted">-</span>
-                                        }
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                    <div class="d-flex flex-column">
+                        <span class="text-muted fw-bold">Çalışan Servisler</span>
+                        <span class="fs-2 fw-bold mb-0 text-success">@healthyCount / @totalCount</span>
+                    </div>
                 </div>
             </div>
         </div>
-        <!--end::Card-->
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm border-start border-danger border-4">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="symbol symbol-45px me-5">
+                        <span class="symbol-label bg-light-danger">
+                            <i class="ki-duotone ki-cross-circle fs-2x text-danger"></i>
+                        </span>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <span class="text-muted fw-bold">Hatalı Servisler</span>
+                        <span class="fs-2 fw-bold mb-0 text-danger">@(totalCount - healthyCount)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+<div class="card mb-5 mb-xl-8">
+    <div class="card-header border-0 pt-5">
+        <h3 class="card-title align-items-start flex-column">
+            <span class="card-label fw-bolder fs-3 mb-1">Servis Sağlık Durumları</span>
+            <span class="text-muted mt-1 fw-bold fs-7">Mikroservis mimarisindeki tüm uç noktaların çalışma durumu</span>
+        </h3>
+        <div class="card-toolbar">
+            <a asp-action="Index" class="btn btn-sm btn-light-primary">
+                <i class="ki-duotone ki-arrows-loop fs-2"></i> Yenile
+            </a>
+        </div>
+    </div>
+    <div class="card-body py-3">
+        <div class="table-responsive">
+            <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
+                <thead>
+                    <tr class="fw-bolder text-muted">
+                        <th class="min-w-150px">Servis Adı</th>
+                        <th>Durum</th>
+                        <th>Son Kontrol</th>
+                        <th class="min-w-200px">Hata / Detay</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="symbol symbol-35px me-3">
+                                        <span class="symbol-label bg-light-@(item.IsHealthy ? "success" : "danger")">
+                                            <i class="ki-duotone ki-setting-2 fs-4 text-@(item.IsHealthy ? "success" : "danger")"></i>
+                                        </span>
+                                    </div>
+                                    <span class="text-dark fw-bolder fs-6">@item.ServiceName</span>
+                                </div>
+                            </td>
+                            <td>
+                                @if (item.IsHealthy)
+                                {
+                                    <span class="badge badge-light-success py-2 px-4 shadow-sm">
+                                        <i class="ki-duotone ki-check fs-5 text-success me-1"></i> Sağlıklı
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-light-danger py-2 px-4 shadow-sm">
+                                        <i class="ki-duotone ki-cross fs-5 text-danger me-1"></i> Arızalı
+                                    </span>
+                                }
+                            </td>
+                            <td>
+                                <span class="text-muted fw-bold d-block fs-7">@item.CheckedAt.ToLocalTime().ToString("g")</span>
+                            </td>
+                            <td>
+                                @if (!item.IsHealthy)
+                                {
+                                    <span class="text-danger fw-bold fs-7" data-bs-toggle="tooltip" title="@item.ErrorMessage">
+                                        @(item.ErrorMessage?.Length > 50 ? item.ErrorMessage.Substring(0, 47) + "..." : item.ErrorMessage)
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted fs-7 italic">Hata yok</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.forEach(function (el) {
+                new bootstrap.Tooltip(el);
+            });
+        });
+    </script>
+}

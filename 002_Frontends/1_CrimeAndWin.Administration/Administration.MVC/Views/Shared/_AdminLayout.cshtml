@@ -84,6 +84,24 @@
 
 	@await RenderSectionAsync("Scripts", required: false)
 
+    @if (TempData["Alert_Message"] != null)
+    {
+        <script>
+            // Sayfa yüklendiğinde SweetAlert göster
+            window.addEventListener('load', function () {
+                Swal.fire({
+                    title: "@TempData["Alert_Title"]",
+                    text: "@TempData["Alert_Message"]",
+                    icon: "@TempData["Alert_Type"]",
+                    buttonsStyling: false,
+                    confirmButtonText: "Tamam",
+                    customClass: {
+                        confirmButton: "btn btn-primary"
+                    }
+                });
+            });
+        </script>
+    }
 </body>
 <!--end::Body-->
 
