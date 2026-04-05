@@ -1,7 +1,8 @@
-﻿@model Administration.MVC.ViewModels.InventoryVMs.PlayerInventoryItemsVMs.PlayerInventoryItemsVM
+@model Administration.MVC.ViewModels.InventoryVMs.PlayerInventoryItemsVMs.PlayerInventoryItemsVM
 
 @{
     Layout = "_AdminLayout";
+    ViewData["Title"] = "Envanter Tarayıcı";
 }
 
 @Html.AntiForgeryToken()
@@ -9,17 +10,17 @@
 <div class="card mb-5">
     <div class="card-header border-0 pt-5">
         <h3 class="card-title align-items-start flex-column">
-            <span class="card-label fw-bolder fs-3 mb-1">Inventory Browser</span>
-            <span class="text-muted mt-1 fw-bold fs-7">Player → Inventory → Items</span>
+            <span class="card-label fw-bold fs-3 mb-1">Envanter Tarayıcı</span>
+            <span class="text-muted mt-1 fw-bold fs-7">Oyuncu ve envanter seçerek eşyaları yönetin</span>
         </h3>
     </div>
 
     <div class="card-body">
-        <div class="row g-3">
+        <div class="row g-5">
             <div class="col-md-6">
-                <label class="form-label">Player</label>
-                <select id="playerSelect" class="form-select">
-                    <option value="">-- Player seç --</option>
+                <label class="form-label fw-bold text-gray-700">Oyuncu Seçimi</label>
+                <select id="playerSelect" class="form-select form-select-solid" data-control="select2" data-placeholder="Oyuncu ara veya seç...">
+                    <option value="">-- Oyuncu seçin --</option>
                     @foreach (var p in Model.PlayerOptions)
                     {
                         <option value="@p.Value">@p.Text</option>
@@ -28,29 +29,28 @@
             </div>
 
             <div class="col-md-6">
-                <label class="form-label">Inventory</label>
-                <select id="inventorySelect" class="form-select" disabled>
-                    <option value="">-- Önce player seç --</option>
+                <label class="form-label fw-bold text-gray-700">Envanter Seçimi</label>
+                <select id="inventorySelect" class="form-select form-select-solid" disabled>
+                    <option value="">-- Önce oyuncu seçin --</option>
                 </select>
             </div>
         </div>
     </div>
 </div>
 
-<!--begin::Tables Widget 13-->
 <div class="card mb-5 mb-xl-8">
     <div class="card-header border-0 pt-5">
         <h3 class="card-title align-items-start flex-column">
-            <span class="card-label fw-bolder fs-3 mb-1">Items</span>
-            <span id="itemsCountText" class="text-muted mt-1 fw-bold fs-7">0 kayıt</span>
+            <span class="card-label fw-bold fs-3 mb-1">Eşyalar</span>
+            <span id="itemsCountText" class="text-muted mt-1 fw-bold fs-7">0 kayıt bulundu</span>
         </h3>
 
         <div class="card-toolbar">
             <a id="btnCreateItem"
                class="btn btn-sm btn-primary disabled"
                href="javascript:void(0)"
-               title="Önce Inventory seçmelisin">
-                Yeni Item
+               title="Önce envanter seçmelisiniz">
+                <i class="ki-duotone ki-plus fs-2 me-1"></i> Yeni Eşya Ekle
             </a>
         </div>
     </div>
@@ -59,20 +59,22 @@
         <div class="table-responsive">
             <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
                 <thead>
-                    <tr class="fw-bolder text-muted">
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Qty</th>
-                        <th>Stats</th>
-                        <th>Value</th>
-                        <th>Created</th>
-                        <th class="min-w-100px text-end">Actions</th>
+                    <tr class="fw-bold text-muted bg-light">
+                        <th class="ps-4 rounded-start">Eşya</th>
+                        <th>Miktar</th>
+                        <th>İstatistikler</th>
+                        <th>Değer</th>
+                        <th>Eklenme</th>
+                        <th class="min-w-100px text-end pe-4 rounded-end">İşlemler</th>
                     </tr>
                 </thead>
                 <tbody id="itemsTbody">
                     <tr>
-                        <td colspan="7" class="text-center text-muted py-6">
-                            Player ve Inventory seçince itemlar burada görünecek.
+                        <td colspan="6" class="text-center text-muted py-10">
+                            <div class="d-flex flex-column align-items-center">
+                                <i class="ki-duotone ki-search-list fs-3hx text-gray-400 mb-3"></i>
+                                <span>Lütfen bir oyuncu ve ardından envanter seçin.</span>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -80,7 +82,7 @@
         </div>
     </div>
 </div>
-<!--end::Tables Widget 13-->
+
 @section Scripts {
     <script>
         (function () {
@@ -93,17 +95,17 @@
             function setInfoRow(message) {
                 itemsTbody.innerHTML = `
                     <tr>
-                        <td colspan="7" class="text-center text-muted py-6">${message}</td>
+                        <td colspan="6" class="text-center text-muted py-10">${message}</td>
                     </tr>`;
-                itemsCountText.textContent = `0 kayıt`;
+                itemsCountText.textContent = `0 kayıt bulundu`;
             }
 
             function setErrorRow(message) {
                 itemsTbody.innerHTML = `
                     <tr>
-                        <td colspan="7" class="text-center text-danger py-6">${message}</td>
+                        <td colspan="6" class="text-center text-danger py-10">${message}</td>
                     </tr>`;
-                itemsCountText.textContent = `0 kayıt`;
+                itemsCountText.textContent = `0 kayıt bulundu`;
             }
 
             function escapeHtml(str) {
@@ -116,9 +118,6 @@
                     .replaceAll("'", '&#039;');
             }
 
-            // API currency number ya da string dönebilir.
-            // number: 1/2/3  => Gold/Gem/Credit
-            // string: "Gold" => Gold
             function currencyToText(currency) {
                 if (currency === null || currency === undefined) return '';
                 if (typeof currency === 'number') {
@@ -141,29 +140,14 @@
 
             async function safeFetchJson(url) {
                 const res = await fetch(url);
-
-                if (!res.ok) {
-                    let errText = '';
-                    try {
-                        const maybeJson = await res.json();
-                        errText = JSON.stringify(maybeJson);
-                    } catch {
-                        try {
-                            errText = await res.text();
-                        } catch {
-                            errText = `HTTP ${res.status}`;
-                        }
-                    }
-                    throw new Error(`HTTP ${res.status} - ${errText}`);
-                }
-
+                if (!res.ok) throw new Error(`Sunucu hatası: ${res.status}`);
                 return await res.json();
             }
 
             function resetCreateButton() {
                 btnCreateItem.classList.add('disabled');
                 btnCreateItem.href = 'javascript:void(0)';
-                btnCreateItem.setAttribute('title', 'Önce Inventory seçmelisin');
+                btnCreateItem.setAttribute('title', 'Önce envanter seçmelisiniz');
             }
 
             function enableCreateButton(inventoryId) {
@@ -173,50 +157,67 @@
             }
 
             function wireDeleteHandlers() {
-                document.querySelectorAll('.js-delete-item-form').forEach(form => {
-                    form.addEventListener('submit', async function (e) {
-                        e.preventDefault();
+                document.querySelectorAll('.js-delete-item-btn').forEach(btn => {
+                    btn.addEventListener('click', async function (e) {
+                        const id = this.dataset.id;
+                        const name = this.dataset.name;
 
-                        if (!confirm('Bu item kaydını silmek istediğinize emin misiniz?')) return;
-
-                        try {
-                            const formData = new FormData(this);
-
-                            const res = await fetch(`@Url.Action("DeleteItem", "AdminInventory")`, {
-                                method: 'POST',
-                                body: formData
-                            });
-
-                            const json = await res.json();
-
-                            if (!json.success) {
-                                alert('Silme sırasında hata oluştu.');
-                                return;
+                        Swal.fire({
+                            title: 'Eşyayı Sil?',
+                            text: `${name} eşyasını silmek istediğinize emin misiniz?`,
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonText: 'Evet, Sil!',
+                            cancelButtonText: 'Vazgeç',
+                            customClass: {
+                                confirmButton: "btn btn-danger",
+                                cancelButton: "btn btn-active-light"
                             }
+                        }).then(async (result) => {
+                            if (result.isConfirmed) {
+                                try {
+                                    const formData = new FormData();
+                                    formData.append('id', id);
+                                    formData.append('__RequestVerificationToken', document.querySelector('input[name="__RequestVerificationToken"]').value);
 
-                            // aynı inventory seçiliyken tekrar yükle
-                            inventorySelect.dispatchEvent(new Event('change'));
-                        } catch (err) {
-                            alert('Silme sırasında hata oluştu.');
-                        }
+                                    const res = await fetch(`@Url.Action("DeleteItem", "AdminInventory")`, {
+                                        method: 'POST',
+                                        body: formData
+                                    });
+
+                                    const json = await res.json();
+                                    if (json.success) {
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'Başarılı!',
+                                            text: 'Eşya envanterden silindi.',
+                                            timer: 1500,
+                                            showConfirmButton: false
+                                        }).then(() => {
+                                            inventorySelect.dispatchEvent(new Event('change'));
+                                        });
+                                    } else {
+                                        Swal.fire('Hata!', 'Silme işlemi başarısız oldu.', 'error');
+                                    }
+                                } catch (err) {
+                                    Swal.fire('Hata!', 'Sistemde bir hata oluştu.', 'error');
+                                }
+                            }
+                        });
                     });
                 });
             }
 
-            // =========================
-            // Player değişince inventory doldur
-            // =========================
             playerSelect.addEventListener('change', async function () {
                 const playerId = this.value;
-
                 resetCreateButton();
-
                 inventorySelect.disabled = true;
-                inventorySelect.innerHTML = `<option value="">-- Inventory yükleniyor... --</option>`;
-                setInfoRow('Inventory seçimi bekleniyor...');
+                inventorySelect.innerHTML = `<option value="">-- Envanterler yükleniyor... --</option>`;
+                setInfoRow('Oyuncu seçildi, envanter yükleniyor...');
 
                 if (!playerId) {
-                    inventorySelect.innerHTML = `<option value="">-- Önce player seç --</option>`;
+                    inventorySelect.innerHTML = `<option value="">-- Önce oyuncu seçin --</option>`;
+                    setInfoRow('Lütfen bir oyuncu seçin.');
                     return;
                 }
 
@@ -225,97 +226,77 @@
                     const list = await safeFetchJson(url);
 
                     if (!Array.isArray(list) || list.length === 0) {
-                        inventorySelect.innerHTML = `<option value="">-- Bu player için inventory yok --</option>`;
-                        inventorySelect.disabled = true;
-                        setInfoRow('Bu player için inventory bulunamadı.');
+                        inventorySelect.innerHTML = `<option value="">-- Envanter bulunamadı --</option>`;
+                        setInfoRow('Bu oyuncu için tanımlı bir envanter bulunamadı.');
                         return;
                     }
 
                     inventorySelect.innerHTML =
-                        `<option value="">-- Inventory seç --</option>` +
+                        `<option value="">-- Envanter seçin --</option>` +
                         list.map(x => `<option value="${escapeHtml(x.id)}">${escapeHtml(x.text)}</option>`).join('');
 
                     inventorySelect.disabled = false;
-                    setInfoRow('Inventory seçince itemlar yüklenecek...');
+                    setInfoRow('Envanter seçince eşyalar listelenecek.');
                 } catch (e) {
                     inventorySelect.innerHTML = `<option value="">-- Hata oluştu --</option>`;
-                    inventorySelect.disabled = true;
-                    setErrorRow(`Inventories yüklenirken hata oluştu: ${escapeHtml(e.message)}`);
+                    setErrorRow(`Hata: ${escapeHtml(e.message)}`);
                 }
             });
 
-            // =========================
-            // Inventory değişince itemları getir
-            // =========================
             inventorySelect.addEventListener('change', async function () {
                 const inventoryId = this.value;
-
                 resetCreateButton();
 
                 if (!inventoryId) {
-                    setInfoRow('Inventory seçimi bekleniyor...');
+                    setInfoRow('Lütfen bir envanter seçin.');
                     return;
                 }
 
                 enableCreateButton(inventoryId);
-                setInfoRow('Itemlar yükleniyor...');
+                setInfoRow('Eşyalar getiriliyor...');
 
                 try {
                     const url = `@Url.Action("GetItemsByInventory", "AdminInventory")?inventoryId=${encodeURIComponent(inventoryId)}`;
                     const items = await safeFetchJson(url);
 
                     if (!Array.isArray(items) || items.length === 0) {
-                        itemsTbody.innerHTML = `
-                            <tr>
-                                <td colspan="7" class="text-center text-muted py-6">
-                                    Bu inventory içinde item yok.
-                                </td>
-                            </tr>`;
-                        itemsCountText.textContent = `0 kayıt`;
+                        itemsTbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted py-10">Envanter boş.</td></tr>`;
+                        itemsCountText.textContent = `0 kayıt bulundu`;
                         return;
                     }
 
-                    itemsCountText.textContent = `${items.length} kayıt`;
-
-                    const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value ?? '';
+                    itemsCountText.textContent = `${items.length} kayıt bulundu`;
 
                     itemsTbody.innerHTML = items.map(it => {
-                        const stats = `Dmg: ${escapeHtml(it.damage)} / Def: ${escapeHtml(it.defense)} / Pow: ${escapeHtml(it.power)}`;
-                        const value = `${escapeHtml(it.amount)} (${escapeHtml(currencyToText(it.currencyText ?? it.currency))})`;
-
+                        const stats = `<span class="text-muted fs-8">S: <span class="text-danger fw-bold">${escapeHtml(it.damage)}</span> / Sav: <span class="text-success fw-bold">${escapeHtml(it.defense)}</span> / Güç: <span class="text-primary fw-bold">${escapeHtml(it.power)}</span></span>`;
+                        const value = `<span class="text-dark fw-bold fs-7">${escapeHtml(it.amount)} <small class="text-muted">(${escapeHtml(currencyToText(it.currencyText ?? it.currency))})</small></span>`;
                         const editUrl = `@Url.Action("EditItem", "AdminInventory")/${encodeURIComponent(it.id)}`;
 
                         return `
                             <tr>
-                                <td>${escapeHtml(it.id)}</td>
-                                <td>${escapeHtml(it.name)}</td>
-                                <td><span class="badge bg-info">${escapeHtml(it.quantity)}</span></td>
+                                <td class="ps-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="symbol symbol-30px me-3">
+                                            <span class="symbol-label bg-light-primary text-primary fw-bold fs-8">${it.name[0]}</span>
+                                        </div>
+                                        <div class="d-flex flex-column">
+                                            <span class="text-dark fw-bold mb-1 fs-6">${escapeHtml(it.name)}</span>
+                                            <span class="text-muted fs-9">${escapeHtml(it.id.substring(0,8))}</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="badge badge-light-info fw-bold">${escapeHtml(it.quantity)}</span></td>
                                 <td>${stats}</td>
                                 <td>${value}</td>
-                                <td>${escapeHtml(formatDate(it.createdAtUtc))}</td>
-                                <td class="text-end">
-                                    <a href="${editUrl}" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1" title="Düzenle">
-                                        <span class="svg-icon svg-icon-3">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                                <path opacity="0.3" d="M21.4 8.35303L19.241 10.511L13.485 4.755L15.643 2.59595C16.0248 2.21423 16.5426 1.99988 17.0825 1.99988C17.6224 1.99988 18.1402 2.21423 18.522 2.59595L21.4 5.474C21.7817 5.85581 21.9962 6.37355 21.9962 6.91345C21.9962 7.45335 21.7817 7.97122 21.4 8.35303ZM3.68699 21.932L9.88699 19.865L4.13099 14.109L2.06399 20.309C1.98815 20.5354 1.97703 20.7787 2.03189 21.0111C2.08674 21.2436 2.2054 21.4561 2.37449 21.6248C2.54359 21.7934 2.75641 21.9115 2.989 21.9658C3.22158 22.0201 3.4647 22.0084 3.69099 21.932H3.68699Z" fill="currentColor" />
-                                                <path d="M5.574 21.3L3.692 21.928C3.46591 22.0032 3.22334 22.0141 2.99144 21.9594C2.75954 21.9046 2.54744 21.7864 2.3789 21.6179C2.21036 21.4495 2.09202 21.2375 2.03711 21.0056C1.9822 20.7737 1.99289 20.5312 2.06799 20.3051L2.696 18.422L5.574 21.3ZM4.13499 14.105L9.891 19.861L19.245 10.507L13.489 4.75098L4.13499 14.105Z" fill="currentColor" />
-                                            </svg>
-                                        </span>
+                                <td><span class="text-muted fw-bold fs-7">${escapeHtml(formatDate(it.createdAtUtc))}</span></td>
+                                <td class="text-end pe-4">
+                                    <a href="${editUrl}" class="btn btn-icon btn-light-primary btn-active-primary btn-sm me-1 shadow-sm">
+                                        <i class="ki-duotone ki-pencil fs-3"></i>
                                     </a>
-
-                                    <form class="d-inline js-delete-item-form" method="post">
-                                        <input type="hidden" name="id" value="${escapeHtml(it.id)}" />
-                                        <input type="hidden" name="__RequestVerificationToken" value="${escapeHtml(token)}" />
-                                        <button type="submit" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm" title="Sil">
-                                            <span class="svg-icon svg-icon-3">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                                    <path d="M5 9C5 8.44772 5.44772 8 6 8H18C18.5523 8 19 8.44772 19 9V18C19 19.6569 17.6569 21 16 21H8C6.34315 21 5 19.6569 5 18V9Z" fill="currentColor" />
-                                                    <path opacity="0.5" d="M5 5C5 4.44772 5.44772 4 6 4H18C18.5523 4 19 4.44772 19 5V5C19 5.55228 18.5523 6 18 6H6C5.44772 6 5 5.55228 5 5V5Z" fill="currentColor" />
-                                                    <path opacity="0.5" d="M9 4C9 3.44772 9.44772 3 10 3H14C14.5523 3 15 3.44772 15 4V4H9V4Z" fill="currentColor" />
-                                                </svg>
-                                            </span>
-                                        </button>
-                                    </form>
+                                    <button type="button" class="btn btn-icon btn-light-danger btn-active-danger btn-sm shadow-sm js-delete-item-btn" 
+                                            data-id="${escapeHtml(it.id)}" data-name="${escapeHtml(it.name)}">
+                                        <i class="ki-duotone ki-trash fs-3"></i>
+                                    </button>
                                 </td>
                             </tr>
                         `;
@@ -323,11 +304,10 @@
 
                     wireDeleteHandlers();
                 } catch (e) {
-                    setErrorRow(`Itemlar yüklenirken hata oluştu: ${escapeHtml(e.message)}`);
+                    setErrorRow(`Hata: ${escapeHtml(e.message)}`);
                 }
             });
 
-            // initial
             resetCreateButton();
         })();
     </script>

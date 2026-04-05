@@ -1,9 +1,7 @@
-﻿using Identity.Application.DTOs.UserDTOs;
-using Identity.Application.Features.User.Commands.RegisterUser;
+﻿using Identity.Application.Features.User.Commands.RegisterUser;
 using Identity.Application.Features.User.Commands.ConfirmEmail;
 using Shared.Application.Abstractions.Messaging;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Identity.API.Controllers

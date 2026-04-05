@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Administration.MVC.Controllers
 {
@@ -12,9 +12,9 @@ namespace Administration.MVC.Controllers
         }
 
         [HttpGet]
-        public IActionResult Seeding()
+        public IActionResult Seed()
         {
-            return View();
+            return View("Seeding");
         }
 
         [HttpPost]

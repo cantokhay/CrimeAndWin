@@ -18,6 +18,7 @@ namespace Economy.Application.Features.Wallet.Queries.GetAllWalletsAsAdmin
         public async Task<List<AdminResultWalletDTO>> Handle(GetAllWalletsAsAdminQuery request, CancellationToken cancellationToken)
         {
             return await _read.GetAll(false)
+                .Where(w => !w.IsDeleted)
                 .Select(w => new AdminResultWalletDTO
                 {
                     Id = w.Id,

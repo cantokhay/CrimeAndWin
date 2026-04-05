@@ -2,27 +2,29 @@
 
 @{
     Layout = "_AdminLayout";
-    ViewData["Title"] = "Sistem Çevre Ayarları";
+    ViewData["Title"] = "Sistem Yapılandırması";
 }
 
-<div class="card mb-5 mb-xl-10">
+<div class="card mb-5 mb-xl-10 shadow-sm">
     <div class="card-header border-0 pt-5">
         <h3 class="card-title align-items-start flex-column">
-            <span class="card-label fw-bold fs-3 mb-1">Global Sistem Yapılandırması</span>
-            <span class="text-muted mt-1 fw-bold fs-7">Tüm mikroservislerin davranışını etkileyen global parametreler</span>
+            <span class="card-label fw-bold fs-3 mb-1">Global Oyun Parametreleri</span>
+            <span class="text-muted mt-1 fw-bold fs-7">Tüm mikroservislerin ortak kullandığı dinamik yapılandırma ayarları</span>
         </h3>
     </div>
-    <div class="card-body">
-        <form asp-action="UpdateSettings" method="post" id="kt_settings_form">
+    <div class="card-body p-9">
+        <form asp-action="UpdateSettings" asp-controller="AdminSettings" method="post" id="kt_settings_form">
             @Html.AntiForgeryToken()
 
             <!-- Maintenance Mode -->
-            <div class="row mb-8">
-                <label class="col-lg-3 col-form-label fw-bold fs-6">Sistem Durumu</label>
-                <div class="col-lg-9 d-flex align-items-center">
+            <div class="row mb-10">
+                <label class="col-lg-4 col-form-label fw-bold fs-6">Sistem Bakım Modu</label>
+                <div class="col-lg-8 d-flex align-items-center">
                     <div class="form-check form-switch form-check-custom form-check-solid">
-                        <input class="form-check-input" type="checkbox" asp-for="IsMaintenanceMode" id="maintenanceSwitch" />
-                        <label class="form-check-label fw-bold text-gray-400 ms-3" for="maintenanceSwitch"> Bakım Modu (Aktif/Pasif) </label>
+                        <input class="form-check-input h-30px w-50px" type="checkbox" asp-for="IsMaintenanceMode" id="maintenanceSwitch" />
+                        <label class="form-check-label fw-bold text-gray-600 ms-3" for="maintenanceSwitch"> 
+                            Bakım Modu Aktif (Oyuncular giriş yapamaz)
+                        </label>
                     </div>
                 </div>
             </div>
@@ -30,59 +32,76 @@
             <div class="separator separator-dashed my-6"></div>
 
             <!-- Multipliers -->
-            <div class="row mb-8">
-                <label class="col-lg-3 col-form-label fw-bold fs-6">Global Çarpanlar</label>
-                <div class="col-lg-9">
-                    <div class="row g-5">
+            <div class="row mb-6">
+                <label class="col-lg-4 col-form-label fw-bold fs-6 mt-2">Oyun Mekaniği Çarpanları</label>
+                <div class="col-lg-8">
+                    <div class="row g-9">
                         <div class="col-md-6">
-                            <label asp-for="SuccessRateMultiplier" class="form-label text-muted fs-7">Başarı Oranı Çarpanı (1.0 = Normal)</label>
-                            <div class="input-group input-group-solid">
-                                <span class="input-group-text"><i class="ki-duotone ki-graph-up fs-2"></i></span>
+                            <label asp-for="SuccessRateMultiplier" class="form-label text-gray-600 fs-7 fw-bold mb-2">Başarı Oranı Çarpanı</label>
+                            <div class="input-group input-group-solid shadow-none">
+                                <span class="input-group-text bg-light-primary border-0">
+                                    <i class="ki-duotone ki-chart-line-star fs-2 text-primary"></i>
+                                </span>
                                 <input type="number" asp-for="SuccessRateMultiplier" class="form-control" step="0.1" />
                             </div>
+                            <div class="form-text fs-8 text-muted mt-2">Varsayılan: 1.0 (Normal zorluk)</div>
                         </div>
                         <div class="col-md-6">
-                            <label asp-for="CooldownMultiplier" class="form-label text-muted fs-7">Bekleme Süresi Çarpanı (0.5 = Yarı Süre)</label>
-                            <div class="input-group input-group-solid">
-                                <span class="input-group-text"><i class="ki-duotone ki-time fs-2"></i></span>
+                            <label asp-for="CooldownMultiplier" class="form-label text-gray-600 fs-7 fw-bold mb-2">Bekleme Süresi Çarpanı</label>
+                            <div class="input-group input-group-solid shadow-none">
+                                <span class="input-group-text bg-light-info border-0">
+                                    <i class="ki-duotone ki-timer fs-2 text-info"></i>
+                                </span>
                                 <input type="number" asp-for="CooldownMultiplier" class="form-control" step="0.1" />
                             </div>
+                            <div class="form-text fs-8 text-muted mt-2">Düşük değerler daha hızlı oyun deneyimi sağlar.</div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Energy & Announcement -->
-            <div class="row mb-8">
-                <label class="col-lg-3 col-form-label fw-bold fs-6">Sistem Dinamikleri</label>
-                <div class="col-lg-9">
-                    <div class="mb-5">
-                        <label asp-for="MinEnergyRequired" class="form-label text-muted fs-7">Min. Aksiyon Enerjisi</label>
-                        <input type="number" asp-for="MinEnergyRequired" class="form-control form-control-solid" />
+            <!-- Energy -->
+            <div class="row mb-6">
+                <label class="col-lg-4 col-form-label fw-bold fs-6 mt-2">Enerji Gereksinimi</label>
+                <div class="col-lg-8">
+                    <div class="input-group input-group-solid shadow-none">
+                        <span class="input-group-text bg-light-warning border-0">
+                            <i class="ki-duotone ki-flash-circle fs-2 text-warning"></i>
+                        </span>
+                        <input type="number" asp-for="MinEnergyRequired" class="form-control" />
                     </div>
-                    <div>
-                        <label asp-for="GlobalAnnouncement" class="form-label text-muted fs-7">Global Duyuru Metni</label>
-                        <textarea asp-for="GlobalAnnouncement" class="form-control form-control-solid" rows="3" placeholder="Tüm kullanıcılara gösterilecek mesaj..."></textarea>
-                    </div>
+                    <div class="form-text fs-8 text-muted mt-2">Herhangi bir aksiyon almak için gerekli minimum enerji miktarı.</div>
                 </div>
             </div>
 
-            <div class="d-flex justify-content-end pt-5">
+            <!-- Announcement -->
+            <div class="row mb-10">
+                <label class="col-lg-4 col-form-label fw-bold fs-6">Global Duyuru Mesajı</label>
+                <div class="col-lg-8">
+                    <textarea asp-for="GlobalAnnouncement" class="form-control form-control-solid border-0 fs-6" rows="4" placeholder="Tüm oyunculara anlık olarak iletilecek mesaj metni..."></textarea>
+                    <div class="form-text fs-8 text-muted mt-2">HTML formatı desteklenmez, sadece düz metin giriniz.</div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end border-top pt-8">
                 <button type="submit" class="btn btn-primary" id="kt_settings_submit">
-                    <span class="indicator-label"><i class="ki-duotone ki-save-2 fs-2 me-2"></i> Ayarları Güncelle</span>
-                    <span class="indicator-progress">Lütfen bekleyin... 
-                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                    <span class="indicator-label">
+                        <i class="ki-duotone ki-check fs-2 me-2"></i> Ayarları Değişikliklerini Kaydet
+                    </span>
+                    <span class="indicator-progress">
+                        Lütfen bekleyin... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                    </span>
                 </button>
             </div>
         </form>
     </div>
 </div>
 
-<div class="alert alert-dismissible bg-light-warning d-flex flex-column flex-sm-row p-5 mb-10 border border-warning border-dashed">
-    <i class="ki-duotone ki-notification-on fs-2hx text-warning me-4 mb-5 mb-sm-0"></i>
+<div class="alert alert-dismissible bg-light-info d-flex flex-column flex-sm-row p-7 mb-10 border border-info border-dashed">
+    <i class="ki-duotone ki-information-5 fs-2hx text-info me-4 mb-5 mb-sm-0"></i>
     <div class="d-flex flex-column pe-0 pe-sm-10">
-        <h4 class="fw-bold text-warning">Önemli Hatırlatma</h4>
-        <span>Burada yapılan değişiklikler <strong>Event Bus</strong> üzerinden tüm mikroservislere anlık olarak iletilir. Bazı servislerin önbellek temizlemesi için 1-2 dakika gerekebilir.</span>
+        <h4 class="fw-bold text-info">Sistem Hatırlatması</h4>
+        <span class="fs-6 fs-semi-bold">Ayarlar kaydedildiği anda <strong>Message Bus</strong> üzerinden tüm bağlı mikroservislere (Action, Economy, Player vs.) anlık sinyal gönderilir. Değişiklikler genellikle 2-5 saniye içerisinde tüm sistemde aktif olur.</span>
     </div>
 </div>
 
@@ -90,10 +109,14 @@
     <script>
         $(document).ready(function() {
             $('#kt_settings_form').on('submit', function() {
-                $('#kt_settings_submit .indicator-label').addClass('d-none');
-                $('#kt_settings_submit .indicator-progress').removeClass('d-none');
-                $('#kt_settings_submit').prop('disabled', true);
+                const $btn = $('#kt_settings_submit');
+                $btn.find('.indicator-label').addClass('d-none');
+                $btn.find('.indicator-progress').css('display', 'inline-block');
+                $btn.prop('disabled', true);
             });
         });
     </script>
+    <style>
+        .indicator-progress { display: none; }
+    </style>
 }

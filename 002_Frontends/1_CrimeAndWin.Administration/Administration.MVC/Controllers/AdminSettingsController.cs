@@ -35,11 +35,11 @@ namespace Administration.MVC.Controllers
 
             if (response.IsSuccessStatusCode)
             {
-                SetAlert("Başarılı", "Sistem ayarları başarıyla güncellendi ve tüm servislere yayılması için kuyruğa alındı.", "success");
+                SetTempData("success", "Başarılı", "Sistem ayarları başarıyla güncellendi ve tüm servislere yayılması için kuyruğa alındı.");
             }
             else
             {
-                SetAlert("Hata", "Ayarlar güncellenirken bir hata oluştu.", "error");
+                SetTempData("error", "Hata", "Ayarlar güncellenirken bir hata oluştu.");
             }
 
             return RedirectToAction(nameof(Index));

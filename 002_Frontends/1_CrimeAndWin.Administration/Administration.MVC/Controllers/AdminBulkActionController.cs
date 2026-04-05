@@ -28,17 +28,11 @@ namespace Administration.MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ResetAllEnergy()
         {
-            // Implementation would call a bulk endpoint in Energy API
             var response = await _energyClient.PostAsync("BulkResetEnergy", null);
-            if (response.IsSuccessStatusCode)
-            {
-                SetAlert("Başarılı", "Tüm oyuncuların enerjisi başarıyla fullendi.", "success");
-            }
-            else
-            {
-                SetAlert("Hata", "Enerji sıfırlanırken bir hata oluştu.", "error");
-            }
-            return RedirectToAction(nameof(Index));
+            return Json(new { 
+                success = response.IsSuccessStatusCode, 
+                message = response.IsSuccessStatusCode ? "Tüm oyuncuların enerjisi başarıyla fullendi." : "Enerji sıfırlanırken bir hata oluştu." 
+            });
         }
 
         [HttpPost]
@@ -46,15 +40,10 @@ namespace Administration.MVC.Controllers
         public async Task<IActionResult> ClearAllCooldowns()
         {
             var response = await _cooldownClient.PostAsync("BulkClearCooldowns", null);
-            if (response.IsSuccessStatusCode)
-            {
-                SetAlert("Başarılı", "Tüm bekleme süreleri başarıyla temizlendi.", "success");
-            }
-            else
-            {
-                SetAlert("Hata", "Cooldownlar temizlenirken bir hata oluştu.", "error");
-            }
-            return RedirectToAction(nameof(Index));
+            return Json(new { 
+                success = response.IsSuccessStatusCode, 
+                message = response.IsSuccessStatusCode ? "Tüm bekleme süreleri başarıyla temizlendi." : "Cooldownlar temizlenirken bir hata oluştu." 
+            });
         }
 
         [HttpPost]
@@ -62,15 +51,11 @@ namespace Administration.MVC.Controllers
         public async Task<IActionResult> ApproveAllPendingUsers()
         {
             var response = await _identityClient.PostAsync("ApproveAllPendingUsers", null);
-            if (response.IsSuccessStatusCode)
-            {
-                SetAlert("Başarılı", "Tüm bekleyen kullanıcı onayları gerçekleştirildi.", "success");
-            }
-            else
-            {
-                SetAlert("Hata", "Kullanıcılar onaylanırken bir hata oluştu.", "error");
-            }
-            return RedirectToAction(nameof(Index));
+            return Json(new { 
+                success = response.IsSuccessStatusCode, 
+                message = response.IsSuccessStatusCode ? "Tüm bekleyen kullanıcı onayları gerçekleştirildi." : "Kullanıcılar onaylanırken bir hata oluştu." 
+            });
         }
+
     }
 }

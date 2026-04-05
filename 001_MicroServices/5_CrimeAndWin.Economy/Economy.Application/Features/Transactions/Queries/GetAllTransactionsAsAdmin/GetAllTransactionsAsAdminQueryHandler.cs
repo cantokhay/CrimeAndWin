@@ -18,6 +18,7 @@ namespace Economy.Application.Features.Transactions.Queries.GetAllTransactionsAs
         public async Task<List<AdminResultTransactionDTO>> Handle(GetAllTransactionsAsAdminQuery request, CancellationToken cancellationToken)
         {
             return await _read.GetAll(false)
+                .Where(t => !t.IsDeleted)
                 .Select(t => new AdminResultTransactionDTO
                 {
                     Id = t.Id,

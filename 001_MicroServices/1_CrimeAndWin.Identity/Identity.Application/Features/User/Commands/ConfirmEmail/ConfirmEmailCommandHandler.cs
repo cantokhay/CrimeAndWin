@@ -17,7 +17,7 @@ namespace Identity.Application.Features.User.Commands.ConfirmEmail
 
         public async Task<bool> Handle(ConfirmEmailCommand request, CancellationToken ct)
         {
-            var user = await _userRead.GetAsync(x => x.Email == request.Email && x.ActivationToken == request.Token);
+            var user = await _userRead.GetSingleAsync(x => x.Email == request.Email && x.ActivationToken == request.Token);
 
             if (user == null)
             {

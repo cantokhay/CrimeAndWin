@@ -7,7 +7,7 @@ public class GatewayApiClient(HttpClient http)
 {
     public async Task<List<GatewayLogDto>> GetRecentLogsAsync(int count = 100)
     {
-        try { return (await http.GetFromJsonAsync<List<GatewayLogDto>>($"/api/gateway/admin/logs?count={count}")) ?? []; }
+        try { return (await http.GetFromJsonAsync<List<GatewayLogDto>>($"api/gateway/admin/logs?count={count}")) ?? []; }
         catch { return []; }
     }
 }

@@ -12,10 +12,17 @@ public class AdminEnergyController(ActionApiClient actionApi) : Controller
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> ManualRefill(Guid playerId, int amount)
     {
-        await actionApi.ManualEnergyRefillAsync(playerId, amount);
-        TempData["Success"] = $"Oyuncuya {amount} enerji eklendi.";
-        return RedirectToAction(nameof(Index));
+        try
+        {
+            await actionApi.ManualEnergyRefillAsync(playerId, amount);
+            return Json(new { success = true, message = $"Oyuncuya {amount} enerji eklendi." });
+        }
+        catch (Exception ex)
+        {
+            return Json(new { success = false, message = $"Hata: {ex.Message}" });
+        }
     }
 }

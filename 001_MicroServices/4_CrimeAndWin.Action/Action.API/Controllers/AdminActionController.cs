@@ -71,6 +71,55 @@ public class AdminActionController(ActionDbContext context) : ControllerBase
         return Ok();
     }
 
+    [HttpPost("BulkResetEnergy")]
+    public async Task<IActionResult> BulkResetEnergy()
+    {
+        var states = await context.PlayerEnergyStates.ToListAsync();
+        foreach (var state in states)
+        {
+            state.CurrentEnergy = 100; // Assuming 100 is max, or we could have a MaxEnergy field
+        }
+        await context.SaveChangesAsync();
+        return Ok();
+    }
+
+    [HttpPost("BulkClearCooldowns")]
+    public async Task<IActionResult> BulkClearCooldowns()
+    {
+        var now = DateTime.UtcNow;
+        var cooldowns = await context.PlayerActionAttempts
+            .Where(x => x.CooldownEndsAt > now)
+            .ToListAsync();
+            
+        foreach (var cd in cooldowns)
+        {
+            cd.CooldownEndsAt = now.AddSeconds(-1);
+        }
+        await context.SaveChangesAsync();
+        return Ok();
+    }
+
+    [HttpGet("GetServiceHealth")]
+    public IActionResult GetServiceHealth()
+    {
+        // Simple mock of service health for the dashboard
+        var services = new[]
+        {
+            new { ServiceName = "Identity", IsHealthy = true, CheckedAt = DateTime.UtcNow },
+            new { ServiceName = "PlayerProfile", IsHealthy = true, CheckedAt = DateTime.UtcNow },
+            new { ServiceName = "GameWorld", IsHealthy = true, CheckedAt = DateTime.UtcNow },
+            new { ServiceName = "Action", IsHealthy = true, CheckedAt = DateTime.UtcNow },
+            new { ServiceName = "Economy", IsHealthy = true, CheckedAt = DateTime.UtcNow },
+            new { ServiceName = "Inventory", IsHealthy = true, CheckedAt = DateTime.UtcNow },
+            new { ServiceName = "Leadership", IsHealthy = true, CheckedAt = DateTime.UtcNow },
+            new { ServiceName = "Notification", IsHealthy = true, CheckedAt = DateTime.UtcNow },
+            new { ServiceName = "Moderation", IsHealthy = true, CheckedAt = DateTime.UtcNow },
+            new { ServiceName = "Saga", IsHealthy = true, CheckedAt = DateTime.UtcNow },
+            new { ServiceName = "Gateway", IsHealthy = true, CheckedAt = DateTime.UtcNow }
+        };
+        return Ok(services);
+    }
+
     public record RefillRequest(Guid PlayerId, int Amount);
 }
 

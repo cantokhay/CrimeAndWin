@@ -17,7 +17,7 @@ namespace Identity.Application.Features.User.Commands.ApproveUser
 
         public async Task<bool> Handle(ApproveUserCommand request, CancellationToken ct)
         {
-            var user = await _userRead.GetByIdAsync(request.UserId);
+            var user = await _userRead.GetByIdAsync(request.UserId.ToString());
 
             if (user == null)
             {

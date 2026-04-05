@@ -60,7 +60,7 @@ namespace Administration.MVC.Controllers
 
             if (!response.IsSuccessStatusCode)
             {
-                await HandleApiErrorsAsync(response);
+                await HandleApiResultAsync(response);
                 return View(model);
             }
 
@@ -98,7 +98,7 @@ namespace Administration.MVC.Controllers
 
             if (!response.IsSuccessStatusCode)
             {
-                await HandleApiErrorsAsync(response);
+                await HandleApiResultAsync(response);
                 return View(model);
             }
 
@@ -145,6 +145,15 @@ namespace Administration.MVC.Controllers
         public async Task<IActionResult> ApproveUser(Guid id)
         {
             var response = await _identityClient.PostAsync($"ApproveUser/{id}", null);
+
+            return Json(new { success = response.IsSuccessStatusCode });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ApproveAllPendingUsers()
+        {
+            var response = await _identityClient.PostAsync("ApproveAllPendingUsers", null);
 
             return Json(new { success = response.IsSuccessStatusCode });
         }
@@ -509,7 +518,6 @@ namespace Administration.MVC.Controllers
                 })
                 .ToList();
         }
-
         #endregion
     }
 }

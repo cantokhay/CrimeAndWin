@@ -2,103 +2,110 @@
 
 @{
     Layout = "_AdminLayout";
-    ViewData["Title"] = "Cüzdanlar";
+    ViewData["Title"] = "Cüzdan Yönetimi";
 }
 
-<div class="row mb-5 justify-content-center">
+@Html.AntiForgeryToken()
+
+<div class="row g-5 g-xl-10 mb-8 mt-5">
     <div class="col-md-3">
-        <div class="card shadow-sm border-start border-primary border-4">
-            <div class="card-body">
-                <div class="d-flex align-items-center">
-                    <div class="symbol symbol-45px me-5">
-                        <span class="symbol-label bg-light-primary">
-                            <i class="ki-duotone ki-wallet fs-2x text-primary"></i>
-                        </span>
+        <div class="card card-flush h-md-100 shadow-sm border-0 bg-light-primary text-primary">
+            <div class="card-header pt-5">
+                <div class="card-title d-flex flex-column">
+                    <div class="d-flex align-items-center">
+                        <span class="fs-2hx fw-bold text-dark me-2 lh-1 ls-n2">@Model.Count</span>
+                        <span class="badge badge-light-primary border border-primary border-dashed fs-7 fw-bold px-3 py-1">Cüzdan</span>
                     </div>
-                    <div class="d-flex flex-column">
-                        <span class="text-muted fw-bold">Toplam Cüzdan</span>
-                        <span class="fs-2 fw-bold mb-0">@Model.Count</span>
-                    </div>
+                    <span class="text-gray-600 pt-1 fw-bold fs-6">Aktif Oyuncu Cüzdanı</span>
                 </div>
+            </div>
+            <div class="card-body d-flex align-items-end pt-0 pb-5">
+                <i class="ki-duotone ki-wallet fs-3x"></i>
             </div>
         </div>
     </div>
 
     <div class="col-md-3">
-        <div class="card shadow-sm border-start border-success border-4">
-            <div class="card-body">
-                <div class="d-flex align-items-center">
-                    <div class="symbol symbol-45px me-5">
-                        <span class="symbol-label bg-light-success">
-                            <i class="ki-duotone ki-dollar fs-2x text-success"></i>
+        <div class="card card-flush h-md-100 shadow-sm border-0 bg-light-success text-success">
+            <div class="card-header pt-5">
+                <div class="card-title d-flex flex-column">
+                    <div class="d-flex align-items-center">
+                        <span class="fs-2hx fw-bold text-dark me-2 lh-1 ls-n2">
+                            @(Model.Any() ? Model.Sum(x => x.Balance).ToString("N0") : "0")
                         </span>
+                        <span class="badge badge-light-success border border-success border-dashed fs-7 fw-bold px-3 py-1">Bakiye</span>
                     </div>
-                    <div class="d-flex flex-column">
-                        <span class="text-muted fw-bold">Toplam Bakiye</span>
-                        <span class="fs-2 fw-bold mb-0 text-success">
-                            @(Model.Any() ? Model.Sum(x => x.Balance).ToString("N0") : "0")₺
-                        </span>
-                    </div>
+                    <span class="text-gray-600 pt-1 fw-bold fs-6">Sistemdeki Toplam Likidite</span>
                 </div>
+            </div>
+            <div class="card-body d-flex align-items-end pt-0 pb-5">
+                <i class="ki-duotone ki-dollar fs-3x"></i>
             </div>
         </div>
     </div>
 </div>
 
-<div class="card mb-5 mb-xl-8">
+<div class="card mb-5 mb-xl-8 shadow-sm">
     <div class="card-header border-0 pt-5">
         <h3 class="card-title align-items-start flex-column">
-            <span class="card-label fw-bolder fs-3 mb-1">Cüzdan Listesi</span>
-            <span class="text-muted mt-1 fw-bold fs-7">Sistemdeki tüm oyuncu bakiyeleri</span>
+            <span class="card-label fw-bold fs-3 mb-1">Oyuncu Cüzdan Listesi</span>
+            <span class="text-muted mt-1 fw-bold fs-7">Tüm kayıtlı oyuncuların mevcut para ve varlık durumları</span>
         </h3>
         <div class="card-toolbar">
             <a asp-action="CreateWallet" asp-controller="AdminEconomy" class="btn btn-sm btn-primary">
-                <i class="ki-duotone ki-plus fs-2"></i> Yeni Cüzdan Tanımla
+                <i class="ki-duotone ki-plus fs-2 me-1"></i> Yeni Cüzdan Tanımla
             </a>
         </div>
     </div>
     <div class="card-body py-3">
         <div class="table-responsive">
-            <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
+            <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-4">
                 <thead>
-                    <tr class="fw-bolder text-muted">
-                        <th class="min-w-150px">Oyuncu Bilgisi</th>
-                        <th>Mevcut Bakiye</th>
-                        <th>Kayıt Tarihi</th>
-                        <th>Son Güncelleme</th>
-                        <th class="min-w-100px text-end">İşlemler</th>
+                    <tr class="fw-bold text-muted bg-light">
+                        <th class="ps-4 rounded-start min-w-150px">Oyuncu Bilgisi</th>
+                        <th class="text-center">Mevcut Bakiye</th>
+                        <th class="text-center">Kayıt Tarihi</th>
+                        <th class="text-center">Son Güncelleme</th>
+                        <th class="min-w-100px text-end pe-4 rounded-end">Yönetim</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>
-                                <div class="d-flex flex-column">
-                                    <span class="text-dark fw-bolder text-hover-primary fs-6">
-                                        @(item.PlayerDisplay ?? "Bilinmeyen Oyuncu")
-                                    </span>
-                                    <span class="text-muted fw-bold fs-7">ID: @item.PlayerId.ToString().Substring(0, 8)...</span>
+                            <td class="ps-4">
+                                <div class="d-flex align-items-center">
+                                    <div class="symbol symbol-35px me-3">
+                                        <span class="symbol-label bg-light-primary text-primary fw-bold">@item.PlayerDisplay?[0]</span>
+                                    </div>
+                                    <div class="d-flex flex-column">
+                                        <span class="text-dark fw-bold text-hover-primary mb-1 fs-6">
+                                            @(item.PlayerDisplay ?? "Bilinmeyen Oyuncu")
+                                        </span>
+                                        <span class="text-muted fw-semi-bold fs-8">UUID: @item.PlayerId.ToString().Substring(0, 8)</span>
+                                    </div>
                                 </div>
                             </td>
-                            <td>
-                                <span class="text-dark fw-bolder d-block fs-6 text-success">@item.Balance.ToString("N0")₺</span>
+                            <td class="text-center">
+                                <span class="badge badge-light-success border border-success border-dashed fs-6 fw-bold px-4 py-2">
+                                    @item.Balance.ToString("N0") <small class="ms-1">Cash</small>
+                                </span>
                             </td>
-                            <td>
-                                <span class="text-muted fw-bold d-block fs-7">@item.CreatedAtUtc.ToString("g")</span>
+                            <td class="text-center">
+                                <span class="text-muted fw-bold d-block fs-8">@item.CreatedAtUtc.ToLocalTime().ToString("dd MMM yyyy")</span>
+                                <span class="text-muted fs-8">@item.CreatedAtUtc.ToLocalTime().ToString("HH:mm")</span>
                             </td>
-                            <td>
-                                <span class="text-muted fw-bold d-block fs-7">@(item.UpdatedAtUtc?.ToString("g") ?? "---")</span>
+                            <td class="text-center">
+                                <span class="text-muted fw-bold d-block fs-8">@(item.UpdatedAtUtc?.ToLocalTime().ToString("g") ?? "-")</span>
                             </td>
-                            <td class="text-end">
+                            <td class="text-end pe-4">
                                 <a asp-action="EditWallet" asp-controller="AdminEconomy" asp-route-id="@item.Id" 
-                                   class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"
-                                   data-bs-toggle="tooltip" title="Düzenle">
+                                   class="btn btn-icon btn-light-primary btn-active-primary btn-sm me-2 shadow-sm">
                                     <i class="ki-duotone ki-pencil fs-3"></i>
                                 </a>
-                                <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" title="Cüzdanlar silinemez (Log bütünlüğü için)">
-                                    <button type="button" class="btn btn-icon btn-bg-light btn-sm" disabled>
-                                        <i class="ki-duotone ki-trash fs-3 text-gray-500"></i>
+                                <span class="d-inline-block" data-bs-toggle="tooltip" title="Güvenlik nedeniyle cüzdanlar silinemez">
+                                    <button type="button" class="btn btn-icon btn-light btn-sm shadow-none" disabled style="opacity: 0.5;">
+                                        <i class="ki-duotone ki-trash fs-3"></i>
                                     </button>
                                 </span>
                             </td>

@@ -1,9 +1,7 @@
+using Administration.MVC.Services.Dtos;
 using Administration.MVC.ViewModels.DashboardVMs;
 using Administration.MVC.ViewModels.EconomyVMs.WalletVMs;
-using Administration.MVC.ViewModels.Health;
-using Administration.MVC.ViewModels.PlayerProfileVMs;
-using Administration.MVC.ViewModels.ActionLogs;
-using Administration.MVC.ViewModels.Sagas;
+using Administration.MVC.ViewModels.PlayerProfileVMs.PlayerVMs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Administration.MVC.Controllers
@@ -34,11 +32,20 @@ namespace Administration.MVC.Controllers
             try
             {
                 // Parallel fetching of dashboard data
+                // HealthApi base: api/action/admin/
                 var healthTask = _healthClient.GetFromJsonAsync<List<ServiceHealthDto>>("GetServiceHealth");
+                
+                // PlayerProfileApi base: api/PlayerAdmins/
                 var playersTask = _playerClient.GetFromJsonAsync<List<ResultPlayerVM>>("GetAllPlayersAsAdmin");
+                
+                // EconomyApi base: api/EconomyAdmins/
                 var walletsTask = _economyClient.GetFromJsonAsync<List<ResultWalletVM>>("GetAllWalletsAsAdmin");
-                var actionLogsTask = _actionLogClient.GetFromJsonAsync<List<ActionLogDto>>("GetAllActionLogsAsAdmin");
-                var sagasTask = _sagaClient.GetFromJsonAsync<List<SagaStateDto>>("GetAllSagasAsAdmin");
+                
+                // ActionLogApi base: api/action/admin/
+                var actionLogsTask = _actionLogClient.GetFromJsonAsync<List<ActionLogDto>>("logs");
+                
+                // SagaApi base: api/saga/admin/
+                var sagasTask = _sagaClient.GetFromJsonAsync<List<SagaStateDto>>("states");
 
                 await Task.WhenAll(healthTask, playersTask, walletsTask, actionLogsTask, sagasTask);
 
@@ -53,7 +60,7 @@ namespace Administration.MVC.Controllers
                 if (playersTask.Result != null)
                 {
                     model.TotalPlayerCount = playersTask.Result.Count;
-                    model.NewPlayersToday = playersTask.Result.Count(x => x.CreatedAt >= DateTime.Today);
+                    model.NewPlayersToday = playersTask.Result.Count(x => x.CreatedAtUtc >= DateTime.Today);
                 }
 
                 // 3. Economy
@@ -65,21 +72,21 @@ namespace Administration.MVC.Controllers
                 // 4. Action Logs & Trends
                 if (actionLogsTask.Result != null)
                 {
-                    var todayActions = actionLogsTask.Result.Where(x => x.Timestamp >= DateTime.Today).ToList();
+                    var todayActions = actionLogsTask.Result.Where(x => x.ActionAt >= DateTime.Today).ToList();
                     model.TotalActionsToday = todayActions.Count;
                     model.AverageActionSuccessRate = todayActions.Any() 
                         ? (double)todayActions.Count(x => x.IsSuccess) / todayActions.Count * 100 
                         : 0;
 
                     model.RecentActions = actionLogsTask.Result
-                        .OrderByDescending(x => x.Timestamp)
+                        .OrderByDescending(x => x.ActionAt)
                         .Take(10)
                         .Select(x => new RecentActionLogVM
                         {
-                            ActionName = x.ActionName,
-                            PlayerName = x.PlayerId.ToString().Substring(0, 8), // Assuming name lookup later
+                            ActionName = x.ActionType,
+                            PlayerName = !string.IsNullOrEmpty(x.PlayerName) ? x.PlayerName : x.PlayerId.ToString().Substring(0, 8),
                             IsSuccess = x.IsSuccess,
-                            Timestamp = x.Timestamp
+                            Timestamp = x.ActionAt
                         }).ToList();
                 }
 

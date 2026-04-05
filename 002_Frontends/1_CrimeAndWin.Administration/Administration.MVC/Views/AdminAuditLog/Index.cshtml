@@ -2,100 +2,136 @@
 
 @{
     Layout = "_AdminLayout";
-    ViewData["Title"] = "Yönetici Denetim Kayıtları";
+    ViewData["Title"] = "Denetim Kayıtları";
 }
 
-<div class="card mb-5 mb-xl-10">
+<div class="card mb-5 mb-xl-10 shadow-sm">
     <div class="card-header border-0 pt-5">
         <h3 class="card-title align-items-start flex-column">
-            <span class="card-label fw-bold fs-3 mb-1">Yönetici İşlem Günlüğü (Audit)</span>
-            <span class="text-muted mt-1 fw-bold fs-7">Sistem genelinde yapılan tüm yönetsel değişikliklerin tarihçesi</span>
+            <span class="card-label fw-bold fs-3 mb-1">Yönetici Denetim Günlüğü</span>
+            <span class="text-muted mt-1 fw-bold fs-7">Sistemde yapılan tüm hassas operasyonların tarihsel dökümü</span>
         </h3>
+        <div class="card-toolbar">
+            <button type="button" class="btn btn-sm btn-light-primary" onclick="location.reload()">
+                <span class="svg-icon svg-icon-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 7V12L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+                Kaydı Yenile
+            </button>
+        </div>
     </div>
     <div class="card-body py-3">
         <div class="table-responsive">
-            <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
+            <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-4">
                 <thead>
-                    <tr class="fw-bolder text-muted">
-                        <th class="min-w-150px">Zaman</th>
+                    <tr class="fw-bold text-muted bg-light">
+                        <th class="ps-4 rounded-start min-w-150px">Zaman Damgası</th>
                         <th>Yönetici</th>
-                        <th>İşlem / Varlık</th>
-                        <th>Açıklama</th>
-                        <th class="text-end">İşlem IP</th>
-                        <th class="text-end">Detay</th>
+                        <th>Operasyon Tipi</th>
+                        <th>Açıklama / Varlık</th>
+                        <th class="text-end">İstemci IP</th>
+                        <th class="min-w-100px text-end pe-4 rounded-end">Detaylar</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var log in Model.OrderByDescending(x => x.Timestamp))
                     {
-                        var badgeColor = log.ActionType switch
+                        var badgeClass = log.ActionType switch
                         {
-                            "CREATE" => "success",
-                            "UPDATE" => "primary",
-                            "DELETE" => "danger",
-                            "SYSTEM" => "warning",
-                            _ => "secondary"
+                            "CREATE" => "badge-light-success",
+                            "UPDATE" => "badge-light-primary",
+                            "DELETE" => "badge-light-danger",
+                            "SYSTEM" => "badge-light-warning",
+                            _ => "badge-light-secondary"
                         };
 
                         <tr>
-                            <td>
-                                <span class="text-muted fw-bold d-block fs-7">@log.Timestamp.ToString("yyyy-MM-dd HH:mm:ss")</span>
+                            <td class="ps-4">
+                                <div class="d-flex flex-column text-start">
+                                    <span class="text-dark fw-bold fs-7">@log.Timestamp.ToString("dd MMM yyyy")</span>
+                                    <span class="text-muted fw-semi-bold fs-8">@log.Timestamp.ToString("HH:mm:ss")</span>
+                                </div>
                             </td>
                             <td>
                                 <div class="d-flex align-items-center">
-                                    <div class="symbol symbol-30px me-3">
-                                        <span class="symbol-label bg-light-primary text-primary fw-bolder">@log.AdminUser[0]</span>
+                                    <div class="symbol symbol-35px me-3">
+                                        <span class="symbol-label bg-light-info text-info fw-bold">@log.AdminUser[0]</span>
                                     </div>
-                                    <span class="text-dark fw-bold fs-6">@log.AdminUser</span>
+                                    <div class="d-flex flex-column">
+                                        <span class="text-dark fw-bold text-hover-primary mb-1 fs-6">@log.AdminUser</span>
+                                        <span class="text-muted fs-8">ID: @(log.AdminUser.Length > 8 ? log.AdminUser.Substring(0, 8) + "..." : log.AdminUser)</span>
+                                    </div>
                                 </div>
+                            </td>
+                            <td>
+                                <span class="badge @badgeClass fw-bold px-4 py-3">@log.ActionType</span>
                             </td>
                             <td>
                                 <div class="d-flex flex-column">
-                                    <span class="badge badge-light-@badgeColor fw-bolder fs-8 w-60px mb-1 text-center">@log.ActionType</span>
-                                    <span class="text-muted fw-bold fs-7">@log.EntityName</span>
+                                    <span class="text-dark fw-bold fs-7 mb-1">@log.Description</span>
+                                    <span class="text-muted fw-semi-bold fs-8">Hedef: @log.EntityName @(string.IsNullOrEmpty(log.EntityId) ? "" : $"({log.EntityId.Substring(0, 8)}...)")</span>
                                 </div>
                             </td>
-                            <td>
-                                <span class="text-dark fw-bold fs-7">@log.Description</span>
-                                @if (!string.IsNullOrEmpty(log.EntityId))
-                                {
-                                    <span class="text-muted fs-8 d-block">ID: @log.EntityId</span>
-                                }
-                            </td>
                             <td class="text-end">
-                                <span class="text-muted fw-bold fs-8">@log.IpAddress</span>
+                                <span class="badge badge-secondary fs-8 fw-bold">@log.IpAddress</span>
                             </td>
-                            <td class="text-end">
+                            <td class="text-end pe-4">
                                 <button type="button" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm" 
                                         data-bs-toggle="modal" data-bs-target="#audit_modal_@log.Id">
-                                    <i class="ki-duotone ki-eye fs-3"></i>
+                                    <span class="svg-icon svg-icon-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                            <path d="M17.5 11H6.5C4 11 2 9 2 6.5C2 4 4 2 6.5 2H17.5C20 2 22 4 22 6.5C22 9 20 11 17.5 11ZM15 6.5C15 7.9 16.1 9 17.5 9C18.9 9 20 7.9 20 6.5C20 5.1 18.9 4 17.5 4C16.1 4 15 5.1 15 6.5Z" fill="currentColor" />
+                                            <path opacity="0.3" d="M17.5 22H6.5C4 22 2 20 2 17.5C2 15 4 13 6.5 13H17.5C20 13 22 15 22 17.5C22 20 20 22 17.5 22ZM4 17.5C4 18.9 5.1 20 6.5 20C7.9 20 9 18.9 9 17.5C9 16.1 7.9 15 6.5 15C5.1 15 4 16.1 4 17.5Z" fill="currentColor" />
+                                        </svg>
+                                    </span>
                                 </button>
                                 
                                 <!-- Detail Modal -->
                                 <div class="modal fade" id="audit_modal_@log.Id" tabindex="-1">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content text-start">
-                                            <div class="modal-header">
-                                                <h3 class="modal-title">İşlem Detayı: @log.ActionType - @log.EntityName</h3>
+                                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                                        <div class="modal-content shadow-lg border-0">
+                                            <div class="modal-header bg-light-primary py-4">
+                                                <h3 class="modal-title fw-bold">Veri Değişiklik Detayı</h3>
                                                 <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal">
-                                                    <i class="ki-duotone ki-cross fs-1"></i>
+                                                    <span class="svg-icon svg-icon-1">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                            <path d="M13 12L18 7H15V2H11V7H8L13 12Z" fill="currentColor" opacity="0.3" />
+                                                            <path d="M13 12L8 17H11V22H15V17H18L13 12Z" fill="currentColor" />
+                                                        </svg>
+                                                    </span>
                                                 </div>
                                             </div>
-                                            <div class="modal-body">
-                                                <div class="row g-5">
-                                                    <div class="col-md-6">
-                                                        <label class="fw-bold text-gray-400 fs-7">Eski Değerler</label>
-                                                        <div class="bg-light-danger p-4 rounded mt-2">
-                                                            <pre class="fs-8 text-danger mb-0">@(string.IsNullOrEmpty(log.OldValue) ? "Boş" : log.OldValue)</pre>
+                                            <div class="modal-body p-9">
+                                                <div class="d-flex flex-stack mb-8">
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="badge @badgeClass fw-bold px-4 py-2 me-3">@log.ActionType</span>
+                                                        <span class="text-gray-800 fw-bold fs-5">@log.EntityName Değişikliği</span>
+                                                    </div>
+                                                    <div class="text-muted fw-semi-bold fs-6">@log.Timestamp.ToString("yyyy-MM-dd HH:mm:ss")</div>
+                                                </div>
+
+                                                <div class="row g-10">
+                                                    <div class="col-md-6 border-end">
+                                                        <label class="fw-bold text-gray-400 fs-7 mb-3 d-block uppercase">Önceki Durum (Old)</label>
+                                                        <div class="bg-light-danger p-5 rounded position-relative">
+                                                            <pre class="fs-8 text-danger mb-0 overflow-auto max-h-300px">@(string.IsNullOrEmpty(log.OldValue) ? "Veri Yok" : log.OldValue)</pre>
+                                                            <span class="position-absolute top-0 end-0 m-2 badge badge-danger fs-9">Legacy</span>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <label class="fw-bold text-gray-400 fs-7">Yeni Değerler</label>
-                                                        <div class="bg-light-success p-4 rounded mt-2">
-                                                            <pre class="fs-8 text-success mb-0">@(string.IsNullOrEmpty(log.NewValue) ? "Değişiklik Yok" : log.NewValue)</pre>
+                                                        <label class="fw-bold text-gray-400 fs-7 mb-3 d-block uppercase">Yeni Durum (New)</label>
+                                                        <div class="bg-light-success p-5 rounded position-relative">
+                                                            <pre class="fs-8 text-success mb-0 overflow-auto max-h-300px">@(string.IsNullOrEmpty(log.NewValue) ? "Değişiklik Algılanmadı" : log.NewValue)</pre>
+                                                            <span class="position-absolute top-0 end-0 m-2 badge badge-success fs-9">Current</span>
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div class="modal-footer bg-light-gray py-4">
+                                                <button type="button" class="btn btn-primary btn-sm px-6" data-bs-dismiss="modal">Kapat</button>
                                             </div>
                                         </div>
                                     </div>
@@ -109,15 +145,20 @@
     </div>
 </div>
 
-<div class="alert alert-dismissible bg-light-primary d-flex flex-center flex-column py-10 px-10 px-lg-20 border border-primary border-dashed">
-    <i class="ki-duotone ki-shield-search fs-5x text-primary mb-5"></i>
-    <div class="text-center">
-        <h1 class="fw-bold mb-5">Admin Güvenlik Takibi</h1>
-        <div class="separator separator-dashed border-primary opacity-25 mb-5"></div>
-        <div class="mb-9 text-dark">
-            Denetim günlükleri sistem güvenliği için <strong>kritik öneme sahiptir</strong>. 
-            Burada listelenen her işlem, ilgili yöneticinin yetki kullanımıyla kayıt altına alınmıştır. 
-            Bu sayfadaki veriler yöneticiler tarafından <strong>silinemez ve değiştirilemez</strong>.
-        </div>
+<div class="alert alert-dismissible bg-light-primary d-flex flex-column flex-sm-row p-5 mb-10 border border-primary border-dashed shadow-sm">
+    <div class="symbol symbol-50px me-5 mb-5 mb-sm-0">
+        <span class="symbol-label bg-primary">
+            <span class="svg-icon svg-icon-2hx svg-icon-white">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="currentColor" opacity="0.3"/>
+                    <path d="M12 11V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 7H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </span>
+    </div>
+    <div class="d-flex flex-column pe-0 pe-sm-10 justify-content-center">
+        <h4 class="fw-bold text-primary mb-1">Güvenlik ve Şeffaflık Politikası</h4>
+        <span class="fs-7 fw-semi-bold">Bu sayfada listelenen her işlem, ilgili yöneticinin oturumu ve yetki kullanımıyla kayıt altına alınmıştır. Buradaki veriler <strong>tam bütünsellik (integrity)</strong> ilkesi gereği sistemden hiçbir şekilde silinemez veya üzerinde değişiklik yapılamaz.</span>
     </div>
 </div>

@@ -30,9 +30,16 @@ namespace Administration.MVC.Filters
             tempData["Alert_Title"] = "Beklenmedik Hata!";
             tempData["Alert_Message"] = $"Sistemde bir hata oluştu: {context.Exception.Message}. Lütfen yöneticinizle iletişime geçin.";
 
-            // Kullanıcıyı mevcut sayfada tutmak veya hata sayfasına yönlendirmek
-            // Amaç: Patlayıp beyaz ekran göstermemek
-            context.Result = new RedirectToActionResult(action, controller, context.RouteData.Values);
+            // Kullanıcıyı mevcut sayfada tutmak yerine güvenli bir hata sayfası göstermek
+            // RedirectToActionResult(action, controller) sonsuz döngüye sebep olabildiği için ViewResult kullanıyoruz.
+            context.Result = new ViewResult
+            {
+                ViewName = "Error",
+                ViewData = new ViewDataDictionary(_modelMetadataProvider, context.ModelState)
+                {
+                    Model = new Administration.MVC.Models.ErrorViewModel { RequestId = context.HttpContext.TraceIdentifier }
+                }
+            };
             
             context.ExceptionHandled = true;
         }

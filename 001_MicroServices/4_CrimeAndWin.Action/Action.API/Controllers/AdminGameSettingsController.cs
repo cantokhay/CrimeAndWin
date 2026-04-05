@@ -19,27 +19,56 @@ public class AdminGameSettingsController : ControllerBase
         _context = context;
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetAll() => Ok(await _context.GameSettings.ToListAsync());
-
-    [HttpPost]
-    public async Task<IActionResult> Upsert([FromBody] GameSettings setting)
+    [HttpGet("GetGlobalSettings")]
+    public async Task<IActionResult> GetGlobalSettings()
     {
-        var existing = await _context.GameSettings.FirstOrDefaultAsync(s => s.Key == setting.Key);
-        if (existing != null)
+        var settings = await _context.GameSettings.ToListAsync();
+        
+        var result = new 
         {
-            existing.Value = setting.Value;
-            existing.Description = setting.Description;
-            _context.GameSettings.Update(existing);
+            IsMaintenanceMode = settings.FirstOrDefault(x => x.Key == "IsMaintenanceMode")?.Value == "true",
+            SuccessRateMultiplier = double.TryParse(settings.FirstOrDefault(x => x.Key == "SuccessRateMultiplier")?.Value, out var srm) ? srm : 1.0,
+            CooldownMultiplier = double.TryParse(settings.FirstOrDefault(x => x.Key == "CooldownMultiplier")?.Value, out var cm) ? cm : 1.0,
+            MinEnergyRequired = int.TryParse(settings.FirstOrDefault(x => x.Key == "MinEnergyRequired")?.Value, out var mer) ? mer : 5,
+            GlobalAnnouncement = settings.FirstOrDefault(x => x.Key == "GlobalAnnouncement")?.Value ?? ""
+        };
+
+        return Ok(result);
+    }
+
+    [HttpPost("UpdateGlobalSettings")]
+    public async Task<IActionResult> UpdateGlobalSettings([FromBody] GlobalSettingsUpdateRequest request)
+    {
+        await UpdateSetting("IsMaintenanceMode", request.IsMaintenanceMode.ToString().ToLower());
+        await UpdateSetting("SuccessRateMultiplier", request.SuccessRateMultiplier.ToString());
+        await UpdateSetting("CooldownMultiplier", request.CooldownMultiplier.ToString());
+        await UpdateSetting("MinEnergyRequired", request.MinEnergyRequired.ToString());
+        await UpdateSetting("GlobalAnnouncement", request.GlobalAnnouncement);
+
+        await _context.SaveChangesAsync();
+        return Ok(new { success = true });
+    }
+
+    private async Task UpdateSetting(string key, string value)
+    {
+        var setting = await _context.GameSettings.FirstOrDefaultAsync(x => x.Key == key);
+        if (setting == null)
+        {
+            _context.GameSettings.Add(new GameSettings { Key = key, Value = value });
         }
         else
         {
-            setting.Id = Guid.NewGuid();
-            await _context.GameSettings.AddAsync(setting);
+            setting.Value = value;
         }
+    }
 
-        await _context.SaveChangesAsync();
-        return Ok(setting);
+    public class GlobalSettingsUpdateRequest
+    {
+        public bool IsMaintenanceMode { get; set; }
+        public double SuccessRateMultiplier { get; set; }
+        public double CooldownMultiplier { get; set; }
+        public int MinEnergyRequired { get; set; }
+        public string GlobalAnnouncement { get; set; } = "";
     }
 }
 

@@ -11,15 +11,27 @@
             <span class="card-label fw-bolder fs-3 mb-1">Onay Bekleyen Kullanıcılar</span>
             <span class="text-muted mt-1 fw-bold fs-7">@Model.Count kullanıcı onayınızı bekliyor</span>
         </h3>
+        <div class="card-toolbar">
+            @if (Model.Any())
+            {
+                <button type="button" class="btn btn-primary btn-sm me-3 js-approve-all-users" id="btnApproveAll">
+                    <span class="svg-icon svg-icon-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M10 18L16 12L10 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </span>
+                    Tümünü Onayla (Approve All)
+                </button>
+            }
+        </div>
     </div>
     <div class="card-body py-3">
         <div class="table-responsive">
             <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
                 <thead>
                     <tr class="fw-bolder text-muted">
-                        <th>Kullanıcı Adı</th>
-                        <th>Email</th>
-                        <th>Kayıt Tarihi</th>
+                        <th class="min-w-200px">Kullanıcı</th>
+                        <th class="min-w-150px">Kayıt Tarihi</th>
                         <th class="min-w-100px text-end">İşlemler</th>
                     </tr>
                 </thead>
@@ -28,21 +40,27 @@
                     {
                         <tr>
                             <td>
-                                <span class="text-dark fw-bolder text-hover-primary fs-6">@item.UserName</span>
-                            </td>
-                            <td>
-                                <span class="text-muted fw-bold d-block fs-7">@item.Email</span>
+                                <div class="d-flex align-items-center">
+                                    <div class="d-flex flex-column">
+                                        <a href="#" class="text-dark fw-bolder text-hover-primary mb-1 fs-6">@item.UserName</a>
+                                        <span class="text-muted fw-bold d-block fs-7">@item.Email</span>
+                                    </div>
+                                </div>
                             </td>
                             <td>
                                 <span class="text-muted fw-bold d-block fs-7">@item.CreatedAtUtc.ToString("g")</span>
                             </td>
                             <td class="text-end">
                                 <button type="button" 
-                                        class="btn btn-sm btn-light-success btn-active-success btn-approve-user" 
+                                        class="btn btn-icon btn-bg-light btn-active-color-success btn-sm btn-approve-user" 
                                         data-id="@item.Id"
-                                        data-username="@item.UserName">
-                                    <i class="ki-duotone ki-check fs-2"></i>
-                                    Onayla (Approve)
+                                        data-username="@item.UserName"
+                                        data-bs-toggle="tooltip" title="Onayla">
+                                    <span class="svg-icon svg-icon-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                            <path d="M5 13L9 17L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </span>
                                 </button>
                             </td>
                         </tr>
@@ -50,7 +68,7 @@
                     @if (Model.Count == 0)
                     {
                         <tr>
-                            <td colspan="4" class="text-center text-muted py-5">
+                            <td colspan="3" class="text-center text-muted py-5">
                                 Onay bekleyen kullanıcı bulunmamaktadır.
                             </td>
                         </tr>
@@ -68,8 +86,8 @@
             const username = $(this).data('username');
 
             Swal.fire({
-                title: 'Kullanıcıyı Onayla',
-                text: `${username} isimli kullanıcının hesabını aktifleştirmek istediğinize emin misiniz?`,
+                title: 'Onayla?',
+                text: `${username} hesabını aktifleştirmek istediğinize emin misiniz?`,
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonText: 'Evet, Onayla!',
@@ -80,26 +98,62 @@
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    const token = $('input[name="__RequestVerificationToken"]').val();
-
                     $.ajax({
-                        url: '/AdminIdentity/ApproveUser',
+                        url: '@Url.Action("ApproveUser", "AdminIdentity")',
                         type: 'POST',
                         data: {
                             id: userId,
-                            __RequestVerificationToken: token
+                            __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
                         },
-                        success: function(response) {
-                            if (response.success) {
-                                Swal.fire('Başarılı!', 'Kullanıcı hesabı başarıyla aktifleştirildi.', 'success').then(() => {
-                                    location.reload();
-                                });
+                        success: function(res) {
+                            if (res.success) {
+                                Swal.fire('Başarılı!', 'Kullanıcı hesabı aktifleştirildi.', 'success').then(() => location.reload());
                             } else {
                                 Swal.fire('Hata!', 'İşlem sırasında bir hata oluştu.', 'error');
                             }
                         }
                     });
                 }
+            });
+        });
+
+        $(document).on('click', '.js-approve-all-users', function() {
+            Swal.fire({
+                title: 'Tümünü Onayla?',
+                text: 'Onay bekleyen TÜM kullanıcıları aktifleştirmek istediğinize emin misiniz?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Evet, Hepsini Onayla!',
+                cancelButtonText: 'Vazgeç',
+                customClass: {
+                    confirmButton: "btn btn-success",
+                    cancelButton: "btn btn-active-light"
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.showLoading();
+                    $.ajax({
+                        url: '@Url.Action("ApproveAllPendingUsers", "AdminIdentity")',
+                        type: 'POST',
+                        data: {
+                            __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                        },
+                        success: function(res) {
+                            if (res.success) {
+                                Swal.fire('Başarılı!', 'Tüm kullanıcılar onaylandı.', 'success').then(() => location.reload());
+                            } else {
+                                Swal.fire('Hata!', 'Toplu onaylama sırasında bir hata oluştu.', 'error');
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
+        $(document).ready(function() {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.forEach(function (el) {
+                new bootstrap.Tooltip(el);
             });
         });
     </script>

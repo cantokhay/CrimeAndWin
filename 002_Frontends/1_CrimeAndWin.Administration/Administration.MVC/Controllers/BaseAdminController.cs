@@ -9,7 +9,7 @@ namespace Administration.MVC.Controllers
     /// </summary>
     public abstract class BaseAdminController : Controller
     {
-        protected override void OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext context)
+        public override void OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext context)
         {
             base.OnActionExecuting(context);
         }
@@ -77,7 +77,7 @@ namespace Administration.MVC.Controllers
         protected void NotifyWarning(string message) => SetTempData("warning", "Uyarı!", message);
         protected void NotifyInfo(string message) => SetTempData("info", "Bilgi", message);
 
-        private void SetTempData(string type, string title, string message)
+        protected void SetTempData(string type, string title, string message)
         {
             TempData["Alert_Type"] = type;     // success, error, warning, info
             TempData["Alert_Title"] = title;

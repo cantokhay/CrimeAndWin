@@ -2,22 +2,31 @@
 
 @{
     Layout = "_AdminLayout";
-    ViewData["Title"] = "Enerji İzleme";
+    ViewData["Title"] = "Enerji Yönetimi";
 }
 
-<div class="row mb-5 justify-content-center">
+@Html.AntiForgeryToken()
+
+<div class="row g-5 g-xl-10 mb-8 mt-5 justify-content-center">
     <div class="col-md-3">
-        <div class="card shadow-sm border-start border-warning border-4">
-            <div class="card-body">
-                <div class="d-flex align-items-center">
-                    <div class="symbol symbol-45px me-5">
-                        <span class="symbol-label bg-light-warning">
-                            <i class="ki-duotone ki-electricity fs-2x text-warning"></i>
-                        </span>
+        <div class="card card-flush h-md-100 shadow-sm border-0 bg-light-success">
+            <div class="card-header pt-5">
+                <div class="card-title d-flex flex-column">
+                    <div class="d-flex align-items-center">
+                        <span class="fs-2hx fw-bold text-dark me-2 lh-1 ls-n2">@(Model.Any() ? Model.Sum(x => x.CurrentEnergy) : 0)</span>
+                        <span class="badge badge-light-success border border-success border-dashed fs-7 fw-bold px-3 py-1">Piller</span>
                     </div>
-                    <div class="d-flex flex-column">
-                        <span class="text-muted fw-bold">Toplam Enerji</span>
-                        <span class="fs-2 fw-bold mb-0">@(Model.Any() ? Model.Sum(x => x.CurrentEnergy) : 0)</span>
+                    <span class="text-gray-600 pt-1 fw-bold fs-6">Sistemdeki Toplam Enerji</span>
+                </div>
+            </div>
+            <div class="card-body d-flex align-items-end pt-0 pb-5">
+                <div class="d-flex align-items-center flex-column mt-3 w-100">
+                    <div class="d-flex justify-content-between w-100 mt-auto mb-2">
+                        <span class="fw-bold fs-6 text-dark opacity-50">Enerji Hacmi</span>
+                        <span class="fw-bolder fs-6 text-dark opacity-75">100%</span>
+                    </div>
+                    <div class="h-8px mx-3 w-100 bg-white bg-opacity-50 rounded">
+                        <div class="bg-success rounded h-8px" role="progressbar" style="width: 100%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 </div>
             </div>
@@ -25,17 +34,20 @@
     </div>
 
     <div class="col-md-3">
-        <div class="card shadow-sm border-start border-info border-4">
-            <div class="card-body">
-                <div class="d-flex align-items-center">
-                    <div class="symbol symbol-45px me-5">
-                        <span class="symbol-label bg-light-info">
-                            <i class="ki-duotone ki-chart-line-4 fs-2x text-info"></i>
-                        </span>
+        <div class="card card-flush h-md-100 shadow-sm border-0 bg-light-primary">
+            <div class="card-header pt-5">
+                <div class="card-title d-flex flex-column">
+                    <div class="d-flex align-items-center">
+                        <span class="fs-2hx fw-bold text-dark me-2 lh-1 ls-n2">@Model.Count(x => x.MaxEnergy > 0 && (double)x.CurrentEnergy / x.MaxEnergy >= 0.9)</span>
+                        <span class="badge badge-light-primary border border-primary border-dashed fs-7 fw-bold px-3 py-1">Aktif</span>
                     </div>
-                    <div class="d-flex flex-column">
-                        <span class="text-muted fw-bold">Piller Dolu (90%+)</span>
-                        <span class="fs-2 fw-bold mb-0 text-info">@Model.Count(x => x.MaxEnergy > 0 && (double)x.CurrentEnergy / x.MaxEnergy >= 0.9)</span>
+                    <span class="text-gray-600 pt-1 fw-bold fs-6">Dolu Enerjiye Sahip Oyuncular</span>
+                </div>
+            </div>
+            <div class="card-body d-flex align-items-end pt-0 pb-5">
+                <div class="d-flex align-items-center flex-column mt-3 w-100">
+                    <div class="symbol symbol-35px me-2 text-primary">
+                        <i class="ki-duotone ki-zap fs-2hx"></i>
                     </div>
                 </div>
             </div>
@@ -43,33 +55,38 @@
     </div>
 </div>
 
-<div class="card mb-5 mb-xl-8">
+<div class="card mb-5 mb-xl-8 shadow-sm">
     <div class="card-header border-0 pt-5">
         <h3 class="card-title align-items-start flex-column">
-            <span class="card-label fw-bolder fs-3 mb-1">Oyuncu Enerji Durumları</span>
-            <span class="text-muted mt-1 fw-bold fs-7">Tüm oyuncuların mevcut enerji ve dolum hızları</span>
+            <span class="card-label fw-bold fs-3 mb-1">Oyuncu Enerji Takip Çizelgesi</span>
+            <span class="text-muted mt-1 fw-bold fs-7">Tüm sunucudaki enerji tüketim ve yenilenme verileri</span>
         </h3>
     </div>
     <div class="card-body py-3">
         <div class="table-responsive">
-            <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
+            <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-4">
                 <thead>
-                    <tr class="fw-bolder text-muted">
-                        <th class="min-w-150px">Oyuncu Bilgisi</th>
-                        <th class="min-w-140px">Enerji Seviyesi</th>
-                        <th>Son Yenileme</th>
-                        <th>Aktif Boost</th>
-                        <th class="min-w-100px text-end">İşlemler</th>
+                    <tr class="fw-bold text-muted bg-light">
+                        <th class="ps-4 rounded-start min-w-150px">Oyuncu Bilgisi</th>
+                        <th class="min-w-200px text-center">Enerji Seviyesi (%)</th>
+                        <th class="text-center">Son Yenileme</th>
+                        <th class="text-center">Aktif Boost</th>
+                        <th class="min-w-100px text-end pe-4 rounded-end">Hızlı İşlem</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>
-                                <div class="d-flex flex-column">
-                                    <span class="text-dark fw-bolder text-hover-primary fs-6">@item.PlayerName</span>
-                                    <span class="text-muted fw-bold fs-7">@item.PlayerId.ToString().Substring(0, 8)...</span>
+                            <td class="ps-4">
+                                <div class="d-flex align-items-center">
+                                    <div class="symbol symbol-35px me-3">
+                                        <span class="symbol-label bg-light-warning text-warning fw-bold">@item.PlayerName[0]</span>
+                                    </div>
+                                    <div class="d-flex flex-column">
+                                        <span class="text-dark fw-bold text-hover-primary mb-1 fs-6">@item.PlayerName</span>
+                                        <span class="text-muted fw-semi-bold fs-8">ID: @item.PlayerId.ToString().Substring(0, 8)</span>
+                                    </div>
                                 </div>
                             </td>
                             <td>
@@ -80,33 +97,40 @@
                                     if (percent > 100) percent = 100;
                                     var color = percent < 20 ? "danger" : (percent < 50 ? "warning" : "success");
                                 }
-                                <div class="d-flex align-items-center w-100">
-                                    <div class="progress h-6px w-100 me-2 bg-light-@color">
-                                        <div class="progress-bar bg-@color" role="progressbar" style="width: @percent%"></div>
+                                <div class="d-flex flex-column w-100 me-2">
+                                    <div class="d-flex flex-stack mb-2 text-dark fw-bold fs-8">
+                                        <span>@current / @max</span>
+                                        <span>%@percent</span>
                                     </div>
-                                    <span class="text-muted fw-bold fs-7">@current/@max</span>
+                                    <div class="h-6px w-100 bg-light-@color rounded">
+                                        <div class="bg-@color rounded h-6px" role="progressbar" style="width: @percent%"></div>
+                                    </div>
                                 </div>
                             </td>
-                            <td>
-                                <span class="text-muted fw-bold d-block fs-7">@item.LastRefillAt.ToLocalTime().ToString("g")</span>
+                            <td class="text-center">
+                                <span class="text-muted fw-bold d-block fs-8">@item.LastRefillAt.ToLocalTime().ToString("g")</span>
                             </td>
-                            <td>
+                            <td class="text-center">
                                 @if (!string.IsNullOrEmpty(item.ActiveBoostItem))
                                 {
-                                    <span class="badge badge-light-success fw-bold py-2 px-3 shadow-sm" data-bs-toggle="tooltip" 
+                                    <span class="badge badge-light-success border border-success border-dashed fw-bold fs-8 px-3 py-2" data-bs-toggle="tooltip" 
                                           title="Bitiş: @item.BoostExpiresAt?.ToLocalTime().ToString("g")">
-                                        <i class="ki-duotone ki-rocket fs-6 text-success me-1"></i> @item.ActiveBoostItem
+                                        <i class="ki-duotone ki-rocket fs-7 text-success me-1"></i> @item.ActiveBoostItem
                                     </span>
                                 }
                                 else
                                 {
-                                    <span class="text-muted fs-7">Aktif Yok</span>
+                                    <span class="text-muted fs-8">Aktif Boost Yok</span>
                                 }
                             </td>
-                            <td class="text-end">
-                                <button type="button" class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary js-refill-btn" 
+                            <td class="text-end pe-4">
+                                <button type="button" class="btn btn-icon btn-light-warning btn-active-warning btn-sm shadow-sm js-refill-btn" 
                                         data-id="@item.PlayerId" data-name="@item.PlayerName">
-                                    <i class="ki-duotone ki-plus-square fs-2"></i>
+                                    <span class="svg-icon svg-icon-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                            <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" fill="currentColor"/>
+                                        </svg>
+                                    </span>
                                 </button>
                             </td>
                         </tr>
@@ -122,11 +146,13 @@
         $(document).on('click', '.js-refill-btn', function() {
             const id = $(this).data('id');
             const name = $(this).data('name');
+            const token = $('input[name="__RequestVerificationToken"]').val();
 
             Swal.fire({
-                title: 'Enerji Ekle',
-                text: `${name} için manuel enerji miktarı giriniz:`,
+                title: 'Hızlı Enerji Takviyesi',
+                text: `${name} için eklenecek enerji miktarını belirleyin:`,
                 input: 'number',
+                icon: 'question',
                 inputAttributes: {
                     min: 1,
                     max: 100,
@@ -134,29 +160,44 @@
                 },
                 inputValue: 10,
                 showCancelButton: true,
-                confirmButtonText: 'Ekle',
+                confirmButtonText: 'Enerji Ver',
                 cancelButtonText: 'Vazgeç',
+                buttonsStyling: false,
+                customClass: {
+                    confirmButton: 'btn btn-warning',
+                    cancelButton: 'btn btn-active-light'
+                },
                 inputValidator: (value) => {
                     if (!value || value < 1) return 'Lütfen geçerli bir miktar giriniz!';
-                }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
+                },
+                showLoaderOnConfirm: true,
+                preConfirm: (amount) => {
+                    return $.ajax({
                         url: '/AdminEnergy/ManualRefill',
                         type: 'POST',
                         data: {
                             playerId: id,
-                            amount: result.value,
-                            __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
-                        },
-                        success: function(res) {
-                            if (res.success) {
-                                Swal.fire('Başarılı', 'Enerji eklendi.', 'success').then(() => location.reload());
-                            } else {
-                                Swal.fire('Hata', 'İşlem başarısız.', 'error');
-                            }
+                            amount: amount,
+                            __RequestVerificationToken: token
                         }
+                    }).then(response => {
+                        if (!response.success) {
+                            throw new Error(response.message || 'Bir hata oluştu');
+                        }
+                        return response;
+                    }).catch(error => {
+                        Swal.showValidationMessage(`İşlem başarısız: ${error.message}`);
                     });
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Başarılı!',
+                        text: result.value.message || 'Enerji başarıyla eklendi.',
+                        icon: 'success',
+                        confirmButtonText: 'Tamam',
+                        customClass: { confirmButton: 'btn btn-primary' }
+                    }).then(() => location.reload());
                 }
             });
         });
@@ -167,5 +208,7 @@
                 new bootstrap.Tooltip(el);
             });
         });
+    </script>
+}   });
     </script>
 }

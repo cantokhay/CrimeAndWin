@@ -1,68 +1,96 @@
 var builder = WebApplication.CreateBuilder(args);
 
+// Named clients for controllers
 builder.Services.AddHttpClient("IdentityApi", client =>
 {
-    client.BaseAddress = new Uri("http://localhost:6001/api/IdentityAdmins/");
+    client.BaseAddress = new Uri($"{builder.Configuration["ServiceEndpoints:Identity"]?.TrimEnd('/')}/api/IdentityAdmins/");
 });
 
 builder.Services.AddHttpClient("PlayerProfileApi", client =>
 {
-    client.BaseAddress = new Uri("http://localhost:6002/api/PlayerAdmins/");
+    client.BaseAddress = new Uri($"{builder.Configuration["ServiceEndpoints:Player"]?.TrimEnd('/')}/api/PlayerAdmins/");
 });
 
 builder.Services.AddHttpClient("GameWorldApi", client =>
 {
-    client.BaseAddress = new Uri("http://localhost:6003/api/");
-    // GameWorldsController => /api/GameWorlds
-    // SeasonsController   => /api/Seasons
+    client.BaseAddress = new Uri($"{builder.Configuration["ServiceEndpoints:GameWorld"]?.TrimEnd('/')}/api/");
 });
 
 builder.Services.AddHttpClient("ActionApi", client =>
 {
-    client.BaseAddress = new Uri("http://localhost:6004/api/");
-    // ActionDefinitionsController => /api/ActionDefinitionAdmins
-    // ActionAttemptsController    => /api/ActionAttemptAdmins
+    client.BaseAddress = new Uri($"{builder.Configuration["ServiceEndpoints:Action"]?.TrimEnd('/')}/api/");
 });
 
 builder.Services.AddHttpClient("EconomyApi", client =>
 {
-    client.BaseAddress = new Uri("http://localhost:6005/api/EconomyAdmins/");
+    client.BaseAddress = new Uri($"{builder.Configuration["ServiceEndpoints:Economy"]?.TrimEnd('/')}/api/EconomyAdmins/");
 });
 
 builder.Services.AddHttpClient("InventoryApi", client =>
 {
-    client.BaseAddress = new Uri("http://localhost:6006/api/InventoryAdmins/");
+    client.BaseAddress = new Uri($"{builder.Configuration["ServiceEndpoints:Inventory"]?.TrimEnd('/')}/api/InventoryAdmins/");
 });
 
 builder.Services.AddHttpClient("LeadershipApi", client =>
 {
-    client.BaseAddress = new Uri("http://localhost:6007/api/LeadershipAdmins/");
+    client.BaseAddress = new Uri($"{builder.Configuration["ServiceEndpoints:Leadership"]?.TrimEnd('/')}/api/LeadershipAdmins/");
 });
 
 builder.Services.AddHttpClient("NotificationApi", client =>
 {
-    client.BaseAddress = new Uri("http://localhost:6008/api/NotificationAdmins/");
+    client.BaseAddress = new Uri($"{builder.Configuration["ServiceEndpoints:Notification"]?.TrimEnd('/')}/api/NotificationAdmins/");
 });
 
 builder.Services.AddHttpClient("ModerationApi", client =>
 {
-    client.BaseAddress = new Uri("http://localhost:6009/api/ModerationAdmins/");
+    client.BaseAddress = new Uri($"{builder.Configuration["ServiceEndpoints:Moderation"]?.TrimEnd('/')}/api/ModerationAdmins/");
 });
 
-// Typed HttpClients for Adım 1c
+builder.Services.AddHttpClient("EnergyApi", client =>
+{
+    client.BaseAddress = new Uri($"{builder.Configuration["ServiceEndpoints:Action"]?.TrimEnd('/')}/api/action/admin/");
+});
+
+builder.Services.AddHttpClient("CooldownApi", client =>
+{
+    client.BaseAddress = new Uri($"{builder.Configuration["ServiceEndpoints:Action"]?.TrimEnd('/')}/api/action/admin/");
+});
+
+builder.Services.AddHttpClient("ActionLogApi", client =>
+{
+    client.BaseAddress = new Uri($"{builder.Configuration["ServiceEndpoints:Action"]?.TrimEnd('/')}/api/action/admin/");
+});
+
+builder.Services.AddHttpClient("SystemApi", client =>
+{
+    client.BaseAddress = new Uri($"{builder.Configuration["ServiceEndpoints:Action"]?.TrimEnd('/')}/api/admin/settings/");
+});
+
+builder.Services.AddHttpClient("HealthApi", client =>
+{
+    client.BaseAddress = new Uri($"{builder.Configuration["ServiceEndpoints:Action"]?.TrimEnd('/')}/api/action/admin/");
+});
+
+builder.Services.AddHttpClient("SagaApi", client =>
+{
+    client.BaseAddress = new Uri($"{builder.Configuration["ServiceEndpoints:Saga"]?.TrimEnd('/')}/api/saga/admin/");
+});
+
+// Typed HttpClients
 builder.Services.AddHttpClient<Administration.MVC.Services.ActionApiClient>(c =>
-    c.BaseAddress = new Uri(builder.Configuration["ServiceEndpoints:Action"]!));
+    c.BaseAddress = new Uri(builder.Configuration["ServiceEndpoints:Action"]?.TrimEnd('/') + "/"));
 
 builder.Services.AddHttpClient<Administration.MVC.Services.SagaApiClient>(c =>
-    c.BaseAddress = new Uri(builder.Configuration["ServiceEndpoints:Saga"]!));
+    c.BaseAddress = new Uri(builder.Configuration["ServiceEndpoints:Saga"]?.TrimEnd('/') + "/"));
 
 builder.Services.AddHttpClient<Administration.MVC.Services.InventoryApiClient>(c =>
-    c.BaseAddress = new Uri(builder.Configuration["ServiceEndpoints:Inventory"]!));
+    c.BaseAddress = new Uri(builder.Configuration["ServiceEndpoints:Inventory"]?.TrimEnd('/') + "/"));
 
-builder.Services.AddHttpClient<Administration.MVC.Services.HealthApiClient>(); // BaseAddress yok
+builder.Services.AddHttpClient<Administration.MVC.Services.HealthApiClient>(c => 
+    c.BaseAddress = new Uri(builder.Configuration["ServiceEndpoints:Gateway"]?.TrimEnd('/') + "/")); // Use gateway or any host
 
 builder.Services.AddHttpClient<Administration.MVC.Services.GatewayApiClient>(c =>
-    c.BaseAddress = new Uri(builder.Configuration["ServiceEndpoints:Gateway"]!));
+    c.BaseAddress = new Uri(builder.Configuration["ServiceEndpoints:Gateway"]?.TrimEnd('/') + "/"));
 
 // SSL Bypass for Development (Adım 1d)
 if (builder.Environment.IsDevelopment())

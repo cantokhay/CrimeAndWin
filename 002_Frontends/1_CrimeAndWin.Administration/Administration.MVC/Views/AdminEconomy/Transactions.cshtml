@@ -2,104 +2,111 @@
 
 @{
     Layout = "_AdminLayout";
-    ViewData["Title"] = "İşlemler (Transactions)";
+    ViewData["Title"] = "Para Hareketleri";
 }
 
-<div class="row mb-5 justify-content-center">
+@Html.AntiForgeryToken()
+
+<div class="row g-5 g-xl-10 mb-8 mt-5">
     <div class="col-md-3">
-        <div class="card shadow-sm border-start border-primary border-4">
-            <div class="card-body">
-                <div class="d-flex align-items-center">
-                    <div class="symbol symbol-45px me-5">
-                        <span class="symbol-label bg-light-primary">
-                            <i class="ki-duotone ki-element-plus fs-2x text-primary"></i>
-                        </span>
+        <div class="card card-flush h-md-100 shadow-sm border-0 bg-light-primary text-primary">
+            <div class="card-header pt-5">
+                <div class="card-title d-flex flex-column">
+                    <div class="d-flex align-items-center">
+                        <span class="fs-2hx fw-bold text-dark me-2 lh-1 ls-n2">@Model.Count</span>
+                        <span class="badge badge-light-primary border border-primary border-dashed fs-7 fw-bold px-3 py-1">İşlem</span>
                     </div>
-                    <div class="d-flex flex-column">
-                        <span class="text-muted fw-bold">Toplam İşlem</span>
-                        <span class="fs-2 fw-bold mb-0">@Model.Count</span>
-                    </div>
+                    <span class="text-gray-600 pt-1 fw-bold fs-6">Sistemdeki Toplam Kayıt</span>
                 </div>
+            </div>
+            <div class="card-body d-flex align-items-end pt-0 pb-5">
+                <i class="ki-duotone ki-finance-2 fs-3x"></i>
             </div>
         </div>
     </div>
 
     <div class="col-md-3">
-        <div class="card shadow-sm border-start border-success border-4">
-            <div class="card-body">
-                <div class="d-flex align-items-center">
-                    <div class="symbol symbol-45px me-5">
-                        <span class="symbol-label bg-light-success">
-                            <i class="ki-duotone ki-dollar fs-2x text-success"></i>
+        <div class="card card-flush h-md-100 shadow-sm border-0 bg-light-success text-success">
+            <div class="card-header pt-5">
+                <div class="card-title d-flex flex-column">
+                    <div class="d-flex align-items-center">
+                        <span class="fs-2hx fw-bold text-dark me-2 lh-1 ls-n2">
+                            @(Model.Any() ? Model.Sum(x => x.Amount).ToString("N0") : "0")
                         </span>
+                        <span class="badge badge-light-success border border-success border-dashed fs-7 fw-bold px-3 py-1">Hacim</span>
                     </div>
-                    <div class="d-flex flex-column">
-                        <span class="text-muted fw-bold">Toplam Hacim</span>
-                        <span class="fs-2 fw-bold mb-0 text-success">
-                            @(Model.Any() ? Model.Sum(x => x.Amount).ToString("N0") : "0")₺
-                        </span>
-                    </div>
+                    <span class="text-gray-600 pt-1 fw-bold fs-6">Toplam Parasal Giriş/Çıkış</span>
                 </div>
+            </div>
+            <div class="card-body d-flex align-items-end pt-0 pb-5">
+                <i class="ki-duotone ki-crown fs-3x"></i>
             </div>
         </div>
     </div>
 </div>
 
-<div class="card mb-5 mb-xl-8">
+<div class="card mb-5 mb-xl-8 shadow-sm">
     <div class="card-header border-0 pt-5">
         <h3 class="card-title align-items-start flex-column">
-            <span class="card-label fw-bolder fs-3 mb-1">Para Hareketleri</span>
-            <span class="text-muted mt-1 fw-bold fs-7">Sistemdeki tüm finansal kayıtlar</span>
+            <span class="card-label fw-bold fs-3 mb-1">Finansal İşlem Dökümü</span>
+            <span class="text-muted mt-1 fw-bold fs-7">Tüm oyuncu ve sistem cüzdanlarındaki bakiye değişimleri</span>
         </h3>
         <div class="card-toolbar">
             <a asp-action="CreateTransaction" asp-controller="AdminEconomy" class="btn btn-sm btn-primary">
-                <i class="ki-duotone ki-plus fs-2"></i> Yeni İşlem Ekle
+                <i class="ki-duotone ki-plus fs-2 me-1"></i> Manuel Transfer Yap
             </a>
         </div>
     </div>
     <div class="card-body py-3">
         <div class="table-responsive">
-            <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
+            <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-4">
                 <thead>
-                    <tr class="fw-bolder text-muted">
-                        <th class="min-w-150px">Cüzdan / Neden</th>
-                        <th>Miktar</th>
-                        <th>Açıklama</th>
-                        <th>Tarih</th>
-                        <th class="min-w-100px text-end">İşlemler</th>
+                    <tr class="fw-bold text-muted bg-light">
+                        <th class="ps-4 rounded-start min-w-150px">Kaynak Cüzdan</th>
+                        <th>İşlem Miktarı</th>
+                        <th>Açıklama / Sebep</th>
+                        <th class="text-center">İşlem Tarihi</th>
+                        <th class="min-w-100px text-end pe-4 rounded-end">Yönetim</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>
-                                <div class="d-flex flex-column">
-                                    <span class="text-dark fw-bolder text-hover-primary fs-6">
-                                        @(item.WalletDisplay ?? "Bilinmeyen Cüzdan")
-                                    </span>
-                                    <span class="badge badge-light-info fw-bold fs-8 mt-1">@item.ReasonCode</span>
+                            <td class="ps-4">
+                                <div class="d-flex align-items-center">
+                                    <div class="symbol symbol-35px me-3">
+                                        <span class="symbol-label bg-light-info text-info fw-bold">TX</span>
+                                    </div>
+                                    <div class="d-flex flex-column">
+                                        <span class="text-dark fw-bold text-hover-primary mb-1 fs-6">
+                                            @(item.WalletDisplay?.Split('|')[0]?.Trim().Substring(0, 8) ?? "Sanal") Cüzdan
+                                        </span>
+                                        <span class="badge badge-light-primary fw-bold fs-9 w-fit">Ref: @item.ReasonCode</span>
+                                    </div>
                                 </div>
                             </td>
                             <td>
-                                <span class="text-dark fw-bolder d-block fs-6 @(item.Amount >= 0 ? "text-success" : "text-danger")">
-                                    @(item.Amount >= 0 ? "+" : "")@item.Amount.ToString("N0")₺
-                                </span>
-                                <span class="text-muted fw-bold fs-7">@item.CurrencyType</span>
+                                <div class="d-flex flex-column">
+                                    <span class="text-dark fw-bold fs-6 @(item.Amount >= 0 ? "text-success" : "text-danger")">
+                                        @(item.Amount >= 0 ? "+" : "")@item.Amount.ToString("N0")
+                                        <small class="text-muted ms-1">@item.CurrencyType</small>
+                                    </span>
+                                </div>
                             </td>
                             <td>
-                                <span class="text-muted fw-bold d-block fs-7">@item.Description</span>
+                                <span class="text-gray-600 fw-semi-bold d-block fs-7">@item.Description</span>
                             </td>
-                            <td>
-                                <span class="text-muted fw-bold d-block fs-7">@item.CreatedAtUtc.ToString("g")</span>
+                            <td class="text-center">
+                                <span class="text-muted fw-bold d-block fs-8">@item.CreatedAtUtc.ToLocalTime().ToString("dd MMM yyyy")</span>
+                                <span class="text-muted fs-8">@item.CreatedAtUtc.ToLocalTime().ToString("HH:mm")</span>
                             </td>
-                            <td class="text-end">
+                            <td class="text-end pe-4">
                                 <a asp-action="EditTransaction" asp-controller="AdminEconomy" asp-route-id="@item.Id" 
-                                   class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"
-                                   data-bs-toggle="tooltip" title="Düzenle">
+                                   class="btn btn-icon btn-light-primary btn-active-primary btn-sm me-2 shadow-sm">
                                     <i class="ki-duotone ki-pencil fs-3"></i>
                                 </a>
-                                <button type="button" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm js-delete-btn" 
+                                <button type="button" class="btn btn-icon btn-light-danger btn-active-danger btn-sm shadow-sm js-delete-transaction-btn" 
                                         data-id="@item.Id">
                                     <i class="ki-duotone ki-trash fs-3"></i>
                                 </button>
@@ -114,45 +121,50 @@
 
 @section Scripts {
     <script>
-        $(document).on('click', '.js-delete-btn', function() {
+        $(document).on('click', '.js-delete-transaction-btn', function() {
             const id = $(this).data('id');
+            const token = $('input[name="__RequestVerificationToken"]').val();
 
             Swal.fire({
                 title: 'İşlemi Sil?',
-                text: "Bu para hareketini silmek istediğinize emin misiniz? Bakiye değişmeyecektir!",
+                text: "Bu para hareketini silmek istediğinize emin misiniz? Bu işlem sadece kayıt bazlıdır, bakiye geri dönmez!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Evet, Sil!',
                 cancelButtonText: 'Vazgeç',
+                buttonsStyling: false,
                 customClass: {
                     confirmButton: "btn btn-danger",
                     cancelButton: "btn btn-active-light"
-                }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: '/AdminEconomy/DeleteTransaction',
+                },
+                showLoaderOnConfirm: true,
+                preConfirm: () => {
+                    return $.ajax({
+                        url: '@Url.Action("DeleteTransaction", "AdminEconomy")',
                         type: 'POST',
                         data: {
                             id: id,
-                            __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
-                        },
-                        success: function(res) {
-                            if (res.success) {
-                                Swal.fire('Silindi!', 'Kayıt başarıyla silindi.', 'success').then(() => location.reload());
-                            } else {
-                                Swal.fire('Hata!', 'Silme işlemi sırasında bir hata oluştu.', 'error');
-                            }
+                            __RequestVerificationToken: token
                         }
+                    }).then(response => {
+                        if (!response.success) {
+                            throw new Error(response.message || 'Silme işlemi başarısız');
+                        }
+                        return response;
+                    }).catch(error => {
+                        Swal.showValidationMessage(`Hata: ${error.message}`);
                     });
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Silindi!',
+                        text: 'Para hareketi başarıyla kaldırıldı.',
+                        icon: 'success',
+                        customClass: { confirmButton: 'btn btn-primary' }
+                    }).then(() => location.reload());
                 }
-            });
-        });
-
-        $(document).ready(function() {
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-            tooltipTriggerList.forEach(function (el) {
-                new bootstrap.Tooltip(el);
             });
         });
     </script>

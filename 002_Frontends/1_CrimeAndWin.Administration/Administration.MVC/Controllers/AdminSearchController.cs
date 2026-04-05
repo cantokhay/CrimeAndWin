@@ -1,9 +1,9 @@
 using Administration.MVC.ViewModels.SearchVMs;
 using Administration.MVC.ViewModels.IdentityVMs.AppUserVMs;
-using Administration.MVC.ViewModels.ActionViewModels;
-using Administration.MVC.ViewModels.GameWorldVMs;
-using Administration.MVC.ViewModels.PlayerProfileVMs;
 using Microsoft.AspNetCore.Mvc;
+using Administration.MVC.ViewModels.PlayerProfileVMs.PlayerVMs;
+using Administration.MVC.ViewModels.GameWorldVMs.GameWorldVMs;
+using Administration.MVC.ViewModels.ActionVMs.ActionDefinitonVMs;
 
 namespace Administration.MVC.Controllers
 {
@@ -83,16 +83,16 @@ namespace Administration.MVC.Controllers
                 if (actionsTask.Result != null)
                 {
                     var foundActions = actionsTask.Result
-                        .Where(x => x.Name.ToLowerInvariant().Contains(query))
+                        .Where(x => x.DisplayName.ToLowerInvariant().Contains(query))
                         .Take(5)
                         .Select(x => new GlobalSearchResultVM
                         {
-                            Title = x.Name,
-                            Description = $"Enerji: {x.EnergyCost}, Cooldown: {x.CooldownSeconds}s",
+                            Title = x.DisplayName, // Use DisplayName instead of Name
+                            Description = $"Enerji: {x.EnergyCost}", // Removed CooldownSeconds, as it does not exist
                             Category = "Aksiyon",
                             Icon = "abstract-26",
                             BadgeColor = "info",
-                            Url = Url.Action("ActionDefinitions", "AdminAction")
+                            Url = Url.Action("ActionDefinitions", "AdminAction") ?? string.Empty // Ensure non-null assignment
                         });
                     results.AddRange(foundActions);
                 }
@@ -101,16 +101,16 @@ namespace Administration.MVC.Controllers
                 if (worldsTask.Result != null)
                 {
                     var foundWorlds = worldsTask.Result
-                        .Where(x => x.WorldName.ToLowerInvariant().Contains(query))
+                        .Where(x => x.Name.ToLowerInvariant().Contains(query)) // Use Name instead of WorldName
                         .Take(5)
                         .Select(x => new GlobalSearchResultVM
                         {
-                            Title = x.WorldName,
-                            Description = $"Sezon: {x.CurrentSeasonNumber}",
+                            Title = x.Name, // Use Name instead of WorldName
+                            Description = $"Sezon: {x.SeasonsCount}", // Use SeasonsCount as CurrentSeasonNumber is not present
                             Category = "Dünya",
                             Icon = "global",
                             BadgeColor = "warning",
-                            Url = Url.Action("GameWorlds", "AdminGameWorld")
+                            Url = Url.Action("GameWorlds", "AdminGameWorld") ?? string.Empty // Ensure non-null assignment
                         });
                     results.AddRange(foundWorlds);
                 }

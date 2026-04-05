@@ -41,7 +41,6 @@ using Identity.Application.Features.UserToken.Commands.DeleteUserToken;
 using Identity.Application.Features.UserToken.Commands.UpdateUserToken;
 using Identity.Application.Features.UserToken.Queries.GetAllUserTokens;
 using Identity.Application.Features.UserToken.Queries.GetUserTokenById;
-using Identity.Application.Features.Transactions.Queries.GetTransactionByIdAsAdmin;
 using Identity.Application.Features.User.Commands.ApproveUser;
 using Shared.Application.Abstractions.Messaging;
 using Microsoft.AspNetCore.Mvc;
@@ -338,6 +337,21 @@ namespace Identity.API.Controllers
         {
             var result = await _mediator.Send(new ApproveUserCommand(id));
             return result ? Ok() : BadRequest();
+        }
+
+        [HttpPost("ApproveAllPendingUsers")]
+        public async Task<IActionResult> ApproveAllPendingUsers()
+        {
+            // Ideally we'd have a BulkApproveUsersCommand. For now using loop for simplicity.
+            var users = await _mediator.Send(new GetAllAppUsersQuery());
+            var pending = users.Where(u => !u.IsApproved).ToList();
+            
+            foreach (var user in pending)
+            {
+                await _mediator.Send(new ApproveUserCommand(user.Id));
+            }
+            
+            return Ok(new { count = pending.Count });
         }
     }
 }
