@@ -1,4 +1,4 @@
-using Shared.Application.Abstractions.Messaging;
+﻿using Shared.Application.Abstractions.Messaging;
 using Shared.Infrastructure;
 using CrimeAndWin.Action.GameMechanics;
 using CrimeAndWin.Action.BackgroundServices;
@@ -9,6 +9,7 @@ using Action.Application.Mapping;
 using Action.Infrastructure.Messaging;
 using Action.Infrastructure.Persistance.Context;
 using Action.Infrastructure.Repositories;
+using Action.API.Sagas;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Shared.Domain.Repository;
@@ -41,6 +42,14 @@ builder.Services.AddScoped<IEventPublisher, MassTransitEventPublisher>();
 
 builder.Services.AddMassTransit(x =>
 {
+    // Crime Saga
+    x.AddSagaStateMachine<CrimeActionStateMachine, CrimeActionState>()
+        .InMemoryRepository();
+
+    // Raid Saga
+    x.AddSagaStateMachine<RaidStateMachine, RaidSagaState>()
+        .InMemoryRepository();
+
     x.UsingRabbitMq((context, cfg) =>
     {
         var rabbit = builder.Configuration.GetSection("Rabbit");
@@ -55,21 +64,15 @@ builder.Services.AddMassTransit(x =>
     });
 });
 
-// builder.Services.AddScoped<IValidator<PlayerActionAttemptDTO>, PerformPlayerActionAttemptCommandValidator>();
-// builder.Services.AddScoped<IValidator<CreateActionDefinitionDTO>, CreateActionDefinitionCommandValidator>();
-
-// With this line:
 builder.Services.AddScoped<IGameSettingsService, GameSettingsService>();
 builder.Services.AddScoped<IPlayerProfileService, PlayerProfileService>();
 builder.Services.AddControllers(opt =>
 {
     opt.Filters.Add<GlobalExceptionFilter>();
 });
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-
 
 builder.Services.AddHostedService<EnergyRefillBackgroundService>();
 builder.Services.AddScoped<SuccessRateCalculator>();
@@ -80,7 +83,6 @@ var app = builder.Build();
 
 app.MapHealthChecks("/health");
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -88,11 +90,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
-
-

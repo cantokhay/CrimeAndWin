@@ -1,4 +1,4 @@
-namespace Administration.MVC.ViewModels.DashboardVMs
+﻿namespace Administration.MVC.ViewModels.DashboardVMs
 {
     public class AdminDashboardVM
     {
@@ -9,22 +9,25 @@ namespace Administration.MVC.ViewModels.DashboardVMs
         // 2. Player Stats
         public int TotalPlayerCount { get; set; }
         public int NewPlayersToday { get; set; }
+        public double AveragePlayerHeat { get; set; } // New
 
         // 3. Economy Stats
         public decimal TotalCashInEconomy { get; set; }
+        public decimal TotalBlackMoneyInEconomy { get; set; } // New
         public int TotalTransactionsToday { get; set; }
 
         // 4. Action Stats
         public int TotalActionsToday { get; set; }
         public double AverageActionSuccessRate { get; set; }
+        public int ActiveRaidsToday { get; set; } // New
 
         // 5. Recent Lists
         public List<RecentActionLogVM> RecentActions { get; set; } = new();
         public List<RecentSagaFailureVM> RecentFailures { get; set; } = new();
 
         // 6. Chart Data (JSON strings for Chart.js)
-        public string ActionVolumeChartData { get; set; } // Daily volume
-        public string SuccessRateChartData { get; set; }  // Daily success %
+        public string ActionVolumeChartData { get; set; } 
+        public string SuccessRateChartData { get; set; }  
     }
 
     public class RecentActionLogVM

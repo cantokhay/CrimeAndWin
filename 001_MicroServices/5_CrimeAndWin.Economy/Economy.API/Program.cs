@@ -1,14 +1,16 @@
-using Shared.Application.Abstractions.Messaging;
+﻿using Shared.Application.Abstractions.Messaging;
 using Shared.Infrastructure;
 using MassTransit;
+using Microsoft.EntityFrameworkCore;
+using Economy.Application;
 using Economy.Application.Mapping;
 using Economy.Infrastructure.Persistance.Context;
 using Economy.Infrastructure.Repositories;
-using Microsoft.EntityFrameworkCore;
+using Economy.API.Sagas;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
-using Economy.Application;
 using Shared.Infrastructure.Filters;
+using Economy.API.Consumers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,25 +21,26 @@ builder.Services.AddDbContext<EconomyDbContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("EconomyLaptopConnection"));
 });
 
-// MediatR & Mapperly & Validation
+//DI Registrations
+builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
+builder.Services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));
+builder.Services.AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>));
+builder.Services.AddSingleton<IDateTimeProvider, SystemDateTimeProvider>();
+
+//MediatR & Mapperly & Validation
 builder.Services.AddScoped<IMediator, Shared.Application.Abstractions.Messaging.Mediator>();
 builder.Services.AddRequestHandlers(typeof(IApplicationAssemblyMarker).Assembly);
 builder.Services.AddScoped<EconomyMapper>();
 builder.Services.AddSharedValidation(typeof(IApplicationAssemblyMarker).Assembly);
 
-//DI Registrations
-builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
-builder.Services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));
-builder.Services.AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>));
-builder.Services.AddScoped<IDateTimeProvider, SystemDateTimeProvider>();
-
-// builder.Services.AddScoped<IValidator<DepositMoneyCommand>, DepositMoneyValidator>();
-// builder.Services.AddScoped<IValidator<WithdrawMoneyCommand>, WithdrawMoneyValidator>();
-
-// MassTransit setup
+// MassTransit Config
 builder.Services.AddMassTransit(x =>
 {
-    x.AddConsumersFromNamespaceContaining<Economy.API.Consumers.RewardMoneyCommandConsumer>();
+    // Register Laundering Saga
+    x.AddSagaStateMachine<LaunderingStateMachine, LaunderingSagaState>()
+        .InMemoryRepository();
+
+    x.AddConsumersFromNamespaceContaining<DeductMoneyCommandConsumer>(); // Fix: Use existing consumer
 
     x.UsingRabbitMq((ctx, cfg) =>
     {
@@ -47,6 +50,7 @@ builder.Services.AddMassTransit(x =>
             h.Username(rabbit["User"] ?? "guest");
             h.Password(rabbit["Pass"] ?? "guest");
         });
+
         cfg.ConfigureEndpoints(ctx);
     });
 });
@@ -79,5 +83,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
-

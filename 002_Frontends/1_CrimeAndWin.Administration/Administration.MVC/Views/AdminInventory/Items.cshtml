@@ -1,123 +1,97 @@
-@model List<ResultItemVM>
-
+﻿@model List<Administration.MVC.ViewModels.InventoryVMs.AdminItemVM>
 @{
-    Layout = "_AdminLayout";
-    ViewData["Title"] = "Eşya Kataloğu";
-    var totalItems = Model.Count;
-    var totalQty = Model.Sum(x => x.Quantity);
+    ViewData["Title"] = "Esya Referans Yonetimi";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-@Html.AntiForgeryToken()
-
-<div class="row g-5 g-xl-10 mb-8 mt-5">
-    <div class="col-md-3">
-        <div class="card card-flush h-md-100 shadow-sm border-0 bg-light-primary text-primary">
-            <div class="card-header pt-5">
-                <div class="card-title d-flex flex-column">
-                    <div class="d-flex align-items-center">
-                        <span class="fs-2hx fw-bold text-dark me-2 lh-1 ls-n2">@totalItems</span>
-                        <span class="badge badge-light-primary border border-primary border-dashed fs-7 fw-bold px-3 py-1">Tür</span>
-                    </div>
-                    <span class="text-gray-600 pt-1 fw-bold fs-6">Tanımlı Eşya Şablonu</span>
-                </div>
-            </div>
-            <div class="card-body d-flex align-items-end pt-0 pb-5">
-                <i class="ki-duotone ki-abstract-26 fs-3x"></i>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card card-flush h-md-100 shadow-sm border-0 bg-light-info text-info">
-            <div class="card-header pt-5">
-                <div class="card-title d-flex flex-column">
-                    <div class="d-flex align-items-center">
-                        <span class="fs-2hx fw-bold text-dark me-2 lh-1 ls-n2">@totalQty</span>
-                        <span class="badge badge-light-info border border-info border-dashed fs-7 fw-bold px-3 py-1">Adet</span>
-                    </div>
-                    <span class="text-gray-600 pt-1 fw-bold fs-6">Sistemdeki Toplam Stok</span>
-                </div>
-            </div>
-            <div class="card-body d-flex align-items-end pt-0 pb-5">
-                <i class="ki-duotone ki-delivery-3 fs-3x"></i>
-            </div>
+<!--begin::Toolbar-->
+<div class="toolbar py-5 py-lg-15" id="kt_toolbar">
+    <div id="kt_toolbar_container" class="container-xxl d-flex flex-stack flex-wrap">
+        <div class="page-title d-flex flex-column me-3">
+            <h1 class="d-flex text-white fw-bold my-1 fs-3">Esya Kutuphanesi</h1>
+            <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-1">
+                <li class="breadcrumb-item text-white opacity-75">Oyun Yonetimi</li>
+                <li class="breadcrumb-item"><span class="bullet bg-white opacity-75 w-5px h-2px"></span></li>
+                <li class="breadcrumb-item text-white opacity-75 text-hover-primary">Envanter</li>
+                <li class="breadcrumb-item"><span class="bullet bg-white opacity-75 w-5px h-2px"></span></li>
+                <li class="breadcrumb-item text-white opacity-75">Referans Esyalar</li>
+            </ul>
         </div>
     </div>
 </div>
+<!--end::Toolbar-->
 
-<div class="card mb-5 mb-xl-8 shadow-sm">
-    <div class="card-header border-0 pt-5">
+<div class="card card-flush shadow-sm border-0 mb-5 mb-xl-8">
+    <div class="card-header pt-7">
         <h3 class="card-title align-items-start flex-column">
-            <span class="card-label fw-bold fs-3 mb-1">Eşya Referans Listesi</span>
-            <span class="text-muted mt-1 fw-bold fs-7">Sistemde tanımlı tüm eşya templateleri ve temel özellikleri</span>
+            <span class="card-label fw-bold text-dark fs-3">Esya Katalogu</span>
+            <span class="text-gray-400 mt-1 fw-semibold fs-7">Sistemdeki tum esya sablonlari ve teknik verileri</span>
         </h3>
         <div class="card-toolbar">
-            <a asp-action="CreateItem" class="btn btn-sm btn-primary">
-                <i class="ki-duotone ki-plus fs-2 me-1"></i> Yeni Eşya Tanımla
+            <a asp-action="CreateItem" class="btn btn-sm btn-primary fw-bold">
+                <i class="ki-duotone ki-plus fs-2 me-1"></i> Yeni Esya Tanımla
             </a>
         </div>
     </div>
 
-    <div class="card-body py-3">
+    <div class="card-body pt-5">
         <div class="table-responsive">
-            <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-4">
+            <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_items_table">
                 <thead>
-                    <tr class="fw-bold text-muted bg-light">
-                        <th class="ps-4 rounded-start min-w-200px">Eşya Adı / Tanımı</th>
-                        <th>Envanter Grubu</th>
-                        <th class="text-center">Teknik Özellikler</th>
-                        <th class="text-center">Ekonomik Değer</th>
-                        <th class="text-center">Mevcut Stok</th>
-                        <th class="min-w-100px text-end pe-4 rounded-end">Yönetim</th>
+                    <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                        <th class="min-w-200px">Esya Bilgisi</th>
+                        <th class="min-w-100px text-center">Nadirlik</th>
+                        <th class="min-w-150px text-center">Teknik Limitler</th>
+                        <th class="min-w-100px text-end">Birim Fiyat</th>
+                        <th class="min-w-120px text-center">Stok Durumu</th>
+                        <th class="text-end min-w-100px">Islemler</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="fw-semibold text-gray-600">
                     @foreach (var item in Model)
                     {
+                        // Rarity Logic (Mocked for UI standardization)
+                        var rarityClass = (item.Defense > 50 || item.Damage > 50) ? "badge-light-warning" : (item.Damage > 20 ? "badge-light-primary" : "badge-light-secondary");
+                        var rarityText = (item.Defense > 50 || item.Damage > 50) ? "Legendary" : (item.Damage > 20 ? "Rare" : "Common");
+
                         <tr>
-                            <td class="ps-4">
+                            <td>
                                 <div class="d-flex align-items-center">
                                     <div class="symbol symbol-45px me-3">
-                                        <span class="symbol-label bg-light-primary text-primary fw-bold fs-4">@item.Name[0]</span>
+                                        <div class="symbol-label bg-light-warning text-warning fs-3 fw-bold">
+                                            @item.Name.Substring(0,1)
+                                        </div>
                                     </div>
-                                    <div class="d-flex flex-column">
-                                        <span class="text-dark fw-bold text-hover-primary mb-1 fs-6">@item.Name</span>
-                                        <span class="text-muted fw-semi-bold d-block fs-8">UUID: @item.Id.ToString().Substring(0, 8)</span>
+                                    <div class="d-flex justify-content-start flex-column">
+                                        <span class="text-dark fw-bold text-hover-primary fs-6">@item.Name</span>
+                                        <span class="text-muted fw-semibold d-block fs-8">Ref: #@(item.Id.ToString().Substring(0, 8))</span>
                                     </div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="d-flex flex-column">
-                                    <span class="text-dark fw-bold fs-7">@(item.InventoryDisplay ?? "Sistem")</span>
-                                    <span class="text-muted fs-8">ID: @item.InventoryId.ToString().Substring(0, 8)</span>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="d-flex justify-content-center gap-2">
-                                    <span class="badge badge-light-danger fs-8 fw-bold" data-bs-toggle="tooltip" title="Hasar Gücü">
-                                        <i class="ki-duotone ki-shield-cross fs-9 text-danger me-1"></i> @item.Damage
-                                    </span>
-                                    <span class="badge badge-light-success fs-8 fw-bold" data-bs-toggle="tooltip" title="Savunma Puanı">
-                                        <i class="ki-duotone ki-shield-tick fs-9 text-success me-1"></i> @item.Defense
-                                    </span>
-                                    <span class="badge badge-light-primary fs-8 fw-bold" data-bs-toggle="tooltip" title="Ekstra Güç">
-                                        <i class="ki-duotone ki-flash-circle fs-9 text-primary me-1"></i> @item.Power
-                                    </span>
                                 </div>
                             </td>
                             <td class="text-center">
-                                <span class="text-dark fw-bold fs-7">@item.Amount.ToString("N0")</span>
+                                <span class="badge @rarityClass fw-bold px-4 py-2">@rarityText</span>
+                            </td>
+                            <td>
+                                <div class="d-flex justify-content-center gap-1">
+                                    <span class="badge badge-outline badge-danger fs-8" data-bs-toggle="tooltip" title="Hasar">@item.Damage DMG</span>
+                                    <span class="badge badge-outline badge-success fs-8" data-bs-toggle="tooltip" title="Savunma">@item.Defense DEF</span>
+                                    <span class="badge badge-outline badge-primary fs-8" data-bs-toggle="tooltip" title="Guc">@item.Power PWR</span>
+                                </div>
+                            </td>
+                            <td class="text-end">
+                                <span class="text-dark fw-bold">@item.Amount.ToString("N0")</span>
                                 <span class="text-muted fs-8 d-block">@item.CurrencyText</span>
                             </td>
                             <td class="text-center">
-                                <span class="badge badge-light-info border border-info border-dashed fw-bold px-4 py-2">@item.Quantity Adet</span>
+                                <div class="badge badge-light-info fw-bold">@item.Quantity Adet</div>
                             </td>
-                            <td class="text-end pe-4">
-                                <a asp-action="EditItem" asp-route-id="@item.Id" class="btn btn-icon btn-light-primary btn-active-primary btn-sm me-2 shadow-sm">
-                                    <i class="ki-duotone ki-pencil fs-3"></i>
+                            <td class="text-end">
+                                <a asp-action="EditItem" asp-route-id="@item.Id" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                    <i class="ki-duotone ki-pencil fs-2"></i>
                                 </a>
-                                <button type="button" class="btn btn-icon btn-light-danger btn-active-danger btn-sm shadow-sm js-delete-item-btn" 
+                                <button type="button" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm js-delete-item-btn" 
                                         data-id="@item.Id" data-name="@item.Name">
-                                    <i class="ki-duotone ki-trash fs-3"></i>
+                                    <i class="ki-duotone ki-trash fs-2"></i>
                                 </button>
                             </td>
                         </tr>
@@ -136,52 +110,32 @@
             const token = $('input[name="__RequestVerificationToken"]').val();
 
             Swal.fire({
-                title: 'Eşya Silinsin mi?',
-                text: `"${name}" eşya tanımı sistemden tamamen kaldırılacak. Bu envanterlerdeki itemleri de etkileyebilir.`,
+                title: 'Esyayı Sil?',
+                text: `${name} katalogdan kaldırılsın mı?`,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Evet, Sil!',
-                cancelButtonText: 'Vazgeç',
+                cancelButtonText: 'Vazgec',
                 buttonsStyling: false,
                 customClass: {
                     confirmButton: "btn btn-danger",
                     cancelButton: "btn btn-active-light"
-                },
-                showLoaderOnConfirm: true,
-                preConfirm: () => {
-                    return $.ajax({
-                        url: '@Url.Action("DeleteItem", "AdminInventory")',
-                        type: 'POST',
-                        data: {
-                            id: id,
-                            __RequestVerificationToken: token
-                        }
-                    }).then(response => {
-                        if (!response.success) {
-                            throw new Error(response.message || 'Silme işlemi başarısız');
-                        }
-                        return response;
-                    }).catch(error => {
-                        Swal.showValidationMessage(`Hata: ${error.message}`);
-                    });
-                },
-                allowOutsideClick: () => !Swal.isLoading()
+                }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.fire({
-                        title: 'Silindi!',
-                        text: 'Eşya tanımı başarıyla kaldırıldı.',
-                        icon: 'success',
-                        customClass: { confirmButton: 'btn btn-primary' }
-                    }).then(() => location.reload());
+                    $.ajax({
+                        url: '@Url.Action("DeleteItem", "AdminInventory")',
+                        type: 'POST',
+                        data: { id: id, __RequestVerificationToken: token },
+                        success: function(res) {
+                            if(res.success) {
+                                Swal.fire("Basarılı", "Esya silindi.", "success").then(() => location.reload());
+                            } else {
+                                Swal.fire("Hata", res.message, "error");
+                            }
+                        }
+                    });
                 }
-            });
-        });
-
-        $(document).ready(function() {
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-            tooltipTriggerList.forEach(function (el) {
-                new bootstrap.Tooltip(el);
             });
         });
     </script>

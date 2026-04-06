@@ -1,4 +1,4 @@
-using Inventory.Infrastructure.Persistance.Context;
+ï»¿using Inventory.Infrastructure.Persistance.Context;
 using Microsoft.EntityFrameworkCore;
 using Shared.Domain;
 using Shared.Domain.Repository;
@@ -35,30 +35,31 @@ namespace Inventory.Infrastructure.Repositories
 
         public bool Remove(T entity)
         {
-            Table.Remove(entity);
+            entity.IsDeleted = true; Table.Update(entity);
             return true;
         }
 
         public bool RemoveRange(List<T> entityList)
         {
-            Table.RemoveRange(entityList);
+            foreach (var entity in entityList) { entity.IsDeleted = true; } Table.UpdateRange(entityList);
             return true;
         }
 
         public async Task<bool> RemoveAsync(string id)
         {
             if (!Guid.TryParse(id, out var guid))
-                throw new ArgumentException("Geçersiz id formatý (Guid bekleniyor).", nameof(id));
+                throw new ArgumentException("GeÃ§ersiz id formatÄ± (Guid bekleniyor).", nameof(id));
 
             var entity = await Table.FirstOrDefaultAsync(e => e.Id == guid);
             if (entity is null) return false;
 
-            Table.Remove(entity);
+            entity.IsDeleted = true; Table.Update(entity);
             return true;
         }
 
         public Task<int> SaveAsync() => _ctx.SaveChangesAsync();
     }
 }
+
 
 

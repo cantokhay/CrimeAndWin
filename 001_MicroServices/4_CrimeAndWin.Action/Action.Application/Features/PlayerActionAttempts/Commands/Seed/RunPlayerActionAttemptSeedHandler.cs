@@ -1,4 +1,4 @@
-using Action.Domain.Entities;
+ï»¿using Action.Domain.Entities;
 using Action.Domain.Enums;
 using Action.Domain.VOs;
 using Bogus;
@@ -24,45 +24,48 @@ namespace Action.Application.Features.PlayerActionAttempts.Commands.Seed
             _clock = clock;
         }
 
-        public async Task<Unit> Handle(RunPlayerActionAttemptSeedCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(RunPlayerActionAttemptSeedCommand request, CancellationToken ct)
         {
-            var faker = new Faker("en");
-
-            // ActionDefinition’lar olmalý ki denemelere baðlanabilsin
+            var now = _clock.UtcNow;
+            var themeUsers = new[] { "Boss", "Hitman", "Mole", "Fixer", "Dealer", "Enforcer", "Launderer" };
             var definitions = _actionDefRepo.GetAll(tracking: false).ToList();
-            if (!definitions.Any())
-                throw new InvalidOperationException("Seed yapýlacak ActionDefinition bulunamadý.");
+            
+            if (!definitions.Any()) return Unit.Value;
 
             var attempts = new List<PlayerActionAttempt>();
 
-            for (int i = 0; i < request.Count; i++)
+            for (int i = 0; i < themeUsers.Length; i++)
             {
-                var definition = faker.PickRandom(definitions);
-
-                // %60 baþarý, %40 baþarýsýz rastgele sonuç
-                var successRate = faker.Random.Double(0.2, 1.0);
-                var outcome = successRate > 0.6 ? OutcomeType.Success : OutcomeType.Fail;
-
-                var attempt = new PlayerActionAttempt
+                var playerId = Guid.Parse($"22222222-2222-2222-2222-{i:D12}"); // From PlayerProfile
+                
+                // Add 3 attempts for each player
+                for (int j = 0; j < 3; j++)
                 {
-                    Id = Guid.NewGuid(),
-                    PlayerId = Guid.NewGuid(), // fake player id
-                    ActionDefinitionId = definition.Id,
-                    AttemptedAtUtc = _clock.UtcNow.AddMinutes(-faker.Random.Int(1, 300)),
-                    PlayerActionResults = new PlayerActionResult(successRate, outcome),
-                    CreatedAtUtc = _clock.UtcNow,
-                    IsDeleted = false
-                };
-
-                attempts.Add(attempt);
+                    var def = definitions[(i + j) % definitions.Count];
+                    var isSuccess = (i + j) % 2 == 0;
+                    
+                    attempts.Add(new PlayerActionAttempt
+                    {
+                        Id = Guid.NewGuid(),
+                        CorrelationId = Guid.NewGuid(),
+                        PlayerId = playerId,
+                        ActionDefinitionId = def.Id,
+                        AttemptedAtUtc = now.AddHours(-1 * (j + 1)),
+                        PlayerActionResults = new PlayerActionResult(isSuccess ? 1.0 : 0.0, isSuccess ? OutcomeType.Success : OutcomeType.Fail),
+                        CooldownEndsAt = now.AddMinutes(30),
+                        IsSuccess = isSuccess,
+                        SuccessRate = isSuccess ? 0.95 : 0.2,
+                        CreatedAtUtc = now
+                    });
+                }
             }
 
-            await _attemptRepo.AddRangeAsync(attempts);
-            await _attemptRepo.SaveAsync();
+            try {
+                await _attemptRepo.AddRangeAsync(attempts);
+                await _attemptRepo.SaveAsync();
+            } catch { }
 
             return Unit.Value;
         }
     }
 }
-
-

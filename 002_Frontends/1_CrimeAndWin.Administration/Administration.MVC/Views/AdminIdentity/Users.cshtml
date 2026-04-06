@@ -1,158 +1,114 @@
-@model List<ResultAppUserVM>
-
+﻿@model List<ResultUserVM>
 @{
     Layout = "_AdminLayout";
+    ViewData["Title"] = "Kullanici Yonetimi";
 }
 
-<div class="row mb-5 justify-content-center">
-    <div class="col-md-3">
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <h5 class="card-title">Toplam Kullanıcı</h5>
-                <p class="fs-2 fw-bold mb-0">@Model.Count</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-3">
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <h5 class="card-title">Maili Onaylı</h5>
-                <p class="fs-2 fw-bold mb-0">@Model.Count(x => x.EmailConfirmed)</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-3">
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <h5 class="card-title">Lockout Aktif</h5>
-                <p class="fs-2 fw-bold mb-0">@Model.Count(x => x.LockoutEnabled)</p>
-            </div>
+<!--begin::Toolbar-->
+<div class="toolbar py-5 py-lg-15" id="kt_toolbar">
+    <div id="kt_toolbar_container" class="container-xxl d-flex flex-stack flex-wrap">
+        <div class="page-title d-flex flex-column me-3">
+            <h1 class="d-flex text-white fw-bold my-1 fs-3">Kullanici Hesaplari</h1>
+            <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-1">
+                <li class="breadcrumb-item text-white opacity-75">Admin</li>
+                <li class="breadcrumb-item"><span class="bullet bg-white opacity-75 w-5px h-2px"></span></li>
+                <li class="breadcrumb-item text-white opacity-75 text-hover-primary">Kimlik Yonetimi</li>
+                <li class="breadcrumb-item"><span class="bullet bg-white opacity-75 w-5px h-2px"></span></li>
+                <li class="breadcrumb-item text-white opacity-75">Kullanicilar</li>
+            </ul>
         </div>
     </div>
 </div>
+<!--end::Toolbar-->
 
-<!--begin::Tables Widget 13-->
-<div class="card mb-5 mb-xl-8">
-    <!--begin::Header-->
-    <div class="card-header border-0 pt-5">
+<div class="card card-flush shadow-sm border-0 mb-5 mb-xl-8">
+    <div class="card-header pt-7">
         <h3 class="card-title align-items-start flex-column">
-            <span class="card-label fw-bolder fs-3 mb-1">Users</span>
-            <span class="text-muted mt-1 fw-bold fs-7">@Model.Count kullanıcı</span>
+            <span class="card-label fw-bold text-dark fs-3">Kullanici Listesi</span>
+            <span class="text-gray-400 mt-1 fw-semibold fs-7">Sistemdeki tum kayitli personeller ve oyuncular</span>
         </h3>
-        <div class="card-toolbar d-flex align-items-center gap-3">
-            <span class="text-muted fw-semibold fs-7">create →</span>
-            <!--begin::Menu-->
-            <button type="button" class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                <span class="svg-icon svg-icon-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">
-                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                            <rect x="5" y="5" width="5" height="5" rx="1" fill="currentColor" />
-                            <rect x="14" y="5" width="5" height="5" rx="1" fill="currentColor" opacity="0.3" />
-                            <rect x="5" y="14" width="5" height="5" rx="1" fill="currentColor" opacity="0.3" />
-                            <rect x="14" y="14" width="5" height="5" rx="1" fill="currentColor" opacity="0.3" />
-                        </g>
-                    </svg>
-                </span>
-            </button>
-            <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-bold w-200px" data-kt-menu="true">
-                <div class="menu-item px-3">
-                    <div class="menu-content fs-6 text-dark fw-bolder px-3 py-4">Quick Actions</div>
-                </div>
-                <div class="separator mb-3 opacity-75"></div>
-                <div class="menu-link px-3 pb-3">
-                    <a asp-action="CreateUser"
-                       asp-controller="AdminIdentity">
-                        Yeni Kullanıcı
-                    </a>
-                </div>
-            </div>
-            <!--end::Menu-->
+        <div class="card-toolbar">
+            <a asp-action="CreateUser" asp-controller="AdminIdentity" class="btn btn-sm btn-primary fw-bold">
+                <i class="ki-duotone ki-plus fs-2 me-1"></i> Yeni Kullanici
+            </a>
         </div>
     </div>
-    <!--end::Header-->
-    <!--begin::Body-->
-    <div class="card-body py-3">
+
+    <div class="card-body pt-5">
         <div class="table-responsive">
-            <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3" id="usersTable">
+            <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_users_table">
                 <thead>
-                    <tr class="fw-bolder text-muted">
-                        <th class="min-w-150px">Kullanıcı</th>
-                        <th class="min-w-140px">Email</th>
-                        <th class="min-w-120px">Durum</th>
-                        <th class="min-w-120px">Güvenlik</th>
-                        <th class="min-w-120px">Oluşturma</th>
-                        <th class="min-w-100px text-end">İşlemler</th>
+                    <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                        <th class="min-w-200px">Kullanici Bilgisi</th>
+                        <th class="min-w-150px">Iletisim</th>
+                        <th class="min-w-120px text-center">Durum</th>
+                        <th class="min-w-130px">Guvenlik Bilgisi</th>
+                        <th class="min-w-120px text-end">Kayit Tarihi</th>
+                        <th class="text-end min-w-100px">Islemler</th>
                     </tr>
                 </thead>
-                <tbody>
-                    @foreach (var item in Model)
+                <tbody class="fw-semibold text-gray-600">
+                    @foreach (var user in Model)
                     {
-                        <tr data-id="@item.Id">
+                        <tr>
                             <td>
                                 <div class="d-flex align-items-center">
-                                    <div class="d-flex flex-column">
-                                        <a href="#" class="text-dark fw-bolder text-hover-primary mb-1 fs-6">@item.UserName</a>
-                                        <span class="text-muted fw-bold d-block fs-7">ID: @item.Id.ToString().Substring(0, 8)...</span>
+                                    <div class="symbol symbol-45px me-3">
+                                        <div class="symbol-label bg-light-primary text-primary fw-bold fs-4">
+                                            @user.UserName.Substring(0,1).ToUpper()
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-start flex-column">
+                                        <span class="text-dark fw-bold text-hover-primary fs-6">@user.UserName</span>
+                                        <span class="text-muted fw-semibold d-block fs-8">UUID: #@(user.Id.ToString().Substring(0, 8))</span>
                                     </div>
                                 </div>
                             </td>
                             <td>
                                 <div class="d-flex flex-column">
-                                    <span class="text-dark fw-bold mr-2 fs-6">@item.Email</span>
-                                    <span class="text-muted fw-bold fs-7">@item.PhoneNumber</span>
+                                    <span class="text-dark fw-bold mr-2 fs-6">@user.Email</span>
+                                    <span class="text-muted fw-bold fs-8">@user.PhoneNumber</span>
                                 </div>
                             </td>
-                            <td>
-                                @if (item.EmailConfirmed)
+                            <td class="text-center">
+                                @if (user.EmailConfirmed)
                                 {
-                                    <span class="badge badge-light-success fw-bold me-1">Email OK</span>
+                                    <span class="badge badge-light-success border border-success border-dashed fw-bold px-3 py-2">AKTIF</span>
                                 }
                                 else
                                 {
-                                    <span class="badge badge-light-warning fw-bold me-1">Email Bekliyor</span>
+                                    <span class="badge badge-light-warning border border-warning border-dashed fw-bold px-3 py-2">ONAY BEKLIYOR</span>
                                 }
                             </td>
                             <td>
                                 <div class="d-flex flex-column">
-                                    @if (item.LockoutEnabled)
+                                    @if (user.LockoutEnabled)
                                     {
-                                        <span class="text-danger fw-bold fs-7">Lockout: Aktif</span>
+                                        <span class="text-danger fw-bold fs-8 d-flex align-items-center">
+                                            <i class="ki-duotone ki-lock fs-9 text-danger me-1"></i> Kilitlenmis
+                                        </span>
                                     }
                                     else
                                     {
-                                        <span class="text-muted fw-bold fs-7">Lockout: Devre Dışı</span>
+                                        <span class="text-success fw-bold fs-8 d-flex align-items-center">
+                                            <i class="ki-duotone ki-lock-open fs-9 text-success me-1"></i> Guvenli
+                                        </span>
                                     }
-                                    <span class="text-muted fw-bold fs-7">Hata: @item.AccessFailedCount</span>
+                                    <span class="text-muted fs-9">Hata Sayısı: @user.AccessFailedCount</span>
                                 </div>
                             </td>
-                            <td>
-                                <span class="text-muted fw-bold">@item.CreatedAtUtc.ToString("g")</span>
+                            <td class="text-end text-muted fs-7">
+                                @user.CreatedAtUtc.ToString("dd MMM yyyy") <br/>
+                                <span class="fs-9 opacity-50">@user.CreatedAtUtc.ToString("HH:mm")</span>
                             </td>
                             <td class="text-end">
-                                <a asp-action="EditUser"
-                                   asp-controller="AdminIdentity"
-                                   asp-route-id="@item.Id"
-                                   class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"
-                                   data-bs-toggle="tooltip" title="Düzenle">
-                                    <span class="svg-icon svg-icon-3">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                            <path opacity="0.3" d="M21.4 8.35303L19.241 10.511L13.485 4.755L15.643 2.59595C16.0248 2.21423 16.5426 1.99988 17.0825 1.99988C17.6224 1.99988 18.1402 2.21423 18.522 2.59595L21.4 5.474C21.7817 5.85581 21.9962 6.37355 21.9962 6.91345C21.9962 7.45335 21.7817 7.97122 21.4 8.35303ZM3.68699 21.932L9.88699 19.865L4.13099 14.109L2.06399 20.309C1.98815 20.5354 1.97703 20.7787 2.03189 21.0111C2.08674 21.2436 2.2054 21.4561 2.37449 21.6248C2.54359 21.7934 2.75641 21.9115 2.989 21.9658C3.22158 22.0201 3.4647 22.0084 3.69099 21.932H3.68699Z" fill="currentColor" />
-                                            <path d="M5.574 21.3L3.692 21.928C3.46591 22.0032 3.22334 22.0141 2.99144 21.9594C2.75954 21.9046 2.54744 21.7864 2.3789 21.6179C2.21036 21.4495 2.09202 21.2375 2.03711 21.0056C1.9822 20.7737 1.99289 20.5312 2.06799 20.3051L2.696 18.422L5.574 21.3ZM4.13499 14.105L9.891 19.861L19.245 10.507L13.489 4.75098L4.13499 14.105Z" fill="currentColor" />
-                                        </svg>
-                                    </span>
+                                <a asp-action="EditUser" asp-controller="AdminIdentity" asp-route-id="@user.Id" 
+                                   class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                    <i class="ki-duotone ki-pencil fs-2"></i>
                                 </a>
-
                                 <button type="button" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm js-delete-user-btn" 
-                                        data-id="@item.Id" data-name="@item.UserName">
-                                    <span class="svg-icon svg-icon-3">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                            <path d="M5 9C5 8.44772 5.44772 8 6 8H18C18.5523 8 19 8.44772 19 9V18C19 19.6569 17.6569 21 16 21H8C6.34315 21 5 19.6569 5 18V9Z" fill="currentColor" />
-                                            <path opacity="0.5" d="M5 5C5 4.44772 5.44772 4 6 4H18C18.5523 4 19 4.44772 19 5V5C19 5.55228 18.5523 6 18 6H6C5.44772 6 5 5.55228 5 5V5Z" fill="currentColor" />
-                                            <path opacity="0.5" d="M9 4C9 3.44772 9.44772 3 10 3H14C14.5523 3 15 3.44772 15 4V4H9V4Z" fill="currentColor" />
-                                        </svg>
-                                    </span>
+                                        data-id="@user.Id" data-name="@user.UserName">
+                                    <i class="ki-duotone ki-trash fs-2"></i>
                                 </button>
                             </td>
                         </tr>
@@ -161,24 +117,22 @@
             </table>
         </div>
     </div>
-    <!--end::Body-->
 </div>
-<!--end::Tables Widget 13-->
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
 
+@section Scripts {
     <script>
         $(document).on('click', '.js-delete-user-btn', function() {
             const id = $(this).data('id');
             const name = $(this).data('name');
 
             Swal.fire({
-                title: 'Kullanıcıyı Sil?',
-                text: `${name} adlı kullanıcıyı sistemden silmek istediğinize emin misiniz?`,
+                title: 'Hesabı Sil?',
+                text: `${name} adlı kullanıcıyı sistemden tamamen kaldırmak istiyor musunuz?`,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Evet, Sil!',
-                cancelButtonText: 'Vazgeç',
+                cancelButtonText: 'Vazgec',
+                buttonsStyling: false,
                 customClass: {
                     confirmButton: "btn btn-danger",
                     cancelButton: "btn btn-active-light"
@@ -194,20 +148,13 @@
                         },
                         success: function(res) {
                             if (res.success) {
-                                Swal.fire('Silindi!', 'Kullanıcı başarıyla silindi.', 'success').then(() => location.reload());
+                                Swal.fire('Silindi!', 'Kullanıcı kaydı başarıyla silindi.', 'success').then(() => location.reload());
                             } else {
-                                Swal.fire('Hata!', 'Silme işlemi sırasında bir hata oluştu.', 'error');
+                                Swal.fire('Hata!', res.message || 'Bir sorun olustu.', 'error');
                             }
                         }
                     });
                 }
-            });
-        });
-
-        $(document).ready(function() {
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-            tooltipTriggerList.forEach(function (el) {
-                new bootstrap.Tooltip(el);
             });
         });
     </script>

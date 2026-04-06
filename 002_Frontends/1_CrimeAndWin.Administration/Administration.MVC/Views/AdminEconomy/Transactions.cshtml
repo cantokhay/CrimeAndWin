@@ -9,12 +9,12 @@
 
 <div class="row g-5 g-xl-10 mb-8 mt-5">
     <div class="col-md-3">
-        <div class="card card-flush h-md-100 shadow-sm border-0 bg-light-primary text-primary">
+        <div class="card card-flush h-md-100 shadow-sm border-0 bg-light-warning text-warning">
             <div class="card-header pt-5">
                 <div class="card-title d-flex flex-column">
                     <div class="d-flex align-items-center">
                         <span class="fs-2hx fw-bold text-dark me-2 lh-1 ls-n2">@Model.Count</span>
-                        <span class="badge badge-light-primary border border-primary border-dashed fs-7 fw-bold px-3 py-1">İşlem</span>
+                        <span class="badge badge-light-warning border border-warning border-dashed fs-7 fw-bold px-3 py-1">İşlem</span>
                     </div>
                     <span class="text-gray-600 pt-1 fw-bold fs-6">Sistemdeki Toplam Kayıt</span>
                 </div>
@@ -52,7 +52,7 @@
             <span class="text-muted mt-1 fw-bold fs-7">Tüm oyuncu ve sistem cüzdanlarındaki bakiye değişimleri</span>
         </h3>
         <div class="card-toolbar">
-            <a asp-action="CreateTransaction" asp-controller="AdminEconomy" class="btn btn-sm btn-primary">
+            <a asp-action="CreateTransaction" asp-controller="AdminEconomy" class="btn btn-sm btn-warning">
                 <i class="ki-duotone ki-plus fs-2 me-1"></i> Manuel Transfer Yap
             </a>
         </div>
@@ -103,12 +103,13 @@
                             </td>
                             <td class="text-end pe-4">
                                 <a asp-action="EditTransaction" asp-controller="AdminEconomy" asp-route-id="@item.Id" 
-                                   class="btn btn-icon btn-light-primary btn-active-primary btn-sm me-2 shadow-sm">
-                                    <i class="ki-duotone ki-pencil fs-3"></i>
+                                   class="btn btn-icon btn-light-warning btn-active-warning btn-sm me-2 shadow-sm"
+                                   data-bs-toggle="tooltip" title="Düzenle">
+                                    <i class="ki-duotone ki-pencil fs-3"><span class="path1"></span><span class="path2"></span></i>
                                 </a>
                                 <button type="button" class="btn btn-icon btn-light-danger btn-active-danger btn-sm shadow-sm js-delete-transaction-btn" 
-                                        data-id="@item.Id">
-                                    <i class="ki-duotone ki-trash fs-3"></i>
+                                        data-id="@item.Id" data-bs-toggle="tooltip" title="Sil">
+                                    <i class="ki-duotone ki-trash fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
                                 </button>
                             </td>
                         </tr>

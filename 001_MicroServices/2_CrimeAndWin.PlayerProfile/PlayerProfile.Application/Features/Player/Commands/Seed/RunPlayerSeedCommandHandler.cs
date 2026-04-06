@@ -1,4 +1,4 @@
-using Bogus;
+ï»¿using Bogus;
 using Shared.Application.Abstractions.Messaging;
 using PlayerProfile.Domain.VOs;
 using Shared.Domain.Repository;
@@ -19,58 +19,39 @@ namespace PlayerProfile.Application.Features.Player.Commands.Seed
 
         public async Task<Unit> Handle(RunPlayerSeedCommand request, CancellationToken cancellationToken)
         {
-            var faker = new Faker("tr");
-
+            var now = _dateTimeProvider.UtcNow;
+            var themeUsers = new[] { "Boss", "Hitman", "Mole", "Fixer", "Dealer", "Enforcer", "Launderer" };
             var players = new List<Domain.Entities.Player>();
 
-            var rankPointsSet = new HashSet<int>();
-            var rankPositionSet = new HashSet<int>();
-
-            for (int i = 0; i < request.Count; i++)
+            for (int i = 0; i < themeUsers.Length; i++)
             {
-                int rankPoints;
-                do { rankPoints = faker.Random.Int(100, 99999); } while (!rankPointsSet.Add(rankPoints));
-
-                int rankPosition;
-                do { rankPosition = faker.Random.Int(1, 10000); } while (!rankPositionSet.Add(rankPosition));
-
+                var name = themeUsers[i];
                 var player = new Domain.Entities.Player
                 {
-                    Id = Guid.NewGuid(),
-                    AppUserId = Guid.NewGuid(), // Identity service'den deðil, fake seed
-                    DisplayName = faker.Internet.UserName(),
-                    AvatarKey = faker.PickRandom("avatar_knight", "avatar_mage", "avatar_thief", "avatar_rogue", "avatar_priest"),
-
+                    Id = Guid.Parse($"22222222-2222-2222-2222-{i:D12}"),
+                    AppUserId = Guid.Parse($"00000000-0000-0000-0000-{i:D12}"), // Maps to Identity
+                    DisplayName = name,
+                    AvatarKey = $"avatar_crime_{i % 5}",
                     Stats = new Stats(
-                        Power: faker.Random.Int(10, 100),
-                        Defense: faker.Random.Int(10, 100),
-                        Agility: faker.Random.Int(10, 100),
-                        Luck: faker.Random.Int(1, 50)
+                        Power: 50 + (i * 10),
+                        Defense: 30 + (i * 5),
+                        Agility: 40 + (i * 8),
+                        Luck: 10 + i
                     ),
-
-                    Energy = new Energy(
-                        Current: faker.Random.Int(10, 100),
-                        Max: faker.Random.Int(100, 200),
-                        RegenPerMinute: faker.Random.Int(1, 5)
-                    ),
-
-                    Rank = new Rank(rankPoints, rankPosition),
-
-                    CreatedAtUtc = _dateTimeProvider.UtcNow,
-                    UpdatedAtUtc = null,
-                    IsDeleted = false,
-                    LastEnergyCalcUtc = _dateTimeProvider.UtcNow
+                    Energy = new Energy(Current: 100, Max: 100, RegenPerMinute: 5),
+                    Rank = new Rank(RankPoints: 100 * (i + 1), Position: themeUsers.Length - i),
+                    CreatedAtUtc = now,
+                    LastEnergyCalcUtc = now
                 };
-
                 players.Add(player);
             }
 
-            await _writeRepository.AddRangeAsync(players);
-            await _writeRepository.SaveAsync();
+            try {
+                await _writeRepository.AddRangeAsync(players);
+                await _writeRepository.SaveAsync();
+            } catch { }
 
             return Unit.Value;
         }
     }
 }
-
-

@@ -1,4 +1,4 @@
-using Shared.Application.Abstractions.Messaging;
+﻿using Shared.Application.Abstractions.Messaging;
 using Shared.Infrastructure;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
@@ -6,6 +6,7 @@ using PlayerProfile.Application;
 using PlayerProfile.Application.Mapping;
 using PlayerProfile.Infrastructure.Persistance.Context;
 using PlayerProfile.Infrastructure.Repositories;
+using PlayerProfile.Infrastructure.BackgroundServices;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 using Shared.Infrastructure.Filters;
@@ -24,6 +25,9 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));
 builder.Services.AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>));
 builder.Services.AddSingleton<IDateTimeProvider, SystemDateTimeProvider>();
+
+// Background Services
+builder.Services.AddHostedService<PassiveHeatDecayWorker>();
 
 //MediatR & Mapperly & Validation
 builder.Services.AddScoped<IMediator, Shared.Application.Abstractions.Messaging.Mediator>();
@@ -79,5 +83,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
-

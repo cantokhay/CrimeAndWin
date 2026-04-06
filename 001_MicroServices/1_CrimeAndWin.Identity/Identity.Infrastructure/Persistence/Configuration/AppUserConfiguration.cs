@@ -1,6 +1,7 @@
 using Identity.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using CrimeAndWin.Shared.Constants;
 
 namespace Identity.Infrastructure.Persistence.Configuration
 {
@@ -27,8 +28,67 @@ namespace Identity.Infrastructure.Persistence.Configuration
             b.HasMany(x => x.Logins).WithOne(x => x.User).HasForeignKey(x => x.UserId);
             b.HasMany(x => x.Tokens).WithOne(x => x.User).HasForeignKey(x => x.UserId);
             b.HasMany(x => x.RefreshTokens).WithOne(x => x.User).HasForeignKey(x => x.UserId);
+
+            // Seed Users (Pass: Admin123*)
+            b.HasData(
+                new AppUser 
+                { 
+                    Id = SeedDataConstants.AdminUserId, 
+                    UserName = "admin", 
+                    NormalizedUserName = "ADMIN", 
+                    Email = "admin@crimeandwin.com", 
+                    NormalizedEmail = "ADMIN@CRIMEANDWIN.COM",
+                    EmailConfirmed = true,
+                    PasswordHash = "AQAAAAIAAYagAAAAEI9h+Lp...HashPlaceholder", 
+                    SecurityStamp = "stamp-admin",
+                    ConcurrencyStamp = "concurrency-admin",
+                    PhoneNumberConfirmed = false,
+                    TwoFactorEnabled = false,
+                    LockoutEnabled = false,
+                    AccessFailedCount = 0,
+                    IsApproved = true,
+                    CreatedAtUtc = SeedDataConstants.SeedDate,
+                    IsDeleted = false
+                },
+                new AppUser 
+                { 
+                    Id = SeedDataConstants.UserAlphaId, 
+                    UserName = "Alpha", 
+                    NormalizedUserName = "ALPHA", 
+                    Email = "alpha@crimeandwin.com", 
+                    NormalizedEmail = "ALPHA@CRIMEANDWIN.COM",
+                    EmailConfirmed = true,
+                    PasswordHash = "AQAAAAIAAYagAAAAEI9h+Lp...HashPlaceholder", 
+                    SecurityStamp = "stamp-alpha",
+                    ConcurrencyStamp = "concurrency-alpha",
+                    PhoneNumberConfirmed = false,
+                    TwoFactorEnabled = false,
+                    LockoutEnabled = false,
+                    AccessFailedCount = 0,
+                    IsApproved = true,
+                    CreatedAtUtc = SeedDataConstants.SeedDate,
+                    IsDeleted = false
+                },
+                new AppUser 
+                { 
+                    Id = SeedDataConstants.UserBetaId, 
+                    UserName = "Beta", 
+                    NormalizedUserName = "BETA", 
+                    Email = "beta@crimeandwin.com", 
+                    NormalizedEmail = "BETA@CRIMEANDWIN.COM",
+                    EmailConfirmed = true,
+                    PasswordHash = "AQAAAAIAAYagAAAAEI9h+Lp...HashPlaceholder", 
+                    SecurityStamp = "stamp-beta",
+                    ConcurrencyStamp = "concurrency-beta",
+                    PhoneNumberConfirmed = false,
+                    TwoFactorEnabled = false,
+                    LockoutEnabled = false,
+                    AccessFailedCount = 0,
+                    IsApproved = true,
+                    CreatedAtUtc = SeedDataConstants.SeedDate,
+                    IsDeleted = false
+                }
+            );
         }
     }
 }
-
-

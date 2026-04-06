@@ -1,5 +1,6 @@
-using Bogus;
+using Economy.Domain.Entities;
 using Economy.Domain.VOs;
+using Bogus;
 using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
@@ -8,13 +9,13 @@ namespace Economy.Application.Features.Seed
 {
     public sealed class RunEconomySeedHandler : IRequestHandler<RunEconomySeedCommand, Unit>
     {
-        private readonly IWriteRepository<Domain.Entities.Wallet> _walletRepo;
-        private readonly IWriteRepository<Domain.Entities.Transaction> _transactionRepo;
+        private readonly IWriteRepository<Economy.Domain.Entities.Wallet> _walletRepo;
+        private readonly IWriteRepository<Transaction> _transactionRepo;
         private readonly IDateTimeProvider _clock;
 
         public RunEconomySeedHandler(
-            IWriteRepository<Domain.Entities.Wallet> walletRepo,
-            IWriteRepository<Domain.Entities.Transaction> transactionRepo,
+            IWriteRepository<Economy.Domain.Entities.Wallet> walletRepo,
+            IWriteRepository<Transaction> transactionRepo,
             IDateTimeProvider clock)
         {
             _walletRepo = walletRepo;
@@ -22,59 +23,51 @@ namespace Economy.Application.Features.Seed
             _clock = clock;
         }
 
-        public async Task<Unit> Handle(RunEconomySeedCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(RunEconomySeedCommand request, CancellationToken ct)
         {
-            var faker = new Faker("en");
+            var now = _clock.UtcNow;
+            var themeUsers = new[] { "Boss", "Hitman", "Mole", "Fixer", "Dealer", "Enforcer", "Launderer" };
+            
+            var wallets = new List<Economy.Domain.Entities.Wallet>();
+            var transactions = new List<Transaction>();
 
-            var wallets = new List<Domain.Entities.Wallet>();
-            var transactions = new List<Domain.Entities.Transaction>();
-
-            for (int i = 0; i < request.Count; i++)
+            for (int i = 0; i < themeUsers.Length; i++)
             {
-                var walletId = Guid.NewGuid();
-                var balance = faker.Finance.Amount(100, 5000);
-                var wallet = new Domain.Entities.Wallet
+                var walletId = Guid.Parse($"44444444-4444-4444-4444-{i:D12}");
+                var playerId = Guid.Parse($"22222222-2222-2222-2222-{i:D12}"); // From PlayerProfile
+                
+                var wallet = new Economy.Domain.Entities.Wallet
                 {
                     Id = walletId,
-                    PlayerId = Guid.NewGuid(), // fake player id
-                    Balance = balance,
-                    CreatedAtUtc = _clock.UtcNow,
-                    IsDeleted = false
+                    PlayerId = playerId,
+                    Balance = 5000 * (i + 1),
+                    BlackBalance = 0,
+                    CashBalance = 5000 * (i + 1), // Seed some cash
+                    CreatedAtUtc = now
                 };
 
-                // Her cüzdana 3–5 rastgele iþlem ekleyelim
-                var txCount = faker.Random.Int(3, 5);
-                for (int j = 0; j < txCount; j++)
+                // Add a "Welcome" transaction
+                transactions.Add(new Transaction
                 {
-                    var amount = faker.Finance.Amount(-500, 500);
-                    var tx = new Domain.Entities.Transaction
-                    {
-                        Id = Guid.NewGuid(),
-                        WalletId = walletId,
-                        Money = new Money(amount, "USD"),
-                        Reason = new TransactionReason(
-                            faker.PickRandom("ACTION_REWARD", "ITEM_PURCHASE", "BANK_DEPOSIT", "PLAYER_TRADE"),
-                            faker.Lorem.Sentence()
-                        ),
-                        CreatedAtUtc = _clock.UtcNow.AddMinutes(-faker.Random.Int(10, 10000)),
-                        IsDeleted = false
-                    };
-
-                    transactions.Add(tx);
-                }
-
+                    Id = Guid.NewGuid(),
+                    WalletId = walletId,
+                    Money = new Money(wallet.Balance, "Cash"),
+                    Reason = new TransactionReason("INITIAL_FUND", "Starting capital from the Boss."),
+                    BalanceType = Economy.Domain.Enums.WalletBalanceType.CashBalance,
+                    CreatedAtUtc = now.AddDays(-1)
+                });
+                
                 wallets.Add(wallet);
             }
 
-            await _walletRepo.AddRangeAsync(wallets);
-            await _transactionRepo.AddRangeAsync(transactions);
-
-            await _walletRepo.SaveAsync();
-            await _transactionRepo.SaveAsync();
+            try {
+                await _walletRepo.AddRangeAsync(wallets);
+                await _transactionRepo.AddRangeAsync(transactions);
+                await _walletRepo.SaveAsync();
+                await _transactionRepo.SaveAsync();
+            } catch { }
 
             return Unit.Value;
         }
     }
 }
-
-

@@ -342,16 +342,8 @@ namespace Identity.API.Controllers
         [HttpPost("ApproveAllPendingUsers")]
         public async Task<IActionResult> ApproveAllPendingUsers()
         {
-            // Ideally we'd have a BulkApproveUsersCommand. For now using loop for simplicity.
-            var users = await _mediator.Send(new GetAllAppUsersQuery());
-            var pending = users.Where(u => !u.IsApproved).ToList();
-            
-            foreach (var user in pending)
-            {
-                await _mediator.Send(new ApproveUserCommand(user.Id));
-            }
-            
-            return Ok(new { count = pending.Count });
+            var count = await _mediator.Send(new BulkApproveUsersCommand());
+            return Ok(new { count });
         }
     }
 }

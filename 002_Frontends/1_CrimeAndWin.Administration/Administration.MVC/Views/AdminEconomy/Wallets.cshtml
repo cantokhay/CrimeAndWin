@@ -9,12 +9,12 @@
 
 <div class="row g-5 g-xl-10 mb-8 mt-5">
     <div class="col-md-3">
-        <div class="card card-flush h-md-100 shadow-sm border-0 bg-light-primary text-primary">
+        <div class="card card-flush h-md-100 shadow-sm border-0 bg-light-warning text-warning">
             <div class="card-header pt-5">
                 <div class="card-title d-flex flex-column">
                     <div class="d-flex align-items-center">
                         <span class="fs-2hx fw-bold text-dark me-2 lh-1 ls-n2">@Model.Count</span>
-                        <span class="badge badge-light-primary border border-primary border-dashed fs-7 fw-bold px-3 py-1">Cüzdan</span>
+                        <span class="badge badge-light-warning border border-warning border-dashed fs-7 fw-bold px-3 py-1">Cüzdan</span>
                     </div>
                     <span class="text-gray-600 pt-1 fw-bold fs-6">Aktif Oyuncu Cüzdanı</span>
                 </div>
@@ -52,7 +52,7 @@
             <span class="text-muted mt-1 fw-bold fs-7">Tüm kayıtlı oyuncuların mevcut para ve varlık durumları</span>
         </h3>
         <div class="card-toolbar">
-            <a asp-action="CreateWallet" asp-controller="AdminEconomy" class="btn btn-sm btn-primary">
+            <a asp-action="CreateWallet" asp-controller="AdminEconomy" class="btn btn-sm btn-warning">
                 <i class="ki-duotone ki-plus fs-2 me-1"></i> Yeni Cüzdan Tanımla
             </a>
         </div>
@@ -76,7 +76,7 @@
                             <td class="ps-4">
                                 <div class="d-flex align-items-center">
                                     <div class="symbol symbol-35px me-3">
-                                        <span class="symbol-label bg-light-primary text-primary fw-bold">@item.PlayerDisplay?[0]</span>
+                                        <span class="symbol-label bg-light-warning text-warning fw-bold">@item.PlayerDisplay?[0]</span>
                                     </div>
                                     <div class="d-flex flex-column">
                                         <span class="text-dark fw-bold text-hover-primary mb-1 fs-6">
@@ -100,12 +100,13 @@
                             </td>
                             <td class="text-end pe-4">
                                 <a asp-action="EditWallet" asp-controller="AdminEconomy" asp-route-id="@item.Id" 
-                                   class="btn btn-icon btn-light-primary btn-active-primary btn-sm me-2 shadow-sm">
-                                    <i class="ki-duotone ki-pencil fs-3"></i>
+                                   class="btn btn-icon btn-light-warning btn-active-warning btn-sm me-2 shadow-sm"
+                                   data-bs-toggle="tooltip" title="Düzenle">
+                                    <i class="ki-duotone ki-pencil fs-3"><span class="path1"></span><span class="path2"></span></i>
                                 </a>
                                 <span class="d-inline-block" data-bs-toggle="tooltip" title="Güvenlik nedeniyle cüzdanlar silinemez">
                                     <button type="button" class="btn btn-icon btn-light btn-sm shadow-none" disabled style="opacity: 0.5;">
-                                        <i class="ki-duotone ki-trash fs-3"></i>
+                                        <i class="ki-duotone ki-trash fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
                                     </button>
                                 </span>
                             </td>

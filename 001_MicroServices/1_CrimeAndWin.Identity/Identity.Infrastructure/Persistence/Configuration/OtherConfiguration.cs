@@ -1,6 +1,7 @@
 using Identity.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using CrimeAndWin.Shared.Constants;
 
 namespace Identity.Infrastructure.Persistence.Configuration
 {
@@ -13,6 +14,13 @@ namespace Identity.Infrastructure.Persistence.Configuration
                 b.ToTable("UserRoles");
                 b.HasKey(x => x.Id);
                 b.HasIndex(x => new { x.UserId, x.RoleId }).IsUnique();
+
+                // Seed UserRoles
+                b.HasData(
+                    new UserRole { Id = SeedDataConstants.UserRoleAdminId, UserId = SeedDataConstants.AdminUserId, RoleId = SeedDataConstants.AdminRoleId, CreatedAtUtc = SeedDataConstants.SeedDate, IsDeleted = false },
+                    new UserRole { Id = SeedDataConstants.UserRoleAlphaId, UserId = SeedDataConstants.UserAlphaId, RoleId = SeedDataConstants.PlayerRoleId, CreatedAtUtc = SeedDataConstants.SeedDate, IsDeleted = false },
+                    new UserRole { Id = SeedDataConstants.UserRoleBetaId, UserId = SeedDataConstants.UserBetaId, RoleId = SeedDataConstants.PlayerRoleId, CreatedAtUtc = SeedDataConstants.SeedDate, IsDeleted = false }
+                );
             }
         }
 
@@ -76,5 +84,3 @@ namespace Identity.Infrastructure.Persistence.Configuration
         }
     }
 }
-
-

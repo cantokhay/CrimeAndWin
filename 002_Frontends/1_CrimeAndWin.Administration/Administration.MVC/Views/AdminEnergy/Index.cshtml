@@ -122,15 +122,11 @@
                                 {
                                     <span class="text-muted fs-8">Aktif Boost Yok</span>
                                 }
-                            </td>
-                            <td class="text-end pe-4">
+                                                      <td class="text-end pe-4">
                                 <button type="button" class="btn btn-icon btn-light-warning btn-active-warning btn-sm shadow-sm js-refill-btn" 
-                                        data-id="@item.PlayerId" data-name="@item.PlayerName">
-                                    <span class="svg-icon svg-icon-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                            <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" fill="currentColor"/>
-                                        </svg>
-                                    </span>
+                                        data-id="@item.PlayerId" data-name="@item.PlayerName"
+                                        data-bs-toggle="tooltip" title="Enerji Ver">
+                                    <i class="ki-duotone ki-zap fs-2"><span class="path1"></span><span class="path2"></span></i>
                                 </button>
                             </td>
                         </tr>
@@ -173,7 +169,7 @@
                 showLoaderOnConfirm: true,
                 preConfirm: (amount) => {
                     return $.ajax({
-                        url: '/AdminEnergy/ManualRefill',
+                        url: '@Url.Action("ManualRefill", "AdminEnergy")',
                         type: 'POST',
                         data: {
                             playerId: id,
@@ -208,7 +204,5 @@
                 new bootstrap.Tooltip(el);
             });
         });
-    </script>
-}   });
     </script>
 }

@@ -525,3 +525,37 @@
     </div>
 </div>
 
+
+<!-- =========================
+     DROPDOWN 13: Sosyal & Rekabet
+========================= -->
+<div data-kt-menu-trigger='click' class='menu-item menu-accordion @Html.IsMenuOpen("AdminGang", "AdminAuction")'>
+    <span class='menu-link'>
+        <span class='menu-icon'>
+            <span class='svg-icon svg-icon-2'>
+                <i class='ki-duotone ki-crown fs-2'>
+                    <span class='path1'></span><span class='path2'></span>
+                </i>
+            </span>
+        </span>
+        <span class='menu-title'>Sosyal & Rekabet</span>
+        <span class='menu-arrow'></span>
+    </span>
+
+    <div class='menu-sub menu-sub-accordion menu-active-bg'>
+        <div class='menu-item'>
+            <a class='menu-link @Html.IsActive("AdminGang", "Index")'
+               asp-controller='AdminGang' asp-action='Index'>
+                <span class='menu-bullet'><span class='bullet bullet-dot'></span></span>
+                <span class='menu-title'>Cete Yonetimi</span>
+            </a>
+        </div>
+        <div class='menu-item'>
+            <a class='menu-link @Html.IsActive("AdminAuction", "Index")'
+               asp-controller='AdminAuction' asp-action='Index'>
+                <span class='menu-bullet'><span class='bullet bullet-dot'></span></span>
+                <span class='menu-title'>hale Yonetimi</span>
+            </a>
+        </div>
+    </div>
+</div>

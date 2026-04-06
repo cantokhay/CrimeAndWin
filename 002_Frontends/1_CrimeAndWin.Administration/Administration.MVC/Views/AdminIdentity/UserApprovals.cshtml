@@ -1,75 +1,94 @@
-@model List<ResultAppUserVM>
-
+﻿@model List<ResultAppUserVM>
 @{
     Layout = "_AdminLayout";
-    ViewData["Title"] = "Onay Bekleyen Kullanıcılar";
+    ViewData["Title"] = "Onay Bekleyen Kullanicilar";
 }
 
-<div class="card mb-5 mb-xl-8">
-    <div class="card-header border-0 pt-5">
+<!--begin::Toolbar-->
+<div class="toolbar py-5 py-lg-15" id="kt_toolbar">
+    <div id="kt_toolbar_container" class="container-xxl d-flex flex-stack flex-wrap">
+        <div class="page-title d-flex flex-column me-3">
+            <h1 class="d-flex text-white fw-bold my-1 fs-3">Hesap Onay Kuyrugu</h1>
+            <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-1">
+                <li class="breadcrumb-item text-white opacity-75">Admin</li>
+                <li class="breadcrumb-item"><span class="bullet bg-white opacity-75 w-5px h-2px"></span></li>
+                <li class="breadcrumb-item text-white opacity-75 text-hover-primary">Kimlik Yonetimi</li>
+                <li class="breadcrumb-item"><span class="bullet bg-white opacity-75 w-5px h-2px"></span></li>
+                <li class="breadcrumb-item text-white opacity-75">Onay Bekleyenler</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--end::Toolbar-->
+
+<div class="card card-flush shadow-sm border-0 mb-5 mb-xl-8">
+    <div class="card-header pt-7">
         <h3 class="card-title align-items-start flex-column">
-            <span class="card-label fw-bolder fs-3 mb-1">Onay Bekleyen Kullanıcılar</span>
-            <span class="text-muted mt-1 fw-bold fs-7">@Model.Count kullanıcı onayınızı bekliyor</span>
+            <span class="card-label fw-bold text-dark fs-3">Onay Bekleyen Kullanicilar</span>
+            <span class="text-gray-400 mt-1 fw-semibold fs-7">@Model.Count kullanici hesabinin aktifleştirilmesi gerekiyor</span>
         </h3>
         <div class="card-toolbar">
             @if (Model.Any())
             {
-                <button type="button" class="btn btn-primary btn-sm me-3 js-approve-all-users" id="btnApproveAll">
-                    <span class="svg-icon svg-icon-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <path d="M10 18L16 12L10 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </span>
-                    Tümünü Onayla (Approve All)
+                <button type="button" class="btn btn-sm btn-primary fw-bold js-approve-all-users">
+                    <i class="ki-duotone ki-double-check fs-2 me-1"></i> Tümünü Onayla
                 </button>
             }
         </div>
     </div>
-    <div class="card-body py-3">
+
+    <div class="card-body pt-5">
         <div class="table-responsive">
-            <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
+            <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_approvals_table">
                 <thead>
-                    <tr class="fw-bolder text-muted">
-                        <th class="min-w-200px">Kullanıcı</th>
-                        <th class="min-w-150px">Kayıt Tarihi</th>
-                        <th class="min-w-100px text-end">İşlemler</th>
+                    <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                        <th class="min-w-250px">Kullanici Bilgisi</th>
+                        <th class="min-w-150px">Basvuru Tarihi</th>
+                        <th class="text-end min-w-100px">Islemler</th>
                     </tr>
                 </thead>
-                <tbody>
-                    @foreach (var item in Model)
+                <tbody class="fw-semibold text-gray-600">
+                    @foreach (var user in Model)
                     {
                         <tr>
                             <td>
                                 <div class="d-flex align-items-center">
-                                    <div class="d-flex flex-column">
-                                        <a href="#" class="text-dark fw-bolder text-hover-primary mb-1 fs-6">@item.UserName</a>
-                                        <span class="text-muted fw-bold d-block fs-7">@item.Email</span>
+                                    <div class="symbol symbol-40px me-3">
+                                        <div class="symbol-label bg-light-warning text-warning fw-bold fs-5">
+                                            @user.UserName.Substring(0,1).ToUpper()
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-start flex-column">
+                                        <span class="text-dark fw-bold text-hover-primary fs-6">@user.UserName</span>
+                                        <span class="text-muted fw-semibold d-block fs-8">@user.Email</span>
                                     </div>
                                 </div>
                             </td>
                             <td>
-                                <span class="text-muted fw-bold d-block fs-7">@item.CreatedAtUtc.ToString("g")</span>
+                                <div class="d-flex flex-column">
+                                    <span class="text-dark fw-bold fs-7">@user.CreatedAtUtc.ToString("dd MMM yyyy")</span>
+                                    <span class="text-muted fs-8">@user.CreatedAtUtc.ToString("HH:mm")</span>
+                                </div>
                             </td>
                             <td class="text-end">
-                                <button type="button" 
-                                        class="btn btn-icon btn-bg-light btn-active-color-success btn-sm btn-approve-user" 
-                                        data-id="@item.Id"
-                                        data-username="@item.UserName"
-                                        data-bs-toggle="tooltip" title="Onayla">
-                                    <span class="svg-icon svg-icon-3">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                            <path d="M5 13L9 17L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                        </svg>
-                                    </span>
+                                <button type="button" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm btn-approve-user" 
+                                        data-id="@user.Id" data-username="@user.UserName">
+                                    <i class="ki-duotone ki-check fs-2"></i>
+                                </button>
+                                <button type="button" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm">
+                                    <i class="ki-duotone ki-cross fs-2"></i>
                                 </button>
                             </td>
                         </tr>
                     }
-                    @if (Model.Count == 0)
+                    @if (!Model.Any())
                     {
                         <tr>
-                            <td colspan="3" class="text-center text-muted py-5">
-                                Onay bekleyen kullanıcı bulunmamaktadır.
+                            <td colspan="3" class="text-center py-10">
+                                <div class="d-flex flex-column flex-center">
+                                    <i class="ki-duotone ki-shield-search fs-5x text-gray-200 mb-3"></i>
+                                    <span class="text-gray-400 fw-semibold fs-5">Onay bekleyen kullanici bulunmamaktadir.</span>
+                                </div>
                             </td>
                         </tr>
                     }
@@ -87,11 +106,12 @@
 
             Swal.fire({
                 title: 'Onayla?',
-                text: `${username} hesabını aktifleştirmek istediğinize emin misiniz?`,
+                text: `${username} hesabini aktifestirmek istiyor musunuz?`,
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonText: 'Evet, Onayla!',
-                cancelButtonText: 'Vazgeç',
+                cancelButtonText: 'Vazgec',
+                buttonsStyling: false,
                 customClass: {
                     confirmButton: "btn btn-primary",
                     cancelButton: "btn btn-active-light"
@@ -107,9 +127,9 @@
                         },
                         success: function(res) {
                             if (res.success) {
-                                Swal.fire('Başarılı!', 'Kullanıcı hesabı aktifleştirildi.', 'success').then(() => location.reload());
+                                Swal.fire('Basarli!', 'Hesap onaylandi.', 'success').then(() => location.reload());
                             } else {
-                                Swal.fire('Hata!', 'İşlem sırasında bir hata oluştu.', 'error');
+                                Swal.fire('Hata!', 'Bir sorun olustu.', 'error');
                             }
                         }
                     });
@@ -119,19 +139,19 @@
 
         $(document).on('click', '.js-approve-all-users', function() {
             Swal.fire({
-                title: 'Tümünü Onayla?',
-                text: 'Onay bekleyen TÜM kullanıcıları aktifleştirmek istediğinize emin misiniz?',
+                title: 'Hepsini Onayla?',
+                text: 'Tum bekleyen başvurulari onaylamak istediginize emin misiniz?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Evet, Hepsini Onayla!',
-                cancelButtonText: 'Vazgeç',
+                cancelButtonText: 'Vazgec',
+                buttonsStyling: false,
                 customClass: {
                     confirmButton: "btn btn-success",
                     cancelButton: "btn btn-active-light"
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.showLoading();
                     $.ajax({
                         url: '@Url.Action("ApproveAllPendingUsers", "AdminIdentity")',
                         type: 'POST',
@@ -140,20 +160,13 @@
                         },
                         success: function(res) {
                             if (res.success) {
-                                Swal.fire('Başarılı!', 'Tüm kullanıcılar onaylandı.', 'success').then(() => location.reload());
+                                Swal.fire('Basarli!', 'Tum liste onaylandi.', 'success').then(() => location.reload());
                             } else {
-                                Swal.fire('Hata!', 'Toplu onaylama sırasında bir hata oluştu.', 'error');
+                                Swal.fire('Hata!', 'Islem sirasinda bir hata olustu.', 'error');
                             }
                         }
                     });
                 }
-            });
-        });
-
-        $(document).ready(function() {
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-            tooltipTriggerList.forEach(function (el) {
-                new bootstrap.Tooltip(el);
             });
         });
     </script>

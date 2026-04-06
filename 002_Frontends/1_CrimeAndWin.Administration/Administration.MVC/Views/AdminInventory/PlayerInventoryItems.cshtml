@@ -1,80 +1,83 @@
-@model Administration.MVC.ViewModels.InventoryVMs.PlayerInventoryItemsVMs.PlayerInventoryItemsVM
-
+﻿@model List<Administration.MVC.ViewModels.InventoryVMs.PlayerProfileDto>
 @{
-    Layout = "_AdminLayout";
-    ViewData["Title"] = "Envanter Tarayıcı";
+    ViewData["Title"] = "Oyuncu Envanter Takibi";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-@Html.AntiForgeryToken()
+<!--begin::Toolbar-->
+<div class="toolbar py-5 py-lg-15" id="kt_toolbar">
+    <div id="kt_toolbar_container" class="container-xxl d-flex flex-stack flex-wrap">
+        <div class="page-title d-flex flex-column me-3">
+            <h1 class="d-flex text-white fw-bold my-1 fs-3">Kisisel Envanter Yonetimi</h1>
+            <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-1">
+                <li class="breadcrumb-item text-white opacity-75">Oyun Yonetimi</li>
+                <li class="breadcrumb-item"><span class="bullet bg-white opacity-75 w-5px h-2px"></span></li>
+                <li class="breadcrumb-item text-white opacity-75 text-hover-primary">Inventory</li>
+                <li class="breadcrumb-item"><span class="bullet bg-white opacity-75 w-5px h-2px"></span></li>
+                <li class="breadcrumb-item text-white opacity-75">Oyuncu Detay</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--end::Toolbar-->
 
-<div class="card mb-5">
-    <div class="card-header border-0 pt-5">
+<div class="card card-flush shadow-sm border-0 mb-5 mb-xl-8">
+    <div class="card-header pt-7">
         <h3 class="card-title align-items-start flex-column">
-            <span class="card-label fw-bold fs-3 mb-1">Envanter Tarayıcı</span>
-            <span class="text-muted mt-1 fw-bold fs-7">Oyuncu ve envanter seçerek eşyaları yönetin</span>
+            <span class="card-label fw-bold text-dark fs-3">Envanter Sorgulama</span>
+            <span class="text-gray-400 mt-1 fw-semibold fs-7">Oyuncu secerek envanter icerigini anlik goruntuleyin</span>
         </h3>
     </div>
-
-    <div class="card-body">
-        <div class="row g-5">
-            <div class="col-md-6">
-                <label class="form-label fw-bold text-gray-700">Oyuncu Seçimi</label>
-                <select id="playerSelect" class="form-select form-select-solid" data-control="select2" data-placeholder="Oyuncu ara veya seç...">
-                    <option value="">-- Oyuncu seçin --</option>
-                    @foreach (var p in Model.PlayerOptions)
+    <div class="card-body pt-5">
+        <div class="row g-9 mb-8">
+            <div class="col-md-6 fv-row">
+                <label class="required fs-6 fw-bold mb-2 text-primary">Oyuncu Secimi</label>
+                <select id="player_select" class="form-select form-select-solid fw-bold" data-control="select2" data-placeholder="Bir oyuncu arayın...">
+                    <option></option>
+                    @foreach (var player in Model)
                     {
-                        <option value="@p.Value">@p.Text</option>
+                        <option value="@player.Id">@player.Name (@player.Id.ToString().Substring(0,8)...)</option>
                     }
                 </select>
             </div>
-
-            <div class="col-md-6">
-                <label class="form-label fw-bold text-gray-700">Envanter Seçimi</label>
-                <select id="inventorySelect" class="form-select form-select-solid" disabled>
-                    <option value="">-- Önce oyuncu seçin --</option>
+            <div class="col-md-6 fv-row">
+                <label class="fs-6 fw-bold mb-2 text-warning">Baglı Envanterler</label>
+                <select id="inventory_select" class="form-select form-select-solid fw-bold" disabled>
+                    <option value="">-- Once oyuncu secin --</option>
                 </select>
             </div>
+        </div>
+        
+        <div class="text-end" id="create_btn_container">
+            <!-- Dinamik buton -->
         </div>
     </div>
 </div>
 
-<div class="card mb-5 mb-xl-8">
-    <div class="card-header border-0 pt-5">
+<div class="card card-flush shadow-sm border-0">
+    <div class="card-header py-5">
         <h3 class="card-title align-items-start flex-column">
-            <span class="card-label fw-bold fs-3 mb-1">Eşyalar</span>
-            <span id="itemsCountText" class="text-muted mt-1 fw-bold fs-7">0 kayıt bulundu</span>
+            <span class="card-label fw-bold text-dark fs-4">Envanter Icerigi</span>
+            <span class="text-muted mt-1 fw-semibold fs-7" id="items_count_text">0 kayit listelendi</span>
         </h3>
-
-        <div class="card-toolbar">
-            <a id="btnCreateItem"
-               class="btn btn-sm btn-primary disabled"
-               href="javascript:void(0)"
-               title="Önce envanter seçmelisiniz">
-                <i class="ki-duotone ki-plus fs-2 me-1"></i> Yeni Eşya Ekle
-            </a>
-        </div>
     </div>
-
-    <div class="card-body py-3">
+    <div class="card-body pt-0">
         <div class="table-responsive">
-            <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
+            <table class="table align-middle table-row-dashed fs-6 gy-5">
                 <thead>
-                    <tr class="fw-bold text-muted bg-light">
-                        <th class="ps-4 rounded-start">Eşya</th>
-                        <th>Miktar</th>
-                        <th>İstatistikler</th>
-                        <th>Değer</th>
-                        <th>Eklenme</th>
-                        <th class="min-w-100px text-end pe-4 rounded-end">İşlemler</th>
+                    <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                        <th class="min-w-200px">Esya Bilgisi</th>
+                        <th class="min-w-80px">Adet</th>
+                        <th class="min-w-150px text-center">Teknik Veriler</th>
+                        <th class="min-w-120px text-end">Ekonomik Deger</th>
+                        <th class="min-w-150px text-end">Eklenme Tarihi</th>
+                        <th class="text-end min-w-100px">Islemler</th>
                     </tr>
                 </thead>
-                <tbody id="itemsTbody">
+                <tbody class="fw-semibold text-gray-600" id="items_tbody">
                     <tr>
                         <td colspan="6" class="text-center text-muted py-10">
-                            <div class="d-flex flex-column align-items-center">
-                                <i class="ki-duotone ki-search-list fs-3hx text-gray-400 mb-3"></i>
-                                <span>Lütfen bir oyuncu ve ardından envanter seçin.</span>
-                            </div>
+                            Lutfen sorgulama yapmak icin yukarıdan secim yapın.
                         </td>
                     </tr>
                 </tbody>
@@ -86,229 +89,102 @@
 @section Scripts {
     <script>
         (function () {
-            const playerSelect = document.getElementById('playerSelect');
-            const inventorySelect = document.getElementById('inventorySelect');
-            const itemsTbody = document.getElementById('itemsTbody');
-            const itemsCountText = document.getElementById('itemsCountText');
-            const btnCreateItem = document.getElementById('btnCreateItem');
+            const playerSelect = document.getElementById('player_select');
+            const inventorySelect = document.getElementById('inventory_select');
+            const itemsTbody = document.getElementById('items_tbody');
+            const itemsCountText = document.getElementById('items_count_text');
+            const createBtnContainer = document.getElementById('create_btn_container');
 
-            function setInfoRow(message) {
-                itemsTbody.innerHTML = `
-                    <tr>
-                        <td colspan="6" class="text-center text-muted py-10">${message}</td>
-                    </tr>`;
-                itemsCountText.textContent = `0 kayıt bulundu`;
+            function formatDate(str) {
+                if(!str) return "-";
+                const d = new Date(str);
+                return d.toLocaleDateString() + " " + d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
             }
 
-            function setErrorRow(message) {
-                itemsTbody.innerHTML = `
-                    <tr>
-                        <td colspan="6" class="text-center text-danger py-10">${message}</td>
-                    </tr>`;
-                itemsCountText.textContent = `0 kayıt bulundu`;
-            }
-
-            function escapeHtml(str) {
-                if (str === null || str === undefined) return '';
-                return String(str)
-                    .replaceAll('&', '&amp;')
-                    .replaceAll('<', '&lt;')
-                    .replaceAll('>', '&gt;')
-                    .replaceAll('"', '&quot;')
-                    .replaceAll("'", '&#039;');
-            }
-
-            function currencyToText(currency) {
-                if (currency === null || currency === undefined) return '';
-                if (typeof currency === 'number') {
-                    switch (currency) {
-                        case 1: return 'Gold';
-                        case 2: return 'Gem';
-                        case 3: return 'Credit';
-                        default: return String(currency);
-                    }
-                }
-                return String(currency);
-            }
-
-            function formatDate(dateValue) {
-                if (!dateValue) return '';
-                const d = new Date(dateValue);
-                if (isNaN(d.getTime())) return '';
-                return d.toLocaleString();
-            }
-
-            async function safeFetchJson(url) {
-                const res = await fetch(url);
-                if (!res.ok) throw new Error(`Sunucu hatası: ${res.status}`);
-                return await res.json();
-            }
-
-            function resetCreateButton() {
-                btnCreateItem.classList.add('disabled');
-                btnCreateItem.href = 'javascript:void(0)';
-                btnCreateItem.setAttribute('title', 'Önce envanter seçmelisiniz');
-            }
-
-            function enableCreateButton(inventoryId) {
-                btnCreateItem.classList.remove('disabled');
-                btnCreateItem.removeAttribute('title');
-                btnCreateItem.href = `@Url.Action("CreateItem", "AdminInventory")?inventoryId=${encodeURIComponent(inventoryId)}`;
-            }
-
-            function wireDeleteHandlers() {
-                document.querySelectorAll('.js-delete-item-btn').forEach(btn => {
-                    btn.addEventListener('click', async function (e) {
-                        const id = this.dataset.id;
-                        const name = this.dataset.name;
-
-                        Swal.fire({
-                            title: 'Eşyayı Sil?',
-                            text: `${name} eşyasını silmek istediğinize emin misiniz?`,
-                            icon: 'warning',
-                            showCancelButton: true,
-                            confirmButtonText: 'Evet, Sil!',
-                            cancelButtonText: 'Vazgeç',
-                            customClass: {
-                                confirmButton: "btn btn-danger",
-                                cancelButton: "btn btn-active-light"
-                            }
-                        }).then(async (result) => {
-                            if (result.isConfirmed) {
-                                try {
-                                    const formData = new FormData();
-                                    formData.append('id', id);
-                                    formData.append('__RequestVerificationToken', document.querySelector('input[name="__RequestVerificationToken"]').value);
-
-                                    const res = await fetch(`@Url.Action("DeleteItem", "AdminInventory")`, {
-                                        method: 'POST',
-                                        body: formData
-                                    });
-
-                                    const json = await res.json();
-                                    if (json.success) {
-                                        Swal.fire({
-                                            icon: 'success',
-                                            title: 'Başarılı!',
-                                            text: 'Eşya envanterden silindi.',
-                                            timer: 1500,
-                                            showConfirmButton: false
-                                        }).then(() => {
-                                            inventorySelect.dispatchEvent(new Event('change'));
-                                        });
-                                    } else {
-                                        Swal.fire('Hata!', 'Silme işlemi başarısız oldu.', 'error');
-                                    }
-                                } catch (err) {
-                                    Swal.fire('Hata!', 'Sistemde bir hata oluştu.', 'error');
-                                }
-                            }
-                        });
-                    });
-                });
+            function setInfoRow(msg) {
+                itemsTbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted py-10"><span class="spinner-border spinner-border-sm me-2"></span>${msg}</td></tr>`;
             }
 
             playerSelect.addEventListener('change', async function () {
                 const playerId = this.value;
-                resetCreateButton();
                 inventorySelect.disabled = true;
-                inventorySelect.innerHTML = `<option value="">-- Envanterler yükleniyor... --</option>`;
-                setInfoRow('Oyuncu seçildi, envanter yükleniyor...');
+                inventorySelect.innerHTML = `<option value="">-- Yukleniyor... --</option>`;
+                setInfoRow('Envanterler getiriliyor...');
 
                 if (!playerId) {
-                    inventorySelect.innerHTML = `<option value="">-- Önce oyuncu seçin --</option>`;
-                    setInfoRow('Lütfen bir oyuncu seçin.');
+                    inventorySelect.innerHTML = `<option value="">-- Once oyuncu secin --</option>`;
                     return;
                 }
 
                 try {
-                    const url = `@Url.Action("GetInventoriesByPlayer", "AdminInventory")?playerId=${encodeURIComponent(playerId)}`;
-                    const list = await safeFetchJson(url);
+                    const res = await fetch(`@Url.Action("GetInventoriesByPlayer", "AdminInventory")?playerId=${playerId}`);
+                    const list = await res.json();
 
-                    if (!Array.isArray(list) || list.length === 0) {
-                        inventorySelect.innerHTML = `<option value="">-- Envanter bulunamadı --</option>`;
-                        setInfoRow('Bu oyuncu için tanımlı bir envanter bulunamadı.');
+                    if (!list || list.length === 0) {
+                        inventorySelect.innerHTML = `<option value="">-- Kayit bulunamadı --</option>`;
                         return;
                     }
 
-                    inventorySelect.innerHTML =
-                        `<option value="">-- Envanter seçin --</option>` +
-                        list.map(x => `<option value="${escapeHtml(x.id)}">${escapeHtml(x.text)}</option>`).join('');
-
+                    inventorySelect.innerHTML = `<option value="">-- Envanter secin --</option>` + 
+                        list.map(x => `<option value="${x.id}">${x.text}</option>`).join('');
                     inventorySelect.disabled = false;
-                    setInfoRow('Envanter seçince eşyalar listelenecek.');
+                    setInfoRow('Envanter secince esyalar listelenecek.');
                 } catch (e) {
-                    inventorySelect.innerHTML = `<option value="">-- Hata oluştu --</option>`;
-                    setErrorRow(`Hata: ${escapeHtml(e.message)}`);
+                    console.error(e);
                 }
             });
 
             inventorySelect.addEventListener('change', async function () {
-                const inventoryId = this.value;
-                resetCreateButton();
+                const invId = this.value;
+                if (!invId) return;
 
-                if (!inventoryId) {
-                    setInfoRow('Lütfen bir envanter seçin.');
-                    return;
-                }
-
-                enableCreateButton(inventoryId);
-                setInfoRow('Eşyalar getiriliyor...');
+                setInfoRow('Esyalar yukleniyor...');
 
                 try {
-                    const url = `@Url.Action("GetItemsByInventory", "AdminInventory")?inventoryId=${encodeURIComponent(inventoryId)}`;
-                    const items = await safeFetchJson(url);
+                    const res = await fetch(`@Url.Action("GetItemsByInventory", "AdminInventory")?inventoryId=${invId}`);
+                    const items = await res.json();
 
-                    if (!Array.isArray(items) || items.length === 0) {
-                        itemsTbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted py-10">Envanter boş.</td></tr>`;
-                        itemsCountText.textContent = `0 kayıt bulundu`;
+                    itemsCountText.textContent = `${items.length} kayit bulundu`;
+
+                    if (items.length === 0) {
+                        itemsTbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted py-10">Envanter bos.</td></tr>`;
                         return;
                     }
 
-                    itemsCountText.textContent = `${items.length} kayıt bulundu`;
-
-                    itemsTbody.innerHTML = items.map(it => {
-                        const stats = `<span class="text-muted fs-8">S: <span class="text-danger fw-bold">${escapeHtml(it.damage)}</span> / Sav: <span class="text-success fw-bold">${escapeHtml(it.defense)}</span> / Güç: <span class="text-primary fw-bold">${escapeHtml(it.power)}</span></span>`;
-                        const value = `<span class="text-dark fw-bold fs-7">${escapeHtml(it.amount)} <small class="text-muted">(${escapeHtml(currencyToText(it.currencyText ?? it.currency))})</small></span>`;
-                        const editUrl = `@Url.Action("EditItem", "AdminInventory")/${encodeURIComponent(it.id)}`;
-
-                        return `
-                            <tr>
-                                <td class="ps-4">
-                                    <div class="d-flex align-items-center">
-                                        <div class="symbol symbol-30px me-3">
-                                            <span class="symbol-label bg-light-primary text-primary fw-bold fs-8">${it.name[0]}</span>
-                                        </div>
-                                        <div class="d-flex flex-column">
-                                            <span class="text-dark fw-bold mb-1 fs-6">${escapeHtml(it.name)}</span>
-                                            <span class="text-muted fs-9">${escapeHtml(it.id.substring(0,8))}</span>
-                                        </div>
+                    itemsTbody.innerHTML = items.map(it => `
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="symbol symbol-35px me-3">
+                                        <div class="symbol-label bg-light-warning text-warning fw-bold fs-7">${it.name[0]}</div>
                                     </div>
-                                </td>
-                                <td><span class="badge badge-light-info fw-bold">${escapeHtml(it.quantity)}</span></td>
-                                <td>${stats}</td>
-                                <td>${value}</td>
-                                <td><span class="text-muted fw-bold fs-7">${escapeHtml(formatDate(it.createdAtUtc))}</span></td>
-                                <td class="text-end pe-4">
-                                    <a href="${editUrl}" class="btn btn-icon btn-light-primary btn-active-primary btn-sm me-1 shadow-sm">
-                                        <i class="ki-duotone ki-pencil fs-3"></i>
-                                    </a>
-                                    <button type="button" class="btn btn-icon btn-light-danger btn-active-danger btn-sm shadow-sm js-delete-item-btn" 
-                                            data-id="${escapeHtml(it.id)}" data-name="${escapeHtml(it.name)}">
-                                        <i class="ki-duotone ki-trash fs-3"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        `;
-                    }).join('');
-
-                    wireDeleteHandlers();
+                                    <div class="d-flex flex-column">
+                                        <span class="text-dark fw-bold mb-1 fs-6">${it.name}</span>
+                                        <span class="text-muted fs-9">#${it.id.substring(0,8)}</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="badge badge-light-primary fw-bold">${it.quantity} ADET</span></td>
+                            <td class="text-center text-muted fs-8">
+                                <span class="badge badge-outline badge-danger fs-9">DMG: ${it.damage}</span>
+                                <span class="badge badge-outline badge-success fs-9">DEF: ${it.defense}</span>
+                            </td>
+                            <td class="text-end">
+                                <span class="text-dark fw-bold">${it.amount}</span>
+                                <span class="text-muted fs-9 d-block">${it.currencyText || "USD"}</span>
+                            </td>
+                            <td class="text-end text-muted fs-8">${formatDate(it.createdAtUtc)}</td>
+                            <td class="text-end">
+                                <a href="@Url.Action("EditItem", "AdminInventory")/${it.id}" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                    <i class="ki-duotone ki-pencil fs-2"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    `).join('');
                 } catch (e) {
-                    setErrorRow(`Hata: ${escapeHtml(e.message)}`);
+                    console.error(e);
                 }
             });
-
-            resetCreateButton();
         })();
     </script>
 }

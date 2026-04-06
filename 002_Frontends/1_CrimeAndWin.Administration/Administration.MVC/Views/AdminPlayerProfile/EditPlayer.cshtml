@@ -1,136 +1,114 @@
-﻿@model UpdatePlayerVM
-
+﻿@model Administration.MVC.ViewModels.PlayerProfileVMs.PlayerVMs.UpdatePlayerVM
 @{
     Layout = "_AdminLayout";
+    ViewData["Title"] = "Oyuncu Profili Duzenle";
 }
 
-<div class="card">
-    <div class="card-header d-flex justify-content-between align-items-center">
-        <h3 class="card-title">Player Düzenle</h3>
-
-        <a asp-action="Players"
-           asp-controller="AdminPlayerProfile"
-           class="btn btn-sm btn-light">
-            Listeye Dön
-        </a>
-    </div>
-    <div class="card-body">
-        <form asp-action="EditPlayer"
-              asp-controller="AdminPlayerProfile"
-              method="post">
-            @Html.AntiForgeryToken()
-            <input asp-for="Id" type="hidden" />
-
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <label class="form-label">Kullanıcı</label>
-                    <select asp-for="AppUserId"
-                            asp-items="Model.UserOptions"
-                            class="form-select">
-                        <option value="">Seçiniz...</option>
-                    </select>
-                    <span asp-validation-for="AppUserId" class="text-danger"></span>
-                </div>
-
-                <div class="col-md-6">
-                    <label class="form-label">Display Name</label>
-                    <input asp-for="DisplayName" class="form-control" />
-                    <span asp-validation-for="DisplayName" class="text-danger"></span>
-                </div>
-
-                <div class="col-md-6">
-                    <label class="form-label">Avatar Key</label>
-                    <input asp-for="AvatarKey" class="form-control" />
-                    <span asp-validation-for="AvatarKey" class="text-danger"></span>
-                </div>
-
-                <!-- Stats -->
-                <div class="col-12 mt-3">
-                    <h5>Stats</h5>
-                </div>
-
-                <div class="col-md-3">
-                    <label class="form-label">Power</label>
-                    <input asp-for="Power" class="form-control" type="number" />
-                    <span asp-validation-for="Power" class="text-danger"></span>
-                </div>
-
-                <div class="col-md-3">
-                    <label class="form-label">Defense</label>
-                    <input asp-for="Defense" class="form-control" type="number" />
-                    <span asp-validation-for="Defense" class="text-danger"></span>
-                </div>
-
-                <div class="col-md-3">
-                    <label class="form-label">Agility</label>
-                    <input asp-for="Agility" class="form-control" type="number" />
-                    <span asp-validation-for="Agility" class="text-danger"></span>
-                </div>
-
-                <div class="col-md-3">
-                    <label class="form-label">Luck</label>
-                    <input asp-for="Luck" class="form-control" type="number" />
-                    <span asp-validation-for="Luck" class="text-danger"></span>
-                </div>
-
-                <!-- Energy -->
-                <div class="col-12 mt-3">
-                    <h5>Energy</h5>
-                </div>
-
-                <div class="col-md-4">
-                    <label class="form-label">Current</label>
-                    <input asp-for="EnergyCurrent" class="form-control" type="number" />
-                    <span asp-validation-for="EnergyCurrent" class="text-danger"></span>
-                </div>
-
-                <div class="col-md-4">
-                    <label class="form-label">Max</label>
-                    <input asp-for="EnergyMax" class="form-control" type="number" />
-                    <span asp-validation-for="EnergyMax" class="text-danger"></span>
-                </div>
-
-                <div class="col-md-4">
-                    <label class="form-label">Regen / dk</label>
-                    <input asp-for="EnergyRegenPerMinute" class="form-control" type="number" />
-                    <span asp-validation-for="EnergyRegenPerMinute" class="text-danger"></span>
-                </div>
-
-                <!-- Rank -->
-                <div class="col-12 mt-3">
-                    <h5>Rank</h5>
-                </div>
-
-                <div class="col-md-6">
-                    <label class="form-label">Rank Points</label>
-                    <input asp-for="RankPoints" class="form-control" type="number" />
-                    <span asp-validation-for="RankPoints" class="text-danger"></span>
-                </div>
-
-                <div class="col-md-6">
-                    <label class="form-label">Rank Position</label>
-                    <input asp-for="RankPosition" class="form-control" type="number" />
-                    <span asp-validation-for="RankPosition" class="text-danger"></span>
-                </div>
-
-                <div class="col-md-6 mt-3">
-                    <label class="form-label">Last Energy Calc (UTC)</label>
-                    <input asp-for="LastEnergyCalcUtc" class="form-control" type="datetime-local" />
-                    <span asp-validation-for="LastEnergyCalcUtc" class="text-danger"></span>
-                </div>
-            </div>
-
-            <div class="mt-4">
-                <button type="submit" class="btn btn-primary">Güncelle</button>
-                <a asp-action="Players"
-                   asp-controller="AdminPlayerProfile"
-                   class="btn btn-light ms-2">
-                    İptal
-                </a>
-            </div>
-        </form>
+<!--begin::Toolbar-->
+<div class="toolbar py-5 py-lg-15" id="kt_toolbar">
+    <div id="kt_toolbar_container" class="container-xxl d-flex flex-stack flex-wrap">
+        <div class="page-title d-flex flex-column me-3">
+            <h1 class="d-flex text-white fw-bold my-1 fs-3">Profil Yonetim Paneli</h1>
+            <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-1">
+                <li class="breadcrumb-item text-white opacity-75">Oyun Yonetimi</li>
+                <li class="breadcrumb-item"><span class="bullet bg-white opacity-75 w-5px h-2px"></span></li>
+                <li class="breadcrumb-item text-white opacity-75 text-hover-primary">Oyuncular</li>
+                <li class="breadcrumb-item"><span class="bullet bg-white opacity-75 w-5px h-2px"></span></li>
+                <li class="breadcrumb-item text-white opacity-75">Profil Duzenle</li>
+            </ul>
+        </div>
     </div>
 </div>
+<!--end::Toolbar-->
+
+<form asp-action="EditPlayer" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="AppUserId" />
+
+    <div class="row g-5 g-xl-10">
+        <!-- Sol Kolon: Temel Bilgiler -->
+        <div class="col-xl-4">
+            <div class="card card-flush shadow-sm mb-5">
+                <div class="card-header pt-7">
+                    <h3 class="card-title fw-bold text-dark">Kimlik Ozet</h3>
+                </div>
+                <div class="card-body pt-5">
+                    <div class="d-flex flex-center flex-column mb-5">
+                        <div class="symbol symbol-100px symbol-circle mb-7">
+                            <div class="symbol-label fs-1 fw-bold bg-light-warning text-warning">
+                                @(Model.DisplayName?.Substring(0,1).ToUpper() ?? "O")
+                            </div>
+                        </div>
+                        <span class="fs-3 text-gray-800 text-hover-primary fw-bold mb-1">@Model.DisplayName</span>
+                        <span class="fs-6 fw-semibold text-gray-400">ID: #@Model.Id.ToString().Substring(0,8)</span>
+                    </div>
+
+                    <div class="fv-row mb-7">
+                        <label class="fs-6 fw-bold mb-2">Ekran Adı</label>
+                        <input type="text" asp-for="DisplayName" class="form-select form-select-solid fw-bold" />
+                        <span asp-validation-for="DisplayName" class="text-danger fs-8"></span>
+                    </div>
+
+                    <div class="fv-row mb-7">
+                        <label class="fs-6 fw-bold mb-2">Avatar Anahtari</label>
+                        <input type="text" asp-for="AvatarKey" class="form-select form-select-solid fw-bold" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sag Kolon: Yetenekler & Enerji -->
+        <div class="col-xl-8">
+            <div class="card card-flush shadow-sm mb-5">
+                <div class="card-header pt-7">
+                    <h3 class="card-title fw-bold text-dark">Yetenek Puanlari & Enerji</h3>
+                </div>
+                <div class="card-body pt-5">
+                    <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-4 g-9 mb-7">
+                        <div class="col">
+                            <label class="fs-6 fw-bold mb-2 text-primary text-uppercase">Power</label>
+                            <input type="number" asp-for="Power" class="form-select form-select-solid fw-bold" />
+                        </div>
+                        <div class="col">
+                            <label class="fs-6 fw-bold mb-2 text-success text-uppercase">Defense</label>
+                            <input type="number" asp-for="Defense" class="form-select form-select-solid fw-bold" />
+                        </div>
+                        <div class="col">
+                            <label class="fs-6 fw-bold mb-2 text-danger text-uppercase">Agility</label>
+                            <input type="number" asp-for="Agility" class="form-select form-select-solid fw-bold" />
+                        </div>
+                        <div class="col">
+                            <label class="fs-6 fw-bold mb-2 text-info text-uppercase">Luck</label>
+                            <input type="number" asp-for="Luck" class="form-select form-select-solid fw-bold" />
+                        </div>
+                    </div>
+
+                    <div class="separator separator-dashed my-8"></div>
+
+                    <div class="row row-cols-1 row-cols-sm-3 g-9">
+                        <div class="col">
+                            <label class="fs-6 fw-bold mb-2">Mevcut Enerji</label>
+                            <input type="number" asp-for="EnergyCurrent" class="form-select form-select-solid fw-bold" />
+                        </div>
+                        <div class="col">
+                            <label class="fs-6 fw-bold mb-2">Maksimum Enerji</label>
+                            <input type="number" asp-for="EnergyMax" class="form-select form-select-solid fw-bold" />
+                        </div>
+                        <div class="col">
+                            <label class="fs-6 fw-bold mb-2">Enerji Yinelenme (dk)</label>
+                            <input type="number" asp-for="EnergyRegenPerMinute" class="form-select form-select-solid fw-bold" />
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer d-flex justify-content-end py-6 px-9">
+                    <a asp-action="Players" class="btn btn-light-warning me-2 fw-bold">Iptal</a>
+                    <button type="submit" class="btn btn-primary fw-bold">Degisiklikleri Kaydet</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

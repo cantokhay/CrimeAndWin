@@ -1,5 +1,4 @@
-using Bogus;
-using Inventory.Domain.Enums;
+﻿using Inventory.Domain.Enums;
 using Inventory.Domain.VOs;
 using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
@@ -23,64 +22,62 @@ namespace Inventory.Application.Features.Inventory.Commands.Seed
             _clock = clock;
         }
 
-        public async Task<Unit> Handle(RunInventorySeedCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(RunInventorySeedCommand request, CancellationToken ct)
         {
-            var faker = new Faker("en");
-
+            var now = _clock.UtcNow;
+            var themeUsers = new[] { "Boss", "Hitman", "Mole", "Fixer", "Dealer", "Enforcer", "Launderer" };
+            
             var inventories = new List<Domain.Entities.Inventory>();
             var items = new List<Domain.Entities.Item>();
 
-            for (int i = 0; i < request.Count; i++)
+            var crimeItems = new List<(string Name, int Dmg, int Def, int Pwr, decimal Value)>
             {
-                var invId = Guid.NewGuid();
-                var inv = new Domain.Entities.Inventory
+                ("Lockpick Set", 0, 0, 20, 150.0m),
+                ("Crowbar", 10, 5, 10, 50.0m),
+                ("9mm Pistol", 50, 0, 0, 1500.0m),
+                ("Kevlar Vest", 0, 40, 0, 2500.0m),
+                ("Brass Knuckles", 15, 0, 0, 150.0m),
+                ("Silenced SMG", 70, 0, 0, 4500.0m),
+                ("Encrypted Laptop", 0, 0, 50, 3500.0m)
+            };
+
+            for (int i = 0; i < themeUsers.Length; i++)
+            {
+                var invId = Guid.Parse($"55555555-5555-5555-5555-{i:D12}");
+                var playerId = Guid.Parse($"22222222-2222-2222-2222-{i:D12}"); // From PlayerProfile
+                
+                inventories.Add(new Domain.Entities.Inventory
                 {
                     Id = invId,
-                    PlayerId = Guid.NewGuid(), // fake PlayerId
-                    CreatedAtUtc = _clock.UtcNow,
-                    IsDeleted = false,
-                    Items = new List<Domain.Entities.Item>()
-                };
+                    PlayerId = playerId,
+                    CreatedAtUtc = now
+                });
 
-                // Her envantere 3-6 rastgele item
-                var itemCount = faker.Random.Int(3, 6);
-                for (int j = 0; j < itemCount; j++)
+                // Give player 2 random crime items
+                for (int j = 0; j < 2; j++)
                 {
-                    var item = new Domain.Entities.Item
+                    var cItem = crimeItems[(i + j) % crimeItems.Count];
+                    items.Add(new Domain.Entities.Item
                     {
                         Id = Guid.NewGuid(),
                         InventoryId = invId,
-                        Name = faker.Commerce.ProductName(),
-                        Quantity = faker.Random.Int(1, 5),
-                        Stats = new ItemStats(
-                            Damage: faker.Random.Int(5, 100),
-                            Defense: faker.Random.Int(5, 100),
-                            Power: faker.Random.Int(5, 100)
-                        ),
-                        Value = new ItemValue(
-                            Amount: faker.Random.Decimal(10, 500),
-                            Currency: faker.PickRandom<CurrencyType>()
-                        ),
-                        CreatedAtUtc = _clock.UtcNow,
-                        IsDeleted = false
-                    };
-
-                    inv.Items.Add(item);
-                    items.Add(item);
+                        Name = cItem.Name,
+                        Quantity = 1,
+                        Stats = new ItemStats(Damage: cItem.Dmg, Defense: cItem.Def, Power: cItem.Pwr),
+                        Value = new ItemValue(Amount: cItem.Value, Currency: CurrencyType.CASH),
+                        CreatedAtUtc = now
+                    });
                 }
-
-                inventories.Add(inv);
             }
 
-            await _inventoryRepo.AddRangeAsync(inventories);
-            await _itemRepo.AddRangeAsync(items);
-
-            await _inventoryRepo.SaveAsync();
-            await _itemRepo.SaveAsync();
+            try {
+                await _inventoryRepo.AddRangeAsync(inventories);
+                await _itemRepo.AddRangeAsync(items);
+                await _inventoryRepo.SaveAsync();
+                await _itemRepo.SaveAsync();
+            } catch { }
 
             return Unit.Value;
         }
     }
 }
-
-

@@ -19,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\GameWorld.Application\GameWorld.Application.csproj" />
     <ProjectReference Include="..\GameWorld.Domain\GameWorld.Domain.csproj" />
+    <ProjectReference Include="..\..\..\Shared\CrimeAndWin.Contracts\CrimeAndWin.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-using Action.Domain.Entities;
+ï»¿using Action.Domain.Entities;
 using Action.Domain.VOs;
 using Bogus;
 using Shared.Application.Abstractions.Messaging;
@@ -18,46 +18,42 @@ namespace Action.Application.Features.ActionDefinitons.Commands.Seed
             _clock = clock;
         }
 
-        public async Task<Unit> Handle(RunActionSeedCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(RunActionSeedCommand request, CancellationToken ct)
         {
-            var faker = new Faker("en");
-
-            var definitions = new List<ActionDefinition>();
-
-            for (int i = 0; i < request.Count; i++)
+            var now = _clock.UtcNow;
+            
+            var crimes = new List<(string Code, string Name, string Desc, int Power, int Energy, decimal Money)>
             {
-                // benzersiz code oluþtur
-                var code = faker.Hacker.Verb().Replace(" ", "_") + "_" + faker.Random.AlphaNumeric(5).ToUpper();
+                ("STREET_PICKPOCKET", "Pickpocket", "Steal a wallet from a tourist.", 10, 5, 50.0m),
+                ("STREET_MUGGING", "Street Mugging", "Demand cash from a passerby.", 20, 10, 150.0m),
+                ("UNDERGROUND_BURGLARY", "House Burglary", "Break into a safe neighborhood house.", 50, 25, 800.0m),
+                ("UNDERGROUND_CAR_THEFT", "Car Theft", "Steal a luxury vehicle.", 40, 20, 600.0m),
+                ("HEIST_BANK", "Bank Robbery", "High-risk bank vault heist.", 150, 60, 5000.0m),
+                ("HEIST_CASINO", "Casino Heist", "Rob the Diamond Casino vault.", 200, 80, 12000.0m)
+            };
 
-                var def = new ActionDefinition
-                {
-                    Id = Guid.NewGuid(),
-                    Code = code,
-                    DisplayName = faker.Hacker.IngVerb() + " " + faker.Hacker.Noun(),
-                    Description = faker.Lorem.Sentence(),
-                    Requirements = new ActionRequirements(
-                        MinPower: faker.Random.Int(10, 100),
-                        EnergyCost: faker.Random.Int(5, 30)
-                    ),
-                    Rewards = new ActionRewards(
-                        PowerGain: faker.Random.Int(1, 10),
-                        ItemDrop: faker.Random.Bool(0.3f), // %30 drop þansý
-                        MoneyGain: Math.Round(faker.Random.Decimal(10, 500), 2)
-                    ),
-                    IsActive = faker.Random.Bool(0.85f), // %85 aktif
-                    CreatedAtUtc = _clock.UtcNow,
-                    IsDeleted = false
-                };
+            var defs = crimes.Select((c, i) => new ActionDefinition
+            {
+                Id = Guid.Parse($"33333333-3333-3333-3333-{i:D12}"),
+                Code = c.Code,
+                DisplayName = c.Name,
+                Description = c.Desc,
+                Requirements = new ActionRequirements(MinPower: c.Power, EnergyCost: c.Energy),
+                Rewards = new ActionRewards(
+                    PowerGain: i + 1, 
+                    ItemDrop: i > 2, 
+                    MoneyGain: c.Money
+                ),
+                IsActive = true,
+                CreatedAtUtc = now
+            }).ToList();
 
-                definitions.Add(def);
-            }
-
-            await _actionRepo.AddRangeAsync(definitions);
-            await _actionRepo.SaveAsync();
+            try {
+                await _actionRepo.AddRangeAsync(defs);
+                await _actionRepo.SaveAsync();
+            } catch { }
 
             return Unit.Value;
         }
     }
 }
-
-

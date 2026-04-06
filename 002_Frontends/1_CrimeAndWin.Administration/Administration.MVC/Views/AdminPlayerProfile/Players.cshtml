@@ -1,147 +1,136 @@
-@model List<ResultPlayerVM>
-
+﻿@model List<Administration.MVC.ViewModels.PlayerProfileVMs.PlayerVMs.ResultPlayerVM>
 @{
     Layout = "_AdminLayout";
-    ViewData["Title"] = "Oyuncu Profilleri (Players)";
+    ViewData["Title"] = "Oyuncu Yonetimi";
 }
 
-<div class="row mb-5 justify-content-center">
+<!--begin::Toolbar-->
+<div class="toolbar py-5 py-lg-15" id="kt_toolbar">
+    <div id="kt_toolbar_container" class="container-xxl d-flex flex-stack flex-wrap">
+        <div class="page-title d-flex flex-column me-3">
+            <h1 class="d-flex text-white fw-bold my-1 fs-3">Suclar Dunyasi: Oyuncular</h1>
+            <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-1">
+                <li class="breadcrumb-item text-white opacity-75">Oyun Yonetimi</li>
+                <li class="breadcrumb-item"><span class="bullet bg-white opacity-75 w-5px h-2px"></span></li>
+                <li class="breadcrumb-item text-white opacity-75 text-hover-primary">Player Profiles</li>
+                <li class="breadcrumb-item"><span class="bullet bg-white opacity-75 w-5px h-2px"></span></li>
+                <li class="breadcrumb-item text-white opacity-75">Aktif Profiler</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--end::Toolbar-->
+
+<div class="row g-5 g-xl-10 mb-5 mb-xl-10">
     <div class="col-md-3">
-        <div class="card shadow-sm border-start border-primary border-4">
-            <div class="card-body">
-                <div class="d-flex align-items-center">
-                    <div class="symbol symbol-45px me-5">
-                        <span class="symbol-label bg-light-primary">
-                            <i class="ki-duotone ki-user fs-2x text-primary"></i>
-                        </span>
-                    </div>
-                    <div class="d-flex flex-column">
-                        <span class="text-muted fw-bold">Toplam Oyuncu</span>
-                        <span class="fs-2 fw-bold mb-0">@Model.Count</span>
-                    </div>
+        <div class="card card-flush h-md-100 shadow-sm border-0 bg-dark">
+            <div class="card-header pt-5">
+                <div class="card-title d-flex flex-column">
+                    <span class="fs-2hx fw-bold text-white me-2 lh-1 ls-n2">@Model.Count</span>
+                    <span class="text-gray-400 pt-1 fw-semibold fs-6">Aktif Oyuncu Sayisi</span>
                 </div>
+            </div>
+            <div class="card-body d-flex align-items-end pt-0 pb-5">
+                <i class="ki-duotone ki-profile-user fs-3x text-warning"></i>
             </div>
         </div>
     </div>
-
     <div class="col-md-3">
-        <div class="card shadow-sm border-start border-success border-4">
-            <div class="card-body">
-                <div class="d-flex align-items-center">
-                    <div class="symbol symbol-45px me-5">
-                        <span class="symbol-label bg-light-success">
-                            <i class="ki-duotone ki-crown fs-2x text-success"></i>
-                        </span>
-                    </div>
-                    <div class="d-flex flex-column">
-                        <span class="text-muted fw-bold">Toplam Rank</span>
-                        <span class="fs-2 fw-bold mb-0 text-success">
-                            @(Model.Any() ? Model.Sum(x => x.RankPoints).ToString("N0") : "0")
-                        </span>
-                    </div>
+        <div class="card card-flush h-md-100 shadow-sm border-0 border-start border-danger border-4">
+            <div class="card-header pt-5">
+                <div class="card-title d-flex flex-column">
+                    <span class="fs-2hx fw-bold text-dark me-2 lh-1 ls-n2">
+                        @(Model.Any() ? (int)Model.Average(x => x.HeatIndex) : 0)%
+                    </span>
+                    <span class="text-gray-400 pt-1 fw-semibold fs-6">Ortalama Isı (Heat)</span>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <div class="col-md-3">
-        <div class="card shadow-sm border-start border-warning border-4">
-            <div class="card-body">
-                <div class="d-flex align-items-center">
-                    <div class="symbol symbol-45px me-5">
-                        <span class="symbol-label bg-light-warning">
-                            <i class="ki-duotone ki-flash-circle fs-2x text-warning"></i>
-                        </span>
-                    </div>
-                    <div class="d-flex flex-column">
-                        <span class="text-muted fw-bold">Ortalama Güç</span>
-                        <span class="fs-2 fw-bold mb-0 text-warning">
-                            @(Model.Any() ? (int)Model.Average(x => x.Power) : 0)
-                        </span>
-                    </div>
-                </div>
+            <div class="card-body d-flex align-items-end pt-0 pb-5">
+                <i class="ki-duotone ki-fire fs-3x text-danger"></i>
             </div>
         </div>
     </div>
 </div>
 
-<div class="card mb-5 mb-xl-8">
-    <div class="card-header border-0 pt-5">
+<div class="card card-flush shadow-sm border-0">
+    <div class="card-header pt-7">
         <h3 class="card-title align-items-start flex-column">
-            <span class="card-label fw-bolder fs-3 mb-1">Oyuncu Listesi</span>
-            <span class="text-muted mt-1 fw-bold fs-7">Sistemdeki tüm aktif oyuncu profilleri ve istatistikleri</span>
+            <span class="card-label fw-bold text-dark fs-3">Oyuncu Profili Tablosu</span>
+            <span class="text-gray-400 mt-1 fw-semibold fs-7">Tum oyuncu metrikleri, yetenekler ve enerji takibi</span>
         </h3>
         <div class="card-toolbar">
-            <a asp-action="CreatePlayer" asp-controller="AdminPlayerProfile" class="btn btn-sm btn-primary">
-                <i class="ki-duotone ki-plus fs-2"></i> Yeni Oyuncu Profili
+            <a asp-action="CreatePlayer" asp-controller="AdminPlayerProfile" class="btn btn-sm btn-primary fw-bold">
+                <i class="ki-duotone ki-plus fs-2 me-1"></i> Yeni Profil
             </a>
         </div>
     </div>
-    <div class="card-body py-3">
+
+    <div class="card-body pt-5">
         <div class="table-responsive">
-            <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
+            <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_players_table">
                 <thead>
-                    <tr class="fw-bolder text-muted">
-                        <th class="min-w-150px">Kullanıcı / Ekran Adı</th>
-                        <th>Yetenekler (P/D/A/L)</th>
-                        <th>Enerji Durumu</th>
-                        <th>Rank / Puan</th>
-                        <th>Kayıt Tarihi</th>
-                        <th class="min-w-100px text-end">İşlemler</th>
+                    <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                        <th class="min-w-200px">Oyuncu Bilgisi</th>
+                        <th class="min-w-100px text-center">Isı (Heat)</th>
+                        <th class="min-w-100px text-center">Saygınlık</th>
+                        <th class="min-w-150px text-center">Yetenekler (P|D|A|L)</th>
+                        <th class="min-w-120px">Enerji</th>
+                        <th class="text-end min-w-100px">Islemler</th>
                     </tr>
                 </thead>
-                <tbody>
-                    @foreach (var item in Model)
+                <tbody class="fw-semibold text-gray-600">
+                    @foreach (var player in Model)
                     {
+                        var energyPercent = player.EnergyMax > 0 ? (int)((double)player.EnergyCurrent / player.EnergyMax * 100) : 0;
+                        var heatColor = player.HeatIndex > 80 ? "danger" : (player.HeatIndex > 40 ? "warning" : "success");
+
                         <tr>
                             <td>
-                                <div class="d-flex flex-column">
-                                    <span class="text-dark fw-bolder text-hover-primary fs-6">@item.DisplayName</span>
-                                    <span class="text-muted fw-bold fs-7">@item.AppUserEmail</span>
+                                <div class="d-flex align-items-center">
+                                    <div class="symbol symbol-45px me-3">
+                                        <div class="symbol-label bg-light-warning text-warning fw-bold">
+                                            @player.DisplayName.Substring(0,1).ToUpper()
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-start flex-column">
+                                        <span class="text-dark fw-bold text-hover-primary fs-6">@player.DisplayName</span>
+                                        <span class="text-muted fw-semibold d-block fs-8">ID: #@(player.Id.ToString().Substring(0, 8))</span>
+                                    </div>
                                 </div>
                             </td>
-                            <td>
-                                <div class="d-flex flex-wrap gap-1">
-                                    <span class="badge badge-light-danger fw-bold fs-8">P: @item.Power</span>
-                                    <span class="badge badge-light-primary fw-bold fs-8">D: @item.Defense</span>
-                                    <span class="badge badge-light-success fw-bold fs-8">A: @item.Agility</span>
-                                    <span class="badge badge-light-info fw-bold fs-8">L: @item.Luck</span>
+                            <td class="text-center">
+                                <span class="badge badge-light-@heatColor fw-bold px-4 py-2">%@player.HeatIndex.ToString("N0")</span>
+                            </td>
+                            <td class="text-center">
+                                <span class="text-warning fw-bold fs-6">@player.RespectScore.ToString("N0")</span>
+                                <span class="text-muted fs-9 d-block">Respect</span>
+                            </td>
+                            <td class="text-center">
+                                <div class="d-flex justify-content-center gap-1">
+                                    <span class="badge badge-secondary fs-9" title="Power">@player.Power</span>
+                                    <span class="badge badge-secondary fs-9" title="Defense">@player.Defense</span>
+                                    <span class="badge badge-secondary fs-9" title="Agility">@player.Agility</span>
+                                    <span class="badge badge-secondary fs-9" title="Luck">@player.Luck</span>
                                 </div>
                             </td>
                             <td>
                                 <div class="d-flex flex-column w-100px">
-                                    <div class="progress h-6px w-100 mb-1 bg-light-warning">
-                                        @{
-                                            var energyPercent = item.EnergyMax > 0 ? (int)((double)item.EnergyCurrent / item.EnergyMax * 100) : 0;
-                                        }
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span class="text-muted fs-9 fw-bold">@player.EnergyCurrent / @player.EnergyMax</span>
+                                    </div>
+                                    <div class="progress h-6px w-100 bg-light-warning">
                                         <div class="progress-bar bg-warning" role="progressbar" style="width: @energyPercent%"></div>
                                     </div>
-                                    <span class="text-muted fw-bold fs-8">@item.EnergyCurrent / @item.EnergyMax</span>
                                 </div>
-                            </td>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <span class="text-dark fw-bolder fs-6">@item.RankPoints Puan</span>
-                                    @if (item.RankPosition.HasValue)
-                                    {
-                                        <span class="badge badge-circle badge-light-info fw-bold ms-2" data-bs-toggle="tooltip" title="Sıralama">
-                                            #@item.RankPosition
-                                        </span>
-                                    }
-                                </div>
-                            </td>
-                            <td>
-                                <span class="text-muted fw-bold d-block fs-7">@item.CreatedAtUtc.ToString("d")</span>
                             </td>
                             <td class="text-end">
-                                <a asp-action="EditPlayer" asp-controller="AdminPlayerProfile" asp-route-id="@item.Id" 
-                                   class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"
-                                   data-bs-toggle="tooltip" title="Düzenle">
-                                    <i class="ki-duotone ki-pencil fs-3"></i>
+                                <a asp-action="EditPlayer" asp-controller="AdminPlayerProfile" asp-route-id="@player.Id" 
+                                   class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                    <i class="ki-duotone ki-pencil fs-2"></i>
                                 </a>
                                 <button type="button" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm js-delete-btn" 
-                                        data-id="@item.Id" data-name="@item.DisplayName">
-                                    <i class="ki-duotone ki-trash fs-3"></i>
+                                        data-id="@player.Id" data-name="@player.DisplayName">
+                                    <i class="ki-duotone ki-trash fs-2"></i>
                                 </button>
                             </td>
                         </tr>
@@ -159,12 +148,13 @@
             const name = $(this).data('name');
 
             Swal.fire({
-                title: 'Profili Sil?',
-                text: `${name} isimli oyuncunun profilini silmek istediğinize emin misiniz? (Cüzdan verileri etkilenmez ancak profil silinir)`,
+                title: 'Profil Silinsin mi?',
+                text: `${name} adlı oyuncunun profilini kaldırmak istiyor musunuz?`,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Evet, Sil!',
-                cancelButtonText: 'Vazgeç',
+                cancelButtonText: 'Vazgec',
+                buttonsStyling: false,
                 customClass: {
                     confirmButton: "btn btn-danger",
                     cancelButton: "btn btn-active-light"
@@ -172,7 +162,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: '/AdminPlayerProfile/DeletePlayer',
+                        url: '@Url.Action("DeletePlayer", "AdminPlayerProfile")',
                         type: 'POST',
                         data: {
                             id: id,
@@ -180,20 +170,13 @@
                         },
                         success: function(res) {
                             if (res.success) {
-                                Swal.fire('Silindi!', 'Oyuncu profili başarıyla silindi.', 'success').then(() => location.reload());
+                                Swal.fire('Silindi!', 'Oyuncu profili başarıyla kaldırıldı.', 'success').then(() => location.reload());
                             } else {
-                                Swal.fire('Hata!', 'Silme işlemi sırasında bir hata oluştu.', 'error');
+                                Swal.fire('Hata!', res.message || 'Bir sorun olustu.', 'error');
                             }
                         }
                     });
                 }
-            });
-        });
-
-        $(document).ready(function() {
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-            tooltipTriggerList.forEach(function (el) {
-                new bootstrap.Tooltip(el);
             });
         });
     </script>

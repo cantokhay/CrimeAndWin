@@ -11,8 +11,8 @@
             <div class="card-body">
                 <div class="d-flex align-items-center">
                     <div class="symbol symbol-45px me-5">
-                        <span class="symbol-label bg-light-primary">
-                            <i class="ki-duotone ki-abstract-26 fs-2x text-primary"></i>
+                        <span class="symbol-label bg-light-warning">
+                            <i class="ki-duotone ki-abstract-26 fs-2x text-warning"><span class="path1"></span><span class="path2"></span></i>
                         </span>
                     </div>
                     <div class="d-flex flex-column">
@@ -68,7 +68,7 @@
             <span class="text-muted mt-1 fw-bold fs-7">@Model.Count kayıt listeleniyor</span>
         </h3>
         <div class="card-toolbar">
-            <a asp-action="CreateActionDefinition" asp-controller="AdminAction" class="btn btn-sm btn-primary">
+            <a asp-action="CreateActionDefinition" asp-controller="AdminAction" class="btn btn-sm btn-warning">
                 <i class="ki-duotone ki-plus fs-2"></i> Yeni Aksiyon Tanımı
             </a>
         </div>
@@ -127,12 +127,14 @@
                             </td>
                             <td class="text-end">
                                 <a asp-action="EditActionDefinition" asp-controller="AdminAction" asp-route-id="@item.Id" 
-                                   class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
-                                    <i class="ki-duotone ki-pencil fs-3"></i>
+                                   class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1"
+                                   data-bs-toggle="tooltip" title="Düzenle">
+                                    <i class="ki-duotone ki-pencil fs-3"><span class="path1"></span><span class="path2"></span></i>
                                 </a>
                                 <button type="button" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm js-delete-btn" 
-                                        data-id="@item.Id" data-name="@item.DisplayName">
-                                    <i class="ki-duotone ki-trash fs-3"></i>
+                                        data-id="@item.Id" data-name="@item.DisplayName"
+                                        data-bs-toggle="tooltip" title="Sil">
+                                    <i class="ki-duotone ki-trash fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
                                 </button>
                             </td>
                         </tr>

@@ -1,0 +1,71 @@
+﻿@model List<Administration.MVC.ViewModels.GangVMs.AdminGangListVM>
+@{
+    ViewData["Title"] = "Cete Yönetimi";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card card-flush shadow-sm border-0 mb-5">
+    <div class="card-header pt-7">
+        <h3 class="card-title align-items-start flex-column">
+            <span class="card-label fw-bold text-dark fs-3">Su mparatorluklar (Ceteler)</span>
+            <span class="text-gray-400 mt-1 fw-semibold fs-7">Sistemdeki aktif suc organizasyonlar</span>
+        </h3>
+        <div class="card-toolbar">
+            <button class="btn btn-sm btn-light-primary fw-bold">
+                <i class="ki-duotone ki-plus fs-2"></i> Yeni Cete Olustur
+            </button>
+        </div>
+    </div>
+    <div class="card-body pt-5">
+        <div class="table-responsive">
+            <table class="table align-middle table-row-dashed fs-6 gy-5">
+                <thead>
+                    <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                        <th class="min-w-150px">Cete Ad / Tag</th>
+                        <th class="min-w-120px">Lider</th>
+                        <th class="min-w-100px text-center">Ǭye Says</th>
+                        <th class="min-w-100px text-end">Saygnlk</th>
+                        <th class="min-w-150px text-end">Kara Para (Kasa)</th>
+                        <th class="min-w-150px text-end">Nakit (Kasa)</th>
+                        <th class="text-end min-w-100px">lemler</th>
+                    </tr>
+                </thead>
+                <tbody class="fw-semibold text-gray-600">
+                    @foreach (var gang in Model)
+                    {
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="symbol symbol-45px me-5">
+                                        <span class="symbol-label bg-light-warning text-warning fw-bold">@gang.Tag</span>
+                                    </div>
+                                    <div class="d-flex justify-content-start flex-column">
+                                        <span class="text-dark fw-bold text-hover-primary fs-6">@gang.Name</span>
+                                        <span class="text-muted fw-semibold d-block fs-7">@gang.Tag</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>@gang.LeaderName</td>
+                            <td class="text-center">
+                                <span class="badge badge-light-info fs-7 fw-bold">@gang.MemberCount / 20</span>
+                            </td>
+                            <td class="text-end">
+                                <span class="text-warning fw-bold">@gang.TotalRespect.ToString("N0")</span>
+                            </td>
+                            <td class="text-end text-danger fw-bold">@gang.VaultBlackBalance.ToString("C0")</td>
+                            <td class="text-end text-success fw-bold">@gang.VaultCashBalance.ToString("C0")</td>
+                            <td class="text-end">
+                                <button class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                    <i class="ki-duotone ki-pencil fs-2"></i>
+                                </button>
+                                <button class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm">
+                                    <i class="ki-duotone ki-trash fs-2"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

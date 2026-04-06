@@ -1,109 +1,131 @@
-@model List<ResultInventoryVM>
-
+﻿@model List<Administration.MVC.ViewModels.InventoryVMs.AdminInventoryVM>
 @{
-    Layout = "_AdminLayout";
-    ViewData["Title"] = "Envanter Yönetimi";
-    var totalInventories = Model.Count;
-    var totalItems = Model.Sum(x => x.ItemsCount);
+    ViewData["Title"] = "Kuresel Envanter Yonetimi";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    int totalInventories = Model.Count;
+    int totalItemsInWorld = Model.Sum(x => x.ItemsCount);
 }
 
-@Html.AntiForgeryToken()
+<!--begin::Toolbar-->
+<div class="toolbar py-5 py-lg-15" id="kt_toolbar">
+    <div id="kt_toolbar_container" class="container-xxl d-flex flex-stack flex-wrap">
+        <div class="page-title d-flex flex-column me-3">
+            <h1 class="d-flex text-white fw-bold my-1 fs-3">Kuresel Envanter Sistemi</h1>
+            <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-1">
+                <li class="breadcrumb-item text-white opacity-75">Oyun Yonetimi</li>
+                <li class="breadcrumb-item"><span class="bullet bg-white opacity-75 w-5px h-2px"></span></li>
+                <li class="breadcrumb-item text-white opacity-75 text-hover-primary">Inventory</li>
+                <li class="breadcrumb-item"><span class="bullet bg-white opacity-75 w-5px h-2px"></span></li>
+                <li class="breadcrumb-item text-white opacity-75">Kuresel Liste</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--end::Toolbar-->
 
-<div class="row g-5 g-xl-10 mb-8 mt-5">
-    <div class="col-md-3">
-        <div class="card card-flush h-md-100 shadow-sm border-0 bg-light-primary text-primary">
+<div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+    <div class="col-md-4">
+        <div class="card card-flush h-md-100 shadow-sm border-0 bg-dark">
             <div class="card-header pt-5">
                 <div class="card-title d-flex flex-column">
                     <div class="d-flex align-items-center">
-                        <span class="fs-2hx fw-bold text-dark me-2 lh-1 ls-n2">@totalInventories</span>
-                        <span class="badge badge-light-primary border border-primary border-dashed fs-7 fw-bold px-3 py-1">Depo</span>
+                        <span class="fs-2hx fw-bold text-white me-2 lh-1 ls-n2">@totalInventories</span>
+                        <span class="badge badge-light-warning fs-7 fw-bold px-3 py-1">AKTIF</span>
                     </div>
-                    <span class="text-gray-600 pt-1 fw-bold fs-6">Aktif Envanter Sayısı</span>
+                    <span class="text-gray-400 pt-1 fw-semibold fs-6">Toplam Envanter Sayısı</span>
                 </div>
             </div>
             <div class="card-body d-flex align-items-end pt-0 pb-5">
-                <i class="ki-duotone ki-briefcase fs-3x"></i>
+                <i class="ki-duotone ki-briefcase fs-3x text-warning">
+                    <span class="path1"></span><span class="path2"></span>
+                </i>
             </div>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="card card-flush h-md-100 shadow-sm border-0 bg-light-success text-success">
+    <div class="col-md-4">
+        <div class="card card-flush h-md-100 shadow-sm border-0">
             <div class="card-header pt-5">
                 <div class="card-title d-flex flex-column">
                     <div class="d-flex align-items-center">
-                        <span class="fs-2hx fw-bold text-dark me-2 lh-1 ls-n2">@totalItems</span>
-                        <span class="badge badge-light-success border border-success border-dashed fs-7 fw-bold px-3 py-1">Nesne</span>
+                        <span class="fs-2hx fw-bold text-dark me-2 lh-1 ls-n2">@totalItemsInWorld</span>
+                        <span class="badge badge-light-primary fs-7 fw-bold px-3 py-1">NESNE</span>
                     </div>
-                    <span class="text-gray-600 pt-1 fw-bold fs-6">Toplam Dağıtılan Eşya</span>
+                    <span class="text-gray-400 pt-1 fw-semibold fs-6">Dunyadaki Toplam Esya</span>
                 </div>
             </div>
             <div class="card-body d-flex align-items-end pt-0 pb-5">
-                <i class="ki-duotone ki-box fs-3x"></i>
+                <i class="ki-duotone ki-box fs-3x text-primary">
+                    <span class="path1"></span><span class="path2"></span>
+                </i>
             </div>
         </div>
     </div>
 </div>
 
-<div class="card mb-5 mb-xl-8 shadow-sm">
-    <div class="card-header border-0 pt-5">
+<div class="card card-flush shadow-sm border-0 mb-5 mb-xl-8">
+    <div class="card-header pt-7">
         <h3 class="card-title align-items-start flex-column">
-            <span class="card-label fw-bold fs-3 mb-1">Küresel Envanter Listesi</span>
-            <span class="text-muted mt-1 fw-bold fs-7">Sistemdeki tüm oyuncu ve sistem envanterlerinin dökümü</span>
+            <span class="card-label fw-bold text-dark fs-3">Envanter Takip Merkezi</span>
+            <span class="text-gray-400 mt-1 fw-semibold fs-7">Tum oyuncu ve sistem envanterlerinin anlık ozeti</span>
         </h3>
         <div class="card-toolbar">
-            <a asp-action="CreateInventory" class="btn btn-sm btn-primary">
+            <a asp-action="CreateInventory" class="btn btn-sm btn-primary fw-bold">
                 <i class="ki-duotone ki-plus fs-2 me-1"></i> Yeni Envanter Tanımla
             </a>
         </div>
     </div>
 
-    <div class="card-body py-3">
+    <div class="card-body pt-5">
         <div class="table-responsive">
-            <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-4">
+            <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_inventories_table">
                 <thead>
-                    <tr class="fw-bold text-muted bg-light">
-                        <th class="ps-4 rounded-start min-w-150px">Envanter Bilgisi</th>
-                        <th>Sahibi / Oyuncu</th>
-                        <th class="text-center">İçerik Miktarı</th>
-                        <th class="text-center">Kayıt Tarihi</th>
-                        <th class="min-w-100px text-end pe-4 rounded-end">İşlemler</th>
+                    <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                        <th class="min-w-150px">Envanter Referansı</th>
+                        <th class="min-w-200px">Sahip / Oyuncu</th>
+                        <th class="min-w-100px text-center">Esya Yukü</th>
+                        <th class="min-w-150px text-end">Kayit Zamanı</th>
+                        <th class="text-end min-w-100px">Islemler</th>
                     </tr>
                 </thead>
-                <tbody>
-                    @foreach (var item in Model)
+                <tbody class="fw-semibold text-gray-600">
+                    @foreach (var inv in Model)
                     {
                         <tr>
-                            <td class="ps-4">
+                            <td>
                                 <div class="d-flex flex-column">
-                                    <span class="text-dark fw-bold fs-6">#INV-@item.Id.ToString().Substring(0, 8)</span>
-                                    <span class="text-muted fs-8">Sistem Kaydı</span>
+                                    <span class="text-dark fw-bold fs-6">#INV-@(inv.Id.ToString().Substring(0, 8))</span>
+                                    <span class="text-muted fs-8 fw-semibold">Global Register</span>
                                 </div>
                             </td>
                             <td>
                                 <div class="d-flex align-items-center">
-                                    <div class="symbol symbol-35px me-3">
-                                        <span class="symbol-label bg-light-primary text-primary fw-bold">@((item.PlayerDisplay ?? "B")[0])</span>
+                                    <div class="symbol symbol-40px me-3">
+                                        <div class="symbol-label bg-light-danger text-danger fw-bold">
+                                            @((inv.PlayerDisplay ?? "B")[0])
+                                        </div>
                                     </div>
-                                    <div class="d-flex flex-column">
-                                        <span class="text-dark fw-bold text-hover-primary mb-1 fs-6">@(item.PlayerDisplay ?? "Bilinmeyen Oyuncu")</span>
-                                        <span class="text-muted fw-semi-bold d-block fs-8">ID: @item.PlayerId</span>
+                                    <div class="d-flex justify-content-start flex-column">
+                                        <span class="text-dark fw-bold text-hover-primary fs-6">@(inv.PlayerDisplay ?? "Bilinmeyen")</span>
+                                        <span class="text-muted fw-semibold d-block fs-8">Ref: #@(inv.PlayerId.ToString().Substring(0,8))</span>
                                     </div>
                                 </div>
                             </td>
                             <td class="text-center">
-                                <span class="badge badge-light-primary border border-primary border-dashed fs-7 fw-bold px-4 py-2">@item.ItemsCount Eşya Listelendi</span>
+                                <span class="badge badge-light-warning border border-warning border-dashed fs-7 fw-bold px-4 py-2">
+                                    @inv.ItemsCount ADET
+                                </span>
                             </td>
-                            <td class="text-center">
-                                <span class="text-muted fw-bold d-block fs-7">@item.CreatedAtUtc.ToLocalTime().ToString("dd MMM yyyy")</span>
-                                <span class="text-muted fs-8">@item.CreatedAtUtc.ToLocalTime().ToString("HH:mm")</span>
+                            <td class="text-end text-muted fs-7">
+                                @inv.CreatedAtUtc.ToLocalTime().ToString("dd MMM yyyy") <br/>
+                                <span class="fs-8 fw-semibold">@inv.CreatedAtUtc.ToLocalTime().ToString("HH:mm")</span>
                             </td>
-                            <td class="text-end pe-4">
-                                <a asp-action="EditInventory" asp-route-id="@item.Id" class="btn btn-icon btn-light-primary btn-active-primary btn-sm me-2 shadow-sm">
-                                    <i class="ki-duotone ki-pencil fs-3"></i>
+                            <td class="text-end">
+                                <a asp-action="EditInventory" asp-route-id="@inv.Id" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                    <i class="ki-duotone ki-pencil fs-2"></i>
                                 </a>
-                                <button type="button" class="btn btn-icon btn-light-danger btn-active-danger btn-sm shadow-sm js-delete-inventory-btn" 
-                                        data-id="@item.Id" data-name="@item.PlayerDisplay">
-                                    <i class="ki-duotone ki-trash fs-3"></i>
+                                <button type="button" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm js-delete-inventory-btn" 
+                                        data-id="@inv.Id" data-name="@inv.PlayerDisplay">
+                                    <i class="ki-duotone ki-trash fs-2"></i>
                                 </button>
                             </td>
                         </tr>
@@ -118,48 +140,35 @@
     <script>
         $(document).on('click', '.js-delete-inventory-btn', function() {
             const id = $(this).data('id');
-            const name = $(this).data('name') || "Seçili envanter";
+            const name = $(this).data('name') || "Seili envanter";
             const token = $('input[name="__RequestVerificationToken"]').val();
 
             Swal.fire({
-                title: 'Envanter Silinsin mi?',
-                text: `${name} oyuncusuna ait envanter ve içerisindeki tüm eşyalar kalıcı olarak silinecek.`,
+                title: 'Envanteri Sil?',
+                text: `${name} oyuncusuna ait envanter tum icerigiyle birlikte silinecek!`,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Evet, Sil!',
-                cancelButtonText: 'Vazgeç',
+                cancelButtonText: 'Vazgec',
                 buttonsStyling: false,
                 customClass: {
                     confirmButton: "btn btn-danger",
                     cancelButton: "btn btn-active-light"
-                },
-                showLoaderOnConfirm: true,
-                preConfirm: () => {
-                    return $.ajax({
-                        url: '@Url.Action("DeleteInventory", "AdminInventory")',
-                        type: 'POST',
-                        data: {
-                            id: id,
-                            __RequestVerificationToken: token
-                        }
-                    }).then(response => {
-                        if (!response.success) {
-                            throw new Error(response.message || 'Silme işlemi başarısız');
-                        }
-                        return response;
-                    }).catch(error => {
-                        Swal.showValidationMessage(`Hata: ${error.message}`);
-                    });
-                },
-                allowOutsideClick: () => !Swal.isLoading()
+                }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.fire({
-                        title: 'Silindi!',
-                        text: 'Envanter kaydı başarıyla kaldırıldı.',
-                        icon: 'success',
-                        customClass: { confirmButton: 'btn btn-primary' }
-                    }).then(() => location.reload());
+                    $.ajax({
+                        url: '@Url.Action("DeleteInventory", "AdminInventory")',
+                        type: 'POST',
+                        data: { id: id, __RequestVerificationToken: token },
+                        success: function(res) {
+                            if(res.success) {
+                                Swal.fire("Silindi!", "Envanter kaydı kaldırıldı.", "success").then(() => location.reload());
+                            } else {
+                                Swal.fire("Hata", res.message, "error");
+                            }
+                        }
+                    });
                 }
             });
         });

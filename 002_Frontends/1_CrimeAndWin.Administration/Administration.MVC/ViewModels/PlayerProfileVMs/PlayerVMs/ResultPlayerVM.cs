@@ -22,6 +22,10 @@
         public int EnergyMax { get; set; }
         public int EnergyRegenPerMinute { get; set; }
 
+        // Faz 4 Metrikleri
+        public decimal HeatIndex { get; set; } = 0;
+        public decimal RespectScore { get; set; } = 0;
+
         // Rank
         public int RankPoints { get; set; }
         public int? RankPosition { get; set; }
