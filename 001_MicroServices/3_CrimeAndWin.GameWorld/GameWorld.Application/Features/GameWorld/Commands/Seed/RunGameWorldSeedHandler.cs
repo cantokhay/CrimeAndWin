@@ -1,95 +1,72 @@
-using Bogus;
-using GameWorld.Domain.VOs;
+ï»¿using GameWorld.Domain.VOs;
 using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
-using Shared.Domain.Time;
+using Shared.Domain.Constants;
+using Microsoft.EntityFrameworkCore;
 
 namespace GameWorld.Application.Features.GameWorld.Commands.Seed
 {
     public sealed class RunGameWorldSeedHandler : IRequestHandler<RunGameWorldSeedCommand, Unit>
     {
-        private readonly IWriteRepository<Domain.Entities.GameWorld> _worldRepo;
-        private readonly IWriteRepository<Domain.Entities.Season> _seasonRepo;
-        private readonly IDateTimeProvider _clock;
+        private readonly IWriteRepository<global::GameWorld.Domain.Entities.GameWorld> _worldWrite;
+        private readonly IReadRepository<global::GameWorld.Domain.Entities.GameWorld> _worldRead;
+        private readonly IWriteRepository<global::GameWorld.Domain.Entities.Season> _seasonWrite;
+        private readonly IReadRepository<global::GameWorld.Domain.Entities.Season> _seasonRead;
 
         public RunGameWorldSeedHandler(
-            IWriteRepository<Domain.Entities.GameWorld> worldRepo,
-            IWriteRepository<Domain.Entities.Season> seasonRepo,
-            IDateTimeProvider clock)
+            IWriteRepository<global::GameWorld.Domain.Entities.GameWorld> worldWrite,
+            IReadRepository<global::GameWorld.Domain.Entities.GameWorld> worldRead,
+            IWriteRepository<global::GameWorld.Domain.Entities.Season> seasonWrite,
+            IReadRepository<global::GameWorld.Domain.Entities.Season> seasonRead)
         {
-            _worldRepo = worldRepo;
-            _seasonRepo = seasonRepo;
-            _clock = clock;
+            _worldWrite = worldWrite;
+            _worldRead = worldRead;
+            _seasonWrite = seasonWrite;
+            _seasonRead = seasonRead;
         }
 
         public async Task<Unit> Handle(RunGameWorldSeedCommand request, CancellationToken cancellationToken)
         {
-            var faker = new Faker("tr");
+            var seedDate = SeedDataConstants.SeedDate;
 
-            var gameWorlds = new List<Domain.Entities.GameWorld>();
-            var seasons = new List<Domain.Entities.Season>();
-
-            for (int i = 1; i <= request.Count; i++)
+            // 1. Official Game World
+            var worldId = SeedDataConstants.MainlandWorldId;
+            if (await _worldRead.GetByIdAsync(worldId.ToString()) == null)
             {
-                var world = new Domain.Entities.GameWorld
+                var world = new global::GameWorld.Domain.Entities.GameWorld
                 {
-                    Id = Guid.NewGuid(),
-                    Name = faker.Company.CatchPhrase(),
-                    Rule = new GameRule(
-                        MaxEnergy: faker.Random.Int(100, 500),
-                        RegenRatePerHour: faker.Random.Int(10, 50)
-                    ),
-                    CreatedAtUtc = _clock.UtcNow,
-                    IsDeleted = false,
-                    Seasons = new List<Domain.Entities.Season>()
-                };
-
-                // Her dünyaya 1 aktif, 1 geçmiþ sezon ekle
-                var currentSeason = new Domain.Entities.Season
-                {
-                    Id = Guid.NewGuid(),
-                    GameWorldId = world.Id,
-                    SeasonNumber = 2,
-                    DateRange = new DateRange(
-                        StartUtc: _clock.UtcNow.AddDays(-10),
-                        EndUtc: _clock.UtcNow.AddDays(20)
-                    ),
-                    IsActive = true,
-                    CreatedAtUtc = _clock.UtcNow,
+                    Id = worldId,
+                    Name = "Crime & Win Mainland",
+                    Rule = new GameRule(MaxEnergy: 100, RegenRatePerHour: 20),
+                    CreatedAtUtc = seedDate,
                     IsDeleted = false
                 };
-
-                var pastSeason = new Domain.Entities.Season
-                {
-                    Id = Guid.NewGuid(),
-                    GameWorldId = world.Id,
-                    SeasonNumber = 1,
-                    DateRange = new DateRange(
-                        StartUtc: _clock.UtcNow.AddDays(-60),
-                        EndUtc: _clock.UtcNow.AddDays(-30)
-                    ),
-                    IsActive = false,
-                    CreatedAtUtc = _clock.UtcNow,
-                    IsDeleted = false
-                };
-
-                world.Seasons.Add(currentSeason);
-                world.Seasons.Add(pastSeason);
-
-                gameWorlds.Add(world);
-                seasons.AddRange(new[] { currentSeason, pastSeason });
+                await _worldWrite.AddAsync(world);
+                await _worldWrite.SaveAsync();
             }
 
-            await _worldRepo.AddRangeAsync(gameWorlds);
-            await _seasonRepo.AddRangeAsync(seasons);
-
-            await _worldRepo.SaveAsync();
-            await _seasonRepo.SaveAsync();
+            // 2. Official Season
+            var seasonId = SeedDataConstants.SeasonOneId;
+            if (await _seasonRead.GetByIdAsync(seasonId.ToString()) == null)
+            {
+                var season = new global::GameWorld.Domain.Entities.Season
+                {
+                    Id = seasonId,
+                    GameWorldId = worldId,
+                    SeasonNumber = 1,
+                    DateRange = new DateRange(
+                        StartUtc: seedDate,
+                        EndUtc: seedDate.AddMonths(3)
+                    ),
+                    IsActive = true,
+                    CreatedAtUtc = seedDate,
+                    IsDeleted = false
+                };
+                await _seasonWrite.AddAsync(season);
+                await _seasonWrite.SaveAsync();
+            }
 
             return Unit.Value;
         }
     }
 }
-
-
-

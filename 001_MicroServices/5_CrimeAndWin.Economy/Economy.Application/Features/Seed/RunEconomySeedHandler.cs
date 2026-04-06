@@ -1,71 +1,98 @@
-using Economy.Domain.Entities;
-using Economy.Domain.VOs;
-using Bogus;
 using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
-using Shared.Domain.Time;
+using Shared.Domain.Constants;
+using Economy.Domain.Entities;
+using Economy.Domain.VOs;
+using Microsoft.EntityFrameworkCore;
 
 namespace Economy.Application.Features.Seed
 {
     public sealed class RunEconomySeedHandler : IRequestHandler<RunEconomySeedCommand, Unit>
     {
-        private readonly IWriteRepository<Economy.Domain.Entities.Wallet> _walletRepo;
-        private readonly IWriteRepository<Transaction> _transactionRepo;
-        private readonly IDateTimeProvider _clock;
+        private readonly IWriteRepository<Economy.Domain.Entities.Wallet> _walletWrite;
+        private readonly IReadRepository<Economy.Domain.Entities.Wallet> _walletRead;
+        private readonly IWriteRepository<Transaction> _transactionWrite;
+        private readonly IReadRepository<Transaction> _transactionRead;
 
         public RunEconomySeedHandler(
-            IWriteRepository<Economy.Domain.Entities.Wallet> walletRepo,
-            IWriteRepository<Transaction> transactionRepo,
-            IDateTimeProvider clock)
+            IWriteRepository<Economy.Domain.Entities.Wallet> walletWrite,
+            IReadRepository<Economy.Domain.Entities.Wallet> walletRead,
+            IWriteRepository<Transaction> transactionWrite,
+            IReadRepository<Transaction> transactionRead)
         {
-            _walletRepo = walletRepo;
-            _transactionRepo = transactionRepo;
-            _clock = clock;
+            _walletWrite = walletWrite;
+            _walletRead = walletRead;
+            _transactionWrite = transactionWrite;
+            _transactionRead = transactionRead;
         }
 
         public async Task<Unit> Handle(RunEconomySeedCommand request, CancellationToken ct)
         {
-            var now = _clock.UtcNow;
-            var themeUsers = new[] { "Boss", "Hitman", "Mole", "Fixer", "Dealer", "Enforcer", "Launderer" };
-            
-            var wallets = new List<Economy.Domain.Entities.Wallet>();
-            var transactions = new List<Transaction>();
+            var seedDate = SeedDataConstants.SeedDate;
 
-            for (int i = 0; i < themeUsers.Length; i++)
+            // Core Wallets
+            var coreWallets = new List<Economy.Domain.Entities.Wallet>
             {
-                var walletId = Guid.Parse($"44444444-4444-4444-4444-{i:D12}");
-                var playerId = Guid.Parse($"22222222-2222-2222-2222-{i:D12}"); // From PlayerProfile
-                
-                var wallet = new Economy.Domain.Entities.Wallet
+                new()
                 {
-                    Id = walletId,
-                    PlayerId = playerId,
-                    Balance = 5000 * (i + 1),
-                    BlackBalance = 0,
-                    CashBalance = 5000 * (i + 1), // Seed some cash
-                    CreatedAtUtc = now
-                };
+                    Id = SeedDataConstants.WalletAlphaId,
+                    PlayerId = SeedDataConstants.PlayerAlphaId,
+                    Balance = 50000,
+                    BlackBalance = 10000,
+                    CashBalance = 40000,
+                    CreatedAtUtc = seedDate
+                },
+                new()
+                {
+                    Id = SeedDataConstants.WalletBetaId,
+                    PlayerId = SeedDataConstants.PlayerBetaId,
+                    Balance = 25000,
+                    BlackBalance = 5000,
+                    CashBalance = 20000,
+                    CreatedAtUtc = seedDate
+                }
+            };
 
-                // Add a "Welcome" transaction
-                transactions.Add(new Transaction
+            foreach (var w in coreWallets)
+            {
+                if (await _walletRead.GetByIdAsync(w.Id.ToString()) == null)
                 {
-                    Id = Guid.NewGuid(),
-                    WalletId = walletId,
-                    Money = new Money(wallet.Balance, "Cash"),
-                    Reason = new TransactionReason("INITIAL_FUND", "Starting capital from the Boss."),
-                    BalanceType = Economy.Domain.Enums.WalletBalanceType.CashBalance,
-                    CreatedAtUtc = now.AddDays(-1)
-                });
-                
-                wallets.Add(wallet);
+                    await _walletWrite.AddAsync(w);
+                }
             }
+            await _walletWrite.SaveAsync();
 
-            try {
-                await _walletRepo.AddRangeAsync(wallets);
-                await _transactionRepo.AddRangeAsync(transactions);
-                await _walletRepo.SaveAsync();
-                await _transactionRepo.SaveAsync();
-            } catch { }
+            // Core Transactions
+            var coreTransactions = new List<Transaction>
+            {
+                new()
+                {
+                    Id = SeedDataConstants.TransactionAlpha1Id,
+                    WalletId = SeedDataConstants.WalletAlphaId,
+                    Money = new Money(10000, "CrimeReward"),
+                    Reason = new TransactionReason("INITIAL_CRIME", "Reward for the first mission."),
+                    BalanceType = Economy.Domain.Enums.WalletBalanceType.BlackMoney,
+                    CreatedAtUtc = seedDate
+                },
+                new()
+                {
+                    Id = SeedDataConstants.TransactionBeta1Id,
+                    WalletId = SeedDataConstants.WalletBetaId,
+                    Money = new Money(5000, "CrimeReward"),
+                    Reason = new TransactionReason("INITIAL_CRIME", "Reward for the first mission."),
+                    BalanceType = Economy.Domain.Enums.WalletBalanceType.BlackMoney,
+                    CreatedAtUtc = seedDate
+                }
+            };
+
+            foreach (var t in coreTransactions)
+            {
+                if (await _transactionRead.GetByIdAsync(t.Id.ToString()) == null)
+                {
+                    await _transactionWrite.AddAsync(t);
+                }
+            }
+            await _transactionWrite.SaveAsync();
 
             return Unit.Value;
         }

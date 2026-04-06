@@ -1,43 +1,50 @@
-﻿using Action.Domain.Entities;
+using Action.Domain.Entities;
 using Action.Domain.VOs;
-using Bogus;
+using Action.Domain.Enums;
 using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
-using Shared.Domain.Time;
+using Shared.Domain.Constants;
+using Microsoft.EntityFrameworkCore;
 
 namespace Action.Application.Features.ActionDefinitons.Commands.Seed
 {
     public sealed class RunActionSeedHandler : IRequestHandler<RunActionSeedCommand, Unit>
     {
-        private readonly IWriteRepository<ActionDefinition> _actionRepo;
-        private readonly IDateTimeProvider _clock;
+        private readonly IWriteRepository<Action.Domain.Entities.ActionDefinition> _actionWrite;
+        private readonly IReadRepository<Action.Domain.Entities.ActionDefinition> _actionRead;
 
-        public RunActionSeedHandler(IWriteRepository<ActionDefinition> actionRepo, IDateTimeProvider clock)
+        public RunActionSeedHandler(
+            IWriteRepository<Action.Domain.Entities.ActionDefinition> actionWrite,
+            IReadRepository<Action.Domain.Entities.ActionDefinition> actionRead)
         {
-            _actionRepo = actionRepo;
-            _clock = clock;
+            _actionWrite = actionWrite;
+            _actionRead = actionRead;
         }
 
         public async Task<Unit> Handle(RunActionSeedCommand request, CancellationToken ct)
         {
-            var now = _clock.UtcNow;
+            var seedDate = SeedDataConstants.SeedDate;
             
-            var crimes = new List<(string Code, string Name, string Desc, int Power, int Energy, decimal Money)>
+            var crimes = new List<(string Code, string Name, ActionType Type, decimal Success, int Power, int Energy, decimal Money)>
             {
-                ("STREET_PICKPOCKET", "Pickpocket", "Steal a wallet from a tourist.", 10, 5, 50.0m),
-                ("STREET_MUGGING", "Street Mugging", "Demand cash from a passerby.", 20, 10, 150.0m),
-                ("UNDERGROUND_BURGLARY", "House Burglary", "Break into a safe neighborhood house.", 50, 25, 800.0m),
-                ("UNDERGROUND_CAR_THEFT", "Car Theft", "Steal a luxury vehicle.", 40, 20, 600.0m),
-                ("HEIST_BANK", "Bank Robbery", "High-risk bank vault heist.", 150, 60, 5000.0m),
-                ("HEIST_CASINO", "Casino Heist", "Rob the Diamond Casino vault.", 200, 80, 12000.0m)
+                ("STREET_PICKPOCKET", "Pickpocket", ActionType.Crime, 90m, 10, 5, 50.0m),
+                ("STREET_MUGGING", "Street Mugging", ActionType.Crime, 80m, 20, 10, 150.0m),
+                ("UNDERGROUND_BURGLARY", "House Burglary", ActionType.Crime, 60m, 50, 25, 800.0m),
+                ("UNDERGROUND_CAR_THEFT", "Car Theft", ActionType.Crime, 70m, 40, 20, 600.0m),
+                ("HEIST_BANK", "Bank Robbery", ActionType.Crime, 30m, 150, 60, 5000.0m),
+                ("BRIBEY_POLICE", "Bribe Policeman", ActionType.Bribe, 50m, 0, 5, 500.0m)
             };
 
-            var defs = crimes.Select((c, i) => new ActionDefinition
+            var defs = crimes.Select((c, i) => new Action.Domain.Entities.ActionDefinition
             {
-                Id = Guid.Parse($"33333333-3333-3333-3333-{i:D12}"),
+                Id = Guid.Parse($"d0000000-0000-0000-0000-{i:D12}"),
                 Code = c.Code,
                 DisplayName = c.Name,
-                Description = c.Desc,
+                Description = $"{c.Name} action.",
+                Type = c.Type,
+                BaseSuccessRate = c.Success,
+                HeatImpact = c.Type == ActionType.Crime ? 10 : -10,
+                RespectImpact = c.Type == ActionType.Crime ? 5 : 2,
                 Requirements = new ActionRequirements(MinPower: c.Power, EnergyCost: c.Energy),
                 Rewards = new ActionRewards(
                     PowerGain: i + 1, 
@@ -45,13 +52,17 @@ namespace Action.Application.Features.ActionDefinitons.Commands.Seed
                     MoneyGain: c.Money
                 ),
                 IsActive = true,
-                CreatedAtUtc = now
+                CreatedAtUtc = seedDate
             }).ToList();
 
-            try {
-                await _actionRepo.AddRangeAsync(defs);
-                await _actionRepo.SaveAsync();
-            } catch { }
+            foreach (var def in defs)
+            {
+                if (await _actionRead.GetByIdAsync(def.Id.ToString()) == null)
+                {
+                    await _actionWrite.AddAsync(def);
+                }
+            }
+            await _actionWrite.SaveAsync();
 
             return Unit.Value;
         }

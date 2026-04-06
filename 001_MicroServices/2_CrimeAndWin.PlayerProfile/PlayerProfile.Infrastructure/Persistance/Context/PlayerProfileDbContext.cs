@@ -1,10 +1,10 @@
 using Shared.Domain;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using PlayerProfile.Domain.Enums;
 using PlayerProfile.Domain.Entities;
 using CrimeAndWin.Shared.Constants;
 using PlayerProfile.Domain.VOs;
-using PlayerProfile.Domain.Enums;
 
 namespace PlayerProfile.Infrastructure.Persistance.Context
 {

@@ -1,4 +1,4 @@
-﻿using Shared.Application.Abstractions.Messaging;
+using Shared.Application.Abstractions.Messaging;
 using Shared.Infrastructure;
 using CrimeAndWin.Action.GameMechanics;
 using CrimeAndWin.Action.BackgroundServices;
@@ -93,3 +93,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
+
+public partial class Program { }
+

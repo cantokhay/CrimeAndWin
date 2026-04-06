@@ -42,6 +42,7 @@ using Identity.Application.Features.UserToken.Commands.UpdateUserToken;
 using Identity.Application.Features.UserToken.Queries.GetAllUserTokens;
 using Identity.Application.Features.UserToken.Queries.GetUserTokenById;
 using Identity.Application.Features.User.Commands.ApproveUser;
+using Identity.Application.Features.User.Commands.BulkApproveUsers;
 using Shared.Application.Abstractions.Messaging;
 using Microsoft.AspNetCore.Mvc;
 
@@ -347,5 +348,3 @@ namespace Identity.API.Controllers
         }
     }
 }
-
-

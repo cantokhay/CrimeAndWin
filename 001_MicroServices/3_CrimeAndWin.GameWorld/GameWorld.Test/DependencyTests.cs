@@ -1,6 +1,7 @@
 using FluentAssertions;
 using GameWorld.Application.Abstract;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.VisualStudio.TestPlatform.TestHost;
 using Shared.Domain.Repository;
 using Shared.Domain.Time;
 using Xunit;

@@ -1,81 +1,104 @@
-﻿using Inventory.Domain.Enums;
+using Inventory.Domain.Enums;
 using Inventory.Domain.VOs;
 using Shared.Application.Abstractions.Messaging;
 using Shared.Domain.Repository;
-using Shared.Domain.Time;
+using Shared.Domain.Constants;
+using Microsoft.EntityFrameworkCore;
 
 namespace Inventory.Application.Features.Inventory.Commands.Seed
 {
     public sealed class RunInventorySeedHandler : IRequestHandler<RunInventorySeedCommand, Unit>
     {
-        private readonly IWriteRepository<Domain.Entities.Inventory> _inventoryRepo;
-        private readonly IWriteRepository<Domain.Entities.Item> _itemRepo;
-        private readonly IDateTimeProvider _clock;
+        private readonly IWriteRepository<global::Inventory.Domain.Entities.Inventory> _inventoryWrite;
+        private readonly IReadRepository<global::Inventory.Domain.Entities.Inventory> _inventoryRead;
+        private readonly IWriteRepository<global::Inventory.Domain.Entities.Item> _itemWrite;
+        private readonly IReadRepository<global::Inventory.Domain.Entities.Item> _itemRead;
 
         public RunInventorySeedHandler(
-            IWriteRepository<Domain.Entities.Inventory> inventoryRepo,
-            IWriteRepository<Domain.Entities.Item> itemRepo,
-            IDateTimeProvider clock)
+            IWriteRepository<global::Inventory.Domain.Entities.Inventory> inventoryWrite,
+            IReadRepository<global::Inventory.Domain.Entities.Inventory> inventoryRead,
+            IWriteRepository<global::Inventory.Domain.Entities.Item> itemWrite,
+            IReadRepository<global::Inventory.Domain.Entities.Item> itemRead)
         {
-            _inventoryRepo = inventoryRepo;
-            _itemRepo = itemRepo;
-            _clock = clock;
+            _inventoryWrite = inventoryWrite;
+            _inventoryRead = inventoryRead;
+            _itemWrite = itemWrite;
+            _itemRead = itemRead;
         }
 
         public async Task<Unit> Handle(RunInventorySeedCommand request, CancellationToken ct)
         {
-            var now = _clock.UtcNow;
-            var themeUsers = new[] { "Boss", "Hitman", "Mole", "Fixer", "Dealer", "Enforcer", "Launderer" };
-            
-            var inventories = new List<Domain.Entities.Inventory>();
-            var items = new List<Domain.Entities.Item>();
+            var seedDate = SeedDataConstants.SeedDate;
 
-            var crimeItems = new List<(string Name, int Dmg, int Def, int Pwr, decimal Value)>
+            // Core Inventories
+            var coreInventories = new List<global::Inventory.Domain.Entities.Inventory>
             {
-                ("Lockpick Set", 0, 0, 20, 150.0m),
-                ("Crowbar", 10, 5, 10, 50.0m),
-                ("9mm Pistol", 50, 0, 0, 1500.0m),
-                ("Kevlar Vest", 0, 40, 0, 2500.0m),
-                ("Brass Knuckles", 15, 0, 0, 150.0m),
-                ("Silenced SMG", 70, 0, 0, 4500.0m),
-                ("Encrypted Laptop", 0, 0, 50, 3500.0m)
+                new()
+                {
+                    Id = SeedDataConstants.InventoryAlphaId,
+                    PlayerId = SeedDataConstants.PlayerAlphaId,
+                    CreatedAtUtc = seedDate
+                },
+                new()
+                {
+                    Id = SeedDataConstants.InventoryBetaId,
+                    PlayerId = SeedDataConstants.PlayerBetaId,
+                    CreatedAtUtc = seedDate
+                }
             };
 
-            for (int i = 0; i < themeUsers.Length; i++)
+            foreach (var inv in coreInventories)
             {
-                var invId = Guid.Parse($"55555555-5555-5555-5555-{i:D12}");
-                var playerId = Guid.Parse($"22222222-2222-2222-2222-{i:D12}"); // From PlayerProfile
-                
-                inventories.Add(new Domain.Entities.Inventory
+                if (await _inventoryRead.GetByIdAsync(inv.Id.ToString()) == null)
                 {
-                    Id = invId,
-                    PlayerId = playerId,
-                    CreatedAtUtc = now
-                });
-
-                // Give player 2 random crime items
-                for (int j = 0; j < 2; j++)
-                {
-                    var cItem = crimeItems[(i + j) % crimeItems.Count];
-                    items.Add(new Domain.Entities.Item
-                    {
-                        Id = Guid.NewGuid(),
-                        InventoryId = invId,
-                        Name = cItem.Name,
-                        Quantity = 1,
-                        Stats = new ItemStats(Damage: cItem.Dmg, Defense: cItem.Def, Power: cItem.Pwr),
-                        Value = new ItemValue(Amount: cItem.Value, Currency: CurrencyType.CASH),
-                        CreatedAtUtc = now
-                    });
+                    await _inventoryWrite.AddAsync(inv);
                 }
             }
+            await _inventoryWrite.SaveAsync();
 
-            try {
-                await _inventoryRepo.AddRangeAsync(inventories);
-                await _itemRepo.AddRangeAsync(items);
-                await _inventoryRepo.SaveAsync();
-                await _itemRepo.SaveAsync();
-            } catch { }
+            // Core Items
+            var coreItems = new List<global::Inventory.Domain.Entities.Item>
+            {
+                new()
+                {
+                    Id = SeedDataConstants.ItemDesertEagleId,
+                    InventoryId = SeedDataConstants.InventoryAlphaId,
+                    Name = "Desert Eagle",
+                    Quantity = 1,
+                    Stats = new ItemStats(Damage: 50, Defense: 0, Power: 0),
+                    Value = new ItemValue(Amount: 1500, Currency: CurrencyType.Credit),
+                    CreatedAtUtc = seedDate
+                },
+                new()
+                {
+                    Id = SeedDataConstants.ItemKevlarVestId,
+                    InventoryId = SeedDataConstants.InventoryAlphaId,
+                    Name = "Kevlar Vest",
+                    Quantity = 1,
+                    Stats = new ItemStats(Damage: 0, Defense: 40, Power: 0),
+                    Value = new ItemValue(Amount: 2500, Currency: CurrencyType.Credit),
+                    CreatedAtUtc = seedDate
+                },
+                new()
+                {
+                    Id = SeedDataConstants.ItemAdrenalineId,
+                    InventoryId = SeedDataConstants.InventoryBetaId,
+                    Name = "Adrenaline Shot",
+                    Quantity = 1,
+                    Stats = new ItemStats(Damage: 0, Defense: 0, Power: 20),
+                    Value = new ItemValue(Amount: 500, Currency: CurrencyType.Credit),
+                    CreatedAtUtc = seedDate
+                }
+            };
+
+            foreach (var item in coreItems)
+            {
+                if (await _itemRead.GetByIdAsync(item.Id.ToString()) == null)
+                {
+                    await _itemWrite.AddAsync(item);
+                }
+            }
+            await _itemWrite.SaveAsync();
 
             return Unit.Value;
         }

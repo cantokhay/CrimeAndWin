@@ -1,4 +1,4 @@
-﻿using GameWorld.Domain.Entities;
+using GameWorld.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using CrimeAndWin.Shared.Constants;
@@ -13,8 +13,8 @@ namespace GameWorld.Infrastructure.Persistance.Configuration
             b.HasKey(x => x.Id);
 
             b.Property(x => x.Name).HasMaxLength(100).IsRequired();
-            b.Property(x => x.BaseTaxRate).HasPrecision(5, 2).HasDefaultValue(5.0);
-            b.Property(x => x.MinBusinessRespect).HasDefaultValue(0);
+            b.Property(x => x.TaxRate).HasPrecision(5, 2).HasDefaultValue(0.05m);
+            b.Property(x => x.TotalRespectPoints).HasPrecision(18, 2).HasDefaultValue(0);
 
             // Seed Districts
             b.HasData(
@@ -22,16 +22,18 @@ namespace GameWorld.Infrastructure.Persistance.Configuration
                 { 
                     Id = SeedDataConstants.RegionAlcatrazId, 
                     Name = "Alcatraz Maximum Security", 
-                    BaseTaxRate = 15.0m,
-                    MinBusinessRespect = 1000,
+                    Description = "High risk, high reward.",
+                    TaxRate = 0.15m,
+                    TotalRespectPoints = 0,
                     CreatedAtUtc = DateTime.UtcNow 
                 },
                 new District 
                 { 
                     Id = SeedDataConstants.RegionDowntownId, 
                     Name = "Downtown Metropolis", 
-                    BaseTaxRate = 5.0m,
-                    MinBusinessRespect = 500,
+                    Description = "The center of the city.",
+                    TaxRate = 0.05m,
+                    TotalRespectPoints = 0,
                     CreatedAtUtc = DateTime.UtcNow 
                 }
             );

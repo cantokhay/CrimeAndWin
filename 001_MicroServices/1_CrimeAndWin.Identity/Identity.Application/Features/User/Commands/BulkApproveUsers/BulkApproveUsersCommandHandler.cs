@@ -18,7 +18,6 @@ public sealed class BulkApproveUsersCommandHandler : IRequestHandler<BulkApprove
 
     public async Task<int> Handle(BulkApproveUsersCommand request, CancellationToken ct)
     {
-        // Optimization: ONLY fetch pending users, not the whole table
         var pending = await _userRead.GetWhere(u => !u.IsApproved).ToListAsync(ct);
 
         if (!pending.Any()) return 0;

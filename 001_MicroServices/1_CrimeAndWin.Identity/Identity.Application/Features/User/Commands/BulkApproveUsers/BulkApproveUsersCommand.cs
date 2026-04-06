@@ -2,4 +2,4 @@ using Shared.Application.Abstractions.Messaging;
 
 namespace Identity.Application.Features.User.Commands.BulkApproveUsers;
 
-public sealed record BulkApproveUsersCommand() : ICommand<int>;
+public sealed record BulkApproveUsersCommand() : IRequest<int>;
