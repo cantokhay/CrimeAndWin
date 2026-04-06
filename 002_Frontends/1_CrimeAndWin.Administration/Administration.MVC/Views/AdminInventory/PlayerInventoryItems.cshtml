@@ -1,4 +1,4 @@
-﻿@model List<Administration.MVC.ViewModels.InventoryVMs.PlayerProfileDto>
+@model List<ResultPlayerVM>
 @{
     ViewData["Title"] = "Oyuncu Envanter Takibi";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
@@ -36,7 +36,7 @@
                     <option></option>
                     @foreach (var player in Model)
                     {
-                        <option value="@player.Id">@player.Name (@player.Id.ToString().Substring(0,8)...)</option>
+                        <option value="@player.Id">@(player.DisplayName ?? player.AppUserName ?? "Gizli") (@player.Id.ToString().Substring(0,8)...)</option>
                     }
                 </select>
             </div>
